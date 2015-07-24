@@ -1,0 +1,32 @@
+[
+	{
+		"id": 0,
+		"type": "group",
+		"name": "DP 080 UI"
+	},
+	{
+		"id": 1,
+		"type": "room",
+		"name": "703"
+	},
+	{
+		"id": 2,
+		"type": "teacher",
+		"name": "Petin D."
+	},
+	{
+		"id": 3,
+		"type": "group",
+		"name": "DP 076 ATQC"
+	},
+	{
+		"id": 4,
+		"type": "room",
+		"name": "714"
+	},
+	{
+		"id": 5,
+		"type": "teacher",
+		"name": "Mister X"
+	}	
+]

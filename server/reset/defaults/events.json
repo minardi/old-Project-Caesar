@@ -1,0 +1,22 @@
+[
+	{
+		"id": 0,
+		"name": "IT Academy WEB UI courses",
+		"type": "lecture"
+	},
+	{
+		"id": 1,
+		"name": "Project Caesar",
+		"type": "scrum"
+	},
+	{
+		"id": 2,
+		"name": "Web Sockets practice",
+		"type": "practice"
+	},
+	{
+		"id": 3,
+		"name": "WEB UI 2nd Demo",
+		"type": "weekly report"
+	}	
+]
