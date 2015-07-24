@@ -1,7 +1,8 @@
 'use strict';
 (function (This) {
     This.EventCollection = Backbone.Collection.extend({
-        model: This.Event
+        model: This.Event,
+        url: '/events'
     });
 
 })(App.Events);

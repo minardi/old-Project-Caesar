@@ -5,6 +5,8 @@
         tpl: eventCollectionTpl,
 
         initialize: function () {
+            this.collection.fetch();
+            this.listenTo(this.collection, 'add', this.renderOne);
         },
 
         render: function () {
@@ -17,8 +19,8 @@
             return this;
         },
 
-        renderOne: function (event) {
-            var eventView = new App.Events.EventView({model: event});
+        renderOne: function (model) {
+            var eventView = new App.Events.EventView({model: model});
             this.$el.find('.event-list').append(eventView.render().el);
         }
 

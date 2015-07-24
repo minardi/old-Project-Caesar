@@ -2,6 +2,7 @@
 (function (This) {
     This.EventView = Backbone.View.extend({
         tagName: 'li',
+        className: 'list-group-item',
         tpl: eventTpl,
 
         render: function () {

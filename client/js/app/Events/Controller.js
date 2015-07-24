@@ -2,18 +2,7 @@
 
 (function (This) {
     This.Controller = function () {
-        var collection = new This.EventCollection([
-                {
-                    name: 'lecture DP - 80',
-                    type: 'lecture',
-                    resources: ['Petin', 'DP - 80', 703]
-                },
-                {
-                    name: 'lecture DP - 50',
-                    type: 'scrum',
-                    resources: ['Kuchin', 'DP - 50', 710]
-                }
-            ]),
+        var collection = new This.EventCollection(),
             events = new This.EventCollectionView({collection: collection}),
             $events = $('#main'),
             view;
