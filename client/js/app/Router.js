@@ -7,17 +7,15 @@
         },
 		
         mainPage: function () {
-    
+
         },
 
         resources: function () {
             //creating Resources router
-            ;
         },
 
         events: function () {
-            //creating Events router
-            ;
+
         }
     });
 })(App);
