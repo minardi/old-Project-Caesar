@@ -3,29 +3,33 @@ var express = require('express'),
 	eventsRouter = require('./events/eventsRouter');
 	resourcesRouter = require('./resources/resourcesRouter');
 
-// router.all('/events', function(req, res, next) {		
-//     var eventsController = new require('./events/eventsController')(req, res);
-// });
+router.use(/^\/events$/, eventsRouter);
+router.use(/^\/resources$/, resourcesRouter)
 
-// router.all('/events/:id', function(req, res, next) {		
-//     var eventsController = new require('./events/eventsController')(req, res);
-// });
-
-
-// router.all('/resources', function(req, res, next) {		
-//     var resourcesController = new require('./resources/resourcesController')(req, res);
-// });
-
-// router.all('/resources/:id', function(req, res, next) {		
-//     var resourcesController = new require('./resources/resourcesController')(req, res);
-// });
-
-router.get('/reset', function(req, res, next) {		
+router.get(/^\/reset$/, function(req, res, next) {		
     var resetController = new require('./reset/resetController')(req, res);
 });
 
+router.get('*', function (request, response) {
+    function isRest () {
+        var notRest = ['events', 'resources', '.css', '.js', '.map', '.eot', '.ttf', '.svg', '.woff', '.ico'],
+            rest = true;
+        
+        notRest.forEach(function (key) {
+            if (request.url.indexOf(key) !== -1) {
+                rest = false;
+            }
+        });
+        
+        return rest;
+    }
+    
+    if (isRest()) {
+        response.sendFile('index.html', { root: '../client/' });
+    }
+});
+
+
+
 module.exports = router;
 
-
-router.use('/events', eventsRouter);
-router.use('/resources', resourcesRouter)
