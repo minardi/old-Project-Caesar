@@ -35,16 +35,17 @@ function DataBase () {
 
 		    console.log("Connected correctly to server");	 	
 
-		    getNextSequence('noteid', saveWithNewId);
+		    getNextSequence(collectionName + 'Id', saveWithNewId);
 
 		 	function getNextSequence(name, cb) {
+		 		console.log(name);
    				db.collection('counters').findAndModify(
         			{ _id: name },
         			[],
         			{ $inc: { seq: 1 } },
         			{new: true},
         			function (err, res) {
-        				//console.dir(res)
+        				console.dir(res)
         				attributes['id'] = res.value.seq;
 
         				cb(attributes);
