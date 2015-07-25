@@ -5,6 +5,8 @@
                 'type': '',
                 'name': ''
             }
-        }
+        },
+
+        urlRoot: '/resources'
     });
 })(App.Resources);

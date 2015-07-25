@@ -31,7 +31,7 @@
         }
 
         function createView () {
-            hideAll();
+            // hideAll();
             view && view.remove();
             view = new This.CreateEditView();
 
@@ -68,7 +68,8 @@
 
         function viewClosed (reason, id) {
             if (reason === 'afterCreating') {
-                showAll();
+                // showAll();
+                view.remove();
             } else {
                 showViewById(id);
             }
