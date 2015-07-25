@@ -10,10 +10,11 @@
         start();
 
         function start () {
-            showAll();
+            setUpMediator();
         }
 
         function setUpMediator () {
+
             cs.mediator.subscribe('Collection loaded', renderList);
 
             cs.mediator.subscribe('ShowEvents', showAll);
