@@ -11,6 +11,7 @@
 
         function start () {
             setUpMediator();
+
         }
 
         function setUpMediator () {
@@ -27,36 +28,38 @@
             cs.mediator.subscribe('DeleteEventById', deleteViewById);
 
             cs.mediator.subscribe('EventViewClosed', viewClosed);
+			
+			 cs.mediator.subscribe('AddEvent', addEvent);
         }
 
         function renderList () {
             hideAll();
             $events.append((events.render().el));
         }
-
-        function showAll () {
-            /*hideAll();
+		
+		function addEvent () {
             view && view.remove();
-            events.show();*/
-
-            $events.append((events.render().el));
+        }
+		
+        function showAll () {
+            $events.html((events.render().el));
         }
 
         function createView () {
-            hideAll();
+            //hideAll();
             view && view.remove();
-            view = new This.CreateEditView();
+            view = new This.CreateEditView({collection: collection});
 
-            events.hide();
+          //  events.hide();
             $events.append(view.render().el);
         }
 
         function editView (event) {
-            hideAll();
+           // hideAll();
             view && view.remove();
             view = new This.CreateEditView({model: event});
 
-            events.hide();
+           // events.hide();
             $events.append(view.render().el);
         }
 
@@ -70,15 +73,17 @@
         }
 
         function editViewById (id) {
-            events.getModelById(id, editView);
+          //  events.getModelById(id, editView);
         }
 
         function viewClosed (reason, id) {
-            if (reason === 'afterCreating') {
+           /* if (reason === 'afterCreating') {
                 cs.mediator.publish('ShowEvents');
             } else {
                 cs.mediator.publish('ShowEventById', id);
-            }
+            }*/
+			view && view.remove();
+            $('.panel').addClass('hidden');
         }
 
         function showViewById (id) {
@@ -89,14 +94,18 @@
             $events.children().addClass('hidden');
         }
 
-         function deleteViewById (id) {
-            events.getModelById(id, deleteView);
+         function deleteViewById (model) {
+			$( ".event-list" ).remove();
+			$( ".removeadd" ).remove();
+			view && view.remove();
+            collection.remove(model);
+			$events.append((events.render().el));
         }
 
         function deleteView (event) {
-            view && view.remove();
-            view = new This.EventHomepageView({model: event});
-            view.confirmDelete();
+            //view && view.remove();
+           // view = new This.EventHomepageView({model: event});
+            //view.confirmDelete();
         }
 
         return this;
