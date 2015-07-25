@@ -34,6 +34,7 @@
         <script src="/js/app/Resources/tpl/EditResourceTpl.js"></script>
         <script src="/js/app/Resources/tpl/ResourcesModelHomePageTpl.js"></script>
         <script src="/js/app/Resources/tpl/ResourcesModelTpl.js"></script>
+        <script src="/js/app/Resources/tpl/ResourceCollectionTpl.js"></script>
         <script src="/js/app/Resources/model/ResourcesModel.js"></script>
         <script src="/js/app/Resources/model/ResourcesCollection.js"></script>
         <script src="/js/app/Resources/view/CreateEditResourcesView.js"></script>
@@ -45,22 +46,28 @@
         
     </head>
     <body>
-    <div>
-        <ul class="nav nav-pills nav-justified">
-            <li role="presentation">
-                <a href="">Resources</a>
-            </li>
-            <li role="presentation" class="active">
-                <a href="">Events</a>
-            </li>
-            <li role="presentation">
-                <a href="">Schedule</a>
-            </li>
-            <li role="presentation">
-                <a href="">About</a>
-            </li>
-        </ul>
-    </div>
-    <div id="main"></div>
+        <div class="row">
+           <div class="col-sm-10 col-sm-offset-1">
+                <ul class="nav nav-pills nav-justified">
+                    <li role="presentation">
+                        <a href="">Resources</a>
+                    </li>
+                    <li role="presentation" class="active">
+                        <a href="">Events</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="">Schedule</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div id="main"></div>
+            </div>
+        </div>
     </body>
 </html>

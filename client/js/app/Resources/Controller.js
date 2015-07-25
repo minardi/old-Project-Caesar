@@ -18,7 +18,7 @@
             cs.mediator.subscribe('EditResource', editView);
             cs.mediator.subscribe('EditResourceById', editViewById);
             cs.mediator.subscribe('DeleteResourceById', deleteViewById);
-            cs.mediator.subscribe('ShowResourceInfo', showView);
+            cs.mediator.subscribe('ShowResourceInfo', showView);            //works now
             cs.mediator.subscribe('ShowResourceById', showViewById);
             cs.mediator.subscribe('ResourcesViewClosed', viewClosed);
         }

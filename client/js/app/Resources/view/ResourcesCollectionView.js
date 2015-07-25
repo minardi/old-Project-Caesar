@@ -1,6 +1,7 @@
 (function (This) {
     This.CollectionView = Backbone.View.extend({
-        tagName: 'table',
+        tagName: 'div',
+        template: resourceCollectionTpl,
 
         events: {
             'click .create': 'create'
@@ -11,7 +12,6 @@
             this.listenToOnce(this.collection, 'sync', this.renderOne);
 
             cs.mediator.subscribe('ResourceSaved', this.saveModel, {}, this); //added by Ivan
-
 
             this.collection.fetch();
         },
@@ -29,11 +29,12 @@
             var self = this;
             this.collection.each(function(model) {
                 var view = new This.ResourcesModelHomepageView({model: model}).render();
-                self.$el.append(view.$el);
+                $('.resource-list').append(view.$el);
             });
         },
     
         render: function () {
+            this.$el.html(this.template());
             return this;
         },
 

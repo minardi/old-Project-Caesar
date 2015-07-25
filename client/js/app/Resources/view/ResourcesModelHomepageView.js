@@ -9,7 +9,7 @@
         },
     
         mediatorPublish: function () {
-            mediator.publish('resourceSelected', this.model);    
+            cs.mediator.publish('ShowResourceInfo', this.model);    
         },
     
         render: function () {
