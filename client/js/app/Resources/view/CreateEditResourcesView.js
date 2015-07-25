@@ -13,7 +13,6 @@
 
     initialize: function () {
         this.model = this.model || new This.ResourcesModel(); 
-        console.log(this.model.toJSON());
         this.defaultModelJSON = this.model.toJSON();
         this.modelBinder = new Backbone.ModelBinder();
         // cs.mediator.subscribe('ShowResourceById', this.undoChanges, {}, this);
@@ -29,7 +28,6 @@
 
     save: function () {
         var isNewModel = this.model.isNew();
-        console.log(isNewModel);
 
         this.model.once('sync', function () {
             if (isNewModel) {
@@ -46,7 +44,7 @@
         this.model.save();
 
         cs.mediator.publish(
-            'ResourceViewClosed', 
+            'ResourcesViewClosed', 
             isNewModel? 'afterCreating': 'afterEditing',
             this.model.id
         );
