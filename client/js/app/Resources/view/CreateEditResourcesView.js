@@ -1,6 +1,8 @@
 (function (This) {
     This.CreateEditView = Backbone.View.extend({
-    tagName: 'div',
+        
+    className: 'modal fade in',
+
 
     template: editResourceTpl,
 
@@ -10,16 +12,15 @@
     },
 
     initialize: function () {
-        this.model = this.model || new ResourcesModel(); 
-        // this.defaultModelJSON = this.model.toJSON();
+        this.model = this.model || new This.ResourcesModel(); 
+        this.defaultModelJSON = this.model.toJSON();
         this.modelBinder = new Backbone.ModelBinder();
-        // vm.mediator.subscribe('ShowResourceById', this.undoChanges, {}, this);
+        // cs.mediator.subscribe('ShowResourceById', this.undoChanges, {}, this);
     },
 
     render: function () {
         // this.$el.append(this.template(this.model.toJSON())); 
         this.$el.append(this.template()); 
-
         this.modelBinder.bind(this.model, this.el);
 
         return this;
@@ -30,19 +31,19 @@
 
         this.model.once('sync', function () {
             if (isNewModel) {
-                vm.mediator.publish('ResourceSaved', this.model); 
+                cs.mediator.publish('ResourceSaved', this.model); 
             }
 
-            vm.mediator.publish(
-                'Notice',
-                'success',
-                isNewModel? 'You succefully added a new resource!': 'Resource has been edited!'
-            );
+            // cs.mediator.publish(
+            //     'Notice',
+            //     'success',
+            //     isNewModel? 'You succefully added a new resource!': 'Resource has been edited!'
+            // );
         }, this);
 
         this.model.save();
 
-         vm.mediator.publish(
+        cs.mediator.publish(
             'ResourceViewClosed', 
             isNewModel? 'afterCreating': 'afterEditing',
             this.model.id
@@ -52,7 +53,7 @@
     cancel: function () {
         this.undoChanges();
 
-        vm.mediator.publish(
+        cs.mediator.publish(
             'ResourceViewClosed',
             isNewModel? 'afterCreating': 'afterEditing',
             this.model.id
