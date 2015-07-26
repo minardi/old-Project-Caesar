@@ -2,7 +2,7 @@
     This.ResourcesModelHomepageView = Backbone.View.extend({
         tagName: 'tr',
     
-        template: resourcesModelTpl,
+        template: resourcesModelHomepageTpl,
     
         events: {
             'click': 'mediatorPublish'

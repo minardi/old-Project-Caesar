@@ -24,9 +24,9 @@
         }
 
         function showAll () {
-            hideAll();
+            //hideAll();
             view && view.remove();
-
+            $('.fade in').hide();
             $resources.append(resources.render().el);
         }
 
@@ -46,7 +46,7 @@
         }
 
         function showView (resource) {
-            hideAll();
+            //hideAll();
             view && view.remove();
             view = new This.ResourcesModelView({model: resource});
             $resources.append(view.render().el);
