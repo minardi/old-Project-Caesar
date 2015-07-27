@@ -3,6 +3,7 @@
 (function (This)  {
     This.Router = Backbone.Router.extend({
         routes: {
+            '': 'getEvents',
             'Events': 'getEvents',
             'Events/new': 'createEvent',
             'Events/:id/edit': 'editEvent',
@@ -11,7 +12,7 @@
         },
 
         initialize: function () {
-            var controller = new App.Events.Controller();
+            new App.Events.Controller();
 
             //URL navigation
             cs.mediator.subscribe('ShowEvents', this.navigateEvents, null, this);

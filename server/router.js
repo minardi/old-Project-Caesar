@@ -3,8 +3,8 @@ var express = require('express'),
 	eventsRouter = require('./events/eventsRouter');
 	resourcesRouter = require('./resources/resourcesRouter');
 
-router.use(/^\/events$/, eventsRouter);
-router.use(/^\/resources$/, resourcesRouter)
+router.use(/^\/events/, eventsRouter);
+router.use(/^\/resources/, resourcesRouter);
 
 router.get(/^\/reset$/, function(req, res, next) {		
     var resetController = new require('./reset/resetController')(req, res);

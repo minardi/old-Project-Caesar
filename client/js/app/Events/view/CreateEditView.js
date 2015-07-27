@@ -1,6 +1,3 @@
-/**
- * Created by Acer on 24.07.2015.
- */
 (function (This) {
     This.CreateEditView = Backbone.View.extend({
         className: 'modal fade in',
@@ -44,7 +41,6 @@
         },
 
         cancel: function () {
-
             if (this.isNewModel) {
                 this.model.destroy();
                 this.collection.remove(this.model);
@@ -56,7 +52,6 @@
 
         undoChanges: function () {
             this.modelBinder.unbind();
-            //this.model.off('change', this.preValidate);
             this.model.set(this.defaultModelJSON);
         }
 
