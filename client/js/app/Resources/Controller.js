@@ -24,13 +24,13 @@
         }
 
         function showAll () {
-            //hideAll();
             view && view.remove();
             $('.fade in').hide();
             $resources.append(resources.render().el);
         }
 
         function createView () {
+            showAll();
             view && view.remove();
             view = new This.CreateEditView();
 
@@ -38,6 +38,7 @@
         }
 
         function editView (resource) {
+            showAll();
             view.remove();
             view = new This.CreateEditView({model: resource}); //PUT doesn't work
             $resources.append(view.render().el); 
@@ -50,6 +51,7 @@
         }
 
         function deleteViewById (model) {
+            showAll();
             view.remove();
             model.destroy();
             // $resources.append(resources.render().el);

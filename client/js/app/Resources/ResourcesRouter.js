@@ -18,6 +18,7 @@
             cs.mediator.subscribe('CreateResource', this.navigateNewResource, null, this);
             cs.mediator.subscribe('EditResource', this.navigateEditResource, null, this);
             cs.mediator.subscribe('EditResourceById', this.navigateEditResourceById, null, this);
+            cs.mediator.subscribe('ResourcesViewClosed', this.navigateResources, null, this);
             
             Backbone.history.loadUrl(Backbone.history.fragment);
 		},
