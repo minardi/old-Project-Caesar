@@ -5,18 +5,14 @@ function DataBase () {
 
 
 	// searchCriteria: {title: "some title"}
-	this.fetch = function (collectionName, id) {
+	this.fetch = function (collectionName) {
 		MongoClient.connect(url, function(err, db) {
 		 	var collection = db.collection(collectionName),
 		 	searchCriteria = {};
-
-		 	if (id) {
-		 		searchCriteria.id = Number(id); 
-		 	} 
 		
 		    console.log("Connected correctly to server");
 		 	
-		 	collection.find(searchCriteria).toArray(function (err, result) {
+		 	collection.find({}).toArray(function (err, result) {
 		 		if (err) {
 		 			console.log(err)
 		 		} else {
@@ -73,15 +69,31 @@ function DataBase () {
 
 		    console.log("Connected correctly to server");
 		 	
-		 	collection.find({id: Number(id)}, {$set: attributes}, function (err, result) {
-		 		if (err) {
-		 			console.log(err)
-		 		} else {
-		 			m.publish(collectionName + 'RequestHandeled', result.result)
-		 		}
+		 	// collection.find({id: Number(id)}, {$set: attributes}, function (err, result) {
+		 	// 	if (err) {
+		 	// 		console.log(err)
+		 	// 	} else {
+		 	// 		console.log(id)	
+		 	// 		console.dir(attributes)	 			
+		 	// 		//console.dir(result)
 
-		 		db.close();
-		 	});
+		 	// 		m.publish(collectionName + 'RequestHandeled', result.result)
+		 	// 	}
+
+		 	// 	db.close();
+		 	// });
+
+		 	collection.findAndModify(
+    			{ id: Number(id) },
+    			[],
+    			{ $set: attributes },
+    			{},
+    			function (err, result) {
+    				console.dir(result)
+		 			m.publish(collectionName + 'RequestHandeled', result.value)
+		 			db.close();
+    			}
+          	);
 		});
 	};
 
