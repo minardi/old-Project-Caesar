@@ -15,7 +15,7 @@
             cs.mediator.subscribe('ShowResources', showAll);
 
             //doesn't work
-            cs.mediator.subscribe('EditResource', editView);
+            cs.mediator.subscribe('EditResource', editView); //published from ResourcesModeView
             cs.mediator.subscribe('EditResourceById', editViewById);
             cs.mediator.subscribe('DeleteResourceById', deleteViewById); //published from ResourcesModeView
             cs.mediator.subscribe('ShowResourceInfo', showView);            //works now
@@ -38,14 +38,12 @@
         }
 
         function editView (resource) {
-            hideAll();
-            view && view.remove();
-            view = new This.CreateEditView({model: resource});
-            $resources.append(view.render().el);
+            view.remove();
+            view = new This.CreateEditView({model: resource}); //PUT doesn't work
+            $resources.append(view.render().el); 
         }
 
         function showView (resource) {
-            //hideAll();
             view && view.remove();
             view = new This.ResourcesModelView({model: resource});
             $resources.append(view.render().el);

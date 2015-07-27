@@ -6,7 +6,8 @@
         
         events: {
             'click .cancel': 'close',
-            'click .delete': 'delete'  
+            'click .delete': 'delete',
+            'click .edit': 'edit'
         },
         
     	render: function () {
@@ -20,6 +21,10 @@
 
         delete: function () {
             cs.mediator.publish('DeleteResourceById', this.model);
+        },
+
+        edit: function () {
+            cs.mediator.publish('EditResource', this.model);
         }
 	});
 })(App.Resources);
