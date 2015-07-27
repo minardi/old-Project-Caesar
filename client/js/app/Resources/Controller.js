@@ -18,20 +18,17 @@
             cs.mediator.subscribe('EditResource', editView);
             cs.mediator.subscribe('EditResourceById', editViewById);
             cs.mediator.subscribe('DeleteResourceById', deleteViewById);
-            cs.mediator.subscribe('ShowResourceInfo', showView);            //works now
             cs.mediator.subscribe('ShowResourceById', showViewById);
             cs.mediator.subscribe('ResourcesViewClosed', viewClosed);
         }
 
         function showAll () {
-            //hideAll();
             view && view.remove();
             $('.fade in').hide();
             $resources.append(resources.render().el);
         }
 
         function createView () {
-            // hideAll();
             view && view.remove();
             view = new This.CreateEditView();
 
@@ -42,13 +39,6 @@
             hideAll();
             view && view.remove();
             view = new This.CreateEditView({model: resource});
-            $resources.append(view.render().el);
-        }
-
-        function showView (resource) {
-            //hideAll();
-            view && view.remove();
-            view = new This.ResourcesModelView({model: resource});
             $resources.append(view.render().el);
         }
 

@@ -13,7 +13,6 @@
 			var controller = new App.Resources.Controller();
 
 			cs.mediator.subscribe('ShowResources', this.navigateResources, null, this);
-            cs.mediator.subscribe('ShowResourceInfo', this.navigateShowResource, null, this);
             cs.mediator.subscribe('ShowResourceById', this.navigateShowResourceById, null, this);
             cs.mediator.subscribe('CreateResource', this.navigateNewResource, null, this);
             cs.mediator.subscribe('EditResource', this.navigateEditResource, null, this);
@@ -24,10 +23,6 @@
 
 		navigateResources: function () {
             this.navigate('Resources');
-        },
-
-        navigateShowResource: function (event) {
-            this.navigate('Resources/' + event.id);
         },
 
         navigateShowResourceById: function (id) {

@@ -5,11 +5,16 @@
         template: resourcesModelHomepageTpl,
     
         events: {
-            'click': 'mediatorPublish'
+            'click .glyphicon-edit': 'openEdit',
+            'click .glyphicon-trash': 'deleteResource'
         },
     
-        mediatorPublish: function () {
-            cs.mediator.publish('ShowResourceInfo', this.model);    
+        openEdit: function () {
+            cs.mediator.publish('EditResource', this.model);
+        },
+        
+        deleteResource: function () {
+            cs.mediator.publish('DeleteResourceById', this.model);
         },
     
         render: function () {
