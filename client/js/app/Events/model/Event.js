@@ -4,8 +4,9 @@
     This.Event = Backbone.Model.extend({
         defaults: {
             name: '',
-            type: '',
-            resources: []
-        }
+            type: ''
+        },
+
+        urlRoot: '/events'
     });
 })(App.Events);

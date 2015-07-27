@@ -5,9 +5,13 @@
             'Resources*path': 'resources',
             'Events*path': 'events' 
         },
+
+        initialize: function () {
+            cs.mediator.subscribe('MenuClicked', this.navigateMenuItem, null, this)
+        },
 		
         mainPage: function () {
-
+            cs.subRouters['Events'] || (cs.subRouters['Events'] = new App.Events.Router());
         },
 
         resources: function () {
@@ -16,6 +20,10 @@
 
         events: function () {
             cs.subRouters['Events'] || (cs.subRouters['Events'] = new App.Events.Router());
-        }   
+        },
+
+        navigateMenuItem: function (pathname) {
+            this.navigate(pathname, {trigger: true});
+        }
     });
 })(App);
