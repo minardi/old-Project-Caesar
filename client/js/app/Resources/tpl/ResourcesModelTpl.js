@@ -16,13 +16,13 @@ var resourcesModelTpl = _.template([
     '            </div>',///
                 '<div class="row">',///
                     '<div class="col-md-12">',
-                        '<button type="button" class="btn btn-warning pull-left cancel closeModel">',
+                        '<button class="btn btn-warning pull-left cancel">',
                             '<i class="glyphicon glyphicon-arrow-left"></i> Back',
                         '</button>',
                         '<button class="btn btn-success pull-right edit">',
                             '<i class="glyphicon glyphicon-edit"></i> Edit',
                         '</button>',
-                        '<button type="button" class="btn btn-danger pull-right delete">',
+                        '<button class="btn btn-danger pull-right delete">',
                             '<i class="glyphicon glyphicon-remove"></i> Delete',
                         '</button>',
                     '</div>',

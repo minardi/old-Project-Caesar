@@ -5,7 +5,8 @@
     	template: resourcesModelTpl,
         
         events: {
-            'click .closeModel': 'close'    
+            'click .cancel': 'close',
+            'click .delete': 'delete'  
         },
         
     	render: function () {
@@ -14,7 +15,11 @@
     	},
         
         close: function () {
-            //cs.mediator.publish('ShowResources');
+            cs.mediator.publish('ResourcesViewClosed');
+        },
+
+        delete: function () {
+            cs.mediator.publish('DeleteResourceById', this.model);
         }
 	});
 })(App.Resources);

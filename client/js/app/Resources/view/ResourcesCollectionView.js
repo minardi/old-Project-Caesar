@@ -11,18 +11,19 @@
             this.collection = new This.ResourcesCollection();
             this.listenToOnce(this.collection, 'sync', this.renderOne);
 
-            cs.mediator.subscribe('ResourceSaved', this.saveModel, {}, this); //added by Ivan
+            cs.mediator.subscribe('ResourceSaved', this.saveModel, {}, this); 
 
             this.collection.fetch();
         },
 
         saveModel: function (model) {
             this.collection.add(model);
-            this.update();
+            this.update(model);
         },
 
-        update: function () {
-            this.render();
+        update: function (model) {
+            var view = new This.ResourcesModelHomepageView({model: model}).render();
+            $('.resource-list').append(view.$el);
         },
     
         renderOne: function (model) {

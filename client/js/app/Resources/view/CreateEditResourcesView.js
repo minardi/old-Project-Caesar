@@ -31,22 +31,16 @@
 
         this.model.once('sync', function () {
             if (isNewModel) {
-                cs.mediator.publish('ResourceSaved', this.model); 
+                cs.mediator.publish('ResourceSaved', this.model); //publish to ResourcesCollectionView
             }
-
-            // cs.mediator.publish(
-            //     'Notice',
-            //     'success',
-            //     isNewModel? 'You succefully added a new resource!': 'Resource has been edited!'
-            // );
         }, this);
 
         this.model.save();
 
         cs.mediator.publish(
-            'ResourcesViewClosed', 
-            isNewModel? 'afterCreating': 'afterEditing',
-            this.model.id
+            'ResourcesViewClosed' //publish to Controller
+            // isNewModel? 'afterCreating': 'afterEditing',
+            // this.model.id
         );
     },
 
@@ -54,9 +48,9 @@
         this.undoChanges();
 
         cs.mediator.publish(
-            'ResourcesViewClosed',
-            this.model.isNew()? 'afterCreating': 'afterEditing',
-            this.model.id
+            'ResourcesViewClosed'
+            // this.model.isNew()? 'afterCreating': 'afterEditing',
+            // this.model.id
         );
     },
 
