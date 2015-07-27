@@ -68,20 +68,6 @@ function DataBase () {
 		 	var collection = db.collection(collectionName);
 
 		    console.log("Connected correctly to server");
-		 	
-		 	// collection.find({id: Number(id)}, {$set: attributes}, function (err, result) {
-		 	// 	if (err) {
-		 	// 		console.log(err)
-		 	// 	} else {
-		 	// 		console.log(id)	
-		 	// 		console.dir(attributes)	 			
-		 	// 		//console.dir(result)
-
-		 	// 		m.publish(collectionName + 'RequestHandeled', result.result)
-		 	// 	}
-
-		 	// 	db.close();
-		 	// });
 
 		 	collection.findAndModify(
     			{ id: Number(id) },
