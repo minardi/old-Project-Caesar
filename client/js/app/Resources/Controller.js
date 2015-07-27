@@ -15,9 +15,6 @@
             cs.mediator.subscribe('CreateResource', createView);
             cs.mediator.subscribe('ShowResources', showAll);
             cs.mediator.subscribe('EditResource', editView); //published from ResourcesModeView
-            cs.mediator.subscribe('EditResourceById', editViewById);
-            cs.mediator.subscribe('DeleteResourceById', deleteViewById);
-            cs.mediator.subscribe('ShowResourceById', showViewById);
             cs.mediator.subscribe('ResourcesViewClosed', viewClosed);
         }
 
@@ -40,27 +37,15 @@
             $resources.append(view.render().el); 
         }
 
-        function deleteViewById(id) {
-            resources.getModelById(id, deleteView)
-        }
-
         function deleteView (resource) {
             view && view.remove();
             view = new This.ResourcesModelView({model: resource});
             view.confirmDelete();
         }
 
-        function editViewById (id) {
-            //resources.getModelById(id, editView);
-        }
-
         function viewClosed () {
-                view.remove();
+            view.remove();
         }
-
-        function showViewById (id) {
-            //resources.getModelById(id, showView);
-         }
 
         function hideAll () {
             $resources.children().addClass('hidden');
