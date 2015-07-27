@@ -8,6 +8,7 @@
         
         function start () {
             setUpMediator();
+            $resources.append(resources.render().el);
         }
 
         function setUpMediator () {
@@ -26,8 +27,10 @@
         function showAll () {
             hideAll();
             view && view.remove();
+            resources.show();
 
-            $resources.append(resources.render().el);
+
+
         }
 
         function createView () {

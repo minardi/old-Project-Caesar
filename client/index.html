@@ -15,7 +15,7 @@
         <script src="/js/lib/backbone-modelbinder.js"></script>
 		<script src="/js/lib/backbone-validation.js"></script>
         <script src="/js/lib/backbone-validation-messages.js"></script>
-        <script src="js/lib/backbone-validation-patterns.js"></script>
+        <script src="/js/lib/backbone-validation-patterns.js"></script>
         <script src="/js/lib/bootstrap.min.js"></script>
         <script src="/js/lib/bootstrap.js"></script>
         <script src="/js/lib/mediator.js"></script>
@@ -24,6 +24,10 @@
         <script src="/js/main.js"></script>
         <script src="/js/app/Router.js"></script>
 
+        <!-- menu -->
+        <script src="/js/app/Menu/tpl/MenuTpl.js"></script>
+        <script src="/js/app/Menu/MenuView/MenuView.js"></script>
+        <script src="/js/app/Menu/Controller.js"></script>
 
         <!-- events -->
         <script src="/js/app/Events/tpl/EventTpl.js"></script>
@@ -53,23 +57,8 @@
         
     </head>
     <body>
-        <div class="row">
-           <div class="col-sm-10 col-sm-offset-1">
-                <ul class="nav nav-pills nav-justified">
-                    <li role="presentation">
-                        <a href="">Resources</a>
-                    </li>
-                    <li role="presentation" class="active">
-                        <a href="">Events</a>
-                    </li>
-                    <li role="presentation">
-                        <a href="">Schedule</a>
-                    </li>
-                    <li role="presentation">
-                        <a href="">About</a>
-                    </li>
-                </ul>
-            </div>
+        <div id="menu" class="row">
+
         </div>
         <div class="row">
             <div class="col-sm-10 col-sm-offset-1">

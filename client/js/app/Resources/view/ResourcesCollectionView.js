@@ -1,6 +1,7 @@
 (function (This) {
     This.CollectionView = Backbone.View.extend({
         tagName: 'div',
+        className: 'resource',
         template: resourceCollectionTpl,
 
         events: {
@@ -41,5 +42,9 @@
         create: function () {
             cs.mediator.publish('CreateResource');
         },
+
+        show: function () {
+            this.$el.removeClass('hidden');
+        }
     });
 })(App.Resources);

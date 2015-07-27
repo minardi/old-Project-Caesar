@@ -28,7 +28,8 @@
         },
 
         dell: function () {
-            cs.mediator.publish('DeleteEventById', this.model);
+            this.model.destroy();
+            this.remove();
         }
 
     });

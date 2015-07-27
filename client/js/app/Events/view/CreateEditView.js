@@ -3,8 +3,7 @@
  */
 (function (This) {
     This.CreateEditView = Backbone.View.extend({
-        tagName: 'div',
-
+        className: 'modal fade in',
         template: editEventTpl,
 
         events: {
@@ -30,35 +29,29 @@
         },
 
 
-
         save: function () {
             this.isNewModel = this.model.isNew();
+            if (this.isNewModel) {
 
-            if(this.isNewModel) {
-                var id = 0;
-                this.collection.each(function(model){
-
-                    var a = model.get('id');
-                    if(id <= a) {
-                        id = a+1;
-                    }
-                });
-                this.model.set({id:id});
-                this.collection.add(this.model);
+                this.model.once('sync', function () {
+                    cs.mediator.publish('EventSaved', this.model);
+                }, this);
             }
-           //this.model.save();
-            cs.mediator.publish('AddEvent', this.model);
+                this.model.save();
+                cs.mediator.publish('CreateEditViewClosed');
+
+
         },
 
         cancel: function () {
 
-            if(this.isNewModel) {
+            if (this.isNewModel) {
                 this.model.destroy();
                 this.collection.remove(this.model);
             }
 
             this.undoChanges();
-            cs.mediator.publish('EventViewClosed');
+            cs.mediator.publish('CreateEditViewClosed');
         },
 
         undoChanges: function () {

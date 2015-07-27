@@ -12,7 +12,7 @@ router.get(/^\/reset$/, function(req, res, next) {
 
 router.get('*', function (request, response) {
     function isRest () {
-        var notRest = ['events', 'resources', '.css', '.js', '.map', '.eot', '.ttf', '.svg', '.woff', '.ico'],
+        var notRest = ['events','resources', '.css', '.js', '.map', '.eot', '.ttf', '.svg', '.woff', '.ico'],
             rest = true;
         
         notRest.forEach(function (key) {
