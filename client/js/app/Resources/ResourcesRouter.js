@@ -61,7 +61,7 @@
             cs.mediator.publish('EditResourceById', id);
         },
 
-        getResource: function (id) {
+        ShowResourceById: function (id) {
             cs.mediator.publish('ShowResourceById', id);
         },
 

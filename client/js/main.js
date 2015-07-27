@@ -4,14 +4,16 @@ var App = {},
     cs = {};
 
 //setUp models
-setUp(App, ['Events', 'Resources']);
-setUp(cs, ['mediator', 'subRouters', 'router']);
+setUp(App, ['Events', 'Resources', 'Menu' ]);
+setUp(cs, ['mediator', 'subRouters', 'router', 'menu']);
 
 $(function () {
 
     cs.mediator = new Mediator();
     cs.router = new App.Router();
 	cs.subRouters = {};
-    
+
+    cs.menu = new App.Menu.Controller();
+
     Backbone.history.start({pushState: true});
 });
