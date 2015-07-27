@@ -22,6 +22,7 @@
         }
 
         function showAll () {
+            hideAll();
             view && view.remove();
             resources.show();
         }
