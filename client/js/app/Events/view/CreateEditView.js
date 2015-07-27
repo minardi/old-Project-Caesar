@@ -28,16 +28,15 @@
 
         save: function () {
             this.isNewModel = this.model.isNew();
-            if (this.isNewModel) {
 
+            if (this.isNewModel) {
                 this.model.once('sync', function () {
                     cs.mediator.publish('EventSaved', this.model);
                 }, this);
             }
-                this.model.save();
-                cs.mediator.publish('CreateEditViewClosed');
 
-
+            this.model.save();
+            cs.mediator.publish('CreateEditViewClosed');
         },
 
         cancel: function () {

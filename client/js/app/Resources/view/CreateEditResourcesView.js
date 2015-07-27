@@ -15,11 +15,9 @@
         this.model = this.model || new This.ResourcesModel(); 
         this.defaultModelJSON = this.model.toJSON();
         this.modelBinder = new Backbone.ModelBinder();
-        // cs.mediator.subscribe('ShowResourceById', this.undoChanges, {}, this);
     },
 
     render: function () {
-        // this.$el.append(this.template(this.model.toJSON())); 
         this.$el.append(this.template()); 
         this.modelBinder.bind(this.model, this.el);
 
@@ -36,22 +34,12 @@
         }, this);
 
         this.model.save();
-
-        cs.mediator.publish(
-            'ResourcesViewClosed' //publish to Controller
-            // isNewModel? 'afterCreating': 'afterEditing',
-            // this.model.id
-        );
+        cs.mediator.publish('ResourcesViewClosed'); //publish to Controller
     },
 
     cancel: function () {
         this.undoChanges();
-
-        cs.mediator.publish(
-            'ResourcesViewClosed'
-            // this.model.isNew()? 'afterCreating': 'afterEditing',
-            // this.model.id
-        );
+        cs.mediator.publish('ResourcesViewClosed'); //publish to Controller
     },
 
     undoChanges: function () {

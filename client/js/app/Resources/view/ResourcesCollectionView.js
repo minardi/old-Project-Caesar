@@ -28,7 +28,6 @@
         },
     
         renderOne: function (model) {
-            var self = this;
             this.collection.each(function(model) {
                 var view = new This.ResourcesModelHomepageView({model: model}).render();
                 $('.resource-list').append(view.$el);

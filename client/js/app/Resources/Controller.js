@@ -14,8 +14,6 @@
         function setUpMediator () {
             cs.mediator.subscribe('CreateResource', createView);
             cs.mediator.subscribe('ShowResources', showAll);
-
-            //doesn't work
             cs.mediator.subscribe('EditResource', editView); //published from ResourcesModeView
             cs.mediator.subscribe('EditResourceById', editViewById);
             cs.mediator.subscribe('DeleteResourceById', deleteViewById); //published from ResourcesModeView
@@ -25,8 +23,8 @@
         }
 
         function showAll () {
+            hideAll();
             view && view.remove();
-            resources.show();
             resources.show();
         }
 
@@ -34,14 +32,13 @@
             showAll();
             view && view.remove();
             view = new This.CreateEditView();
-
             $resources.append(view.render().el);
         }
 
         function editView (resource) {
             showAll();
-            view.remove();
-            view = new This.CreateEditView({model: resource}); //PUT doesn't work
+            view && view.remove();
+            view = new This.CreateEditView({model: resource}); 
             $resources.append(view.render().el); 
         }
 
@@ -51,11 +48,10 @@
             $resources.append(view.render().el);
         }
 
-        function deleteViewById (model) {
+        function deleteViewById (model) {            
             showAll();
-            view.remove();
+            view && view.remove();
             model.destroy();
-            // $resources.append(resources.render().el);
             // resources.getModelById(id, deleteView)
         }
 
@@ -70,12 +66,7 @@
         }
 
         function viewClosed () {
-            // if (reason === 'afterCreating') {
-                // console.log(view);
                 view.remove();
-            // } else {
-            //     showViewById(id);
-            // }
         }
 
         function showViewById (id) {
