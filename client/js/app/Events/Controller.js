@@ -51,9 +51,7 @@
         }
 
         function editEventById (id) {
-            view && view.remove();
-            view = new This.CreateEditView({model: collection.get(id)});
-            $events.append(view.render().el);
+            events.getModelById(id, editView);
         }
 
 
