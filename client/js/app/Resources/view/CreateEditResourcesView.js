@@ -30,9 +30,7 @@
         this.model.once('sync', function () {
             if (isNewModel) {
                 cs.mediator.publish('ResourceSaved', this.model); //publish to ResourcesCollectionView
-            } else {
-                cs.mediator.publish('ResourceUpdated'); //publish to Controller
-            }
+            } 
         }, this);
 
         this.model.save();

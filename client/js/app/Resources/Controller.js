@@ -16,13 +16,6 @@
             cs.mediator.subscribe('ShowResources', showAll);
             cs.mediator.subscribe('EditResource', editView); //published from ResourcesModeView
             cs.mediator.subscribe('ResourcesViewClosed', viewClosed);
-            cs.mediator.subscribe('ResourceUpdated', rerenderList); //published from CreateEditView
-        }
-
-        function rerenderList () {
-            var resources = new This.CollectionView();
-            $resources.children().remove();
-            $resources.append(resources.render().el);
         }
 
         function showAll () {
