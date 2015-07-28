@@ -8,6 +8,10 @@
             'click .glyphicon-edit': 'openEdit',
             'click .glyphicon-trash': 'deleteResource'
         },
+
+        initialize: function () {
+            this.listenTo(this.model, 'change', this.render); 
+        },
     
         openEdit: function () {
             cs.mediator.publish('EditResource', this.model);

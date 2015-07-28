@@ -1,3 +1,6 @@
 .customGlyphBtn:hover {
     cursor: pointer;
 }
+.edit-style {
+	margin-right: 25px;
+}
