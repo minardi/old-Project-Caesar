@@ -8,7 +8,7 @@
         },
 
         initialize: function () {
-            cs.mediator.subscribe('MenuClicked', this.navigateMenuItem, null, this)
+            cs.mediator.subscribe('MenuClicked', this.navigateMenuItem, null, this); //published from MenuView
         },
 		
         mainPage: function () {
