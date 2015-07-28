@@ -2,9 +2,12 @@ var express = require('express'),
 	router = express.Router(),
 	eventsRouter = require('./events/eventsRouter');
 	resourcesRouter = require('./resources/resourcesRouter');
+    aboutRouter = require('./about/aboutRouter');
+
 
 router.use(/^\/events/, eventsRouter);
 router.use(/^\/resources/, resourcesRouter);
+router.use(/^\/about/, aboutRouter);
 
 router.get(/^\/reset$/, function(req, res, next) {		
     var resetController = new require('./reset/resetController')(req, res);
@@ -12,7 +15,7 @@ router.get(/^\/reset$/, function(req, res, next) {
 
 router.get('*', function (request, response) {
     function isRest () {
-        var notRest = ['events','resources', '.css', '.js', '.map', '.eot', '.ttf', '.svg', '.woff', '.ico'],
+        var notRest = ['events','resources', 'about', '.css', '.js', '.map', '.eot', '.ttf', '.svg', '.woff', '.ico'],
             rest = true;
         
         notRest.forEach(function (key) {

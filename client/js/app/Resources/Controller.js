@@ -16,9 +16,14 @@
             cs.mediator.subscribe('ShowResources', showAll);
             cs.mediator.subscribe('EditResource', editView); //published from ResourcesModeView
             cs.mediator.subscribe('EditResourceById', editViewById);
-            cs.mediator.subscribe('DeleteResourceById', deleteViewById);
-            cs.mediator.subscribe('ShowResourceById', showViewById);
             cs.mediator.subscribe('ResourcesViewClosed', viewClosed);
+            cs.mediator.subscribe('ResourceUpdated', rerenderList); //published from CreateEditView
+        }
+
+        function rerenderList () {
+            var resources = new This.CollectionView();
+            $resources.children().remove();
+            $resources.append(resources.render().el);
         }
 
         function showAll () {
@@ -34,33 +39,18 @@
         }
 
         function editView (resource) {
-            showAll();
             view && view.remove();
             view = new This.CreateEditView({model: resource}); 
             $resources.append(view.render().el); 
         }
-
-        function deleteViewById(id) {
-            resources.getModelById(id, deleteView)
-        }
-
-        function deleteView (resource) {
-            view && view.remove();
-            view = new This.ResourcesModelView({model: resource});
-            view.confirmDelete();
-        }
-
+        
         function editViewById (id) {
-            //resources.getModelById(id, editView);
+            resources.getModelById(id, editView);
         }
 
         function viewClosed () {
-                view.remove();
+            view.remove();
         }
-
-        function showViewById (id) {
-            //resources.getModelById(id, showView);
-         }
 
         function hideAll () {
             $resources.children().addClass('hidden');

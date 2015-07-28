@@ -8,7 +8,8 @@
         events: {
             'click .resources': 'showResources',
             'click .events': 'showEvents',
-            'click .schedule': 'showSchedule'
+            'click .schedule': 'showSchedule',
+            'click .about': 'showAbout'
         },
 
         render: function () {
@@ -27,6 +28,12 @@
             cs.mediator.publish('MenuClicked', '/Events');
             this.$el.find('.menu-item').removeClass('active');
             this.$el.find('.events').addClass('active');
+        },
+
+        showAbout: function () {
+            cs.mediator.publish('MenuClicked', '/About');
+            this.$el.find('.menu-item').removeClass('active');
+            this.$el.find('.about').addClass('active');
         }
     });
 })(App.Menu);

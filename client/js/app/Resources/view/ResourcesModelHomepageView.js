@@ -14,7 +14,8 @@
         },
         
         deleteResource: function () {
-            cs.mediator.publish('DeleteResourceById', this.model);
+            this.model.destroy();
+            this.remove();
         },
     
         render: function () {

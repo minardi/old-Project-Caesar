@@ -1,6 +1,6 @@
-1. connect any mongodb database
+1. Start mongod server
 
-2. in current directory: 
+2. in current directory start command line: 
    2.1. npm install
-   2.2. localhost:3000/reset  -  this will fill in database with default data or reset existing
-   2.3. type "npm start" in console
+   2.2. npm start
+   2.3. localhost:3000/reset
