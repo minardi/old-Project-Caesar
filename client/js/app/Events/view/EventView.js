@@ -1,13 +1,12 @@
 'use strict';
 (function (This) {
     This.EventView = Backbone.View.extend({
-        tagName: 'li',
-        className: 'list-group-item',
+        tagName: 'tr',
         tpl: eventTpl,
 		
 		events: {
             'click .edit': 'edit',
-            'click .dell': 'dell'
+            'click .dell': 'delete'
         },
 		
         initialize: function () {
@@ -21,16 +20,14 @@
 
             return this;
         },
-		
-		
+
         edit: function () {
             cs.mediator.publish('EditEvent', this.model);
         },
 
-        dell: function () {
+        delete: function () {
             this.model.destroy();
             this.remove();
         }
-
     });
 })(App.Events);

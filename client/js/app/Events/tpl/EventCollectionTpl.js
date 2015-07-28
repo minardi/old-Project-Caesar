@@ -13,7 +13,7 @@ var eventCollectionTpl = _.template([
 				'</div>',
 			'</div>',
 		'</div>',
-		'<ul class="event-list list-group">',
-		'</ul>',
+		'<table class="table event-list list-group">',
+		'</table>',
 	'</div>'
 ].join(''));

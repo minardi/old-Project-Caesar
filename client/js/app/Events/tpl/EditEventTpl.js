@@ -12,7 +12,7 @@ var editEventTpl = _.template([
                         '<input type="text" id="name" name="name" class="form-control" placeholder="type name">',
                     '</div>',
                     '<div class="form-group"  data-name="type">',
-                        '<label>Lable:</label>',
+                        '<label>Type:</label>',
                         '<select size="3" multiple name="type" class="form-control listbox">',
                             '<option value="lecture">lecture</option>',
                             '<option value="scrum" >scrum</option>',
@@ -20,6 +20,7 @@ var editEventTpl = _.template([
                             '<option value="report">report</option>',
                         '</select>',
                     '</div>',
+
                     '<button type="button" class="btn btn-info save pull-right">',
                         '<i class="glyphicon glyphicon-floppy-saved"></i> Save',
                     '</button>',

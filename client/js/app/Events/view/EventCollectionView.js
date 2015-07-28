@@ -17,7 +17,6 @@
 
         render: function () {
             this.$el.append(this.tpl);
-
             this.collection.each(function (event) {
                 this.renderOne(event)
             }, this);
@@ -25,20 +24,17 @@
             return this;
         },
 
-        show: function () {
-            this.$el.removeClass('hidden');
-        },
-
         renderOne: function (model) {
             var eventView = new App.Events.EventView({model: model});
-            this.$el.find('.event-list').append(eventView.render().el);
+            this.$('.event-list').append(eventView.render().el);
         },
-
 
         add: function () {
             cs.mediator.publish('CreateEvent');
+        },
+
+        show: function () {
+            this.$el.removeClass('hidden');
         }
-
-
     });
 })(App.Events);

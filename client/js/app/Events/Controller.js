@@ -19,15 +19,16 @@
         function setUpMediator () {
 
             cs.mediator.subscribe('ShowEvents', showAll);
-
             cs.mediator.subscribe('CreateEvent', createView);
             cs.mediator.subscribe('EditEvent', editView);
 
+            cs.mediator.subscribe('EditEventById', editEventById);
+
             cs.mediator.subscribe('CreateEditViewClosed', viewClosed);
-            cs.mediator.subscribe('EventSaved', renderList);
+            cs.mediator.subscribe('EventSaved', addToCollection);
         }
 
-        function renderList (model) {
+        function addToCollection (model) {
             collection.add(model);
         }
 		
@@ -49,9 +50,16 @@
             $events.append(view.render().el);
         }
 
+        function editEventById (id) {
+            view && view.remove();
+            view = new This.CreateEditView({model: collection.get(id)});
+            $events.append(view.render().el);
+        }
+
 
         function viewClosed () {
 			view && view.remove();
+            cs.mediator.publish('RouteToEvents', showAll);
         }
 
         function hideAll () {
