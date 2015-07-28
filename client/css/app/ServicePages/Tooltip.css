@@ -1,0 +1,21 @@
+#tt {
+    position: absolute;
+}
+
+.contributorsNames span {
+    cursor: pointer;
+}
+
+.tooltip-row {
+    margin: 0;
+    padding: 15px;
+}
+
+.showFullInfo {
+    min-width: 50px;
+    min-height: 50px;
+    position: absolute;
+    top: 0;
+    left:0;
+}
+

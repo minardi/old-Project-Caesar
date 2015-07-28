@@ -1,0 +1,21 @@
+var contributorFullInfoTpl = _.template([
+    '<div id = "contributorsNames" class="contributorsNames">',
+        '<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="Tooltip on left">',
+            '<div class="form-group">',
+                '<div class="grey" name="name"><%= firstName %> <%= lastName %>',
+                '</div>',
+            '</div>',
+            '<div class="form-group">',
+                '<label>Группа:</label>',
+                '<span class="grey" itaName="itaName"><%= itaName %> </span>',
+            '</div>',
+            '<div class="media">',
+                '<div class="col-md-3 user-logo-container">',
+                    '<a href="#" class="pull-left">',
+                    '<i class="glyphicon glyphicon-user img-circle"></i>',
+                    '</a>',
+                '</div>',
+            '</div>',
+        '</button>',
+    '</div>'
+].join(''));

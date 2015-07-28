@@ -3,7 +3,8 @@
         routes: {
             '': 'mainPage',
             'Resources*path': 'resources',
-            'Events*path': 'events' 
+            'Events*path': 'events',
+            'About*path': 'about'
         },
 
         initialize: function () {
@@ -20,6 +21,10 @@
 
         events: function () {
             cs.subRouters['Events'] || (cs.subRouters['Events'] = new App.Events.Router());
+        },
+
+        about: function () {
+            cs.subRouters['About'] || (cs.subRouters['About'] = new App.About.Router());
         },
 
         navigateMenuItem: function (pathname) {
