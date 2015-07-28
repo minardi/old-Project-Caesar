@@ -45,6 +45,20 @@
 
         show: function () {
             this.$el.removeClass('hidden');
+        },
+        
+        getModelById: function (id, callback) {
+            if (this.collection.get(id)) {
+                callback(this.collection.get(id));
+            } else {
+                this.collection.once('sync', function () {
+                    if (this.collection.get(id)) {
+                        callback(this.collection.get(id));
+                    } else {
+                        vm.mediator.publish('Show404');
+                    }
+                }, this);
+            }
         }
     });
 })(App.Resources);
