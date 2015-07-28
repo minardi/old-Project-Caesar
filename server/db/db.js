@@ -41,7 +41,7 @@ function DataBase () {
         			{ $inc: { seq: 1 } },
         			{new: true},
         			function (err, res) {
-        				console.dir(res)
+        				console.dir(res);
         				attributes['id'] = res.value.seq;
 
         				cb(attributes);
@@ -54,7 +54,7 @@ function DataBase () {
 			 		if (err) {
 			 			console.log(err)
 			 		} else {
-			 			m.publish(collectionName + 'RequestHandeled', result.ops[0])
+			 			m.publish(collectionName + 'RequestHandeled', result.ops[0]);
 			 		}
 
 			 		db.close();
@@ -73,10 +73,12 @@ function DataBase () {
     			{ id: Number(id) },
     			[],
     			{ $set: attributes },
-    			{},
+    			{new: true},
     			function (err, result) {
-    				console.dir(result)
-		 			m.publish(collectionName + 'RequestHandeled', result.value)
+    				console.dir(result);
+
+		 			m.publish(collectionName + 'RequestHandeled', result.value);
+
 		 			db.close();
     			}
           	);
@@ -93,9 +95,9 @@ function DataBase () {
 		 		console.log(result.result);
 
 		 		if (err) {
-		 			console.log(err)
+		 			console.log(err);
 		 		} else {
-		 			m.publish(collectionName + 'RequestHandeled', result.result)
+		 			m.publish(collectionName + 'RequestHandeled', result.result);
 		 		}
 
 		 		db.close();
