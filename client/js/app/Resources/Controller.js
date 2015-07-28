@@ -15,6 +15,7 @@
             cs.mediator.subscribe('CreateResource', createView);
             cs.mediator.subscribe('ShowResources', showAll);
             cs.mediator.subscribe('EditResource', editView); //published from ResourcesModeView
+            cs.mediator.subscribe('EditResourceById', editViewById);
             cs.mediator.subscribe('ResourcesViewClosed', viewClosed);
             cs.mediator.subscribe('ResourceUpdated', rerenderList); //published from CreateEditView
         }
@@ -38,16 +39,13 @@
         }
 
         function editView (resource) {
-            // showAll();
             view && view.remove();
             view = new This.CreateEditView({model: resource}); 
             $resources.append(view.render().el); 
         }
-
-        function deleteView (resource) {
-            view && view.remove();
-            view = new This.ResourcesModelView({model: resource});
-            view.confirmDelete();
+        
+        function editViewById (id) {
+            resources.getModelById(id, editView);
         }
 
         function viewClosed () {

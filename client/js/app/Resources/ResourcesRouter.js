@@ -4,7 +4,6 @@
 		routes: {
 			'Resources': 'showResources',
 			'Resources/new': 'createResource',
-			'Resources/:id': 'getResource',
 			'Resources/:id/edit': 'editResource',
 			'Resources*path': 'notFound'
 		},
@@ -13,7 +12,6 @@
 			var controller = new App.Resources.Controller();
 
 			cs.mediator.subscribe('ShowResources', this.navigateResources, null, this);
-            cs.mediator.subscribe('ShowResourceById', this.navigateShowResourceById, null, this);
             cs.mediator.subscribe('CreateResource', this.navigateNewResource, null, this);
             cs.mediator.subscribe('EditResource', this.navigateEditResource, null, this);
             cs.mediator.subscribe('EditResourceById', this.navigateEditResourceById, null, this);
@@ -24,10 +22,6 @@
 
 		navigateResources: function () {
             this.navigate('Resources');
-        },
-
-        navigateShowResourceById: function (id) {
-            this.navigate('Resources/' + id);
         },
 
         navigateNewResource: function () {
@@ -45,9 +39,6 @@
         showResources: function () {
             cs.mediator.publish('ShowResources');
         },
-        getResource: function () {
-            cs.mediator.publish('ShowResources');
-        },
 
         createResource: function () {
             cs.mediator.publish('CreateResource');
@@ -55,10 +46,6 @@
 
         editResource: function (id) {
             cs.mediator.publish('EditResourceById', id);
-        },
-
-        ShowResourceById: function (id) {
-            cs.mediator.publish('ShowResourceById', id);
         },
 
         notFound: function () {
