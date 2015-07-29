@@ -4,7 +4,8 @@ exports.EventsModel = function (req) {
 		attributes = {
 			id: '',
 			name: '',
-			type: ''
+			type: '',
+			resources: []
 		},
 		actions = {
 			'GET': get,

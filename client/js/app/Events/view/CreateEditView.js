@@ -10,21 +10,32 @@
 
         initialize: function () {
             this.model = this.model || new This.Event();
-            this.defaultModelJSON = this.model.toJSON();
             this.modelBinder = new Backbone.ModelBinder();
+            cs.mediator.subscribe('resourceAddedToEvent', this.addResourceIdToEvent, null, this);
+            this.collection = new App.Resources.ResourcesCollection();
+            this.collection.fetch();
+            this.resourcesCollectionView = new App.Events.ResourcesCollectionView({
+                collection: this.collection,
+                model: this.model
+            });
 
             Backbone.Validation.bind(this);
 
         },
 
         render: function () {
-            this.$el.append(this.template());
+            this.$el.append(this.template);
+            this.$('.resources-list').append(this.resourcesCollectionView.render().el);
 
             this.modelBinder.bind(this.model, this.el);
 
             return this;
         },
 
+        addResourceIdToEvent: function (resource) {
+            var value = this.$('.resource-field').val();
+            this.$('.resource-field').val(value + ',' + resource.get('id'));
+        },
 
         save: function () {
             this.isNewModel = this.model.isNew();
@@ -51,7 +62,7 @@
 
         undoChanges: function () {
             this.modelBinder.unbind();
-            this.model.set(this.defaultModelJSON);
+            this.model.set(this.model.toJSON());
         }
 
     });
