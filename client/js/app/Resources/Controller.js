@@ -1,6 +1,7 @@
 (function (This) {
     This.Controller = function () {
-        var resources = new This.CollectionView(),
+        var collection = collections.resouresCollection,
+            resources = new This.CollectionView({collection: collection}),
             $resources = $('#main'),
             view;
 
