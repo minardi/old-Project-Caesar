@@ -1,5 +1,5 @@
 var contributorNamesTpl = _.template([
     '<div class="contributorsNames">',
-        '<span><%= firstName %></span>',
+        '<img class="group-logo img-circle foto" src="img/ui<%= id %>.jpg">',
     '</div>'
 ].join(''));

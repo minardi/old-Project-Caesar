@@ -3,7 +3,7 @@
 (function (This) {
     This.ContributorsView = Backbone.View.extend({
             tagName: 'div',
-            className: 'contributors-names-container',
+            className: 'contributors-names-container animated swing',
             view: '',
 		    itaName: '',
 

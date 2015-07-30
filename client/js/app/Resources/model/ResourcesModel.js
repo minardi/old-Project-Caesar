@@ -13,7 +13,7 @@
         	type: [
         		{
         			required: true,
-        			msg: 'Field cannot be empty'
+        			msg: 'You forgot to choose a type'
         		}
         	],
         	name: [
