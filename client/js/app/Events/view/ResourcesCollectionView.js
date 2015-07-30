@@ -5,9 +5,13 @@
 
         initialize: function (options) {
             this.eventModel = options.model;
-            this.listenTo(this.collection, 'add', this.renderOne, this);
+            //this.listenTo(this.collection, 'add', this.renderOne, this);
         },
         render: function () {
+            this.collection.each(function (model) {
+                this.renderOne(model);
+            }, this);
+
             return this;
         },
 

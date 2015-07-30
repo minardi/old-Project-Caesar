@@ -4,8 +4,11 @@
     This.Controller = function () {
         var collection = new This.EventCollection(),
             events = new This.EventCollectionView({collection: collection}),
+            resourceCollection = new App.Resources.ResourcesCollection(),
             $events = $('#main'),
             view;
+
+        resourceCollection.fetch();
 
         start();
 
@@ -46,7 +49,10 @@
 
         function editView (event) {
             view && view.remove();
-            view = new This.CreateEditView({model: event});
+            view = new This.CreateEditView({
+                model: event,
+                resourceCollection: resourceCollection
+            });
             $events.append(view.render().el);
         }
 
