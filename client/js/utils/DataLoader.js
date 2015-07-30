@@ -1,6 +1,8 @@
-var DataLoader = function () {
+var DataLoader = function () {    
     collections.resouresCollection = new App.Resources.ResourcesCollection();
     collections.eventsCollection = new App.Events.EventCollection();
+    
+    $('#main').append(loadingTpl);
     
     collections.resouresCollection.fetch();
     collections.resouresCollection.once('sync', function () {
