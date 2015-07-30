@@ -1,7 +1,9 @@
 (function (This) {
     This.CollectionView = Backbone.View.extend({
         tagName: 'div',
+
         className: 'resource',
+
         template: resourceCollectionTpl,
 
         events: {
@@ -12,35 +14,37 @@
             this.collection = new This.ResourcesCollection();
             this.listenToOnce(this.collection, 'sync', this.renderOne);
 
-            cs.mediator.subscribe('ResourceSaved', this.saveModel, {}, this); 
+            cs.mediator.subscribe('ResourceSaved', this.updateCollection, {}, this); //published from CreateEditView
 
             this.collection.fetch();
         },
 
-        saveModel: function (model) {
-            this.collection.add(model);
-            this.update(model);
-        },
-
-        update: function (model) {
+        updateCollection: function (model) {
             var view = new This.ResourcesModelHomepageView({model: model}).render();
+            this.collection.add(model);
             $('.resource-list').append(view.$el);
         },
     
         renderOne: function (model) {
+            var container = document.createDocumentFragment(),
+                view;
+
             this.collection.each(function(model) {
-                var view = new This.ResourcesModelHomepageView({model: model}).render();
-                $('.resource-list').append(view.$el);
+                view = new This.ResourcesModelHomepageView({model: model}).render();
+                container.appendChild(view.el);
             });
+
+            $('.resource-list').append(container);
         },
     
         render: function () {
             this.$el.html(this.template());
+
             return this;
         },
 
         create: function () {
-            cs.mediator.publish('CreateResource');
+            cs.mediator.publish('CreateResource'); //publish to Controller
         },
 
         show: function () {
