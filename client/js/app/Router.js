@@ -5,11 +5,11 @@
             'Resources*path': 'resources',
             'Events*path': 'events',
             'About*path': 'about',
-            'Calendar*path': 'calendar'
+            'Schedule*path': 'calendar'
         },
 
         initialize: function () {
-            cs.mediator.subscribe('MenuClicked', this.navigateMenuItem, null, this)
+            cs.mediator.subscribe('MenuClicked', this.navigateMenuItem, null, this); //published from MenuView
         },
 		
         mainPage: function () {
@@ -29,7 +29,7 @@
         },
 
         calendar: function () {
-            cs.subRouters['Calendar'] || (cs.subRouters['Calendar'] = new App.Calendar.Router());
+            cs.subRouters['Schedule'] || (cs.subRouters['Schedule'] = new App.Schedule.Router());
         },
         
         navigateMenuItem: function (pathname) {

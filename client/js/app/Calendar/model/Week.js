@@ -11,4 +11,4 @@
 			'Friday': {}
 		}
 	})
-})(App.Calendar);
+})(App.Schedule);

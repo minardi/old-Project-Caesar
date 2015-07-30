@@ -1,5 +1,5 @@
 (function (This) {
-	This.CalendarCollection = Backbone.Collection.extend({
+	This.Schedule = Backbone.Collection.extend({
 		model: This.Week
 	})
-})(App.Calendar);
+})(App.Schedule);

@@ -7,6 +7,21 @@
             }
         },
 
-        urlRoot: '/resources'
+        urlRoot: '/resources',
+
+        validation: {
+        	type: [
+        		{
+        			required: true,
+        			msg: 'Field cannot be empty'
+        		}
+        	],
+        	name: [
+        		{
+        			required: true,
+        			msg: 'Field cannot be empty'
+        		}
+        	]
+        }
     });
 })(App.Resources);

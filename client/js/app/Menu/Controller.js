@@ -4,6 +4,7 @@
         var $menu = $('#menu');
 
         start();
+        
         function start () {
             renderMenu();
         }

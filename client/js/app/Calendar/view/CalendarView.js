@@ -1,5 +1,5 @@
 (function (This) {
-	This.CalendarView = Backbone.View.extend({
+	This.ScheduleView = Backbone.View.extend({
 		tagName: 'table',
 		template: calendarRowTpl,
 
@@ -120,4 +120,4 @@
 			this.showDay(week.get('Friday'), 'Friday');
 		}
 	})
-})(App.Calendar);
+})(App.Schedule);

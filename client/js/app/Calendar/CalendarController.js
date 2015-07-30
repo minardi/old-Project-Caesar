@@ -1,37 +1,55 @@
 (function (This) {
 	This.Controller = function () {
-		var view = new This.CalendarEventsView(),
+		var views = {
+				'shedule': new This.ScheduleView(),
+				'events': new This.EventsView(),
+				'full': new This.ScheduleEventsView()
+		//		'addView': new This.AddEventView()
+			},
+			collections = {
+				'events': new App.Events.EventCollection(), 
+				'schedule': new This.Schedule()
+			},
 			$el = $('#main');
 
-		setupMediator();
+		loadCollections();
+
+		function start () {
+			setupMediator();
+		}
+		
 		
 		function setupMediator () {
-			cs.mediator.subscribe('CollectionLoaded', showCalendar);
-			cs.mediator.subscribe('CurrentWeekSelected', showEvents);
-			cs.mediator.subscribe('EventSelected', setupSelectedEvent);
-			cs.mediator.subscribe('EvendAdded', showUpdatedEvents);
-
+			cs.mediator.subscribe('ScheduleSelected', showScheduleEvents);
+			//cs.mediator.subscribe('CollectionLoaded', showCalendar);
+			//cs.mediator.subscribe('CurrentWeekSelected', showEvents);
+			//cs.mediator.subscribe('EventSelected', setupSelectedEvent);
+			//cs.mediator.subscribe('EvendAdded', showUpdatedEvents);
 		}
 
-		function showCalendar (collection) {
-			view.calendarView.setCollection(collection);
-
-			$el.html(view.render().el);
-			view.showEvents();
+		function loadCollections() {	
+			collections['events'].listenTo(collections['events'], 'sync', start);	
+			collections['schedule'].push({
+				'startDate': new Date(2015, 7, 27),
+					'Monday': {
+							'7:00': [1,2],
+							'8:30': [2]
+					}, 
+					'Tuesday': {
+							'10:30': [2],
+							'11:00': [2]
+						}		
+			});		
+			collections['events'].fetch();
 		}
 
-		function showEvents (week) {
-			view.calendarView.showEvents(week);
-		}
+		function showScheduleEvents () {
+			views['events'].setCollection(collections['events']);
 
-		function setupSelectedEvent (event) {
-			view.calendarView.setupSelectedEvent(event);
-		}
+			console.log(collections['events'].length);
 
-		function showUpdatedEvents (collection) {
-			view.calendarView.setCollection(collection);
-			view.calendarView.setCollection(view.eventsView.collection);
-			view.showEvents();
+			views['full'].appendView('events', views['events'].render().el);
+			$el.html(views['full'].render().el);
 		}
 	}
-})(App.Calendar);
+})(App.Schedule);

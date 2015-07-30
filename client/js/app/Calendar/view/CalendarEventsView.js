@@ -1,23 +1,11 @@
 (function (This) {
-	This.CalendarEventsView = Backbone.View.extend({
-		template: callendarEventsTpl,
+	This.ScheduleEventsView = Backbone.View.extend({
+		template: scheduleEventsTpl,
 
-		initialize: function () {
+	/*	initialize: function () {
 			this.eventsView = new This.EventsView();
 			this.calendarView = new This.CalendarView();
 			this.collection = new This.CalendarCollection();
-			this.collection.push({
-				'startDate': new Date(2015, 7, 27),
-					'Monday': {
-							'7:00': [1,2],
-							'8:30': [2]
-					}, 
-					'Tuesday': {
-							'10:30': [2],
-							'11:00': [2]
-						}		
-			});
-
 			this.currentWeekNumber = new Date();
 			this.currentWeekNumber.setMonth(this.currentWeekNumber.getMonth() + 1);
 			this.currentWeekNumber = this.currentWeekNumber.getWeekNumber();
@@ -59,12 +47,19 @@
 		renderDays: function () {
 			var $el = this.$el.find('.dateRow');
 		},
+*/
+		appendView: function (moduleName, element) {
+			var modules = {
+				'events': 'events',
+				'shedule': 'shedule'
+			};
+
+			this.$el.html(this.template());
+			this.$el.find(modules[moduleName]).html(element);
+		},
 
 		render: function () {
-			this.$el.html(this.template());
-			this.$el.find('.events').append(this.eventsView.render().el);
-			this.$el.find('.calendar').append(this.calendarView.render().el);
 			return this;
 		}
 	})
-})(App.Calendar);
+})(App.Schedule);

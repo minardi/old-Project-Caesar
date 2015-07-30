@@ -1,3 +1,3 @@
-var callendarEventsTpl = _.template([
+var scheduleEventsTpl = _.template([
 '	<div class = "events"></div>',
-'	<div class = "calendar"></div>'	].join());
+'	<div class = "schedule"></div>'	].join(''));

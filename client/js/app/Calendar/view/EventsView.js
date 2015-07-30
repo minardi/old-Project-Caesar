@@ -2,34 +2,22 @@
 	This.EventsView = Backbone.View.extend({
 		tagName: 'ul',
 
-		initialize: function () {
-			this.collection = new App.Events.EventCollection();
-			this.collection.listenTo(this.collection, 'add', this.showOne);
-			this.collection.listenTo(this.collection, 'sync', this.giveCollection);
-			this.collection.fetch();
-
-			cs.mediator.subscribe('EventLoaded', this.renderOne, null, this);
-		},
-
-		showOne: function (event) {
-			cs.mediator.publish('EventLoaded', event);
-		},
-
-		giveCollection: function (collection) {
-			cs.mediator.publish('CollectionLoaded', collection);
+		setCollection: function (_collection) {
+			this.collection = _collection;
 		},
 
 		renderOne: function (event) {
-			var $li = $('<li></li>');
-			$li.on('click', function () {
-				cs.mediator.publish('EventSelected', event);
-			});
-			$li.html(event.get('name'));
-			this.$el.append($li);
+			var $li = $('<li>' + event.get('name') + '</li>');
+			return $li;
 		},
 
 		render: function () {
+			console.log(this.collection);
+			_.each(this.collection, function (event) {
+				this.$el.append(this.renderOne(event))
+			}, this);
+
 			return this;
 		}
 	})
-})(App.Calendar);
+})(App.Schedule);

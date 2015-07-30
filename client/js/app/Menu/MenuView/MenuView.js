@@ -19,21 +19,21 @@
         },
 
         showResources: function () {
-            cs.mediator.publish('MenuClicked', '/Resources');
-            this.$el.find('.menu-item').removeClass('active');
-            this.$el.find('.resources').addClass('active');
+            cs.mediator.publish('MenuClicked', '/Resources'); //publish to global router
+            this.$('.menu-item').removeClass('active');
+            this.$('.resources').addClass('active');
         },
 
         showEvents: function () {
-            cs.mediator.publish('MenuClicked', '/Events');
-            this.$el.find('.menu-item').removeClass('active');
-            this.$el.find('.events').addClass('active');
+            cs.mediator.publish('MenuClicked', '/Events'); //publish to global router
+            this.$('.menu-item').removeClass('active');
+            this.$('.events').addClass('active');
         },
 
         showAbout: function () {
-            cs.mediator.publish('MenuClicked', '/About');
-            this.$el.find('.menu-item').removeClass('active');
-            this.$el.find('.about').addClass('active');
+            cs.mediator.publish('MenuClicked', '/About'); //publish to global router
+            this.$('.menu-item').removeClass('active');
+            this.$('.about').addClass('active');
         }
     });
 })(App.Menu);
