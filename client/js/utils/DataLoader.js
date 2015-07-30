@@ -1,4 +1,5 @@
 var DataLoader = function () {
+    var $main = $('#main');
     start();
     
     function start () {
@@ -12,7 +13,7 @@ var DataLoader = function () {
     }
     
     function renderLoadingBar () {
-        $('#main').append(loadingTpl);
+        $main.append(loadingTpl);
     }
     
     this.loadCollections = function (main) {
@@ -21,6 +22,7 @@ var DataLoader = function () {
             collections.eventsCollection.fetch();
             collections.eventsCollection.once('sync', function () {
                 main();
+                $('.sequence').remove();
             })
         });
     }
