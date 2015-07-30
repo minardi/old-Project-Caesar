@@ -2,52 +2,38 @@
     This.CreateEditView = Backbone.View.extend({
         className: 'modal fade in',
         template: editEventTpl,
-        resourceOptionTpl: resourceOptionTpl,
+        resourceItemTpl: resourceItemTpl,
 
         events: {
             'click .save': 'save',
-            'click .cancel': 'cancel'
+            'click .cancel': 'cancel',
+            'click .resource': 'removeResource'
         },
 
         initialize: function (options) {
-            this.model = this.model || new This.Event();
-            this.defaultModelJSON = this.model.toJSON();
-            this.modelBinder = new Backbone.ModelBinder();
-            cs.mediator.subscribe('resourceAddedToEvent', this.addResourceIdToEvent, null, this);
+            this.model = options.model || new This.Event();
             this.resourceCollection = options.resourceCollection;
-
+            this.model.once('sync', function () {
+                cs.mediator.publish('EventSaved', this.model);
+            }, this);
             this.resourcesCollectionView = new App.Events.ResourcesCollectionView({
                 collection: this.resourceCollection,
                 model: this.model
             });
+
+            cs.mediator.subscribe('resourceAddedToEvent', this.addResourceIdToEvent, null, this);
 
             Backbone.Validation.bind(this);
 
         },
 
         render: function () {
-            this.$el.append(this.template({resourcesList: this.getResourcesInEvent()}));
+            this.$el.append(this.template({
+                name: this.model.get('name'),
+                type: this.model.get('type'),
+                resourcesList: this.getResourcesInEvent()
+            }));
             this.$('.resources-list').append(this.resourcesCollectionView.render().el);
-
-
-
-            var converter = function (direction, value) {
-                var result;
-
-                if (direction === 'ViewToModel') {
-                    result = _.map(value, function (number) {
-                        return parseInt(number);
-                    })
-                }
-                return result;
-            };
-            var bindings = {
-                name: '[name=name]',
-                type : '[name=type ]',
-                resources : {selector: '[name=resources ]',converter: converter}
-            };
-
-            this.modelBinder.bind(this.model, this.el, bindings);
 
             return this;
         },
@@ -65,28 +51,39 @@
         },
 
         addResourceIdToEvent: function (resourceModel) {
-            this.$('.resource-field').append(this.resourceOptionTpl(resourceModel.toJSON()));
+            this.$('.resource-field').append(this.resourceItemTpl(resourceModel.toJSON()));
         },
 
         save: function () {
             this.isNewModel = this.model.isNew();
 
+            if (true) {
+                var attributes = {
+                    name : this.$('.name').val(),
+                    type: this.$('.type').val(),
+                    resources: getIdResourcesArray()
 
-            if (!this.preValidate()) {
-                if (this.isNewModel) {
-                    this.model.once('sync', function () {
-                        cs.mediator.publish('EventSaved', this.model);
-                    }, this);
-                }
+                };
+
+                this.model.save(attributes);
 
                 cs.mediator.publish( //publish to Messenger's Controller
                     'Notice',
                     this.isNewModel? 'You succesfully added a new event': 'Information succesfully changed'
                 );
 
-                this.model.save();
                 cs.mediator.publish('CreateEditViewClosed');
             }
+
+            // return array of Integer values resources ID in current event
+            function getIdResourcesArray () {
+                var idArray = [];
+                $('.resource-field  li').each(function (i, el) {
+                    idArray.push(parseInt(el.getAttribute('idValue')));
+                });
+                return idArray;
+            }
+
         },
 
         preValidate: function (e) {
@@ -130,19 +127,16 @@
         },
 
         cancel: function () {
-            if (this.isNewModel) {
-                this.model.destroy();
-                this.collection.remove(this.model);
-            }
-
-            this.undoChanges();
             cs.mediator.publish('CreateEditViewClosed');
         },
 
-        undoChanges: function () {
-            this.modelBinder.unbind();
-            this.model.set(this.defaultModelJSON);
+        removeResource: function (e) {
+            var resource = e.target;
+            this.resourcesCollectionView.renderRemoved(parseInt(resource.getAttribute('idValue')));
+            resource.remove();
+
         }
+
 
     });
 })(App.Events);

@@ -43,7 +43,10 @@
 
         function createView () {
             view && view.remove();
-            view = new This.CreateEditView({collection: collection});
+            view = new This.CreateEditView({
+                collection: collection,
+                resourceCollection: resourceCollection
+            });
             $events.append(view.render().el);
         }
 
