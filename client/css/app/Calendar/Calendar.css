@@ -1,0 +1,14 @@
+.calendarTable {
+	border-width: 2px;
+	font-size: 13px;
+	font-family: fantasy;
+}
+
+.calendarTable td {
+	padding: 3px; /* Поля вокруг содержимого таблицы */
+    border: 1px solid black; /* Параметры рамки */
+}
+
+.calendarCell {
+	background-color: #C6FFFF
+}

@@ -4,7 +4,7 @@ var App = {},
     cs = {};
 
 //setUp models
-setUp(App, ['Events', 'Resources', 'About', 'Menu' ]);
+setUp(App, ['Events', 'Resources', 'About', 'Menu', 'Calendar']);
 setUp(cs, ['mediator', 'subRouters', 'router', 'menu']);
 
 $(function () {
