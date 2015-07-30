@@ -5,7 +5,7 @@ var menuTpl = _.template([
             '<li role="presentation" class="resources menu-item">',
                 '<a>Resources</a>',
             '</li>',
-            '<li role="presentation" class="events menu-item active">',
+            '<li role="presentation" class="events menu-item">',
                 '<a>Events</a>',
             '</li>',
             '<li role="presentation" class="schedule menu-item">',
