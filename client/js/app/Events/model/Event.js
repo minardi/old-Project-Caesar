@@ -8,6 +8,21 @@
             resources: []
         },
 
-        urlRoot: '/events'
+        urlRoot: '/events',
+
+        validation: {
+        	name: [
+        		{
+        			required: true,
+        			msg: 'You forgot to choose a type'
+        		}
+        	],
+        	type: [
+        		{
+        			required: true,
+        			msg: 'Field cannot be empty'
+        		}
+        	]
+        }
     });
 })(App.Events);

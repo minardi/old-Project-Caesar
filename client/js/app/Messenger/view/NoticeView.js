@@ -23,7 +23,7 @@
                     duration: 500
                 });
 
-            this.timeout = setTimeout(this.hide.bind(this), 5000);
+            this.timeout = setTimeout(this.hide.bind(this), 3000);
 
             return this;
         },
