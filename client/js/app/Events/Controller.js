@@ -4,8 +4,11 @@
     This.Controller = function () {
         var collection = collections.eventsCollection,
             events = new This.EventCollectionView({collection: collection}),
+            resourceCollection = collections.eventsCollection,
             $events = $('#main'),
             view;
+
+        resourceCollection.fetch();
 
         start();
 
@@ -35,13 +38,19 @@
 
         function createView () {
             view && view.remove();
-            view = new This.CreateEditView({collection: collection});
+            view = new This.CreateEditView({
+                collection: collection,
+                resourceCollection: resourceCollection
+            });
             $events.append(view.render().el);
         }
 
         function editView (event) {
             view && view.remove();
-            view = new This.CreateEditView({model: event});
+            view = new This.CreateEditView({
+                model: event,
+                resourceCollection: resourceCollection
+            });
             $events.append(view.render().el);
         }
 
