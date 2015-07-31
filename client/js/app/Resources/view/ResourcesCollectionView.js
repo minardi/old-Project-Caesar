@@ -11,12 +11,7 @@
         },
     
         initialize: function () {
-            this.collection = new This.ResourcesCollection();
-            this.listenToOnce(this.collection, 'sync', this.renderOne);
-
             cs.mediator.subscribe('ResourceSaved', this.updateCollection, {}, this); //published from CreateEditView
-
-            this.collection.fetch();
         },
 
         updateCollection: function (model) {
@@ -24,21 +19,17 @@
             this.collection.add(model);
             $('.resource-list').append(view.$el);
         },
-    
+        
         renderOne: function (model) {
-            var container = document.createDocumentFragment(),
-                view;
-
-            this.collection.each(function(model) {
-                view = new This.ResourcesModelHomepageView({model: model}).render();
-                container.appendChild(view.el);
-            });
-
-            $('.resource-list').append(container);
+            var view = new App.Resources.ResourcesModelHomepageView({model: model});
+            this.$('.resource-list').append(view.render().el);
         },
     
         render: function () {
-            this.$el.html(this.template());
+            this.$el.append(this.template);
+            this.collection.each(function (resource) {
+                this.renderOne(resource)
+            }, this);
 
             return this;
         },
