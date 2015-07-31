@@ -4,7 +4,7 @@
     This.Controller = function () {
         var collection = collections.eventsCollection,
             events = new This.EventCollectionView({collection: collection}),
-            resourceCollection = collections.eventsCollection,
+            resourceCollection = collections.resouresCollection,
             $events = $('#main'),
             view;
 

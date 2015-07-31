@@ -9,7 +9,7 @@
         },
 
         render: function () {
-            this.$el.html(this.model.get('id') + '   ' + this.model.get('name'));
+            this.$el.html(this.model.get('name'));
 
             return this;
         },
