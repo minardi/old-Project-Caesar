@@ -8,7 +8,6 @@ setUp(App, ['Events', 'Resources', 'About', 'Menu', 'Messenger', 'Schedule']);
 setUp(cs, ['mediator', 'subRouters', 'router', 'menu', 'messenger']);
 setUp(collections, ['resouresCollection', 'eventsCollection']);
 
-
 $(function () {
     var dataLoader = new DataLoader(); //preload collections and start main function
     dataLoader.loadCollections(main);
