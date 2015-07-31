@@ -1,6 +1,7 @@
 (function (This) {
     This.Controller = function () {
-        var resources = new This.CollectionView(),
+        var collection = collections.resouresCollection,
+            resources = new This.CollectionView({collection: collection}),
             $resources = $('#main'),
             view;
 
@@ -12,11 +13,11 @@
         }
 
         function setUpMediator () {
-            cs.mediator.subscribe('CreateResource', createView);
-            cs.mediator.subscribe('ShowResources', showAll);
+            cs.mediator.subscribe('ShowResources', showAll); //published from Router
+            cs.mediator.subscribe('CreateResource', createView); //published from CollectionView 
             cs.mediator.subscribe('EditResource', editView); //published from ResourcesModeView
-            cs.mediator.subscribe('EditResourceById', editViewById);
-            cs.mediator.subscribe('ResourcesViewClosed', viewClosed);
+            cs.mediator.subscribe('EditResourceById', editViewById); //published from Router
+            cs.mediator.subscribe('ResourcesViewClosed', viewClosed); //published from CreateEditView
         }
 
         function showAll () {

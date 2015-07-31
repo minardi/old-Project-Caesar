@@ -5,13 +5,24 @@
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="/css/lib/bootstrap.css">
         <link rel="stylesheet" type="text/css" href="/css/lib/bootstrap-theme.css">
+		<link rel="stylesheet" type="text/css" href="/css/lib/animate.css">
         <link rel="stylesheet" type="text/css" href="/css/app/Resources/createEditResources.css">
         <link rel="stylesheet" type="text/css" href="/css/app/Resources/customGlyphBtn.css">
         <link rel="stylesheet" type="text/css" href="/css/app/Events/view/customGlyphBtn.css">
 		<link rel="stylesheet" type="text/css" href="/css/app/Events/view/EventCollectionView.css">
         <link rel="stylesheet" type="text/css" href="/css/app/ServicePages/Tooltip.css">
+<<<<<<< HEAD
         <link rel="stylesheet" type="text/css" href="/css/app/Calendar/Calendar.css">
+=======
+        <link rel="stylesheet" type="text/css" href="/css/app/Menu/menu.css">
+        <link rel="stylesheet" type="text/css" href="/css/app/loadingStyles.css">
+>>>>>>> 5a9b6790c2cfada25a2212cdca9e21b33377717a
 
+        <link rel="stylesheet" type="text/css" href="/css/app/Messenger/Hint.css">
+        <link rel="stylesheet" type="text/css" href="/css/app/Messenger/Notice.css">
+        <link rel="stylesheet" type="text/css" href="/css/app/Messenger/Popup.css">
+		
+        <link href='/http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
 
         <!-- libs -->
         <script src="/js/lib/jquery.js"></script>
@@ -25,6 +36,8 @@
         <script src="/js/lib/bootstrap.js"></script>
         <script src="/js/lib/mediator.js"></script>
         <script src="/js/utils/namespace.js"></script>
+        <script src="/js/utils/loadingTpl/loadingTpl.js"></script>
+        <script src="/js/utils/DataLoader.js"></script>
 
         <script src="/js/main.js"></script>
         <script src="/js/app/Router.js"></script>
@@ -38,9 +51,14 @@
         <script src="/js/app/Events/tpl/EventTpl.js"></script>
         <script src="/js/app/Events/tpl/EventCollectionTpl.js"></script>
 		<script src="/js/app/Events/tpl/EditEventTpl.js"></script>
+		<script src="/js/app/Events/tpl/ResourceItemTpl.js"></script>
 		<script src="/js/app/Events/view/CreateEditView.js"></script>
         <script src="/js/app/Events/view/EventView.js"></script>
         <script src="/js/app/Events/view/EventCollectionView.js"></script>
+
+        <script src="/js/app/Events/view/ResourceView.js"></script>
+        <script src="/js/app/Events/view/ResourcesCollectionView.js"></script>
+
         <script src="/js/app/Events/model/Event.js"></script>
         <script src="/js/app/Events/model/EventCollection.js"></script>
         <script src="/js/app/Events/EventRouter.js"></script>
@@ -81,6 +99,13 @@
         <script type="text/javascript" src="/js/app/About/view/ContributorsCollectionView.js"></script>
         <script type="text/javascript" src="/js/app/About/view/ContributorInfoView.js"></script>
         <!-- ABOUT LAYER -->
+
+        <!-- MESSENGER LAYER -->
+        <script type="text/javascript" src="/js/app/Messenger/tpl/NoticeTpl.js"></script>
+        <script type="text/javascript" src="/js/app/Messenger/view/HintView.js"></script>
+        <script type="text/javascript" src="/js/app/Messenger/view/NoticeView.js"></script>
+        <script type="text/javascript" src="/js/app/Messenger/Controller.js"></script>
+        <!-- MESSENGER LAYER -->
         
         <!-- Calendar -->
         <script src="/js/app/Calendar/model/Week.js"></script>
@@ -102,6 +127,7 @@
         </div>
         <div class="row">
             <div class="col-sm-10 col-sm-offset-1">
+                <div id="messenger"></div>
                 <div id="main"></div>
             </div>
         </div>

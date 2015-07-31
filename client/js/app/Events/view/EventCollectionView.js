@@ -10,9 +10,7 @@
         },
 
         initialize: function () {
-            this.collection.fetch();
             this.listenTo(this.collection, 'add', this.renderOne);
-			
         },
 
         render: function () {
