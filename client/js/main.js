@@ -20,7 +20,6 @@ $(function () {
         cs.subRouters = {};
 
         cs.menu = new App.Menu.Controller();
-
         Backbone.history.start({pushState: true});
     }
 });

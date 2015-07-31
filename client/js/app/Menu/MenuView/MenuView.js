@@ -30,6 +30,12 @@
             this.$('.events').addClass('active');
         },
 
+        showSchedule: function () {
+            cs.mediator.publish('MenuClicked', '/Schedule'); //publish to global router
+            this.$('.menu-item').removeClass('active');
+            this.$('.schedule').addClass('active');
+        },
+
         showAbout: function () {
             cs.mediator.publish('MenuClicked', '/About'); //publish to global router
             this.$('.menu-item').removeClass('active');

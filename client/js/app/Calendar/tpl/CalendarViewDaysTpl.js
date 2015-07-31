@@ -18,7 +18,7 @@ var daysRowTpl = _.template([
 '			Friday',
 '		</td>',
 '	</tr>',
-'	<tr class = "dateRow">',
+'	<tr class>',
 '		<td></td>',
 '		<td>',
 '			<%= startDate.getDate() + "." + Number(startDate.getMonth() + 1) %>',

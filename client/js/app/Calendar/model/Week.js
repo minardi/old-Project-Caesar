@@ -1,14 +1,21 @@
 (function (This) {
 	This.Week = Backbone.Model.extend ({
 		defaults: {
-			number: 0,
 			startDate: new Date(),
-			
-			'Monday': {},
-			'Tuesday': {},
-			'Wednesday': {},
-			'Thursday': {},
-			'Friday': {}
+			days: {},
+		},
+
+		initialize: function () {
+			this.computedFields = new Backbone.ComputedFields(this);
+		},
+
+		computed: {
+			weekNumber: {
+				depends: ['startDate'],
+				get: function (fields) {
+					return fields.startDate.getWeekNumber();
+				}
+			}
 		}
 	})
 })(App.Schedule);

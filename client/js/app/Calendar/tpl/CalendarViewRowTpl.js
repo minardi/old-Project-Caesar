@@ -1,22 +1,17 @@
 var calendarRowTpl = _.template([
-'	<tr>',
+'	<tr  timeline = "<%= timeline %>">',
 '		<td>',
 '			<%= timeline %>',
 '		</td>',
-
-'		<td day= "<%= day %>" timeline = "<%= timeline %>">',
+'		<td day= "<%= day %>">',
 '		</td>',
-
-'		<td day= "<%= day = day + 1 %>" timeline = "<%= timeline %>">',
+'		<td day= "<%= day = day + 1 %>">',
 '		</td>',
-
-'		<td day= "<%= day = day + 1 %>" timeline = "<%= timeline %>">',
+'		<td day= "<%= day = day + 1 %>">',
 '		</td>',
-
-'		<td day= "<%= day = day + 1 %>" timeline = "<%= timeline %>">',
+'		<td day= "<%= day = day + 1 %>">',
 '		</td>',
-
-'		<td day= "<%= day = day + 1 %>" timeline = "<%= timeline %>">',
+'		<td day= "<%= day = day + 1 %>">',
 '		</td>',
 '	</tr>'].join(''));
 
@@ -40,7 +35,7 @@ var daysRowTpl = _.template([
 '			Friday',
 '		</td>',
 '	</tr>',
-'	<tr class = "dateRow">',
+'	<tr>',
 '		<td></td>',
 '		<td>',
 '			<%= startDate.getDate() + "." + Number(startDate.getMonth() + 1) %>',
@@ -62,7 +57,3 @@ var daysRowTpl = _.template([
 '			<%= startDate.getDate() + "." + Number(startDate.getMonth() + 1) %>',
 '		</td>',
 '	</tr>'].join(''));
-
-var callendarEventsTpl = _.template([
-'	<div class = "events"></div>',
-'	<div class = "calendar"></div>'	].join());
