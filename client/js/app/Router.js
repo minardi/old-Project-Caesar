@@ -1,15 +1,19 @@
 (function (This)  {
     This.Router = Backbone.Router.extend({
+
         routes: {
             '': 'mainPage',
             'Resources*path': 'resources',
             'Events*path': 'events',
             'About*path': 'about',
-            'Schedule*path': 'calendar'
+            'Schedule*path': 'calendar',
         },
 
         initialize: function () {
             cs.mediator.subscribe('MenuClicked', this.navigateMenuItem, null, this); //published from MenuView
+
+            this.route(/[^(Events)|(Resources)|(About)|(Schedule)]/, 'errorPage');
+            this.route(/error/, 'errorPage', this.errorPage);
         },
 		
         mainPage: function () {
@@ -34,6 +38,10 @@
         
         navigateMenuItem: function (pathname) {
             this.navigate(pathname, {trigger: true});
+        },
+
+        errorPage: function () {
+            var errorPage = errorPage || new App.ErrorPage.Controller();
         }
     });
 })(App);

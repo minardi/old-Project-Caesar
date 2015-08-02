@@ -5,11 +5,11 @@ var express = require('express'),
     aboutRouter = require('./about/aboutRouter');
 
 
-router.use(/^\/events/, eventsRouter);
-router.use(/^\/resources/, resourcesRouter);
-router.use(/^\/about/, aboutRouter);
+router.use(/^\/(debug\/)?events/, eventsRouter);
+router.use(/^\/(debug\/)?resources/, resourcesRouter);
+router.use(/^\/(debug\/)?about/, aboutRouter);
 
-router.get(/^\/reset$/, function(req, res, next) {		
+router.get(/^\/(debug\/)?reset$/, function(req, res, next) {		
     var resetController = new require('./reset/resetController')(req, res);
 });
 
