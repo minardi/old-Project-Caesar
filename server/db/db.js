@@ -110,7 +110,19 @@ function DataBase () {
 		MongoClient.connect(url, function(err, db) {
 		 	var events = db.collection('events'),
 		 		resources = db.collection('resources'),
-		 		counters = db.collection('counters');
+		 		contributors = db.collection('contributors'),
+		 		counters = db.collection('counters'),
+		 		collectionsCounter = 0,
+		 		collectionsCount,
+		 		key;
+
+		 	// db.collectionNames(function (err, names) {
+		 	// 	if (err) {
+		 	// 		console.log(err);
+		 	// 	} else {
+		 	// 		collectionsCount = names.length;
+		 	// 	}
+		 	// });
 
 		    console.log("Connected correctly to server");
 
@@ -145,6 +157,23 @@ function DataBase () {
 		 			});
 		 		}
 		 	});
+
+		 	// for (key in defaults) {
+		 	// 	db.collection[key].remove({});
+
+		 	// 	db.collection[key].insert(defaults[key], function (err, res) {
+	 		// 		collectionsCounter++;
+
+	 		// 		if (err) {
+	 		// 			console.log(err);
+	 		// 		} else if (collectionsCounter === collectionsCount) {
+	 		// 			m.publish('resetCompleted')
+	 		// 			db.close();
+	 		// 		}			 			
+		 	// 	})
+		 	// }
+
+
 		 	
 
 		});
