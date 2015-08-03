@@ -6,6 +6,7 @@ function DataBase () {
 
 	// searchCriteria: {title: "some title"}
 	this.fetch = function (collectionName) {
+		console.log(collectionName);
 		MongoClient.connect(url, function(err, db) {
 		 	var collection = db.collection(collectionName),
 		 	searchCriteria = {};
@@ -109,12 +110,25 @@ function DataBase () {
 		MongoClient.connect(url, function(err, db) {
 		 	var events = db.collection('events'),
 		 		resources = db.collection('resources'),
-		 		counters = db.collection('counters');
+		 		contributors = db.collection('contributors'),
+		 		counters = db.collection('counters'),
+		 		collectionsCounter = 0,
+		 		collectionsCount,
+		 		key;
+
+		 	// db.collectionNames(function (err, names) {
+		 	// 	if (err) {
+		 	// 		console.log(err);
+		 	// 	} else {
+		 	// 		collectionsCount = names.length;
+		 	// 	}
+		 	// });
 
 		    console.log("Connected correctly to server");
 
 		    events.remove({});
 		    resources.remove({});
+		    contributors.remove({});
 		    counters.remove({});
 
 		 	events.insert(defaults.events, function (err, res) {
@@ -125,18 +139,41 @@ function DataBase () {
 		 				if (err) {
 		 					console.log(err);
 		 				} else {
-		 					counters.insert(defaults.counters, function (err, res) {
+		 					contributors.insert(defaults.contributors, function (err, res) {
 				 				if (err) {
 				 					console.log(err);
 				 				} else {
-				 					m.publish('resetCompleted', res)
-				 					db.close();
+				 					counters.insert(defaults.counters, function (err, res) {
+						 				if (err) {
+						 					console.log(err);
+						 				} else {
+						 					m.publish('resetCompleted', res)
+						 					db.close();
+						 				}								
+				 					});
 				 				}								
 		 					});
 		 				}
 		 			});
 		 		}
 		 	});
+
+		 	// for (key in defaults) {
+		 	// 	db.collection[key].remove({});
+
+		 	// 	db.collection[key].insert(defaults[key], function (err, res) {
+	 		// 		collectionsCounter++;
+
+	 		// 		if (err) {
+	 		// 			console.log(err);
+	 		// 		} else if (collectionsCounter === collectionsCount) {
+	 		// 			m.publish('resetCompleted')
+	 		// 			db.close();
+	 		// 		}			 			
+		 	// 	})
+		 	// }
+
+
 		 	
 
 		});

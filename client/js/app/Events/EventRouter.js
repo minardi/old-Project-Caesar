@@ -38,15 +38,15 @@
         },
 
         getEvents: function () {
-            cs.mediator.publish('ShowEvents');
+            this.controller.showAll();
         },
 
         createEvent: function () {
-            cs.mediator.publish('CreateEvent');
+            this.controller.createView();
         },
 
         editEvent: function (id) {
-            cs.mediator.publish('EditEventById', id);
+            this.controller.editEventById(id);
         }
     });
 })(App.Events);

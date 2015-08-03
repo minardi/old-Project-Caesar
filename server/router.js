@@ -1,38 +1,52 @@
 var express = require('express'),
 	router = express.Router(),
-	eventsRouter = require('./events/eventsRouter');
-	resourcesRouter = require('./resources/resourcesRouter');
-    aboutRouter = require('./about/aboutRouter');
+	eventsRouter = require('./events/eventsRouter'),
+	resourcesRouter = require('./resources/resourcesRouter'),
+    aboutRouter = require('./about/aboutRouter'),
+    contributorsRouter = require('./contributors/contributorsRouter');
 
+router.use(/^\/events/, eventsRouter);
+router.use(/^\/resources/, resourcesRouter);
+router.use(/^\/about/, aboutRouter);
+router.use(/^\/contributors/, contributorsRouter);
 
-router.use(/^\/(debug\/)?events/, eventsRouter);
-router.use(/^\/(debug\/)?resources/, resourcesRouter);
-router.use(/^\/(debug\/)?about/, aboutRouter);
-
-router.get(/^\/(debug\/)?reset$/, function(req, res, next) {		
+router.get(/^\/reset$/, function(req, res, next) {		
     var resetController = new require('./reset/resetController')(req, res);
 });
 
-router.get('*', function (request, response) {
+router.get('*', function (req, res) {
+    var staticRoute = /^\/build/.test(req.url)? './public': '../client';
+
+    if (isRest()) {
+        res.sendFile('index.html', { root: staticRoute });
+    }
+
     function isRest () {
-        var notRest = ['events','resources', 'about', '.css', '.js', '.map', '.eot', '.ttf', '.svg', '.woff', '.ico'],
+        var notRest = [
+            'events',
+            'resources', 
+            'about',
+            'contributors', 
+            '.css', 
+            '.js', 
+            '.map', 
+            '.eot', 
+            '.ttf', 
+            '.svg', 
+            '.woff', 
+            '.ico'
+            ],
             rest = true;
         
         notRest.forEach(function (key) {
-            if (request.url.indexOf(key) !== -1) {
+            if (req.url.indexOf(key) !== -1) {
                 rest = false;
             }
         });
         
         return rest;
-    }
-    
-    if (isRest()) {
-        response.sendFile('index.html', { root: '../client/' });
-    }
+    }  
 });
-
-
 
 module.exports = router;
 

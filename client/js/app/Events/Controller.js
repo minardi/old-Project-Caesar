@@ -6,9 +6,15 @@
             events = new This.EventCollectionView({collection: collection}),
             resourceCollection = collections.resouresCollection,
             $events = $('#main'),
-            view;
+            view,
+            api;
 
-        resourceCollection.fetch();
+        api = {
+            start : start,
+            showAll: showAll,
+            createView: createView,
+            editEventById: editEventById
+        };
 
         start();
 
@@ -18,10 +24,8 @@
         }
 
         function setUpMediator () {
-            cs.mediator.subscribe('ShowEvents', showAll);
             cs.mediator.subscribe('CreateEvent', createView);
             cs.mediator.subscribe('EditEvent', editView);
-            cs.mediator.subscribe('EditEventById', editEventById);
             cs.mediator.subscribe('CreateEditViewClosed', viewClosed);
             cs.mediator.subscribe('EventSaved', addToCollection);
         }
@@ -60,13 +64,13 @@
 
         function viewClosed () {
 			view && view.remove();
-            cs.mediator.publish('RouteToEvents', showAll);
+            cs.mediator.publish('RouteToEvents');
         }
 
         function hideAll () {
             $events.children().addClass('hidden');
         }
 
-        return this;
+        return api;
     }
 })(App.Events);
