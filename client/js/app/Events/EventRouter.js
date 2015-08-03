@@ -11,6 +11,7 @@
 
         initialize: function () {
             this.controller = new App.Events.Controller();
+            this.controller.start();
 
             //URL navigation
             cs.mediator.subscribe('RouteToEvents', this.navigateEvents, null, this);
@@ -38,15 +39,15 @@
         },
 
         getEvents: function () {
-            cs.mediator.publish('ShowEvents');
+            this.controller.showAll();
         },
 
         createEvent: function () {
-            cs.mediator.publish('CreateEvent');
+            this.controller.createView();
         },
 
         editEvent: function (id) {
-            cs.mediator.publish('EditEventById', id);
+            this.controller.editEventById(id);
         }
     });
 })(App.Events);

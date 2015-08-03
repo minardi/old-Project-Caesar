@@ -1,5 +1,7 @@
 exports.ResourcesModel = function (req) {
 	var _ = require('../../client/js/lib/underscore.js'),
+		db = require('../db/db'),
+
 		attributes = {
 			id: '',
 			name: '',
