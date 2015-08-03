@@ -116,6 +116,7 @@ function DataBase () {
 
 		    events.remove({});
 		    resources.remove({});
+		    contributors.remove({});
 		    counters.remove({});
 
 		 	events.insert(defaults.events, function (err, res) {
@@ -126,12 +127,18 @@ function DataBase () {
 		 				if (err) {
 		 					console.log(err);
 		 				} else {
-		 					counters.insert(defaults.counters, function (err, res) {
+		 					contributors.insert(defaults.contributors, function (err, res) {
 				 				if (err) {
 				 					console.log(err);
 				 				} else {
-				 					m.publish('resetCompleted', res)
-				 					db.close();
+				 					counters.insert(defaults.counters, function (err, res) {
+						 				if (err) {
+						 					console.log(err);
+						 				} else {
+						 					m.publish('resetCompleted', res)
+						 					db.close();
+						 				}								
+				 					});
 				 				}								
 		 					});
 		 				}
