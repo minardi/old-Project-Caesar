@@ -18,7 +18,7 @@ function ResourcesController (req, res) {
 
 	function handle () {
 		var resource = new Resource(req.body);
-
+						
 		actions[req.method](resource);
 	}
 

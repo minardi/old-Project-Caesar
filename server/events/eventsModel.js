@@ -1,4 +1,4 @@
- exports.EventsModel = function (newAttributes) {
+exports.EventsModel = function (newAttributes) {
 	var _ = require('../../client/js/lib/underscore.js'),
 		attributes = {
 			id: '',
@@ -7,6 +7,8 @@
 			resources: []
 		};
 	
+	setModel();
+
 	function setModel () {
 		_.each(attributes, function (value, key) {
 			var isValidated = validateField(value, key);
@@ -14,10 +16,8 @@
 			if (isValidated) {
 				attributes[key] = newAttributes[key]
 			}
-			validatedAttributes[key] = inputAttributes[key];
-		});
 
-		return validatedAttributes;
+		});
 	}
 
 	function validateField (value, key) {
@@ -26,7 +26,7 @@
 		}
 	}
 
-	function toJSON () {
+	this.toJSON = function () {
 		return _.clone(attributes);
 	} 
 
