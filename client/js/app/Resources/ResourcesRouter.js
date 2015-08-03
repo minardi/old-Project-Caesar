@@ -9,7 +9,7 @@
 		},
 
 		initialize: function () {
-			var controller = new App.Resources.Controller();
+			this.controller = new App.Resources.Controller();
 
 			cs.mediator.subscribe('ShowResources', this.navigateResources, null, this);
             cs.mediator.subscribe('CreateResource', this.navigateNewResource, null, this);
@@ -37,15 +37,15 @@
         },
 
         showResources: function () {
-            cs.mediator.publish('ShowResources');
+            this.controller.showAll();
         },
 
         createResource: function () {
-            cs.mediator.publish('CreateResource');
+            this.controller.createView();
         },
 
         editResource: function (id) {
-            cs.mediator.publish('EditResourceById', id);
+            this.controller.editViewById(id);
         },
 
         notFound: function () {

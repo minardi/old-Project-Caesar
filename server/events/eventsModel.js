@@ -1,6 +1,5 @@
  exports.EventsModel = function (newAttributes) {
 	var _ = require('../../client/js/lib/underscore.js'),
-		db = require('../db/db'),
 		attributes = {
 			id: '',
 			name: '',

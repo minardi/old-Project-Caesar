@@ -2,6 +2,7 @@
 	This.EventsView = Backbone.View.extend({
 		tagName: 'ul',
 		className: 'list-group',
+		$fragment: null,
 
 		events: {
 			'click': 'selectItem'
@@ -17,21 +18,15 @@
 		},
 
 		render: function () {
-			collections.eventsCollection.each(this.addEvent.bind(this));
+			this.$fragment = $(document.createDocumentFragment());
+			collections.eventsCollection.each(this.renderOne.bind(this));
+			this.$el.html(this.$fragment);
 			return this;
 		},
 
-		addEvent: function (event) {
-			this.$el.append(this.renderOne(event));
-		},
-
 		renderOne: function (event) {
-			var $li = $('<li>' + event.get('name') + '</li>');
-			$li.addClass("list-group-item SheduleEventsLi");
-			$li.on('click', function () {
-				cs.mediator.publish('EventSelected', event);
-			});
-			return $li;
+			var eventView = new This.OneEventView({model:event});
+			this.$fragment.append(eventView.render().el);
 		},
 
 
