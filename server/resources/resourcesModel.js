@@ -1,48 +1,33 @@
 exports.ResourcesModel = function (req) {
 	var _ = require('../../client/js/lib/underscore.js'),
-		db = require('../db/db')
 		attributes = {
 			id: '',
 			name: '',
-			type: ''
-		},
-		actions = {
-			'GET': get,
-			'POST': create,
-			'PUT': update,
-			'DELETE': del
-		},
-		validatedAttributes = validate(req.body),
-		dbName = 'resources',
-		id = req.params.id;
-
-	actions[req.method]();
-
-	function get () {
-		db.fetch(dbName, id);			
-	}
-
-	function create () {
-		db.create(dbName, validatedAttributes);
-	}	
-
-	function update () {
-		db.update(dbName, validatedAttributes, id);
-	}
-
-	function del () {
-		db.remove(dbName, id);
-	}
+			type: '',
+		};
 	
-	function validate (inputAttributes) {
-		var validatedAttributes = {};
-
+	function setModel () {
 		_.each(attributes, function (value, key) {
+			var isValidated = validateField(value, key);
+
+			if (isValidated) {
+				attributes[key] = newAttributes[key]
+			}
 			validatedAttributes[key] = inputAttributes[key];
 		});
 
 		return validatedAttributes;
 	}
+
+	function validateField (value, key) {
+		if (attributes[key] !== undefined) {
+			return true;
+		}
+	}
+
+	function toJSON () {
+		return _.clone(attributes);
+	} 
 
 	return this;
 };

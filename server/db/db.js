@@ -6,6 +6,7 @@ function DataBase () {
 
 	// searchCriteria: {title: "some title"}
 	this.fetch = function (collectionName) {
+		console.log(collectionName);
 		MongoClient.connect(url, function(err, db) {
 		 	var collection = db.collection(collectionName),
 		 	searchCriteria = {};
