@@ -6,15 +6,17 @@
             events = new This.EventCollectionView({collection: collection}),
             resourceCollection = collections.resouresCollection,
             $events = $('#main'),
-            view;
+            view,
+            api;
 
-        return{
+        api = {
             start : start,
             showAll: showAll,
             createView: createView,
             editEventById: editEventById
-
         };
+
+        start();
 
         function start () {
             setUpMediator();
@@ -69,5 +71,6 @@
             $events.children().addClass('hidden');
         }
 
+        return api;
     }
 })(App.Events);

@@ -3,7 +3,15 @@
         var collection = collections.resouresCollection,
             resources = new This.CollectionView({collection: collection}),
             $resources = $('#main'),
-            view;
+            view,
+            api;
+
+        api = {
+            showAll: showAll,
+            createView: createView,
+            editViewById: editViewById
+
+        };
 
         start();
         
@@ -13,10 +21,8 @@
         }
 
         function setUpMediator () {
-            cs.mediator.subscribe('ShowResources', showAll); //published from Router
             cs.mediator.subscribe('CreateResource', createView); //published from CollectionView 
             cs.mediator.subscribe('EditResource', editView); //published from ResourcesModeView
-            cs.mediator.subscribe('EditResourceById', editViewById); //published from Router
             cs.mediator.subscribe('ResourcesViewClosed', viewClosed); //published from CreateEditView
         }
 
@@ -50,6 +56,6 @@
             $resources.children().addClass('hidden');
         }
 
-        return this;
+        return api;
     }
 })(App.Resources);
