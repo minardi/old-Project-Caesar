@@ -1,9 +1,9 @@
-function ResourcesModel (newAttributes) {
+function ScheduleModel (newAttributes) {
 	var _ = require('../../client/js/lib/underscore.js'),
 		attributes = {
 			id: '',
-			name: '',
-			type: '',
+			startDate: '',
+			days: [],
 		};
 	
 	setModel();
@@ -15,6 +15,7 @@ function ResourcesModel (newAttributes) {
 			if (isValidated) {
 				attributes[key] = newAttributes[key]
 			}
+
 		});
 	}
 
@@ -31,4 +32,4 @@ function ResourcesModel (newAttributes) {
 	return this;
 };
 
-module.exports = ResourcesModel;
+module.exports = ScheduleModel;

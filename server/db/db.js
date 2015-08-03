@@ -101,73 +101,31 @@ function DataBase () {
 		 		resources = db.collection('resources'),
 		 		contributors = db.collection('contributors'),
 		 		counters = db.collection('counters'),
-		 		collectionsCounter = 0,
-		 		collectionsCount,
+		 		resetsCount = 0,
+		 		collectionsCount = Object.keys(defaults).length,
 		 		key;
 
-		 	// db.collectionNames(function (err, names) {
-		 	// 	if (err) {
-		 	// 		console.log(err);
-		 	// 	} else {
-		 	// 		collectionsCount = names.length;
-		 	// 	}
-		 	// });
+		 	for (key in defaults) {
+		 		resetsCount++;
 
-		    console.log("Connected correctly to server");
+		 		db.collection(key).remove({});
 
-		    events.remove({});
-		    resources.remove({});
-		    contributors.remove({});
-		    counters.remove({});
+		 		db.collection(key).insert(defaults[key], function (err, res) {
+	 				if (err) {
+	 					console.log(err);
+	 				} else {							
+	 					if (resetsCount === collectionsCount) {
+	 						m.publish('resetCompleted');
 
-		 	events.insert(defaults.events, function (err, res) {
-		 		if (err) {
-		 			console.log(err);
-		 		} else {
-		 			resources.insert(defaults.resources, function (err, res) {
-		 				if (err) {
-		 					console.log(err);
-		 				} else {
-		 					contributors.insert(defaults.contributors, function (err, res) {
-				 				if (err) {
-				 					console.log(err);
-				 				} else {
-				 					counters.insert(defaults.counters, function (err, res) {
-						 				if (err) {
-						 					console.log(err);
-						 				} else {
-						 					m.publish('resetCompleted', res)
-						 					db.close();
-						 				}								
-				 					});
-				 				}								
-		 					});
-		 				}
-		 			});
-		 		}
-		 	});
-
-		 	// for (key in defaults) {
-		 	// 	db.collection[key].remove({});
-
-		 	// 	db.collection[key].insert(defaults[key], function (err, res) {
-	 		// 		collectionsCounter++;
-
-	 		// 		if (err) {
-	 		// 			console.log(err);
-	 		// 		} else if (collectionsCounter === collectionsCount) {
-	 		// 			m.publish('resetCompleted')
-	 		// 			db.close();
-	 		// 		}			 			
-		 	// 	})
-		 	// }
-
-
-		 	
-
+	 						db.close();
+	 					}			 			
+	 				}
+		 		})
+		 	}
 		});
 	};
 
+	return this;
 }
 
-module.exports = new DataBase();
+module.exports = DataBase;

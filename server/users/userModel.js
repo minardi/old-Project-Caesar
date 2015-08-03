@@ -1,9 +1,13 @@
-function ResourcesModel (newAttributes) {
+function UserModel (newAttributes) {
 	var _ = require('../../client/js/lib/underscore.js'),
 		attributes = {
 			id: '',
-			name: '',
-			type: '',
+			fullName: '',
+			login: '',
+			password: '',
+			locationCity: '',
+			locationCountry: '',
+			role: ''
 		};
 	
 	setModel();
@@ -13,8 +17,9 @@ function ResourcesModel (newAttributes) {
 			var isValidated = validateField(value, key);
 
 			if (isValidated) {
-				attributes[key] = newAttributes[key]
+				attributes[key] = newAttributes[key];
 			}
+
 		});
 	}
 
@@ -31,4 +36,4 @@ function ResourcesModel (newAttributes) {
 	return this;
 };
 
-module.exports = ResourcesModel;
+module.exports = UserModel;
