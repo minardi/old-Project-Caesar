@@ -11,7 +11,6 @@
 
         initialize: function () {
             this.controller = new App.Events.Controller();
-            this.controller.start();
 
             //URL navigation
             cs.mediator.subscribe('RouteToEvents', this.navigateEvents, null, this);
