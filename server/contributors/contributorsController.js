@@ -1,6 +1,5 @@
 function ContributorsController (req, res) {
-	var contributorsView = new require('./resourcesView'),
-		Resource = require('./resourcesModel').ResourcesModel,
+	var contributorsView = new require('./contributorsView')(),
 		db = require('../db/db'),
 		actions = {
 			'GET': get,
@@ -37,7 +36,7 @@ function ContributorsController (req, res) {
 
 	function responde (dbQuery) {
 		m.unsubscribe(dbName + 'RequestHandeled', responde);
-	
+		console.dir(contributorsView)
 		res.send(contributorsView.returnContributors(dbQuery));
 	}
 

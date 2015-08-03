@@ -15,7 +15,7 @@ function ResetController (req, res) {
 
 	db.reset(defaultValues);
 
-	function responde (dbQuery) {
+	function responde () {
 		m.unsubscribe('resetCompleted', responde);
 	
 		res.send("DBs successfully reseted!");

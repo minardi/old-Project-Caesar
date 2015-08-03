@@ -25,7 +25,8 @@ router.get('*', function (req, res) {
         var notRest = [
             'events',
             'resources', 
-            'about', 
+            'about',
+            'contributors', 
             '.css', 
             '.js', 
             '.map', 
