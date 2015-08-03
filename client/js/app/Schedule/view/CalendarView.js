@@ -2,6 +2,7 @@
 	This.ScheduleView = Backbone.View.extend({
 		tagName: 'table',
 		template: calendarRowTpl,
+		direction: 0,
 
 		events: {
 			'click td:not(:nth-child(1))': 'renderSelectedEvent'
@@ -33,40 +34,49 @@
 		},
 
 		renderGrid: function () {
-			var daysTpl = daysRowTpl;
-			this.getStartDate();
-			this.$el.append(daysTpl({'startDate': this.startDate}));
+			var daysTpl = daysRowTpl,
+				$fragment = $(document.createDocumentFragment());
+
+			this.setStartDate();
+			$fragment.append(daysTpl({'startDate': this.startDate}));
+
+			//return startDate value after template
+			this.startDate.adjustDate(-4);
 
 			_.each(this.timelines, function (value) {
-				this.$el.append(this.template({'day': 1, 'timeline': value}));
+				$fragment.append(this.template({'day': 1, 'timeline': value}));
 			}, this);
+
+			this.$el.html($fragment);
 		},
 
 		render: function () {
 			this.renderGrid();
 			this.$el.addClass('table table-bordered');
+			this.delegateEvents();
 			this.$el.children().children().addClass('calendarCell');
 			return this;
 		},
 
-		getStartDate: function () {
+		setStartDate: function () {
 			var date = new Date();
+			console.log(this.direction);
+			(this.direction > 0) && (date.setDate(date.getDate() + 7*this.direction));
+			(this.direction < 0) && (date.adjustDate(this.direction));
 			date = date.adjustDate(-(date.getDay() -1));
 			this.startDate = date;
-			this.startDate.setMonth(this.startDate.getMonth() + 1);
-
 			this.currentWeekNumber = this.startDate.getWeekNumber();
 		},
 
-		renderEvents: function (_cheduleCollection) {
-			this.cheduleCollection = _cheduleCollection;
+		renderEvents: function (_scheduleCollection) {
+			this.scheduleCollection = _scheduleCollection;
 
 			this.choseWeek();
 		},
 
 		choseWeek: function () {
-			var rightWeek = this.cheduleCollection.findWhere({weekNumber: this.currentWeekNumber});
-			_.each(rightWeek.get('days'), this.showDay, this);
+			var rightWeek = this.scheduleCollection.findWhere({weekNumber: this.currentWeekNumber});
+			rightWeek && (_.each(rightWeek.get('days'), this.showDay, this));
 		},
 
 		showDay: function (day, dayNumber) {	
@@ -77,30 +87,56 @@
 					$elements = $elements.find('td[day="' + dayNumber + '"]');
 					_.each(timelines, function (eventId) {
 						event = collections.eventsCollection.findWhere({id: Number(eventId)});
-						event && ($elements.append(this.createCell(event.get('name'))));
+						event && ($elements.append(this.createCell(event)));
 					}, this);
 			}, this);
 		},
 
-		createCell: function (value) {
-			$div = $('<div>' + value + '</div>');
-			$div.addClass('calendarCellDiv');
-			return $div;
+		createCell: function (event) {
+			var cellView = new This.ScheduleCellView(event);
+	
+			return cellView.render().el;
 		},
 
 		//adding selectedEvent
 		setupSelectedEvent: function (event) {
+
 			this.selectedEvent = event;
 		},
 
 		renderSelectedEvent: function (event) {
+		
 			if (this.selectedEvent) {
 				var $target = ($(event.target).attr('day'))? $(event.target): $(event.target.parentElement),
-				dayNumber = $target.attr('day'),
-				timeline = $target.parent().attr('timeline');
+					dayNumber = $target.attr('day'),
+					timeline = $target.parent().attr('timeline');
+
 				$target.append(this.createCell(this.selectedEvent.get('name')));
-				cs.mediator.publish('NewSheduleItemCreated', this.currentWeekNumber, dayNumber, timeline, this.selectedEvent.get('id'));
+
+				this.addEventToCollection(dayNumber, timeline, this.selectedEvent.get('id'));
 			}
+		},
+
+		addEventToCollection: function (dayNumber, timeline, eventId) {
+			var dayTimeline = {},
+				day = {},
+				week = new This.Week();
+
+			dayTimeline[timeline] = [eventId];
+			day[dayNumber] = dayTimeline;
+			week.set({
+				'startDate': this.startDate,
+				'days': day
+			});
+
+			this.scheduleCollection.addEvent(week);
+
+			//delete before push
+			cs.mediator.publish('test');
+		},
+
+		setDirection: function (_direction) {
+			this.direction = _direction;
 		}
 	})
 })(App.Schedule);

@@ -1,0 +1,16 @@
+var calendarRowTpl = _.template([
+'	<tr  timeline = "<%= timeline %>">',
+'		<td>',
+'			<%= timeline %>',
+'		</td>',
+'		<td day= "<%= day %>">',
+'		</td>',
+'		<td day= "<%= day = day + 1 %>">',
+'		</td>',
+'		<td day= "<%= day = day + 1 %>">',
+'		</td>',
+'		<td day= "<%= day = day + 1 %>">',
+'		</td>',
+'		<td day= "<%= day = day + 1 %>">',
+'		</td>',
+'	</tr>'].join(''));
