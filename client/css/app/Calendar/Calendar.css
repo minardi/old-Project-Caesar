@@ -16,6 +16,11 @@
 	border: 1px solid #ddd !important;
 	width: 120px;
 	height: 30px;
+	padding: 3px;
+}
+
+.dangerCell {
+	background-color: #f2dede
 }
 
 .Myschedule {

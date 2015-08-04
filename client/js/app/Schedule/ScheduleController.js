@@ -70,6 +70,7 @@
 
 		function setupSelectedEvent (event) {
 			views['schedule'].setupSelectedEvent(event);
+			views['schedule'].checkAvailableCells();
 		}
 
 		function showNextweek (nextNumber) {
