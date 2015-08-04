@@ -49,7 +49,7 @@
         },
 
         notFound: function () {
-            var errorPage = errorPage || new App.ErrorPage.Controller();
+            cs.mediator.publish('Show404View');
         }
 	});
-})(App.Resources);
+})(App.ErrorPage);

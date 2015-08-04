@@ -6,7 +6,8 @@
             '': 'getEvents',
             'Events': 'getEvents',
             'Events/new': 'createEvent',
-            'Events/:id/edit': 'editEvent'
+            'Events/:id/edit': 'editEvent',
+            'Events*path': 'notFound'
         },
 
         initialize: function () {
@@ -47,6 +48,10 @@
 
         editEvent: function (id) {
             this.controller.editEventById(id);
+        },
+
+        notFound: function () {
+            var errorPage = errorPage || new App.ErrorPage.Controller();
         }
     });
 })(App.Events);

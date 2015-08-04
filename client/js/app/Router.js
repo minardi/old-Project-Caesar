@@ -2,7 +2,7 @@
     This.Router = Backbone.Router.extend({
 
         routes: {
-            '': 'mainPage',
+            '': 'events',
             'Resources*path': 'resources',
             'Events*path': 'events',
             'About*path': 'about',
@@ -10,14 +10,10 @@
         },
 
         initialize: function () {
-            cs.mediator.subscribe('MenuClicked', this.navigateMenuItem, null, this); //published from MenuView
-
-            //this.route(/[^(Events)|(Resources)|(About)|(Schedule)]/, 'errorPage');
             //this.route(/error/, 'errorPage', this.errorPage);
-        },
-		
-        mainPage: function () {
-            cs.subRouters['Events'] || (cs.subRouters['Events'] = new App.Events.Router());
+            this.route(/^((?!(Events|Resources|About|Schedule)).)*$/, 'errorPage');
+
+            cs.mediator.subscribe('MenuClicked', this.navigateMenuItem, null, this); //published from MenuView
         },
 
         resources: function () {
