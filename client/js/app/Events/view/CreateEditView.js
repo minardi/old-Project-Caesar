@@ -28,9 +28,11 @@
         },
 
         render: function () {
+            var eventTypes = collections.eventTypes.toJSON();
+
             this.$el.append(this.template({
                 name: this.model.get('name'),
-                type: this.model.get('type'),
+                eventTypes: eventTypes,
                 resourcesList: this.getResourcesInEvent()
             }));
             this.$('.resources-list').append(this.resourcesCollectionView.render().el);
