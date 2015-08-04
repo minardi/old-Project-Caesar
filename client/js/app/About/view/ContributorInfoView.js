@@ -10,7 +10,7 @@
         template: contributorFullInfoTpl,
 
         render: function (itaName) {
-		    var modelJSON = this.model.toJSON();
+		    var modelJSON = this.model;
 			
             this.tooltip = This.Tooltip;
     		modelJSON.itaName = itaName;

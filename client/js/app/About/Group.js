@@ -7,7 +7,8 @@
             'id': '',
 			'name': '',
             'itaName': '',
-            'courseDirection': ''
+            'courseDirection': '',
+            'students': ''
         }
     });
 })(App.About);

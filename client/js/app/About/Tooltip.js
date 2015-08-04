@@ -35,7 +35,7 @@
             },
 
             hide: function () {
-                $('.showFullInfo').css('display','none');
+                $('.showFullInfo').remove();
             }
         };
     })();

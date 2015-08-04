@@ -3,7 +3,7 @@
 (function (This) {
     This.ContributorCollection = Backbone.Collection.extend({
 
-        url: '/about/Contributors',
+        url: '/contributors',
 
         model: This.Contributor
 

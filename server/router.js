@@ -4,14 +4,12 @@ var express = require('express'),
 	resourcesRouter = require('./resources/resourcesRouter'),
     scheduleRouter = require('./schedule/scheduleRouter'),   
     usersRouter = require('./users/usersRouter'),   
-    aboutRouter = require('./about/aboutRouter'),
     contributorsRouter = require('./contributors/contributorsRouter');
 
 router.use(/^\/events/, eventsRouter);
 router.use(/^\/resources/, resourcesRouter);
 router.use(/^\/schedule/, scheduleRouter);
 router.use(/^\/users/, usersRouter);
-router.use(/^\/about/, aboutRouter);
 router.use(/^\/contributors/, contributorsRouter);
 
 router.get(/^\/reset$/, function(req, res, next) {		
@@ -31,7 +29,6 @@ router.get('*', function (req, res) {
             'schedule',
             'resources',
             'users', 
-            'about',
             'contributors', 
             '.css', 
             '.js', 
