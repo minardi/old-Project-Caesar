@@ -1,7 +1,7 @@
 'use strict';
 (function (This) {
     This.Controller = function () {
-        var $menu = $('#menu');
+        var $menu = $('#navbar');
 
         start();
         
@@ -11,7 +11,7 @@
 
         function renderMenu (){
             var menuView = new This.MenuView();
-            $menu.html(menuView.render().$el);
+            $menu.append(menuView.render().$el);
         }
     }
 })(App.Menu);
