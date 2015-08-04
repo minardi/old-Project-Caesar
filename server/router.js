@@ -12,7 +12,13 @@ router.use(/^\/schedule/, scheduleRouter);
 router.use(/^\/users/, usersRouter);
 router.use(/^\/contributors/, contributorsRouter);
 
-router.get(/^\/reset$/, function(req, res, next) {		
+// router.use('/events', eventsRouter);
+// router.use('/resources', resourcesRouter);
+// router.use('/schedule', scheduleRouter);
+// router.use('/users', usersRouter);
+// router.use('/contributors', contributorsRouter);
+
+router.get('/reset', function(req, res, next) {		
     var resetController = new require('./reset/resetController')(req, res);
 });
 
