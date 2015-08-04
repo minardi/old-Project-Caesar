@@ -1,8 +1,7 @@
 function ResourcesController (req, res) {
-	var view = require('./resourcesView'),
-		Resource = require('./resourcesModel').ResourcesModel,
-		db = require('../db/db'),
-		resourcesView = new view.ResourcesView(),
+	var resourcesView = new require('./resourcesView')(),
+		Resource = require('./resourcesModel'),
+		db = new require('../db/db')(),
 		actions = {
 			'GET': get,
 			'POST': create,

@@ -2,12 +2,14 @@ var express = require('express'),
 	router = express.Router(),
 	eventsRouter = require('./events/eventsRouter'),
 	resourcesRouter = require('./resources/resourcesRouter'),
-    aboutRouter = require('./about/aboutRouter'),
+    scheduleRouter = require('./schedule/scheduleRouter'),   
+    usersRouter = require('./users/usersRouter'),   
     contributorsRouter = require('./contributors/contributorsRouter');
 
 router.use(/^\/events/, eventsRouter);
 router.use(/^\/resources/, resourcesRouter);
-router.use(/^\/about/, aboutRouter);
+router.use(/^\/schedule/, scheduleRouter);
+router.use(/^\/users/, usersRouter);
 router.use(/^\/contributors/, contributorsRouter);
 
 router.get(/^\/reset$/, function(req, res, next) {		
@@ -24,8 +26,9 @@ router.get('*', function (req, res) {
     function isRest () {
         var notRest = [
             'events',
-            'resources', 
-            'about',
+            'schedule',
+            'resources',
+            'users', 
             'contributors', 
             '.css', 
             '.js', 

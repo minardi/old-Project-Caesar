@@ -3,7 +3,7 @@
 (function (This) {
     This.GroupCollection = Backbone.Collection.extend({
 
-        url: '/about',
+        url: '/contributors',
 
         model: This.Group
     });

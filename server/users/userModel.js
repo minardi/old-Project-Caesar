@@ -1,10 +1,13 @@
-exports.EventsModel = function (newAttributes) {
+function UserModel (newAttributes) {
 	var _ = require('../../client/js/lib/underscore.js'),
 		attributes = {
 			id: '',
-			name: '',
-			type: '',
-			resources: []
+			fullName: '',
+			login: '',
+			password: '',
+			locationCity: '',
+			locationCountry: '',
+			role: ''
 		};
 	
 	setModel();
@@ -14,7 +17,7 @@ exports.EventsModel = function (newAttributes) {
 			var isValidated = validateField(value, key);
 
 			if (isValidated) {
-				attributes[key] = newAttributes[key]
+				attributes[key] = newAttributes[key];
 			}
 
 		});
@@ -32,3 +35,5 @@ exports.EventsModel = function (newAttributes) {
 
 	return this;
 };
+
+module.exports = UserModel;
