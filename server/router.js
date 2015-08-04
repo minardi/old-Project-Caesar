@@ -8,13 +8,13 @@ var express = require('express'),
     usersRouter = require('./users/usersRouter'),   
     contributorsRouter = require('./contributors/contributorsRouter');
 
-router.use(/^\/events/, eventsRouter);
-router.use(/^\/eventTypes/, eventTypesRouter);
-router.use(/^\/resources/, resourcesRouter);
-router.use(/^\/resourceTypes/, resourceTypesRouter);
-router.use(/^\/schedule/, scheduleRouter);
-router.use(/^\/users/, usersRouter);
-router.use(/^\/contributors/, contributorsRouter);
+router.use(/^\/events\b/, eventsRouter);
+router.use(/^\/eventTypes\b/, eventTypesRouter);
+router.use(/^\/resources(\/.+)?$/, resourcesRouter);
+router.use(/^\/resourceTypes\b/, resourceTypesRouter);
+router.use(/^\/schedule\b/, scheduleRouter);
+router.use(/^\/users\b/, usersRouter);
+router.use(/^\/contributors\b/, contributorsRouter);
 
 router.get('/reset', function(req, res, next) {		
     var resetController = new require('./reset/resetController')(req, res);
@@ -23,39 +23,33 @@ router.get('/reset', function(req, res, next) {
 router.get('*', function (req, res) {
     var staticRoute = /^\/build/.test(req.url)? './public': '../client';
 
-    if (isRest()) {
+    if (!isRest(req.url)) {        
         res.sendFile('index.html', { root: staticRoute });
-    }
-
-    function isRest () {
-        var notRest = [
-            'events',
-            'eventTypes',
-            'schedule',
-            'resources',
-            'resourceTypes',
-            'users', 
-            'contributors', 
-            '.css', 
-            '.js', 
-            '.map', 
-            '.eot', 
-            '.ttf', 
-            '.svg', 
-            '.woff', 
-            '.ico'
-            ],
-            rest = true;
-        
-        notRest.forEach(function (key) {
-            if (req.url.indexOf(key) !== -1) {
-                rest = false;
-            }
-        });
-        
-        return rest;
     }  
 });
+
+function isRest (url) {
+    var restList = [
+        'events',
+        'eventTypes',
+        'schedule',
+        'resources',
+        'resourceTypes',
+        'users', 
+        'contributors', 
+        ],
+        rest = false;
+    
+    restList.forEach(function (restName) {
+        var regExp = new RegExp(restName + '\\b');
+
+        if (regExp.test(url)) {
+            rest = true;
+        }
+    });
+    console.log('isRest= ' + rest)
+    return rest;
+}
 
 module.exports = router;
 

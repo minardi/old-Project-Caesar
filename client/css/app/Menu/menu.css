@@ -28,6 +28,11 @@
 	box-shadow: 0 0px 14px 0px;
 }
 
+#navbar a {
+	cursor: pointer;
+	
+}
+
 .menu {
 	padding: 0;
 	margin: 0;
