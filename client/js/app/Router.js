@@ -12,8 +12,8 @@
         initialize: function () {
             cs.mediator.subscribe('MenuClicked', this.navigateMenuItem, null, this); //published from MenuView
 
-            this.route(/[^(Events)|(Resources)|(About)|(Schedule)]/, 'errorPage');
-            this.route(/error/, 'errorPage', this.errorPage);
+            //this.route(/[^(Events)|(Resources)|(About)|(Schedule)]/, 'errorPage');
+            //this.route(/error/, 'errorPage', this.errorPage);
         },
 		
         mainPage: function () {
