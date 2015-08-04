@@ -5,32 +5,7 @@
 		direction: 0,
 
 		events: {
-			'click td:not(:nth-child(1))': 'renderSelectedEvent'
-		},
-
-		initialize: function () {
-			this.timelines = {
-				'1': '8:00',
-				'2': '8:30',
-				'3': '9:00',
-				'4': '9:30',
-				'5': '10:00',
-				'6': '10:30',
-				'7': '11:00',
-				'8': '11:30',
-				'9': '12:00',
-				'10': '12:30',
-				'11': '13:00',
-				'12': '13:30',
-				'13': '14:00',
-				'14': '14:30',
-				'15': '15:00',
-				'16': '16:00',
-				'17': '16:30',
-				'18': '17:00',
-				'19': '17:30',
-				'20': '18:00'
-			};
+			'click td:not(:nth-child(1)):not([class="calendarCell dangerCell"])': 'renderSelectedEvent'
 		},
 
 		renderGrid: function () {
@@ -43,7 +18,7 @@
 			//return startDate value after template
 			this.startDate.adjustDate(-4);
 
-			_.each(this.timelines, function (value) {
+			_.each(This.timelines, function (value) {
 				$fragment.append(this.template({'day': 1, 'timeline': value}));
 			}, this);
 
@@ -108,7 +83,7 @@
 		renderSelectedEvent: function (event) {
 		
 			if (this.selectedEvent) {
-				var $target = ($(event.target).attr('day'))? $(event.target): $(event.target.parentElement),
+				var $target = ($(event.target).attr('day'))? $(event.target): $(event.target.parentElement.parentElement),
 					dayNumber = $target.attr('day'),
 					timeline = $target.parent().attr('timeline');
 
@@ -116,6 +91,8 @@
 
 				this.addEventToCollection(dayNumber, timeline, this.selectedEvent.get('id'));
 			}
+
+			this.checkAvailableCells();
 		},
 
 		addEventToCollection: function (dayNumber, timeline, eventId) {
@@ -124,21 +101,23 @@
 
 		setDirection: function (_direction) {
 			this.direction = _direction;
+		},
+
+		checkAvailableCells: function () {
+			if (this.selectedEvent) {
+				var selectedResources = this.selectedEvent.toJSON()['resources'],
+					$eventsCells = this.$el.children().children().children(),
+					resources;
+				this.$el.children().children().removeClass('dangerCell');
+
+				$eventsCells.each( function () {
+					resources = $(this).attr('resources');
+					_.each(selectedResources, function (id) {
+						(resources.indexOf(id) > 0) && $(this).parent().addClass('dangerCell');
+					}, this)
+				
+				})
+			}
 		}
 	});
-
-	This.createWeekItem = function (dayNumber, timeline, eventId, _startDate) {
-			var dayTimeline = {},
-				day = {},
-				week = new This.Week();
-
-			dayTimeline[timeline] = [eventId];
-			day[dayNumber] = dayTimeline;
-			week.set({
-				'startDate': _startDate,
-				'days': day
-			});
-
-			return week;
-	}
 })(App.Schedule);

@@ -11,6 +11,7 @@
 		},
 
 		render: function () {
+			this.$el.attr('resources', this.model.get('resources'));
 			this.$el.html(this.template({'value': this.model.get('name')}));
 			return this;
 		},
