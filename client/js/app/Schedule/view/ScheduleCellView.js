@@ -16,7 +16,13 @@
 		},
 
 		close: function () {
+			var dayNumber = this.$el.parent().attr('day'), 
+				timeline = this.$el.parent().parent().attr('timeline'), 
+				startDate = new Date(this.$el.parent().parent().parent().attr('startDate')),
+				weekItem = This.createWeekItem(dayNumber, timeline, this.model.get('id'), startDate);
+
+			this.collection.deleteEvent(weekItem);
 			this.remove();
 		}
-	})
+	});
 })(App.Schedule);

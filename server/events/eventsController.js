@@ -1,7 +1,7 @@
 function EventsController (req, res) {
 	var view = require('./eventsView'),
 		Event = require('./eventsModel').EventsModel,
-		db = require('../db/db'),
+		db = new require('../db/db')(),
 		eventsView = new view.EventsView(),
 		actions = {
 			'GET': get,

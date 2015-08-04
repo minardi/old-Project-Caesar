@@ -1,10 +1,9 @@
-exports.EventsModel = function (newAttributes) {
+function ScheduleModel (newAttributes) {
 	var _ = require('../../client/js/lib/underscore.js'),
 		attributes = {
 			id: '',
-			name: '',
-			type: '',
-			resources: []
+			startDate: '',
+			days: [],
 		};
 	
 	setModel();
@@ -32,3 +31,5 @@ exports.EventsModel = function (newAttributes) {
 
 	return this;
 };
+
+module.exports = ScheduleModel;

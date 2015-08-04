@@ -47,6 +47,7 @@
 				$fragment.append(this.template({'day': 1, 'timeline': value}));
 			}, this);
 
+			this.$el.attr('startDate', this.startDate);
 			this.$el.html($fragment);
 		},
 
@@ -60,8 +61,10 @@
 
 		setStartDate: function () {
 			var date = new Date();
+
 			(this.direction > 0) && (date.setDate(date.getDate() + 7*this.direction));
 			(this.direction < 0) && (date.adjustDate(this.direction));
+
 			date = date.adjustDate(-(date.getDay() -1));
 			this.startDate = date;
 			this.currentWeekNumber = this.startDate.getWeekNumber();
@@ -92,7 +95,7 @@
 		},
 
 		createCell: function (event) {
-			var scheduleCellView = new This.ScheduleCellView({model:event});
+			var scheduleCellView = new This.ScheduleCellView({model:event, collection: this.scheduleCollection});
 			return scheduleCellView.render().el;
 		},
 
@@ -115,7 +118,16 @@
 			}
 		},
 
-		createWeekItem: function (dayNumber, timeline, eventId) {
+		addEventToCollection: function (dayNumber, timeline, eventId) {
+			this.scheduleCollection.addEvent(This.createWeekItem(dayNumber, timeline, eventId, this.startDate));
+		},
+
+		setDirection: function (_direction) {
+			this.direction = _direction;
+		}
+	});
+
+	This.createWeekItem = function (dayNumber, timeline, eventId, _startDate) {
 			var dayTimeline = {},
 				day = {},
 				week = new This.Week();
@@ -123,19 +135,10 @@
 			dayTimeline[timeline] = [eventId];
 			day[dayNumber] = dayTimeline;
 			week.set({
-				'startDate': this.startDate,
+				'startDate': _startDate,
 				'days': day
 			});
 
 			return week;
-		},
-
-		addEventToCollection: function (dayNumber, timeline, eventId) {
-			this.scheduleCollection.addEvent(this.createWeekItem(dayNumber, timeline, eventId));
-		},
-
-		setDirection: function (_direction) {
-			this.direction = _direction;
-		}
-	})
+	}
 })(App.Schedule);
