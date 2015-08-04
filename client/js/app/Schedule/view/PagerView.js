@@ -21,4 +21,4 @@
 			return this;
 		}
 	})
-})(App.Schedule)
+})(App.Schedule);

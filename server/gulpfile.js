@@ -5,7 +5,6 @@ For build and running tests: gulp build
 
 */
 
-
 var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     rename = require('gulp-rename'),
@@ -18,10 +17,11 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence'),
     qunit = require('gulp-qunit'),
     merge = require('merge-stream'),
+    replace = require('gulp-replace'),
     path = './public';
 
 gulp.task('build', function () {
-    runSequence('clean', 'ConcatAndMinify', 'fonts', 'img', 'test');
+    runSequence('clean', 'ConcatAndMinify', 'fonts', 'img', 'test', 'replace');
 });
 
 gulp.task('clean', function (cb) {
@@ -58,4 +58,12 @@ gulp.task('test', function() {
     return gulp.src('./tests/index.html') //specify src path if changed
         .pipe(qunit());
 });
+
+
+gulp.task('replace', function(){    
+    return gulp.src([path + '/styles.css'])
+        .pipe(replace('../fonts', './fonts'))
+        .pipe(gulp.dest(path));
+});
+
 
