@@ -10,5 +10,9 @@
 	{
 		"_id": "contributorsId",
 		"seq": 0
+	},
+	{
+		"_id": "weeksId",
+		"seq": 1
 	}
 ]

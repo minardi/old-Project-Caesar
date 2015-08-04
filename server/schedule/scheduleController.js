@@ -1,5 +1,6 @@
-function ContributorsController (req, res) {
-	var contributorsView = new require('./contributorsView')(),
+function ScheduleController (req, res) {
+	var scheduleView = new require('./scheduleView')(),
+		ScheduleWeek = require('./scheduleModel'),
 		db = new require('../db/db')(),
 		actions = {
 			'GET': get,
@@ -7,7 +8,7 @@ function ContributorsController (req, res) {
 			'PUT': update,
 			'DELETE': del
 		},
-		dbName = 'contributors',
+		dbName = 'schedule',
 		id = req.params.id;
 
 	m.subscribe(dbName + 'RequestHandeled', responde);
@@ -23,24 +24,28 @@ function ContributorsController (req, res) {
 	}
 
 	function create () {
-		res.send('This operation is not available for Contributors');
+		var scheduleWeek = new ScheduleWeek(req.body);
+
+		db.create(dbName, scheduleWeek.toJSON());
 	}	
 
 	function update () {
-		res.send('This operation is not available for Contributors');
+		var scheduleWeek = new ScheduleWeek(req.body);
+		
+		db.update(dbName, scheduleWeek.toJSON(), id);
 	}
 
 	function del () {
-		res.send('This operation is not available for Contributors');
+		db.remove(dbName, id);
 	};
 
 	function responde (dbQuery) {
 		m.unsubscribe(dbName + 'RequestHandeled', responde);
-		console.dir(contributorsView)
-		res.send(contributorsView.returnContributors(dbQuery));
+	
+		res.send(scheduleView.returnSchedule(dbQuery));
 	}
 
 	return this;
 }
 
-module.exports = ContributorsController;
+module.exports = ScheduleController;

@@ -1,13 +1,13 @@
-exports.ResourcesModel = function (req) {
+function ResourcesModel (newAttributes) {
 	var _ = require('../../client/js/lib/underscore.js'),
-		db = require('../db/db'),
-
 		attributes = {
 			id: '',
 			name: '',
 			type: '',
 		};
 	
+	setModel();
+
 	function setModel () {
 		_.each(attributes, function (value, key) {
 			var isValidated = validateField(value, key);
@@ -15,10 +15,7 @@ exports.ResourcesModel = function (req) {
 			if (isValidated) {
 				attributes[key] = newAttributes[key]
 			}
-			validatedAttributes[key] = inputAttributes[key];
 		});
-
-		return validatedAttributes;
 	}
 
 	function validateField (value, key) {
@@ -27,9 +24,11 @@ exports.ResourcesModel = function (req) {
 		}
 	}
 
-	function toJSON () {
+	this.toJSON = function () {
 		return _.clone(attributes);
 	} 
 
 	return this;
 };
+
+module.exports = ResourcesModel;

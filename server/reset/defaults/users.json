@@ -1,0 +1,20 @@
+[
+	{
+		"id": 0,
+		"fullName": "Nikola Tesla",
+		"login": "Nikola",
+		"password": "qqq",
+		"locationCountry": "USA",
+		"locationCity": "New York",
+		"role": 0
+	},
+	{
+		"id": 1,
+		"fullName": "Isaac Newton",
+		"login": "Isaac",
+		"password": "qqq",
+		"locationCountry": "England",
+		"locationCity": "Kensington, Middlesex",
+		"role": 1
+	}
+]
