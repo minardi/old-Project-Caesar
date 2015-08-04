@@ -7,12 +7,10 @@
             'Events*path': 'events',
             'About*path': 'about',
             'Schedule*path': 'calendar',
+            '*action': 'errorPage'
         },
 
         initialize: function () {
-            //this.route(/error/, 'errorPage', this.errorPage);
-            this.route(/^((?!(Events|Resources|About|Schedule)).)*$/, 'errorPage');
-
             cs.mediator.subscribe('MenuClicked', this.navigateMenuItem, null, this); //published from MenuView
         },
 
