@@ -1,6 +1,8 @@
 function ResetController (req, res) {
 	var events = require('./defaults/events.json'),
+		eventTypes = require('./defaults/eventTypes.json'),
 		resources = require('./defaults/resources.json'),
+		resourceTypes = require('./defaults/resourceTypes.json'),
 		contributors = require('./defaults/contributors.json'),		
 		schedule = require('./defaults/schedule.json'),
 		users = require('./defaults/users.json'),
@@ -8,7 +10,9 @@ function ResetController (req, res) {
 		db = new require('../db/db')(),
 		defaultValues = {
 			events: events, 
+			eventTypes: eventTypes,
 			resources:resources, 
+			resourceTypes: resourceTypes,
 			contributors: contributors,
 			users: users,
 			schedule: schedule,
@@ -22,7 +26,9 @@ function ResetController (req, res) {
 	function responde () {
 		m.unsubscribe('resetCompleted', responde);
 	
-		res.send("DBs successfully reseted!");
+		res.redirect('/Events');
+		
+		console.log("DBs successfully reseted!");
 	}
 
 	return this;

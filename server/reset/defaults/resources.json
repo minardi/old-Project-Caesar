@@ -1,32 +1,32 @@
 [
 	{
 		"id": 0,
-		"type": "group",
-		"name": "DP 080 UI"
+		"name": "DP 080 UI",
+		"type": 0
 	},
 	{
 		"id": 1,
-		"type": "room",
-		"name": "703"
+		"name": "703",
+		"type": 1
 	},
 	{
 		"id": 2,
-		"type": "teacher",
-		"name": "Petin D."
+		"name": "Petin D.",
+		"type": 2
 	},
 	{
 		"id": 3,
-		"type": "group",
-		"name": "DP 076 ATQC"
+		"name": "DP 076 ATQC",
+		"type": 0
 	},
 	{
 		"id": 4,
-		"type": "room",
-		"name": "714"
+		"name": "714",
+		"type": 1
 	},
 	{
 		"id": 5,
-		"type": "teacher",
-		"name": "Mister X"
+		"name": "Mister X",
+		"type": 2
 	}	
 ]

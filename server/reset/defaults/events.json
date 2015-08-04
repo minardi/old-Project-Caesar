@@ -2,25 +2,25 @@
 	{
 		"id": 0,
 		"name": "IT Academy WEB UI courses",
-		"type": "lecture",
+		"type": 0,
 	  	"resources": [0, 1, 2]
 	},
 	{
 		"id": 1,
 		"name": "Project Caesar",
-		"type": "scrum",
+		"type": 1,
 	  	"resources": [3, 4, 5]
 	},
 	{
 		"id": 2,
 		"name": "Web Sockets practice",
-		"type": "practice",
+		"type": 2,
 	  	"resources": [0, 1, 2]
 	},
 	{
 		"id": 3,
 		"name": "WEB UI 2nd Demo",
-		"type": "weekly report",
+		"type": 3,
 	  	"resources": [0, 1, 2]
 	}	
 ]
