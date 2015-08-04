@@ -17,5 +17,9 @@ var menuTpl = _.template([
         '<span class="glyphicon glyphicon-question-sign"></span></br>',    
         'About',
     '</li>',
+    '<li role="presentation" class="logout menu-item">',
+        '<span class="glyphicon glyphicon-off"></span></br>',    
+        'Log out',
+    '</li>',
 '</ul>',
 ].join(''));

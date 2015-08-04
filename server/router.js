@@ -18,13 +18,39 @@ router.get(/^\/reset$/, function(req, res, next) {
     var resetController = new require('./reset/resetController')(req, res);
 });
 
+router.get(/^\/login$/, function(req, res) {
+    var staticRoute = /^\/build/.test(req.url)? './public': '../client'; 
+    res.sendFile('login.html', { root: staticRoute });
+});
+
+router.post(/^\/login$/, function (req, res) {
+    var staticRoute = /^\/build/.test(req.url)? './public': '../client';
+    var post = req.body;
+        if (post.username === 'caesar') {
+            req.session.user = 'caesar';
+            res.redirect('/Events');
+        } else {          
+            res.redirect('/login');
+        }
+});
+
+router.get(/^\/logout$/, function (req, res) {
+    if(req.session){
+        req.session.reset();
+    }  
+    res.redirect('/login');
+});
+
+
 router.get('*', function (req, res) {
     var staticRoute = /^\/build/.test(req.url)? './public': '../client';
 
-    if (isRest()) {
-        res.sendFile('index.html', { root: staticRoute });
-    }
-
+     if(req.session && req.session.user) {
+        if (isRest()) {
+            res.sendFile('index.html', { root: staticRoute });
+        }
+     }
+    
     function isRest () {
         var notRest = [
             'events',

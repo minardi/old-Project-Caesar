@@ -4,7 +4,7 @@ var App = {},
     cs = {},
     collections = {};
 
-setUp(App, ['Events', 'Resources', 'About', 'Menu', 'Messenger', 'Schedule', 'ErrorPage']);
+setUp(App, ['Events', 'Resources', 'About', 'Menu', 'Messenger', 'Schedule', 'ErrorPage', 'Accounts', 'Login']);
 setUp(cs, ['mediator', 'subRouters', 'router', 'menu', 'messenger']);
 setUp(collections, ['resouresCollection', 'eventsCollection']);
 

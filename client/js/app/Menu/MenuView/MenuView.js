@@ -9,7 +9,8 @@
             'click .resources': 'showResources',
             'click .events': 'showEvents',
             'click .schedule': 'showSchedule',
-            'click .about': 'showAbout'
+            'click .about': 'showAbout',
+            'click .logout': 'logout'
         },
 
         render: function () {
@@ -40,6 +41,12 @@
             cs.mediator.publish('MenuClicked', '/About'); //publish to global router
             this.$('.menu-item').removeClass('active');
             this.$('.about').addClass('active');
+        },
+
+        logout: function () {
+            cs.mediator.publish('MenuClicked', '/logout'); //publish to global router
+            this.$('.menu-item').removeClass('active');
+            this.$('.logout').addClass('active');
         }
-    });
+    }); 
 })(App.Menu);
