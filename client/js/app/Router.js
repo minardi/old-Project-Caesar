@@ -7,6 +7,7 @@
             'Events*path': 'events',
             'About*path': 'about',
             'Schedule*path': 'calendar',
+            'Settings*path': 'settings',
             '*action': 'errorPage'
         },
 
@@ -28,6 +29,10 @@
 
         calendar: function () {
             cs.subRouters['Schedule'] || (cs.subRouters['Schedule'] = new App.Schedule.Router());
+        },
+
+        settings: function () {
+            cs.subRouters['Settings'] || (cs.subRouters['Settings'] = new App.Settings.Router());
         },
         
         navigateMenuItem: function (pathname) {

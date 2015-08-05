@@ -23,7 +23,12 @@
         },
     
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            var resourceType = collections.resourceTypes.get(this.model.get('type')),
+                resourceTypeName = resourceType.get('name');
+            this.$el.html(this.template({
+                name: this.model.get('name'),
+                type: resourceTypeName
+            }));
             return this;
         }
     });

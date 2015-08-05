@@ -10,6 +10,8 @@ var DataLoader = function () {
     function initCollections () {
         collections.resouresCollection = new App.Resources.ResourcesCollection();
         collections.eventsCollection = new App.Events.EventCollection();
+        collections.eventTypes = new App.Settings.EventTypeCollection();
+        collections.resourceTypes = new App.Settings.ResourceTypeCollection();
     }
     
     function renderLoadingBar () {
@@ -21,9 +23,15 @@ var DataLoader = function () {
         collections.resouresCollection.once('sync', function () {
             collections.eventsCollection.fetch();
             collections.eventsCollection.once('sync', function () {
-                main();
-                $('.sequence').remove();
+                collections.eventTypes.fetch();
+                collections.eventTypes.once('sync', function () {
+                    collections.resourceTypes.fetch();
+                    collections.resourceTypes.once('sync', function () {
+                        main();
+                        $('.sequence').remove();
+                    });
+                });
             })
         });
     }
-}
+};
