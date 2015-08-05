@@ -9,6 +9,7 @@
             'Schedule*path': 'calendar',
             'Settings*path': 'settings',
             'Accounts*': 'account',
+            'Holidays*path': 'holidays',
             '*action': 'errorPage'
         },
 
@@ -43,6 +44,10 @@
 
         account: function () {
             cs.subRouters['Accounts'] || (cs.subRouters['Accounts'] = new App.Accounts.Router());
+        },
+
+        holidays: function () {
+            cs.subRouters['Holidays'] || (cs.subRouters['Holidays'] = new App.Holidays.Router());
         },
         
         navigateMenuItem: function (pathname) {
