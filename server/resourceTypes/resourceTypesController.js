@@ -24,15 +24,15 @@ function ResourceTypesController (req, res) {
 	}
 
 	function create () {
-		var resourceType = new ResourceType(req.body);
 
-		db.create(dbName, user.toJSON());
+
+		db.create(dbName, resourceType.toJSON());
 	}	
 
 	function update () {
 		var resourceType = new ResourceType(req.body);
 		
-		db.update(dbName, user.toJSON(), id);
+		db.update(dbName, resourceType.toJSON(), id);
 	}
 
 	function del () {

@@ -26,13 +26,13 @@ function EventTypesController (req, res) {
 	function create () {
 		var eventType = new EventType(req.body);
 
-		db.create(dbName, user.toJSON());
+		db.create(dbName, eventType.toJSON());
 	}	
 
 	function update () {
 		var eventType = new EventType(req.body);
 		
-		db.update(dbName, user.toJSON(), id);
+		db.update(dbName, eventType.toJSON(), id);
 	}
 
 	function del () {

@@ -8,6 +8,18 @@ var express = require('express'),
     accountsRouter = require('./accounts/accountsRouter'),   
     contributorsRouter = require('./contributors/contributorsRouter');
 
+router.use('*', function (req, res, next) {
+    var staticRoute = /^\/build/.test(req.url)? './public': '../client',
+        user = req.cookies.login,
+        userExists = Boolean(user);  
+          
+        if (userExists) {
+            next(req, res);
+        } else {
+            res.sendFile('index.html', { root: staticRoute });  
+        } 
+});
+
 router.use(/^\/events\b/, eventsRouter);
 router.use(/^\/eventTypes\b/, eventTypesRouter);
 router.use(/^\/resources(\/.+)?$/, resourcesRouter);
@@ -21,34 +33,37 @@ router.get('/reset', function(req, res, next) {
 });
 
 router.post('/', function (req, res) {
-    var post = req.body;
-        if (post.login === 'caesar') {
-            req.session.user = 'caesar';
-            res.redirect('/Events');
-        } else {          
-            res.redirect('/');
-        }
+    var user = req.body.login,
+        userExists = Boolean(user),
+        minute = 60 * 1000,
+        staticRoute = /^\/build/.test(req.url)? './public': '../client';;
 
+    // check if exists in db
+    if (userExists) {
+        res.cookie('login', user, { maxAge: minute });
+        res.sendFile('home.html', { root: staticRoute }); 
+    } else {
+        res.redirect('back'); 
+    }    
 });
 
+router.all('*', function (req, res, next) {
+    var staticRoute = /^\/build/.test(req.url)? './public': '../client',
+        user = req.cookies.login,
+        userExists = Boolean(user);
 
-router.get('/', function (req, res) {
-    var staticRoute = /^\/build/.test(req.url)? './public': '../client';
-    if(req.session){
-        req.session.reset();
-    }  
-    res.sendFile('index.html', { root: staticRoute });
-    
-});
 
-router.get('*', function (req, res) {
-    var staticRoute = /^\/build/.test(req.url)? './public': '../client';
+        console.log('* route called');
 
-     if(req.session && req.session.user) {
-       if (!isRest(req.url)) {  
-            res.sendFile('home.html', { root: staticRoute });
+        if (userExists) {
+            if (!isRest(req.url)) {  
+                res.sendFile('home.html', { root: staticRoute });
+            }           
+        } else {
+                res.sendFile('index.html', { root: staticRoute });            
         }
-     }
+
+
 });
 
 function isRest (url) {
@@ -70,7 +85,7 @@ function isRest (url) {
             rest = true;
         }
     });
-    
+
     return rest;
 }
 
