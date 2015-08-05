@@ -4,12 +4,13 @@
         tagName: 'ul',
 
         initialize: function () {
-            this.collection = collections.eventTypesCollection;
+            this.collection = collections.eventTypes;
         },
         
         render: function () {
             this.collection.each(function (model) {
-                this.renderOne(model);
+                var eventTypeView = new App.Settings.EventTypeView({model: model});
+                this.$el.append(eventTypeView.render().el);
             }, this);
 
             return this;

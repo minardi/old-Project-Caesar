@@ -2,7 +2,7 @@
 (function (This) {
     This.EventType = Backbone.Model.extend({
         defaults: {
-            type: ''
+            name: ''
         }
     });
 })(App.Settings);

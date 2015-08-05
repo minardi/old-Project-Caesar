@@ -4,7 +4,7 @@
         tagName: 'ul',
 
         initialize: function () {
-            this.collection = collections.resourceTypesCollection;
+            this.collection = collections.resourceTypes;
         },
 
         render: function () {
@@ -16,7 +16,7 @@
         },
 
         renderOne: function (model) {
-            var eventTypeView = App.Settings.EventTypeView({model: model});
+            var eventTypeView = new App.Settings.EventTypeView({model: model});
             this.$el.append(eventTypeView.render().$el);
         }
 

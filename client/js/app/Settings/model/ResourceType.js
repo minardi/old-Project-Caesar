@@ -2,7 +2,7 @@
 (function (This) {
     This.ResourceType = Backbone.Model.extend({
         defaults: {
-            type: ''
+            name: ''
         }
     });
 })(App.Settings);
