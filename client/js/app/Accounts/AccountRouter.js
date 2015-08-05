@@ -3,33 +3,24 @@
 (function (This)  {
     This.Router = Backbone.Router.extend({
         routes: {
-            'Account': 'showAccount',
-            'Register': 'showRegister'
+            'Accounts': 'createAccount',
         },
 
         initialize: function () {
             this.controller = new App.Accounts.Controller();
-
-            //URL navigation
-            cs.mediator.subscribe('ShowLoginForm', this.navigateLoginForm, null, this);
-            cs.mediator.subscribe('ShowRegisterForm', this.navigateRegisterForm, null, this);
+            cs.mediator.subscribe('CreateAccount', this.navigateNewAccount, null, this);
             
             Backbone.history.loadUrl(Backbone.history.fragment);
         },
 
-        navigateLoginForm: function () {
-            this.navigate('Login');
-        },
-        navigateRegisterForm: function () {
-            this.navigate('Register');
+        navigateNewAccount: function () {
+            this.navigate('Accounts');
         },
 
-        showAccount: function () {
-            cs.mediator.publish('ShowLoginForm');
-        },
-        showRegister: function () {
-            cs.mediator.publish('ShowRegisterForm');
+        createAccount: function () {
+            cs.mediator.publish('CreateAccount');
         }
+
     });
 })(App.Accounts);
 

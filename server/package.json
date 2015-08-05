@@ -15,7 +15,8 @@
     "morgan": "~1.6.1",
     "gulp": "^3.9.0",    
     "phantomjs": "^1.9.17",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "client-sessions": "^0.7.0"
   },
   "devDependencies": {
     "del": "^1.2.0",

@@ -7,18 +7,18 @@
             'Events*path': 'events',
             'About*path': 'about',
             'Schedule*path': 'calendar',
-            'Admin*': 'admin' 
+            'Accounts*': 'account'
         },
 
         initialize: function () {
             cs.mediator.subscribe('MenuClicked', this.navigateMenuItem, null, this); //published from MenuView
 
-            this.route(/[^(Events)|(Resources)|(About)|(Schedule)]/, 'errorPage');
+            this.route(/[^(Events)|(Resources)|(About)|(Schedule)|(Accounts)]/, 'errorPage');
             this.route(/error/, 'errorPage', this.errorPage);
         },
 		
         mainPage: function () {
-          
+             cs.subRouters['Events'] || (cs.subRouters['Events'] = new App.Events.Router());
         },
 
         resources: function () {
@@ -36,8 +36,8 @@
         calendar: function () {
             cs.subRouters['Schedule'] || (cs.subRouters['Schedule'] = new App.Schedule.Router());
         },
-        
-        admin: function () {
+
+        account: function () {
             cs.subRouters['Accounts'] || (cs.subRouters['Accounts'] = new App.Accounts.Router());
         },
         

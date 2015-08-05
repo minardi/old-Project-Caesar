@@ -1,44 +1,42 @@
 var express = require('express'),
-	router = express.Router(),
-	eventsRouter = require('./events/eventsRouter'),
-	resourcesRouter = require('./resources/resourcesRouter'),
+    router = express.Router(),
+    eventsRouter = require('./events/eventsRouter'),
+    resourcesRouter = require('./resources/resourcesRouter'),
     scheduleRouter = require('./schedule/scheduleRouter'),   
-    usersRouter = require('./users/usersRouter'),   
+    accountsRouter = require('./accounts/accountsRouter'),   
     aboutRouter = require('./about/aboutRouter'),
-    contributorsRouter = require('./contributors/contributorsRouter');
+    contributorsRouter = require('./contributors/contributorsRouter'),
+    AccountsModel = require('./accounts/accountsModel');
 
 router.use(/^\/events/, eventsRouter);
 router.use(/^\/resources/, resourcesRouter);
 router.use(/^\/schedule/, scheduleRouter);
-router.use(/^\/users/, usersRouter);
+router.use(/^\/accounts/, accountsRouter);
 router.use(/^\/about/, aboutRouter);
 router.use(/^\/contributors/, contributorsRouter);
 
-router.get(/^\/reset$/, function(req, res, next) {		
+router.get(/^\/reset$/, function(req, res, next) {      
     var resetController = new require('./reset/resetController')(req, res);
 });
 
-router.get(/^\/login$/, function(req, res) {
-    var staticRoute = /^\/build/.test(req.url)? './public': '../client'; 
-    res.sendFile('login.html', { root: staticRoute });
-});
 
-router.post(/^\/login$/, function (req, res) {
-    var staticRoute = /^\/build/.test(req.url)? './public': '../client';
+router.post('/', function (req, res) {
     var post = req.body;
-        if (post.username === 'caesar') {
+        if (post.login === 'caesar') {
             req.session.user = 'caesar';
             res.redirect('/Events');
         } else {          
-            res.redirect('/login');
+            res.redirect('/');
         }
 });
 
-router.get(/^\/logout$/, function (req, res) {
+router.get('/', function (req, res) {
+    var staticRoute = /^\/build/.test(req.url)? './public': '../client';
     if(req.session){
         req.session.reset();
     }  
-    res.redirect('/login');
+    res.sendFile('index.html', { root: staticRoute });
+    
 });
 
 
@@ -47,7 +45,7 @@ router.get('*', function (req, res) {
 
      if(req.session && req.session.user) {
         if (isRest()) {
-            res.sendFile('index.html', { root: staticRoute });
+            res.sendFile('home.html', { root: staticRoute });
         }
      }
     
@@ -56,7 +54,7 @@ router.get('*', function (req, res) {
             'events',
             'schedule',
             'resources',
-            'users', 
+            'accounts', 
             'about',
             'contributors', 
             '.css', 

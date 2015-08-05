@@ -10,7 +10,7 @@
             'click .events': 'showEvents',
             'click .schedule': 'showSchedule',
             'click .about': 'showAbout',
-            'click .logout': 'logout'
+            'click .createAccount': 'createAccount'
         },
 
         render: function () {
@@ -43,10 +43,10 @@
             this.$('.about').addClass('active');
         },
 
-        logout: function () {
-            cs.mediator.publish('MenuClicked', '/logout'); //publish to global router
+        createAccount: function () {
+            cs.mediator.publish('MenuClicked', '/Accounts'); //publish to global router
             this.$('.menu-item').removeClass('active');
-            this.$('.logout').addClass('active');
+            this.$('.createAccount').addClass('active');
         }
     }); 
 })(App.Menu);

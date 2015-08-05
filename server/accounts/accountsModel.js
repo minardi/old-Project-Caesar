@@ -1,4 +1,4 @@
-function UserModel (newAttributes) {
+function AccountsModel (newAttributes) {
 	var _ = require('../../client/js/lib/underscore.js'),
 		attributes = {
 			id: '',
@@ -36,4 +36,4 @@ function UserModel (newAttributes) {
 	return this;
 };
 
-module.exports = UserModel;
+module.exports = AccountsModel;

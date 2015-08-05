@@ -3,13 +3,14 @@
 (function (This) {
     This.Account = Backbone.Model.extend({
         defaults: {
+            fullName: '',
             login: '',
             password: '',
-            city: '',
-            country: '',
+            locationCity: '',
+            locationCountry: '',
             role: ''
         },
 
-        urlRoot: '/admin'
+        urlRoot: '/accounts'
     });
 })(App.Accounts);
