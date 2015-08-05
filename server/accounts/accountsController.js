@@ -1,6 +1,6 @@
-function UsersController (req, res) {
-	var usersView = new require('./usersView')(),
-		User = require('./userModel'),
+function AccountsController (req, res) {
+	var accountsView = new require('./accountsView')(),
+		Account = require('./AccountsModel'),
 		db = new require('../db/db')(),
 		actions = {
 			'GET': get,
@@ -8,7 +8,7 @@ function UsersController (req, res) {
 			'PUT': update,
 			'DELETE': del
 		},
-		dbName = 'users',
+		dbName = 'accounts',
 		id = req.params.id;
 
 	m.subscribe(dbName + 'RequestHandeled', responde);
@@ -24,15 +24,15 @@ function UsersController (req, res) {
 	}
 
 	function create () {
-		var user = new User(req.body);
+		var account = new Account(req.body);
 
-		db.create(dbName, user.toJSON());
+		db.create(dbName, account.toJSON());
 	}	
 
 	function update () {
-		var user = new User(req.body);
+		var account = new Account(req.body);
 		
-		db.update(dbName, user.toJSON(), id);
+		db.update(dbName, account.toJSON(), id);
 	}
 
 	function del () {
@@ -42,10 +42,10 @@ function UsersController (req, res) {
 	function responde (dbQuery) {
 		m.unsubscribe(dbName + 'RequestHandeled', responde);
 	
-		res.send(usersView.returnUser(dbQuery));
+		res.send(accountsView.returnAccount(dbQuery));
 	}
 
 	return this;
 }
 
-module.exports = UsersController;
+module.exports = AccountsController;

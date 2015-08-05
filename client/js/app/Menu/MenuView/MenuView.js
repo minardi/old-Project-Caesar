@@ -12,6 +12,8 @@
             'click .settings': 'showSettings',
             'click .reference': 'showReference',
             'click .contributors': 'showContributors',
+            //'click .about': 'showAbout',
+            'click .createAccount': 'createAccount'
         },
 
         render: function () {
@@ -54,6 +56,13 @@
             cs.mediator.publish('MenuClicked', '/About'); //publish to global router
             this.$('.menu-item').removeClass('active');
             this.$('.contributors').addClass('active');
+            //this.$('.about').addClass('active');
+        },
+
+        createAccount: function () {
+            cs.mediator.publish('MenuClicked', '/Accounts'); //publish to global router
+            this.$('.menu-item').removeClass('active');
+            this.$('.createAccount').addClass('active');
         }
-    });
+    }); 
 })(App.Menu);

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Caesar v0.0.0</title>
+        <meta charset="utf-8">
+
+        <!-- build:css styles.css -->
+
+        <link rel="stylesheet" type="text/css" href="css/lib/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="css/lib/bootstrap-theme.css">
+		<link rel="stylesheet" type="text/css" href="css/lib/animate.css">
+        <link rel="stylesheet" type="text/css" href="css/app/404/404.css">        
+        <link rel="stylesheet" type="text/css" href="css/app/Resources/createEditResources.css">
+        <link rel="stylesheet" type="text/css" href="css/app/Resources/customGlyphBtn.css">
+        <link rel="stylesheet" type="text/css" href="css/app/Events/view/customGlyphBtn.css">
+		<link rel="stylesheet" type="text/css" href="css/app/Events/view/EventCollectionView.css">
+        <link rel="stylesheet" type="text/css" href="css/app/ServicePages/Tooltip.css">
+        <link rel="stylesheet" type="text/css" href="css/app/Calendar/Calendar.css">
+        <link rel="stylesheet" type="text/css" href="css/app/Menu/menu.css">
+        <link rel="stylesheet" type="text/css" href="css/app/loadingStyles.css">
+
+        <link rel="stylesheet" type="text/css" href="css/app/Messenger/Hint.css">
+        <link rel="stylesheet" type="text/css" href="css/app/Messenger/Notice.css">
+        <link rel="stylesheet" type="text/css" href="css/app/Messenger/Popup.css">
+		<link rel="stylesheet" type="text/css" href="css/lib/bootstrap-formhelpers.min.css">
+
+        <link href="http://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css">
+        
+        <!-- endbuild -->
+
+        <!-- build:js scripts.js -->
+
+        <!-- libs -->
+        <script src="js/lib/jquery.js"></script>
+        <script src="js/lib/underscore.js"></script>
+        <script src="js/lib/backbone.js"></script>
+        <script src="js/lib/backbone-modelbinder.js"></script>
+		<script src="js/lib/backbone-validation.js"></script>
+        <script src="js/lib/backbone-validation-messages.js"></script>
+        <script src="js/lib/backbone-validation-patterns.js"></script>
+        <script src="js/lib/backbone.computedfields.js"></script>
+        <script src="js/lib/bootstrap.min.js"></script>
+        <script src="js/lib/bootstrap.js"></script>
+        <script src="js/lib/mediator.js"></script>
+        <script src="js/utils/namespace.js"></script>
+        <script src="js/utils/loadingTpl/loadingTpl.js"></script>
+        <script src="js/utils/DataLoader.js"></script>
+        <script src="js/lib/bootstrap-formhelpers.min.js"></script>
+
+        <script src="js/main.js"></script>
+        <script src="js/app/Router.js"></script>
+
+        <!-- 404 -->
+        <script src="js/app/404/404Tpl.js"></script>
+        <script src="js/app/404/404View.js"></script>
+        <script src="js/app/404/404Controller.js"></script>        
+
+
+        <!-- menu -->
+        <script src="js/app/Menu/tpl/MenuTpl.js"></script>
+        <script src="js/app/Menu/MenuView/MenuView.js"></script>
+        <script src="js/app/Menu/Controller.js"></script>
+
+        <!-- events -->
+        <script src="js/app/Events/tpl/EventTpl.js"></script>
+        <script src="js/app/Events/tpl/EventCollectionTpl.js"></script>
+		<script src="js/app/Events/tpl/EditEventTpl.js"></script>
+		<script src="js/app/Events/tpl/ResourceItemTpl.js"></script>
+		<script src="js/app/Events/view/CreateEditView.js"></script>
+        <script src="js/app/Events/view/EventView.js"></script>
+        <script src="js/app/Events/view/EventCollectionView.js"></script>
+
+        <script src="js/app/Events/view/ResourceView.js"></script>
+        <script src="js/app/Events/view/ResourcesCollectionView.js"></script>
+
+        <script src="js/app/Events/model/Event.js"></script>
+        <script src="js/app/Events/model/EventCollection.js"></script>
+        <script src="js/app/Events/EventRouter.js"></script>
+        <script src="js/app/Events/Controller.js"></script>
+
+        <!--Resources -->
+        <script src="js/app/Resources/tpl/EditResourceTpl.js"></script>
+        <script src="js/app/Resources/tpl/ResourcesModelHomePageTpl.js"></script>
+        <script src="js/app/Resources/tpl/ResourceCollectionTpl.js"></script>
+        <script src="js/app/Resources/model/ResourcesModel.js"></script>
+        <script src="js/app/Resources/model/ResourcesCollection.js"></script>
+        <script src="js/app/Resources/view/CreateEditResourcesView.js"></script>
+        <script src="js/app/Resources/view/ResourcesModelHomepageView.js"></script>
+        <script src="js/app/Resources/view/ResourcesCollectionView.js"></script>
+        <script src="js/app/Resources/ResourcesRouter.js"></script>
+        <script src="js/app/Resources/Controller.js"></script>
+
+        <!-- ABOUT LAYER -->
+        <script type="text/javascript" src="js/app/About/Controller.js"></script>
+        <script type="text/javascript" src="js/app/About/Router.js"></script>
+
+        <script type="text/javascript" src="js/app/About/tpl/ContributorsTpl.js"></script>
+        <script type="text/javascript" src="js/app/About/tpl/ContributorsCollectionTpl.js"></script>
+        <script type="text/javascript" src="js/app/About/tpl/ContributorInfoTpl.js"></script>
+        <script type="text/javascript" src="js/app/About/tpl/GroupTpl.js"></script>
+        <script type="text/javascript" src="js/app/About/tpl/GroupCollectionTpl.js"></script>
+
+        <script type="text/javascript" src="js/app/About/Tooltip.js"></script>
+
+        <script type="text/javascript" src="js/app/About/Group.js"></script>
+        <script type="text/javascript" src="js/app/About/GroupCollection.js"></script>
+        <script type="text/javascript" src="js/app/About/Contributor.js"></script>
+        <script type="text/javascript" src="js/app/About/ContributorCollection.js"></script>
+
+        <script type="text/javascript" src="js/app/About/view/GroupView.js"></script>
+        <script type="text/javascript" src="js/app/About/view/GroupCollectionView.js"></script>
+        <script type="text/javascript" src="js/app/About/view/ContributorsView.js"></script>
+        <script type="text/javascript" src="js/app/About/view/ContributorsCollectionView.js"></script>
+        <script type="text/javascript" src="js/app/About/view/ContributorInfoView.js"></script>
+        <!-- ABOUT LAYER -->
+
+        <!-- MESSENGER LAYER -->
+        <script type="text/javascript" src="js/app/Messenger/tpl/NoticeTpl.js"></script>
+        <script type="text/javascript" src="js/app/Messenger/view/HintView.js"></script>
+        <script type="text/javascript" src="js/app/Messenger/view/NoticeView.js"></script>
+        <script type="text/javascript" src="js/app/Messenger/Controller.js"></script>
+        <!-- MESSENGER LAYER -->
+        
+        <!-- Schedule -->
+
+        
+        <script src="/js/app/Schedule/model/Week.js"></script>
+        <script src="/js/app/Schedule/model/Schedule.js"></script>
+        <script src="/js/app/Schedule/tpl/ScheduleEventsViewTpl.js"></script> 
+        <script src="/js/app/Schedule/tpl/CalendarViewRowTpl.js"></script>
+        <script src="/js/app/Schedule/tpl/CalendarViewDaysTpl.js"></script>  
+        <script src="/js/app/Schedule/tpl/SchedulePagerTpl.js"></script>  
+        <script src="/js/app/Schedule/tpl/ScheduleCellTpl.js"></script>
+        <script src="/js/app/Schedule/ScheduleHelper.js"></script>    
+        
+        <script src="/js/app/Schedule/view/OneEventView.js"></script>
+        <script src="/js/app/Schedule/view/ScheduleCellView.js"></script>
+        <script src="/js/app/Schedule/view/ScheduleView.js"></script>
+        <script src="/js/app/Schedule/view/EventsView.js"></script>
+        <script src="/js/app/Schedule/view/ScheduleEventsView.js"></script>
+        <script src="/js/app/Schedule/view/PagerView.js"></script>
+        <script src="/js/app/Schedule/ScheduleController.js"></script>
+        <script src="/js/app/Schedule/ScheduleRouter.js"></script>
+        
+        <!-- endbuild -->
+          <!-- Account -->
+        <script src="/js/app/Accounts/model/Account.js"></script>
+        <script src="/js/app/Accounts/model/AccountCollection.js"></script>
+        <script src="/js/app/Accounts/tpl/CreateAccountTpl.js"></script>
+        <script src="/js/app/Accounts/view/CreateAccountView.js"></script>
+        <script src="/js/app/Accounts/Controller.js"></script>
+        <script src="/js/app/Accounts/AccountRouter.js"></script>
+
+        <!-- SETTINGS LAYER -->
+        <script src="/js/app/Settings/model/EventType.js"></script>
+        <script src="/js/app/Settings/model/EventTypeCollection.js"></script>
+        <script src="/js/app/Settings/model/ResourceType.js"></script>
+        <script src="/js/app/Settings/model/ResourceTypeCollection.js"></script>
+        <script src="/js/app/Settings/tpl/SettingsTpl.js"></script>
+        <script src="/js/app/Settings/view/EventTypeView.js"></script>
+        <script src="/js/app/Settings/view/EventTypeCollectionView.js"></script>
+        <script src="/js/app/Settings/view/ResourceTypeView.js"></script>
+        <script src="/js/app/Settings/view/ResourceTypeCollectionView.js"></script>
+        <script src="/js/app/Settings/view/SettingsView.js"></script>
+        <script src="/js/app/Settings/Controller.js"></script>
+        <script src="/js/app/Settings/SettingsRouter.js"></script>
+        
+        <!-- endbuild -->
+
+
+    </head>
+    <body>
+        <div class="row">
+            <div id="navbar" class="col-sm-12">
+                <div id="logo"></div>
+                <div id="auth">
+                <span class="glyphicon glyphicon-user"></span>
+                Nikola Tesla 
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div id="messenger"></div>
+                <div id="main"></div>
+            </div>
+        </div>
+    </body>
+</html>
