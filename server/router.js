@@ -70,7 +70,7 @@ function isRest (url) {
             rest = true;
         }
     });
-    console.log('isRest= ' + rest)
+    
     return rest;
 }
 
