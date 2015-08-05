@@ -9,15 +9,15 @@
 		},
 
 		showNext: function () {
-			cs.mediator.publish('NextWeekSelected', ++this.nextNumber);
+			cs.mediator.publish('DiffWeekSelected', ++this.nextNumber);
 		},
 
 		showPrevious: function () {
-			cs.mediator.publish('PreviousWeekSelected', --this.nextNumber);
+			cs.mediator.publish('DiffWeekSelected', --this.nextNumber);
 		},
 
 		render: function () {
-			this.$el.html(this.template());
+			(this.$el).html(this.template());
 			return this;
 		}
 	})

@@ -4,10 +4,10 @@
 		model: App.Events.Event,
 		template: sheduleCellTpl,
 		weekItem: null,
-		collection: This.Schedule,
 
 		events: {
-			'click button': 'close'
+			'click button': 'close',
+			'click': 'click'
 		},
 
 		render: function () {
@@ -22,8 +22,13 @@
 				startDate = new Date(this.$el.parent().parent().parent().attr('startDate')),
 				weekItem = This.createWeekItem(dayNumber, timeline, this.model.get('id'), startDate);
 
-			this.collection.deleteEvent(weekItem);
+
+			collections.scheduleCollection.deleteEvent(weekItem);
 			this.remove();
+		},
+
+		click: function (event) {
+			(this.$el.parent().find('.conflictCell').length) && (event.stopPropagation());
 		}
 	});
 })(App.Schedule);

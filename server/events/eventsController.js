@@ -27,6 +27,7 @@ function EventsController (req, res) {
 	}
 
 	function create (event) {
+		console.log(event.toJSON());
 		db.create(dbName, event.toJSON());
 	}	
 

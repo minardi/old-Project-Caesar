@@ -12,15 +12,18 @@
 }
 
 .calendarCell {
-	text-align: center;
 	border: 1px solid #ddd !important;
 	width: 120px;
 	height: 30px;
-	padding: 3px;
+	font-size: 12px;
+	font-style: italic;
 }
 
-.dangerCell {
-	background-color: #f2dede
+.conflictCell{
+	border: 1px solid #ddd !important;
+	background-color: #f2dede;
+	font-size: 10px;
+	font-style: italic;
 }
 
 .Myschedule {

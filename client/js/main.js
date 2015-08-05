@@ -6,10 +6,10 @@ var App = {},
 
 setUp(App, ['Events', 'Resources', 'About', 'Menu', 'Messenger', 'Schedule', 'ErrorPage']);
 setUp(cs, ['mediator', 'subRouters', 'router', 'menu', 'messenger']);
-setUp(collections, ['resouresCollection', 'eventsCollection']);
+setUp(collections, ['resouresCollection', 'eventsCollection', 'scheduleCollection']);
 
 $(function () {
-    var dataLoader = new DataLoader(); //preload collections and start main function
+    var dataLoader = new DataLoader(); 
     dataLoader.loadCollections(main);
     
     function main () {

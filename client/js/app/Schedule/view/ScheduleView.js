@@ -37,22 +37,20 @@
 		setStartDate: function () {
 			var date = new Date();
 
-			(this.direction > 0) && (date.setDate(date.getDate() + 7*this.direction));
-			(this.direction < 0) && (date.adjustDate(this.direction));
+			(this.direction > 0) && (date.setDate(date.getDate() + 7 * this.direction));
+			(this.direction < 0) && (date.adjustDate(this.direction * 7));
 
 			date = date.adjustDate(-(date.getDay() -1));
 			this.startDate = date;
 			this.currentWeekNumber = this.startDate.getWeekNumber();
 		},
 
-		renderEvents: function (_scheduleCollection) {
-			this.scheduleCollection = _scheduleCollection;
-
+		renderEvents: function () {
 			this.choseWeek();
 		},
 
 		choseWeek: function () {
-			var rightWeek = this.scheduleCollection.findWhere({weekNumber: this.currentWeekNumber});
+			var rightWeek = collections.scheduleCollection.findWhere({weekNumber: this.currentWeekNumber});
 			rightWeek && (_.each(rightWeek.get('days'), this.showDay, this));
 		},
 
@@ -70,7 +68,7 @@
 		},
 
 		createCell: function (event) {
-			var scheduleCellView = new This.ScheduleCellView({model:event, collection: this.scheduleCollection});
+			var scheduleCellView = new This.ScheduleCellView({model:event});
 			return scheduleCellView.render().el;
 		},
 
@@ -83,7 +81,7 @@
 		renderSelectedEvent: function (event) {
 		
 			if (this.selectedEvent) {
-				var $target = ($(event.target).attr('day'))? $(event.target): $(event.target.parentElement.parentElement),
+				var $target = $(event.currentTarget),
 					dayNumber = $target.attr('day'),
 					timeline = $target.parent().attr('timeline');
 
@@ -96,7 +94,7 @@
 		},
 
 		addEventToCollection: function (dayNumber, timeline, eventId) {
-			this.scheduleCollection.addEvent(This.createWeekItem(dayNumber, timeline, eventId, this.startDate));
+			collections.scheduleCollection.addEvent(This.createWeekItem(dayNumber, timeline, eventId, this.startDate));
 		},
 
 		setDirection: function (_direction) {
@@ -106,18 +104,20 @@
 		checkAvailableCells: function () {
 			if (this.selectedEvent) {
 				var selectedResources = this.selectedEvent.toJSON()['resources'],
-					$eventsCells = this.$el.children().children().children(),
-					resources;
-				this.$el.children().children().removeClass('dangerCell');
+					$eventsCells = this.$el.find('.calendarCellDiv').show(),
+					conflictView;
+				this.$el.find('.conflictCell').remove();
 
-				$eventsCells.each( function () {
-					resources = $(this).attr('resources');
-					_.each(selectedResources, function (id) {
-						(resources.indexOf(id) > 0) && $(this).parent().addClass('dangerCell');
-					}, this)
-				
-				})
-			}
+
+				$eventsCells.each( function (i, el) {
+					
+					conflictView = new This.ConflictView($(el).attr('resources'), selectedResources);
+					if (conflictView.isConflict === true) {
+						$(el).hide();
+						$(el).parent().append(conflictView.render().el);
+					};
+				});
+			};
 		}
 	});
 })(App.Schedule);

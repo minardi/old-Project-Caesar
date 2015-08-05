@@ -10,6 +10,7 @@ var DataLoader = function () {
     function initCollections () {
         collections.resouresCollection = new App.Resources.ResourcesCollection();
         collections.eventsCollection = new App.Events.EventCollection();
+        collections.scheduleCollection = new App.Schedule.Schedule();
     }
     
     function renderLoadingBar () {
@@ -21,8 +22,12 @@ var DataLoader = function () {
         collections.resouresCollection.once('sync', function () {
             collections.eventsCollection.fetch();
             collections.eventsCollection.once('sync', function () {
-                main();
-                $('.sequence').remove();
+                collections.scheduleCollection.fetch();
+                collections.scheduleCollection.once('sync', function () {
+                    main();
+                    $('.sequence').remove();
+                })
+
             })
         });
     }

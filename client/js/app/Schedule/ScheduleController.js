@@ -6,51 +6,20 @@
 				'full': new This.ScheduleEventsView(),
 				'pager': new This.PagerView()
 			},
-			scheduleCollection = new This.Schedule(),
-			$el = $('#main');
+			$el = $('#main'),
+			selectedEvent;
 
 		start();
 
 		function start () {
 			setupMediator();
-			initCollection();
 			showScheduleEvents();
 		}
 		
-		function initCollection () {
-			scheduleCollection.push({
-				'startDate': new Date(2015, 7, 3),
-				'days': {
-					1: {
-						'8:00': [1,2],
-						'16:30': [3]
-					},
-					3: {
-						'10:30': [2],
-						'11:00': [2]
-					}
-				}
-			});		
-			scheduleCollection.push({
-				'startDate': new Date(2015, 7, 10),
-				'days': {
-					1: {
-						'18:00': [1],
-						'16:30': [3]
-					},
-					5: {
-						'10:30': [2],
-						'11:00': [2]
-					}
-				}
-			});		
-		}
-
 		function setupMediator () {
 			cs.mediator.subscribe('ScheduleSelected', showSchedule);
 			cs.mediator.subscribe('EventSelected', setupSelectedEvent);
-			cs.mediator.subscribe('NextWeekSelected', showNextweek);
-			cs.mediator.subscribe('PreviousWeekSelected', showPrevweek);
+			cs.mediator.subscribe('DiffWeekSelected', showWeek);
 		}
 
 		function showScheduleEvents () {
@@ -58,7 +27,7 @@
 			views['full'].appendView('schedule', views['schedule'].render().el);
 			views['full'].appendView('pager', views['pager'].render().el);
 			
-			views['schedule'].renderEvents(scheduleCollection);
+			views['schedule'].renderEvents();
 
 			$el.append(views['full'].render().el);
 		}
@@ -69,24 +38,19 @@
 		}
 
 		function setupSelectedEvent (event) {
+			selectedEvent = event;
 			views['schedule'].setupSelectedEvent(event);
 			views['schedule'].checkAvailableCells();
 		}
 
-		function showNextweek (nextNumber) {
-			views['schedule'].remove();
-			views['schedule'].setDirection(nextNumber);
-			views['full'].appendView('schedule', views['schedule'].render().el);
-
-			views['schedule'].renderEvents(scheduleCollection);
-		}
-
-		function showPrevweek (prevNumber) {
+		function showWeek (prevNumber) {
 			views['schedule'].remove();
 			views['schedule'].setDirection(prevNumber);
 			views['full'].appendView('schedule', views['schedule'].render().el);
 
-			views['schedule'].renderEvents(scheduleCollection);
+			views['schedule'].renderEvents();
+			views['schedule'].setupSelectedEvent(selectedEvent);
+			views['schedule'].checkAvailableCells();
 		}
 
 		function hideAll () {
