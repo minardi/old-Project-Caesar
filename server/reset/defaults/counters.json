@@ -14,5 +14,9 @@
 	{
 		"_id": "weeksId",
 		"seq": 1
+	},
+	{
+		"_id": "accountsId",
+		"seq": 1
 	}
 ]

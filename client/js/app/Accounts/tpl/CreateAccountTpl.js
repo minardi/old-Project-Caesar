@@ -55,7 +55,7 @@ var createAccountTpl = _.template([
                 '</div>',
             '</div>',
         '</form>',
-        //  '<button type="button" class="btn btn-info save">',
-        //         '<i class="glyphicon glyphicon-floppy-saved"></i> Save',
-        // '</button>',
+         '<button type="button" class="btn btn-info save">',
+                '<i class="glyphicon glyphicon-floppy-saved"></i> Save',
+        '</button>',
 ].join(''));

@@ -20,7 +20,6 @@ router.get('/reset', function(req, res, next) {
     var resetController = new require('./reset/resetController')(req, res);
 });
 
-
 router.post('/', function (req, res) {
     var post = req.body;
         if (post.login === 'caesar') {
@@ -29,7 +28,9 @@ router.post('/', function (req, res) {
         } else {          
             res.redirect('/');
         }
+
 });
+
 
 router.get('/', function (req, res) {
     var staticRoute = /^\/build/.test(req.url)? './public': '../client';
