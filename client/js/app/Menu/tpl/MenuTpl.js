@@ -19,7 +19,7 @@ var menuTpl = _.template([
     '</li>',
     '<li role="presentation" class="createAccount menu-item">',
         '<span class="glyphicon glyphicon-user"></span></br>',    
-        'Create Account',
+        'Sign up',
     '</li>',
     '<li role="presentation" class="about menu-item">',
         '<span class="glyphicon glyphicon-question-sign"></span></br>',    

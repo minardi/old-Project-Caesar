@@ -8,17 +8,18 @@ var express = require('express'),
     accountsRouter = require('./accounts/accountsRouter'),   
     contributorsRouter = require('./contributors/contributorsRouter');
 
-router.use('*', function (req, res, next) {
-    var staticRoute = /^\/build/.test(req.url)? './public': '../client',
-        user = req.cookies.login,
-        userExists = Boolean(user);  
+// router.use('*', function (req, res, next) {
+//     var staticRoute = /^\/build/.test(req.url)? './public': '../client',
+//         user = req.cookies.login,
+//         userExists = Boolean(user);  
           
-        if (userExists) {
-            next(req, res);
-        } else {
-            res.sendFile('index.html', { root: staticRoute });  
-        } 
-});
+//         if (userExists) {
+            
+//             next(req, res);
+//         } else {
+//             res.sendFile('index.html', { root: staticRoute });  
+//         } 
+// });
 
 router.use(/^\/events\b/, eventsRouter);
 router.use(/^\/eventTypes\b/, eventTypesRouter);
@@ -28,24 +29,24 @@ router.use(/^\/schedule\b/, scheduleRouter);
 router.use(/^\/accounts/, accountsRouter);
 router.use(/^\/contributors\b/, contributorsRouter);
 
-router.get('/reset', function(req, res, next) {		
+router.get('/reset', function(req, res, next) {     
     var resetController = new require('./reset/resetController')(req, res);
 });
 
-router.post('/', function (req, res) {
-    var user = req.body.login,
-        userExists = Boolean(user),
-        minute = 60 * 1000,
-        staticRoute = /^\/build/.test(req.url)? './public': '../client';;
+// router.post('/', function (req, res) {
+//     var user = req.body.login,
+//         userExists = Boolean(user),
+//         minute = 60 * 1000,
+//         staticRoute = /^\/build/.test(req.url)? './public': '../client';;
 
-    // check if exists in db
-    if (userExists) {
-        res.cookie('login', user, { maxAge: minute });
-        res.sendFile('home.html', { root: staticRoute }); 
-    } else {
-        res.redirect('back'); 
-    }    
-});
+//     // check if exists in db
+//     if (userExists) {
+//         res.cookie('login', user, { maxAge: minute });
+//         res.sendFile('home.html', { root: staticRoute }); 
+//     } else {
+//         res.redirect('back'); 
+//     }    
+// });
 
 router.all('*', function (req, res, next) {
     var staticRoute = /^\/build/.test(req.url)? './public': '../client',
@@ -53,17 +54,15 @@ router.all('*', function (req, res, next) {
         userExists = Boolean(user);
 
 
-        console.log('* route called');
+    console.log('* route called');
 
-        if (userExists) {
-            if (!isRest(req.url)) {  
-                res.sendFile('home.html', { root: staticRoute });
-            }           
-        } else {
-                res.sendFile('index.html', { root: staticRoute });            
-        }
-
-
+    //if (userExists) {
+        if (!isRest(req.url)) {  
+            res.sendFile('home.html', { root: staticRoute });
+        }           
+    //} else {
+    //        res.sendFile('index.html', { root: staticRoute });            
+    //}
 });
 
 function isRest (url) {
