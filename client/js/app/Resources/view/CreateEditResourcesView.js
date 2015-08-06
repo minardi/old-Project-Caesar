@@ -3,7 +3,7 @@
         
         className: 'modal fade in',
 
-        template: editResourceTpl,
+        template: templates.editResourceTpl,
 
         events: {
             'click .save': 'save',

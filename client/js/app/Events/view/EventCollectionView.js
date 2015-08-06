@@ -3,7 +3,7 @@
     This.EventCollectionView = Backbone.View.extend({
         tagName: 'div',
         className: 'events',
-        tpl: eventCollectionTpl,
+        tpl: templates.eventCollectionTpl,
 		
 		events: {
             'click .add': 'add'

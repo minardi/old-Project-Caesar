@@ -1,4 +1,4 @@
-var schedulePagerTpl = _.template([
+templates.schedulePagerTpl = _.template([
 '		<div>',
 '			<ul class="pager">',
 ' 				<li class="previous"><a href="#">Previous</a></li>',

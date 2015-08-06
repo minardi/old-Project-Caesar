@@ -1,4 +1,4 @@
-var scheduleEventsTpl = _.template([
+templates.scheduleEventsTpl = _.template([
 '	<div class = "scheduleEvents"></div>',
 '	<div>',
 '		<div class = "Myschedule"></div>',

@@ -1,4 +1,4 @@
-var sheduleCellTpl = _.template([
+templates.sheduleCellTpl = _.template([
 '	<button type="button" class="close">',
 '   	 <span>&times;</span>',
 '	</button>',

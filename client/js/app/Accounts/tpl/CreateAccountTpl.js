@@ -1,5 +1,5 @@
 'use strict';
-var createAccountTpl = _.template([
+templates.createAccountTpl = _.template([
         '<form id="formAccount" role="form">',
             '<div class="col-md-6 col-sm-offset-2 form-box">',
                    '<div class="form-group">',

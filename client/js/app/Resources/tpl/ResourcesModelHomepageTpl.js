@@ -1,4 +1,4 @@
-var resourcesModelHomepageTpl = _.template([
+templates.resourcesModelHomepageTpl = _.template([
 '   <td><%= name %></td>',
 '   <td><%= type %></td>',
 '   <td class="col-lg-1">',

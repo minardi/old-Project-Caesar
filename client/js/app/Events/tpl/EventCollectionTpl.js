@@ -1,5 +1,5 @@
 'use strict';
-var eventCollectionTpl = _.template([
+templates.eventCollectionTpl = _.template([
 	'<div class="panel panel-default">',
 		'<div class="panel-heading">',
 			'<div class="row">',

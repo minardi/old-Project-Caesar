@@ -1,8 +1,8 @@
 (function (This) {
     This.CreateEditView = Backbone.View.extend({
         className: 'modal fade in',
-        template: editEventTpl,
-        resourceItemTpl: resourceItemTpl,
+        template: templates.editEventTpl,
+        resourceItemTpl: templates.resourceItemTpl,
 
         events: {
             'click .save': 'save',

@@ -1,4 +1,4 @@
-var contributorFullInfoTpl = _.template([
+templates.contributorFullInfoTpl = _.template([
     '<div id = "contributorsNames" class="contributorsNames animated zoomIn">',
         '<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="Tooltip on left">',
             '<div class="form-group">',

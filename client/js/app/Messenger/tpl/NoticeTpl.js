@@ -1,4 +1,4 @@
-var noticeTpl = _.template([
+templates.noticeTpl = _.template([
     '<div class="alert alert-success alert-dismissible">',
         '<i class="glyphicon glyphicon-ok"></i>',
         '<span class="alert-text"><%= message %></span>',

@@ -7,7 +7,7 @@
         view: '',
 		tooltip: '',
 
-        template: contributorFullInfoTpl,
+        template: templates.contributorFullInfoTpl,
 
         render: function (itaName) {
 		    var modelJSON = this.model;

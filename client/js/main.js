@@ -2,7 +2,8 @@
 
 var App = {},
     cs = {},
-    collections = {};
+    collections = {},
+    templates = {};
 
 setUp(App, ['Events', 'Resources', 'About', 'Menu', 'Messenger', 'Schedule', 'ErrorPage', 'Settings', 'Accounts', 'Holidays']);
 setUp(cs, ['mediator', 'subRouters', 'router', 'menu', 'messenger']);
