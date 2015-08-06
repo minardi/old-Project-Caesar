@@ -24,7 +24,7 @@ function ResourceTypesController (req, res) {
 	}
 
 	function create () {
-
+		var resourceType = new ResourceType(req.body);
 
 		db.create(dbName, resourceType.toJSON());
 	}	
