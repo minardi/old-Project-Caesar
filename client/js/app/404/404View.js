@@ -1,6 +1,6 @@
 (function (This)  {
     This.ErrorPageView = Backbone.View.extend({
-        tpl: ErrorPageTpl,
+        tpl: templates.ErrorPageTpl,
 
         render: function () {
             this.$el.append(this.tpl());

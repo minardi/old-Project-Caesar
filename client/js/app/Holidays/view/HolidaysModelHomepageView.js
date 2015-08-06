@@ -2,7 +2,7 @@
     This.HolidaysModelHomepageView = Backbone.View.extend({
         tagName: 'tr',
     
-        template: holidaysModelHomepageTpl,
+        template: templates.holidaysModelHomepageTpl,
     
         events: {
             'click .glyphicon-edit': 'openEdit',

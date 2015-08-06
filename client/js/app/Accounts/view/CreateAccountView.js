@@ -1,6 +1,6 @@
 (function (This) {
     This.CreateAccountView = Backbone.View.extend({
-        template: createAccountTpl,
+        template: templates.createAccountTpl,
         className: 'accounts',
 
         events: {

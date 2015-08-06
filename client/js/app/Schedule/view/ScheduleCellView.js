@@ -2,7 +2,7 @@
 	This.ScheduleCellView = Backbone.View.extend({
 		className: 'calendarCellDiv',
 		model: App.Events.Event,
-		template: sheduleCellTpl,
+		template: templates.sheduleCellTpl,
 		weekItem: null,
 		collection: This.Schedule,
 

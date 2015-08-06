@@ -4,7 +4,7 @@
     This.NoticeView = Backbone.View.extend({
         className: 'hidden notice',
 
-        template: noticeTpl,
+        template: templates.noticeTpl,
 
         set: function (message) {
             this.message = message;

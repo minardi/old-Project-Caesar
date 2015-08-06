@@ -1,6 +1,6 @@
 (function (This) {
 	This.PagerView = Backbone.View.extend({
-		template: schedulePagerTpl,
+		template: templates.schedulePagerTpl,
 		nextNumber: 0,
 
 		events: {

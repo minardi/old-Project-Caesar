@@ -5,7 +5,7 @@
         tagName: 'div',
         className: 'About',
 
-        template: groupCollectionTpl,
+        template: templates.groupCollectionTpl,
        
         initialize: function () {
             this.groupCollection = new This.GroupCollection(this.cleargroupList);

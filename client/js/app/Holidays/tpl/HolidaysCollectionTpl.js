@@ -1,4 +1,4 @@
-var holidaysCollectionTpl = _.template([
+templates.holidaysCollectionTpl = _.template([
     '<div class="panel panel-default">',
         '<div class="panel-heading">',
             '<div class="row">',

@@ -1,5 +1,5 @@
 
-var editEventTpl = _.template([
+templates.editEventTpl = _.template([
     '<div class="modal-backdrop fade in"></div>',
         '<div class="modal-dialog modal-md">',
             '<div class="modal-content">',

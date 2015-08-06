@@ -1,4 +1,4 @@
-var calendarRowTpl = _.template([
+templates.calendarRowTpl = _.template([
 '	<tr  timeline = "<%= timeline %>">',
 '		<td>',
 '			<%= timeline %>',
