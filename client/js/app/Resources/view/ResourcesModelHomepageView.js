@@ -2,7 +2,7 @@
     This.ResourcesModelHomepageView = Backbone.View.extend({
         tagName: 'tr',
     
-        template: resourcesModelHomepageTpl,
+        template: templates.resourcesModelHomepageTpl,
     
         events: {
             'click .glyphicon-edit': 'openEdit',

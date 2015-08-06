@@ -2,14 +2,17 @@
 
 var App = {},
     cs = {},
-    collections = {};
+    collections = {},
+    templates = {};
 
 setUp(App, ['Events', 'Resources', 'About', 'Menu', 'Messenger', 'Schedule', 'ErrorPage', 'Settings', 'Accounts', 'Holidays']);
 setUp(cs, ['mediator', 'subRouters', 'router', 'menu', 'messenger']);
-setUp(collections, ['resouresCollection', 'eventsCollection', 'eventTypes', 'resourceTypes']);
+
+setUp(collections, ['resouresCollection', 'eventsCollection', 'scheduleCollection', 'eventTypes', 'resourceTypes']);
+
 
 $(function () {
-    var dataLoader = new DataLoader(); //preload collections and start main function
+    var dataLoader = new DataLoader(); 
     dataLoader.loadCollections(main);
     
     function main () {

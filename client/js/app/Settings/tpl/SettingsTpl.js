@@ -1,4 +1,4 @@
-var settingsTpl = _.template([
+templates.settingsTpl = _.template([
     '<div class = "resources-types"></div>',
     '<div class = "events-types"></div>'
 ].join(''));

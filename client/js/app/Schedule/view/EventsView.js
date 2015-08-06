@@ -5,7 +5,7 @@
 		$fragment: null,
 
 		events: {
-			'click': 'selectItem'
+			'click': 'selectItem',
 		},
 
 		initialize: function () {
@@ -19,16 +19,17 @@
 
 		render: function () {
 			this.$fragment = $(document.createDocumentFragment());
+			this.$fragment.append('Events:');
+			
 			collections.eventsCollection.each(this.renderOne.bind(this));
 			this.$el.html(this.$fragment);
+			this.delegateEvents();
 			return this;
 		},
 
 		renderOne: function (event) {
 			var eventView = new This.OneEventView({model:event});
 			this.$fragment.append(eventView.render().el);
-		},
-
-
+		}
 	})
 })(App.Schedule);

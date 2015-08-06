@@ -1,5 +1,5 @@
 'use strict';
-var eventTpl = _.template([
+templates.eventTpl = _.template([
     '<td><%= name   %></td>',
 	'<td><%= type %></td> ',
 	'<td class="col-lg-1">',

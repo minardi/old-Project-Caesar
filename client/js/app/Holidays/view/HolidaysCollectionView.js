@@ -4,7 +4,7 @@
 
         className: 'holiday',
 
-        template: holidaysCollectionTpl,
+        template: templates.holidaysCollectionTpl,
 
         events: {
             'click .create': 'create'

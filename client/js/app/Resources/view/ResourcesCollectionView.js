@@ -4,7 +4,7 @@
 
         className: 'resource',
 
-        template: resourceCollectionTpl,
+        template: templates.resourceCollectionTpl,
 
         events: {
             'click .create': 'create'

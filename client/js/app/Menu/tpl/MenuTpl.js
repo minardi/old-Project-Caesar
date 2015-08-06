@@ -1,5 +1,5 @@
 'use strict';
-var menuTpl = _.template([
+templates.menuTpl = _.template([
 '<ul class="menu">',
     '<li role="presentation" class="schedule menu-item">',
         '<span class="glyphicon glyphicon-calendar"></span></br>',

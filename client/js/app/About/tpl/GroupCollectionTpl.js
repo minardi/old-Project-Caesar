@@ -1,4 +1,4 @@
-var groupCollectionTpl = _.template([
+templates.groupCollectionTpl = _.template([
     '<div class="panel panel-default group-collection">',
         '<div class="panel-heading">',
             '<div class="row">',

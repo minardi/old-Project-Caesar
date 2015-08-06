@@ -5,7 +5,7 @@
         tagName: 'div',
         className: 'group-container',
 
-        template: groupTpl,
+        template: templates.groupTpl,
 
         initialize: function (_group, _contributors) {
             this.model = _group;

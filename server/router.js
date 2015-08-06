@@ -33,6 +33,10 @@ router.get('/reset', function(req, res, next) {
     var resetController = new require('./reset/resetController')(req, res);
 });
 
+router.all('/download', function(req, res, next) {     
+    var generatorController = new require('./generator/generatorController')(req, res);
+});
+
 // router.post('/', function (req, res) {
 //     var user = req.body.login,
 //         userExists = Boolean(user),
@@ -58,7 +62,7 @@ router.all('*', function (req, res, next) {
 
     //if (userExists) {
         if (!isRest(req.url)) {  
-            res.sendFile('home.html', { root: staticRoute });
+            res.sendFile('index.html', { root: staticRoute });
         }           
     //} else {
     //        res.sendFile('index.html', { root: staticRoute });            

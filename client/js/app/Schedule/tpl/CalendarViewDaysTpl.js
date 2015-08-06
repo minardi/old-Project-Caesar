@@ -1,4 +1,4 @@
-var daysRowTpl = _.template([
+templates.daysRowTpl = _.template([
 '	<tr>',
 '		<td>',
 '		</td>',

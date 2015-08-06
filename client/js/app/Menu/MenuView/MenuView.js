@@ -3,7 +3,7 @@
     This.MenuView = Backbone.View.extend({
         tagName: 'div',
         className: 'col-sm-10 col-sm-offset-1',
-        tpl: menuTpl,
+        tpl: templates.menuTpl,
 
         events: {
             'click .resources': 'showResources',

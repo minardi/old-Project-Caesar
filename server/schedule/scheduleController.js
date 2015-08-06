@@ -8,7 +8,7 @@ function ScheduleController (req, res) {
 			'PUT': update,
 			'DELETE': del
 		},
-		dbName = 'schedule',
+		dbName = 'weeks',
 		id = req.params.id;
 
 	m.subscribe(dbName + 'RequestHandeled', responde);
@@ -25,13 +25,12 @@ function ScheduleController (req, res) {
 
 	function create () {
 		var scheduleWeek = new ScheduleWeek(req.body);
-
 		db.create(dbName, scheduleWeek.toJSON());
 	}	
 
 	function update () {
 		var scheduleWeek = new ScheduleWeek(req.body);
-		
+
 		db.update(dbName, scheduleWeek.toJSON(), id);
 	}
 

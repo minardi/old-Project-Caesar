@@ -11,16 +11,35 @@
 	padding-top: 3%
 }
 
+.SheduleAndPager {
+	float: left;
+	width: 70%;
+	padding-left: 5%;
+}
+
+.pager {
+    margin: 0; /* Обнуляем значение отступов */
+    padding: 4px; /* Значение полей */
+   
+}
+
+.table {
+	margin-bottom: 0px
+}
+
 .calendarCell {
-	text-align: center;
 	border: 1px solid #ddd !important;
 	width: 120px;
 	height: 30px;
-	padding: 3px;
+	font-size: 12px;
+	font-style: italic;
 }
 
-.dangerCell {
-	background-color: #f2dede
+.conflictCell{
+	border: 1px solid #ddd !important;
+	background-color: #f2dede;
+	font-size: 10px;
+	font-style: italic;
 }
 
 .Myschedule {
@@ -29,11 +48,18 @@
 	padding-left: 5%;
 }
 
+.schedulePager {
+	float: left;
+	width: 70%;
+	padding-left: 5%;
+}
+
 .calendarCellDiv {
 	border: 1px solid #7A7A7A !important;
-	background-color: #E7FCFE
+	background-color: #E7FCFE;
 }
 
 .table-bordered tr>td:first-child {
     width:20px;
 }
+

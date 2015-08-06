@@ -3,7 +3,7 @@
 (function (This) {
     This.ContributorsCollectionView = Backbone.View.extend({
         tagName: 'div',
-        template: contributorsNamesCollectionTpl,
+        template: templates.contributorsNamesCollectionTpl,
 
         initialize: function (options) {
             this.contributors = options.contributors;

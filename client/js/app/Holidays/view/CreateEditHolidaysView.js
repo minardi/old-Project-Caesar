@@ -3,7 +3,7 @@
         
         className: 'modal fade in',
 
-        template: editHolidayTpl,
+        template: templates.editHolidayTpl,
 
         events: {
             'click .save': 'save',

@@ -1,4 +1,4 @@
-var holidaysModelHomepageTpl = _.template([
+templates.holidaysModelHomepageTpl = _.template([
 '   <td><%= name %></td>',
 '   <td><%= location %></td>',
 '   <td><%= date %></td>',

@@ -3,7 +3,7 @@
     This.SettingsView = Backbone.View.extend({
         tagName: 'div',
         className: 'settings',
-        tpl: settingsTpl,
+        tpl: templates.settingsTpl,
         
         initialize: function () {
             this.eventsView = new App.Settings.EventTypeCollectionView();

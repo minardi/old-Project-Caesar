@@ -1,13 +1,16 @@
 (function (This) {
 	This.Schedule = Backbone.Collection.extend({
 		model: This.Week,
+		url: '/schedule',
 
 		addEvent: function (week) {
 			var rightWeek = this.findWhere({weekNumber: week.get('weekNumber')}),
+				arrtibutes = {},
 				days;
-
 			if (!rightWeek) {
 				this.push(week);
+				rightWeek = this.findWhere({weekNumber: week.get('weekNumber')});
+
 			} else {
 				days = rightWeek.get('days');
 
@@ -21,7 +24,19 @@
 							}, this);
 					}, this)
 				}, this);
-			}
+
+			};
+
+/*
+			attributes = {
+				startDate: String(week.get('startDate')),
+				days: JSON.parse(week.get('days')),
+			};
+
+			rightWeek.isNew();
+			rightWeek.save(attributes);
+	*/	
+		//rightWeek.save();
 		},
 
 		deleteEvent: function (week) {
@@ -43,6 +58,12 @@
 
 					}, this)
 				}, this);
+
+			if (_.isEmpty(rightWeek.get('days'))) {
+				rightWeek.destroy();
+			} else {
+				rightWeek.save();
+			};
 		}
 	})
 })(App.Schedule);
