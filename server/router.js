@@ -6,7 +6,8 @@ var express = require('express'),
     resourceTypesRouter = require('./resourceTypes/resourceTypesRouter'),    
     scheduleRouter = require('./schedule/scheduleRouter'),   
     accountsRouter = require('./accounts/accountsRouter'),   
-    contributorsRouter = require('./contributors/contributorsRouter');
+    contributorsRouter = require('./contributors/contributorsRouter'),
+    holidaysRouter = require('./holidays/holidaysRouter');
 
 // router.use('*', function (req, res, next) {
 //     var staticRoute = /^\/build/.test(req.url)? './public': '../client',
@@ -28,6 +29,7 @@ router.use(/^\/resourceTypes\b/, resourceTypesRouter);
 router.use(/^\/schedule\b/, scheduleRouter);
 router.use(/^\/accounts/, accountsRouter);
 router.use(/^\/contributors\b/, contributorsRouter);
+router.use(/^\/holidays\b/, holidaysRouter);
 
 router.get('/reset', function(req, res, next) {     
     var resetController = new require('./reset/resetController')(req, res);
@@ -78,6 +80,7 @@ function isRest (url) {
         'resourceTypes',
         'users', 
         'contributors', 
+        'holidays'
         ],
         rest = false;
     

@@ -45,7 +45,7 @@
 
             }, this);
 
-            // this.model.save(); //temporary measures - uncomment this when server layer exists
+            this.model.save(); 
             
             cs.mediator.publish('HolidaysViewClosed'); //publish to Controller
         },

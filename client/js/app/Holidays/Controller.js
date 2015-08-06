@@ -1,18 +1,6 @@
 (function (This) {
     This.Controller = function () {
-        // var collection = collections.holidaysCollection,
-        var collection = new App.Holidays.HolidaysCollection([
-                {
-                    name: 'Labor Day',
-                    location: 'Ukraine',
-                    date: '01.05.2015'
-                },
-                {
-                    name: 'Independence Day',
-                    location: 'Ukraine',
-                    date: '24.08.2015'
-                }
-            ]),
+        var collection = collections.holidaysCollection,
             holidays = new This.CollectionView({collection: collection}),
             $holidays = $('#main'),
             view,

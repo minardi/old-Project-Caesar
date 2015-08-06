@@ -1,0 +1,14 @@
+[
+	{
+		"id": 0,
+		"name": "Labor Day",
+		"location": "Ukraine",
+		"date": "01.05.2015"
+	},
+	{
+		"id": 1,
+		"name": "Independence Day",
+		"location": "Ukraine",
+		"date": "01.05.2015"
+	}	
+]

@@ -13,6 +13,7 @@ var DataLoader = function () {
         collections.scheduleCollection = new App.Schedule.Schedule();
         collections.eventTypes = new App.Settings.EventTypeCollection();
         collections.resourceTypes = new App.Settings.ResourceTypeCollection();
+        collections.holidaysCollection = new App.Holidays.HolidaysCollection();
     }
     
     function renderLoadingBar () {
@@ -30,8 +31,11 @@ var DataLoader = function () {
                     collections.eventTypes.once('sync', function () {
                         collections.resourceTypes.fetch();
                         collections.resourceTypes.once('sync', function () {
-                            main();
-                            $('.sequence').remove();
+                            collections.holidaysCollection.fetch();
+                            collections.holidaysCollection.once('sync', function () {
+                                main();
+                                $('.sequence').remove();
+                            });
                         });
                     });
                 });

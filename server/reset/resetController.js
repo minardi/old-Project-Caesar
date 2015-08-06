@@ -7,6 +7,7 @@ function ResetController (req, res) {
 		weeks = require('./defaults/weeks.json'),
 		accounts = require('./defaults/accounts.json'),
 		counters = require('./defaults/counters.json'),
+		holidays = require('./defaults/holidays.json'),
 		db = new require('../db/db')(),
 		defaultValues = {
 			events: events, 
@@ -16,7 +17,8 @@ function ResetController (req, res) {
 			contributors: contributors,
 			accounts: accounts,
 			weeks: weeks,
-			counters: counters
+			counters: counters,
+			holidays: holidays
 		};
 
 	m.subscribe('resetCompleted', responde);

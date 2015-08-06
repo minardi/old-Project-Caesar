@@ -100,6 +100,7 @@ function DataBase () {
 		 	var events = db.collection('events'),
 		 		resources = db.collection('resources'),
 		 		contributors = db.collection('contributors'),
+		 		holidays = db.collection('holidays'),
 		 		counters = db.collection('counters'),
 		 		resetsCount = 0,
 		 		collectionsCount = Object.keys(defaults).length,
