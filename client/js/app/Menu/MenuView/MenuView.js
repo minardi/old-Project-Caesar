@@ -42,7 +42,7 @@
         },
 
          showSettings: function () {
-            //cs.mediator.publish('MenuClicked', '/Settings'); //publish to global router
+            cs.mediator.publish('MenuClicked', '/Settings'); //publish to global router
             this.$('.menu-item').removeClass('active');
             this.$('.settings').addClass('active');
         },

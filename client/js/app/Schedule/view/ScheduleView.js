@@ -108,8 +108,7 @@
 					$eventsCells = this.$el.find('.calendarCellDiv').show(),
 					conflictView;
 				this.$el.find('.conflictCell').remove();
-
-
+	
 				$eventsCells.each( function (i, el) {
 					
 					conflictView = new This.ConflictView($(el).attr('resources'), selectedResources);

@@ -3,7 +3,6 @@
     This.SettingsView = Backbone.View.extend({
         tagName: 'div',
         className: 'settings',
-        tpl: templates.settingsTpl,
         
         initialize: function () {
             this.eventsView = new App.Settings.EventTypeCollectionView();
@@ -11,9 +10,8 @@
         },
         
         render: function () {
-            this.$el.html(this.tpl);
-            this.$('.resources-types').append(this.resourcesView.render().$el);
-            this.$('.events-types').append(this.eventsView.render().$el);
+            this.$el.append(this.resourcesView.render().$el);
+            this.$el.append(this.eventsView.render().$el);
 
             return this;
         },

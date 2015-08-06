@@ -5,7 +5,8 @@
 
 		addEvent: function (week) {
 			var rightWeek = this.findWhere({weekNumber: week.get('weekNumber')}),
-				arrtibutes = {},
+				attributes = {},
+				json,
 				days;
 			if (!rightWeek) {
 				this.push(week);
@@ -27,16 +28,13 @@
 
 			};
 
-/*
 			attributes = {
-				startDate: String(week.get('startDate')),
-				days: JSON.parse(week.get('days')),
+				startDate: String(rightWeek.get('startDate')),
+				days: rightWeek.get('days')
 			};
 
-			rightWeek.isNew();
 			rightWeek.save(attributes);
-	*/	
-		//rightWeek.save();
+		
 		},
 
 		deleteEvent: function (week) {

@@ -4,7 +4,8 @@
 				'schedule': new This.ScheduleView(),
 				'events': new This.EventsView(),
 				'full': new This.ScheduleEventsView(),
-				'pager': new This.PagerView()
+				'pager': new This.PagerView(),
+				'download': new This.DownloadView()
 			},
 			$el = $('#main'),
 			selectedEvent;
@@ -25,6 +26,7 @@
 
 		function showScheduleEvents () {
 			views['full'].appendView('events', views['events'].render().el);
+			views['full'].appendView('download', views['download'].render().el);
 			views['full'].appendView('schedule', views['schedule'].render().el);
 			views['full'].appendView('pager', views['pager'].render().el);
 			

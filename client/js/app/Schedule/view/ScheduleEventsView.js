@@ -11,7 +11,8 @@
 			var modules = {
 				'events': 'scheduleEvents',
 				'schedule': 'Myschedule',
-				'pager': 'schedulePager'
+				'pager': 'schedulePager',
+				'download': 'download'
 			};
 			this.$el.find('.' + modules[moduleName]).html(element);
 		},

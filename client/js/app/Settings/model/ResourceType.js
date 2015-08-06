@@ -3,6 +3,7 @@
     This.ResourceType = Backbone.Model.extend({
         defaults: {
             name: ''
-        }
+        },
+        urlRoot: '/resourceTypes'
     });
 })(App.Settings);
