@@ -13,6 +13,7 @@
             'click .reference': 'showReference',
             'click .contributors': 'showContributors',
             //'click .about': 'showAbout',
+            'click .holidays': 'showHolidays',
             'click .createAccount': 'createAccount'
         },
 
@@ -63,6 +64,12 @@
             cs.mediator.publish('MenuClicked', '/Accounts'); //publish to global router
             this.$('.menu-item').removeClass('active');
             this.$('.createAccount').addClass('active');
+        },
+
+        showHolidays: function () {
+            cs.mediator.publish('MenuClicked', '/Holidays'); //publish to global router
+            this.$('.menu-item').removeClass('active');
+            this.$('.holidays').addClass('active');
         }
     }); 
 })(App.Menu);
