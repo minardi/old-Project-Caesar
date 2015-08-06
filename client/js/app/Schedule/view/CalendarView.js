@@ -1,7 +1,7 @@
 (function (This) {
 	This.ScheduleView = Backbone.View.extend({
 		tagName: 'table',
-		template: calendarRowTpl,
+		template: templates.calendarRowTpl,
 		direction: 0,
 
 		events: {

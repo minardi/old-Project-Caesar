@@ -1,7 +1,7 @@
 (function (This) {
 	This.ScheduleView = Backbone.View.extend({
 		tagName: 'table',
-		template: calendarRowTpl,
+		template: templates.calendarRowTpl,
 		direction: 0,
 
 		events: {
@@ -9,7 +9,7 @@
 		},
 
 		renderGrid: function () {
-			var daysTpl = daysRowTpl,
+			var daysTpl = templates.daysRowTpl,
 				$fragment = $(document.createDocumentFragment());
 
 			this.setStartDate();

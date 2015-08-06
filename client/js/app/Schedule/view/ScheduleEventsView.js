@@ -1,6 +1,6 @@
 (function (This) {
 	This.ScheduleEventsView = Backbone.View.extend({
-		template: scheduleEventsTpl,
+		template: templates.scheduleEventsTpl,
 		className :'schedule',
 
 		initialize: function () {

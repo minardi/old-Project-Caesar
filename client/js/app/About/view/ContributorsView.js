@@ -7,7 +7,7 @@
             view: '',
 		    itaName: '',
 
-            template: contributorNamesTpl,
+            template: templates.contributorNamesTpl,
             events: {
                 'mouseover': 'showInfo',
                 'mouseout': 'hideInfo',

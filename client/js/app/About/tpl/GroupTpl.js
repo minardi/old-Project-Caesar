@@ -1,4 +1,4 @@
-var groupTpl = _.template([
+templates.groupTpl = _.template([
     '<div class="row group-container">',
         '<div class="col-md-4 col-sm-4 group-logo-container">',
             '<div class="">',

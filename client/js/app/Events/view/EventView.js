@@ -2,7 +2,7 @@
 (function (This) {
     This.EventView = Backbone.View.extend({
         tagName: 'tr',
-        tpl: eventTpl,
+        tpl: templates.eventTpl,
 		
 		events: {
             'click .edit': 'edit',
