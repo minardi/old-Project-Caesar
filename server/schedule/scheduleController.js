@@ -25,12 +25,13 @@ function ScheduleController (req, res) {
 
 	function create () {
 		var scheduleWeek = new ScheduleWeek(req.body);
+
 		db.create(dbName, scheduleWeek.toJSON());
 	}	
 
 	function update () {
 		var scheduleWeek = new ScheduleWeek(req.body);
-
+		
 		db.update(dbName, scheduleWeek.toJSON(), id);
 	}
 

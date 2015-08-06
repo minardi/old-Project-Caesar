@@ -3,7 +3,7 @@ function ScheduleModel (newAttributes) {
 		attributes = {
 			id: '',
 			startDate: '',
-			days: []
+			days: [],
 		};
 	
 	setModel();
@@ -11,7 +11,7 @@ function ScheduleModel (newAttributes) {
 	function setModel () {
 		_.each(attributes, function (value, key) {
 			var isValidated = validateField(value, key);
-			console.log(isValidated);
+
 			if (isValidated) {
 				attributes[key] = newAttributes[key]
 			}

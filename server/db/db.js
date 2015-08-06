@@ -29,7 +29,7 @@ function DataBase () {
 		    console.log("Connected correctly to server");	 	
 
 		    getNextSequence(collectionName + 'Id', saveWithNewId);
-		    console.log(collectionName + 'Id')
+			
 		 	function getNextSequence(name, cb) {
    				db.collection('counters').findAndModify(
         			{ _id: name },
@@ -100,21 +100,23 @@ function DataBase () {
 		 	var events = db.collection('events'),
 		 		resources = db.collection('resources'),
 		 		contributors = db.collection('contributors'),
-		 		schedule = db.collection('weeks'),
 		 		counters = db.collection('counters'),
 		 		resetsCount = 0,
 		 		collectionsCount = Object.keys(defaults).length,
 		 		key;
 
 		 	for (key in defaults) {
-		 		resetsCount++;
-
 		 		db.collection(key).remove({});
 
+		 		console.log(key);
+				console.log(collectionsCount);
+
 		 		db.collection(key).insert(defaults[key], function (err, res) {
+	 				resetsCount++;	
+
 	 				if (err) {
 	 					console.log(err);
-	 				} else {							
+	 				} else {
 	 					if (resetsCount === collectionsCount) {
 	 						m.publish('resetCompleted');
 

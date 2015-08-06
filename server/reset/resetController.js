@@ -4,7 +4,7 @@ function ResetController (req, res) {
 		resources = require('./defaults/resources.json'),
 		resourceTypes = require('./defaults/resourceTypes.json'),
 		contributors = require('./defaults/contributors.json'),		
-		schedule = require('./defaults/schedule.json'),
+		weeks = require('./defaults/weeks.json'),
 		accounts = require('./defaults/accounts.json'),
 		counters = require('./defaults/counters.json'),
 		db = new require('../db/db')(),
@@ -15,7 +15,7 @@ function ResetController (req, res) {
 			resourceTypes: resourceTypes,
 			contributors: contributors,
 			accounts: accounts,
-			schedule: schedule,
+			weeks: weeks,
 			counters: counters
 		};
 
