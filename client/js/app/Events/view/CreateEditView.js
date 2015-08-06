@@ -57,14 +57,13 @@
         },
 
         save: function () {
-            this.isNewModel = this.model.isNew();
+              this.isNewModel = this.model.isNew();
 
-            if (true) {
+            if (!this.preValidate()) {
                 var attributes = {
                     name : this.$('.name').val(),
                     type: this.$('.type').val(),
                     resources: getIdResourcesArray()
-
                 };
 
                 this.model.save(attributes);
@@ -89,41 +88,56 @@
         },
 
         preValidate: function (e) {
-            var attrName,
-                errorMessage,
+              var input = $('.editName'),
+                select =  $('.editType'),
                 validationResult,
-                errors = {};
+                errors = {},
 
-            if (e) {
-                attrName = e.target.name;
-                errorMessage = this.model.preValidate(attrName, this.model.get(attrName));
-
-                if (errorMessage) {
-                    cs.mediator.publish(   //publish to Messenger's Controller
-                        'Hint',
-                        errorMessage,
-                        this.$('[name=' + attrName + ']')
-                    ); 
-                }
-
-                validationResult = errorMessage;
-            } else {
                 errors = this.model.preValidate({
-                    name: this.model.get('name'),
-                    type: this.model.get('type')
+                    name: this.$('.name').val(),
+                    type: this.$('.type').val()
                 });
 
-                if (errors) {
-                    for (attrName in errors) {
-                        cs.mediator.publish(   //publish to Messenger's Controller
-                            'Hint',
-                            errors[attrName],
-                            this.$('[name=' + attrName + ']')
-                        ); 
+                $('.editName').parent().removeClass('has-error');
+                $('.editType').parent().removeClass('has-error');
+
+                $('.tooltip-arrow').removeClass('myTooltip');
+                $('.tooltip-inner').removeClass('myTooltipInner');
+
+                remove ();
+
+                function remove () {
+                    input.tooltip('destroy');
+                    select.tooltip('destroy');
+                }
+
+                function toolTip (place) {
+                    var  formGroup = place.parents('.form-group');
+
+                    place.tooltip({
+                        trigger: 'manual',
+                        placement: 'top',
+                        title: 'Field cannot be empty'
+                    }).tooltip('show');
+					
+                    setTimeout(remove, 5000);
+                }
+
+                if(errors) {
+
+                    if (errors.name) {
+                        $('.editName').parent().addClass('has-error');
+
+                        toolTip(input);
+                    }
+
+                    if (errors.type) {
+                        $('.editType').parent().addClass('has-error');
+
+                        toolTip(select);
                     }
                 }
                 validationResult = errors;
-            }
 
             return validationResult;
         },
