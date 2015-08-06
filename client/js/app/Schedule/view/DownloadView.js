@@ -13,7 +13,8 @@
 		},
 
 		download: function () {
-			console.log('I work');
+            $('<form action="/download" method="get"></form>')
+            .appendTo('body').submit().remove();
 		}
 	})
 })(App.Schedule);
