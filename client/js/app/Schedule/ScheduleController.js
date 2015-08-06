@@ -14,6 +14,7 @@
 		function start () {
 			setupMediator();
 			showScheduleEvents();
+			setupEvents();
 		}
 		
 		function setupMediator () {
@@ -30,6 +31,20 @@
 			views['schedule'].renderEvents();
 
 			$el.append(views['full'].render().el);
+		}
+
+		function setupEvents () {
+			collections.eventsCollection.on('update', updateEvents);
+		}
+
+		function updateEvents () {
+			views['events'].remove();
+			views['full'].appendView('events', views['events'].render().el);
+			views['schedule'].remove();
+			views['full'].appendView('schedule', views['schedule'].render().el);
+
+			views['schedule'].renderEvents();
+			views['schedule'].setupSelectedEvent(selectedEvent);
 		}
 
 		function showSchedule () {
@@ -50,7 +65,6 @@
 
 			views['schedule'].renderEvents();
 			views['schedule'].setupSelectedEvent(selectedEvent);
-			views['schedule'].checkAvailableCells();
 		}
 
 		function hideAll () {

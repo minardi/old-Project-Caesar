@@ -12,6 +12,7 @@
 		},
 
 		render: function () {
+			this.delegateEvents();
 			this.$el.html(this.model.get('name'));
 			return this;
 		}

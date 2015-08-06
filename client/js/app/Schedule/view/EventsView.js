@@ -19,8 +19,11 @@
 
 		render: function () {
 			this.$fragment = $(document.createDocumentFragment());
+			this.$fragment.append('Events:');
+			
 			collections.eventsCollection.each(this.renderOne.bind(this));
 			this.$el.html(this.$fragment);
+			this.delegateEvents();
 			return this;
 		},
 
