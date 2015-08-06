@@ -7,13 +7,18 @@
             'Events*path': 'events',
             'About*path': 'about',
             'Schedule*path': 'calendar',
+            'Settings*path': 'settings',
+            'Accounts*': 'account',
+            '*action': 'errorPage'
         },
 
         initialize: function () {
-            //this.route(/error/, 'errorPage', this.errorPage);
-            this.route(/^((?!(Events|Resources|About|Schedule)).)*$/, 'errorPage');
-
             cs.mediator.subscribe('MenuClicked', this.navigateMenuItem, null, this); //published from MenuView
+
+        },
+		
+        mainPage: function () {
+             cs.subRouters['Events'] || (cs.subRouters['Events'] = new App.Events.Router());
         },
 
         resources: function () {
@@ -30,6 +35,14 @@
 
         calendar: function () {
             cs.subRouters['Schedule'] || (cs.subRouters['Schedule'] = new App.Schedule.Router());
+        },
+
+        settings: function () {
+            cs.subRouters['Settings'] || (cs.subRouters['Settings'] = new App.Settings.Router());
+        },
+
+        account: function () {
+            cs.subRouters['Accounts'] || (cs.subRouters['Accounts'] = new App.Accounts.Router());
         },
         
         navigateMenuItem: function (pathname) {

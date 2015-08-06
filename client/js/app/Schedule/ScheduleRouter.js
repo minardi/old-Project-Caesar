@@ -1,7 +1,8 @@
 (function (This) {
 	This.Router = Backbone.Router.extend({
 		routes: {
-			'Schedule': 'showSchedule'
+			'Schedule': 'showSchedule',
+			'Schedule*path': 'notFound'
 		},
 
 		initialize: function () {
@@ -11,6 +12,10 @@
 
 		showSchedule: function () {
 			cs.mediator.publish('ScheduleSelected');
-		}
+		},
+
+        notFound: function () {
+            var errorPage = errorPage || new App.ErrorPage.Controller();
+        }		
 	})
 })(App.Schedule);

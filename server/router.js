@@ -1,61 +1,92 @@
 var express = require('express'),
 	router = express.Router(),
 	eventsRouter = require('./events/eventsRouter'),
+    eventTypesRouter = require('./eventTypes/eventTypesRouter'),
 	resourcesRouter = require('./resources/resourcesRouter'),
+    resourceTypesRouter = require('./resourceTypes/resourceTypesRouter'),    
     scheduleRouter = require('./schedule/scheduleRouter'),   
-    usersRouter = require('./users/usersRouter'),   
+    accountsRouter = require('./accounts/accountsRouter'),   
     contributorsRouter = require('./contributors/contributorsRouter');
 
-router.use(/^\/events/, eventsRouter);
-router.use(/^\/resources/, resourcesRouter);
-router.use(/^\/schedule/, scheduleRouter);
-router.use(/^\/users/, usersRouter);
-router.use(/^\/contributors/, contributorsRouter);
+// router.use('*', function (req, res, next) {
+//     var staticRoute = /^\/build/.test(req.url)? './public': '../client',
+//         user = req.cookies.login,
+//         userExists = Boolean(user);  
+          
+//         if (userExists) {
+            
+//             next(req, res);
+//         } else {
+//             res.sendFile('index.html', { root: staticRoute });  
+//         } 
+// });
 
-// router.use('/events', eventsRouter);
-// router.use('/resources', resourcesRouter);
-// router.use('/schedule', scheduleRouter);
-// router.use('/users', usersRouter);
-// router.use('/contributors', contributorsRouter);
+router.use(/^\/events\b/, eventsRouter);
+router.use(/^\/eventTypes\b/, eventTypesRouter);
+router.use(/^\/resources(\/.+)?$/, resourcesRouter);
+router.use(/^\/resourceTypes\b/, resourceTypesRouter);
+router.use(/^\/schedule\b/, scheduleRouter);
+router.use(/^\/accounts/, accountsRouter);
+router.use(/^\/contributors\b/, contributorsRouter);
 
-router.get('/reset', function(req, res, next) {		
+router.get('/reset', function(req, res, next) {     
     var resetController = new require('./reset/resetController')(req, res);
 });
 
-router.get('*', function (req, res) {
-    var staticRoute = /^\/build/.test(req.url)? './public': '../client';
+// router.post('/', function (req, res) {
+//     var user = req.body.login,
+//         userExists = Boolean(user),
+//         minute = 60 * 1000,
+//         staticRoute = /^\/build/.test(req.url)? './public': '../client';;
 
-    if (isRest()) {
-        res.sendFile('index.html', { root: staticRoute });
-    }
+//     // check if exists in db
+//     if (userExists) {
+//         res.cookie('login', user, { maxAge: minute });
+//         res.sendFile('home.html', { root: staticRoute }); 
+//     } else {
+//         res.redirect('back'); 
+//     }    
+// });
 
-    function isRest () {
-        var notRest = [
-            'events',
-            'schedule',
-            'resources',
-            'users', 
-            'contributors', 
-            '.css', 
-            '.js', 
-            '.map', 
-            '.eot', 
-            '.ttf', 
-            '.svg', 
-            '.woff', 
-            '.ico'
-            ],
-            rest = true;
-        
-        notRest.forEach(function (key) {
-            if (req.url.indexOf(key) !== -1) {
-                rest = false;
-            }
-        });
-        
-        return rest;
-    }  
+router.all('*', function (req, res, next) {
+    var staticRoute = /^\/build/.test(req.url)? './public': '../client',
+        user = req.cookies.login,
+        userExists = Boolean(user);
+
+
+    console.log('* route called');
+
+    //if (userExists) {
+        if (!isRest(req.url)) {  
+            res.sendFile('home.html', { root: staticRoute });
+        }           
+    //} else {
+    //        res.sendFile('index.html', { root: staticRoute });            
+    //}
 });
+
+function isRest (url) {
+    var restList = [
+        'events',
+        'eventTypes',
+        'schedule',
+        'resources',
+        'resourceTypes',
+        'users', 
+        'contributors', 
+        ],
+        rest = false;
+    
+    restList.forEach(function (restName) {
+        var regExp = new RegExp(restName + '\\b');
+
+        if (regExp.test(url)) {
+            rest = true;
+        }
+    });
+
+    return rest;
+}
 
 module.exports = router;
 

@@ -3,7 +3,8 @@
 (function (This)  {
     This.Router = Backbone.Router.extend({
         routes: {
-            'About': 'showAbout'            
+            'About': 'showAbout',
+            'About*path': 'notFound'            
         },
 
         initialize: function () {
@@ -21,6 +22,10 @@
 
         showAbout: function () {
             cs.mediator.publish('ShowAbout');
-        }
+        },
+
+        notFound: function () {
+            var errorPage = errorPage || new App.ErrorPage.Controller();
+        }   
     });
 })(App.About);

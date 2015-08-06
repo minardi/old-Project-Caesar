@@ -16,7 +16,12 @@
         },
 
         render: function () {
-            this.$el.html(this.tpl(this.model.toJSON()));
+            var eventType = collections.eventTypes.get(this.model.get('type')),
+                eventTypeName = eventType.get('name');
+            this.$el.html(this.tpl({
+                name: this.model.get('name'),
+                type: eventTypeName
+            }));
 
             return this;
         },

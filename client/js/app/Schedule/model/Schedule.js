@@ -4,12 +4,12 @@
 		url: '/schedule',
 
 		addEvent: function (week) {
-			/*var rightWeek = this.findWhere({weekNumber: week.get('weekNumber')}),
+			var rightWeek = this.findWhere({weekNumber: week.get('weekNumber')}),
 				arrtibutes = {},
 				days;
 			if (!rightWeek) {
 				this.push(week);
-				//rightWeek = this.findWhere({weekNumber: week.get('weekNumber')});
+				rightWeek = this.findWhere({weekNumber: week.get('weekNumber')});
 
 			} else {
 				days = rightWeek.get('days');
@@ -25,25 +25,18 @@
 					}, this)
 				}, this);
 
-			};*/
+			};
 
-			var attributes = {
-					//"id": 1,
-					startDate: "2015-08-09T21:00:00.000Z",
-					days: {
-						"1": {
-							"18:00": JSON.parse([1]),
-							"16:30": JSON.parse([3])
-						},
-					},
-					weekNumber: 31
-				},
-				newWeek = new App.Schedule.Week(attributes);
+/*
+			attributes = {
+				startDate: String(week.get('startDate')),
+				days: JSON.parse(week.get('days')),
+			};
 
-			newWeek.isNew();
-			console.log(newWeek);
-			newWeek.save(attributes);
-	
+			rightWeek.isNew();
+			rightWeek.save(attributes);
+	*/	
+		//rightWeek.save();
 		},
 
 		deleteEvent: function (week) {

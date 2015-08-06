@@ -4,7 +4,7 @@
         url: '/resources',
 
         comparator: function (resource) {
-            return resource.get('type');
+            return resource.get('typeId');
         }
     });
 })(App.Resources);

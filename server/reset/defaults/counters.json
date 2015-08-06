@@ -14,5 +14,17 @@
 	{
 		"_id": "weeksId",
 		"seq": 1
+	},
+	{
+		"_id": "accountsId",
+		"seq": 1
+	},
+	{
+		"_id": "eventTypesId",
+		"seq": 3
+	},
+	{
+		"_id": "resourceTypesId",
+		"seq": 2
 	}
 ]

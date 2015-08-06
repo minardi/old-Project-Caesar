@@ -7,7 +7,7 @@
 
         events: {
             'click .save': 'save',
-            'click .cancel': 'cancel',
+            'click .cancel': 'cancel'
         },
 
         initialize: function () {
@@ -18,7 +18,9 @@
         },
 
         render: function () {
-            this.$el.append(this.template()); 
+            var resourceTypes = collections.resourceTypes.toJSON();
+
+            this.$el.append(this.template({resourceTypes: resourceTypes}));
             this.modelBinder.bind(this.model, this.el);
 
             return this;

@@ -5,7 +5,7 @@
 		direction: 0,
 
 		events: {
-			'click td:not(:nth-child(1)):not([class="calendarCell dangerCell"])': 'renderSelectedEvent'
+			'click td:not(:nth-child(1))': 'renderSelectedEvent'
 		},
 
 		renderGrid: function () {
@@ -51,15 +51,16 @@
 
 		choseWeek: function () {
 			var rightWeek = collections.scheduleCollection.findWhere({weekNumber: this.currentWeekNumber});
+			
 			rightWeek && (_.each(rightWeek.get('days'), this.showDay, this));
 		},
 
 		showDay: function (day, dayNumber) {	
-			var $elements;	
-
+			var $elements,
+				event;	
 			_.each(day, function (timelines, key) {
 				$elements = this.$el.find('tr[timeline="' + key + '"]');
-					$elements = $elements.find('td[day="' + dayNumber + '"]');
+				$elements = $elements.find('td[day="' + dayNumber + '"]');
 					_.each(timelines, function (eventId) {
 						event = collections.eventsCollection.findWhere({id: Number(eventId)});
 						event && ($elements.append(this.createCell(event)));
