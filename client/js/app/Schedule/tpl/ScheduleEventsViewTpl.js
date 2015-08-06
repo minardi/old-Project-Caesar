@@ -1,5 +1,8 @@
 templates.scheduleEventsTpl = _.template([
+'	<div class = "eventsAndDownload">',
 '	<div class = "scheduleEvents"></div>',
+'	<div class = "download"></div>',
+'	</div>',
 '	<div class = "SheduleAndPager">',
 	'	<div class = "Myschedule"></div>',
 	'	<div class = "schedulePager"></div>',

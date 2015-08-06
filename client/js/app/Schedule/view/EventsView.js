@@ -13,6 +13,7 @@
 		},
 
 		selectItem: function (event) {
+
 			$(event.target).parent().children().removeClass('active');
 			$(event.target).addClass('active');
 		},
