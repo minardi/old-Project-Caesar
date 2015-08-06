@@ -2,8 +2,10 @@ function EventsController (req, res) {
     var archiver = require('archiver'),
         fs = require('fs'),
         archive = archiver('zip'),
+        db = new require('../db/db')(),
         dirname = './generator/archivingData',
-        fileName = 'test.txt';
+        fileName = 'weeks.js',
+        _ = require('underscore-node');
     
 	handle();
 
@@ -12,12 +14,17 @@ function EventsController (req, res) {
 	}
     
     function createFiles () {
-        fs.writeFile(dirname + '/' + fileName, 'Hi there!! =)', function (err) {
+        db.fetch('weeks', function (err, collection) {
             if (err) throw err;
-            console.log(fileName + ' created');
+            var tpl = _.template("var weeks = <%= array %>;");
+            var data = tpl({array : JSON.stringify(collection)});
+            
+            fs.writeFile(dirname + '/' + fileName, data, function (err) {
+                if (err) throw err;
+                console.log(fileName + ' created');
+                archivate();
+            });
         });
-        
-        archivate();
     }
 
 	function archivate () {
@@ -32,10 +39,6 @@ function EventsController (req, res) {
         archive.append(fs.createReadStream(dirname + '/' + fileName), { name: fileName });
         
         archive.finalize();
-	}
-
-	function sendArchive () {
-		res.send('download should be started.')
 	}
 
 	return this;
