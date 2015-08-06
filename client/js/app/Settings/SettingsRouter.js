@@ -6,7 +6,7 @@
         },
 
         initialize: function () {
-            this.controller = App.Settings.Controller();
+            this.controller = new App.Settings.Controller();
         },
 
         getSettings: function () {
