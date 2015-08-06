@@ -11,8 +11,6 @@ function HolidaysController (req, res) {
 		dbName = 'holidays',
 		id = req.params.id;
 
-	m.subscribe(dbName + 'RequestHandeled', responde);
-
 	handle();
 
 	function handle () {
@@ -21,25 +19,23 @@ function HolidaysController (req, res) {
 		actions[req.method](holiday);
 	}
 
-	function get (holiday) {
-		db.fetch(dbName);			
+	function get () {
+		db.fetch(dbName, responde);			
 	}
 
 	function create (holiday) {
-		db.create(dbName, holiday.toJSON());
+		db.create(dbName, holiday.toJSON(), responde);
 	}	
 
 	function update (holiday) {
-		db.update(dbName, holiday.toJSON(), id);
+		db.update(dbName, holiday.toJSON(), id, responde);
 	}
 
-	function del (holiday) {
-		db.remove(dbName, id);
+	function del () {
+		db.remove(dbName, id, responde);
 	};
 
-	function responde (dbQuery) {
-		m.unsubscribe(dbName + 'RequestHandeled', responde);
-	
+	function responde (err, dbQuery) {
 		res.send(holidaysView.returnHolidays(dbQuery));
 	}
 

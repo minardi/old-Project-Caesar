@@ -11,8 +11,6 @@ function ResourcesController (req, res) {
 		dbName = 'resources',
 		id = req.params.id;
 
-	m.subscribe(dbName + 'RequestHandeled', responde);
-
 	handle();
 
 	function handle () {
@@ -22,24 +20,22 @@ function ResourcesController (req, res) {
 	}
 
 	function get (resource) {
-		db.fetch(dbName);			
+		db.fetch(dbName, responde);			
 	}
 
 	function create (resource) {
-		db.create(dbName, resource.toJSON());
+		db.create(dbName, resource.toJSON(), responde);
 	}	
 
 	function update (resource) {
-		db.update(dbName, resource.toJSON(), id);
+		db.update(dbName, resource.toJSON(), id, responde);
 	}
 
 	function del (resource) {
-		db.remove(dbName, id);
+		db.remove(dbName, id, responde);
 	};
 
-	function responde (dbQuery) {
-		m.unsubscribe(dbName + 'RequestHandeled', responde);
-	
+	function responde (err, dbQuery) {
 		res.send(resourcesView.returnResources(dbQuery));
 	}
 

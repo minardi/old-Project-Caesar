@@ -11,8 +11,6 @@ function UsersController (req, res) {
 		dbName = 'users',
 		id = req.params.id;
 
-	m.subscribe(dbName + 'RequestHandeled', responde);
-
 	handle();
 
 	function handle () {
@@ -20,28 +18,26 @@ function UsersController (req, res) {
 	}
 
 	function get () {
-		db.fetch(dbName);			
+		db.fetch(dbName, responde);			
 	}
 
 	function create () {
 		var user = new User(req.body);
 
-		db.create(dbName, user.toJSON());
+		db.create(dbName, user.toJSON(), responde);
 	}	
 
 	function update () {
 		var user = new User(req.body);
 		
-		db.update(dbName, user.toJSON(), id);
+		db.update(dbName, user.toJSON(), id, responde);
 	}
 
 	function del () {
-		db.remove(dbName, id);
+		db.remove(dbName, id, responde);
 	};
 
-	function responde (dbQuery) {
-		m.unsubscribe(dbName + 'RequestHandeled', responde);
-	
+	function responde (err, dbQuery) {	
 		res.send(usersView.returnUser(dbQuery));
 	}
 

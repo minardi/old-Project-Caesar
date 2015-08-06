@@ -26,5 +26,9 @@
 	{
 		"_id": "resourceTypesId",
 		"seq": 2
+	},
+	{
+		"_id": "holidaysId",
+		"seq": 1
 	}
 ]

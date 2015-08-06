@@ -11,8 +11,6 @@ function ResourceTypesController (req, res) {
 		dbName = 'resourceTypes',
 		id = req.params.id;
 
-	m.subscribe(dbName + 'RequestHandeled', responde);
-
 	handle();
 
 	function handle () {
@@ -20,28 +18,26 @@ function ResourceTypesController (req, res) {
 	}
 
 	function get () {
-		db.fetch(dbName);			
+		db.fetch(dbName, responde);			
 	}
 
 	function create () {
 		var resourceType = new ResourceType(req.body);
 
-		db.create(dbName, resourceType.toJSON());
+		db.create(dbName, resourceType.toJSON(), responde);
 	}	
 
 	function update () {
 		var resourceType = new ResourceType(req.body);
 		
-		db.update(dbName, resourceType.toJSON(), id);
+		db.update(dbName, resourceType.toJSON(), id, responde);
 	}
 
 	function del () {
-		db.remove(dbName, id);
+		db.remove(dbName, id, responde);
 	};
 
-	function responde (dbQuery) {
-		m.unsubscribe(dbName + 'RequestHandeled', responde);
-	
+	function responde (err, dbQuery) {
 		res.send(resourceTypesView.returnResourceTypes(dbQuery));
 	}
 

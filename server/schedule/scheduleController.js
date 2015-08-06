@@ -11,8 +11,6 @@ function ScheduleController (req, res) {
 		dbName = 'weeks',
 		id = req.params.id;
 
-	m.subscribe(dbName + 'RequestHandeled', responde);
-
 	handle();
 
 	function handle () {
@@ -20,28 +18,26 @@ function ScheduleController (req, res) {
 	}
 
 	function get () {
-		db.fetch(dbName);			
+		db.fetch(dbName, responde);			
 	}
 
 	function create () {
 		var scheduleWeek = new ScheduleWeek(req.body);
 
-		db.create(dbName, scheduleWeek.toJSON());
+		db.create(dbName, scheduleWeek.toJSON(), responde);
 	}	
 
 	function update () {
 		var scheduleWeek = new ScheduleWeek(req.body);
 		
-		db.update(dbName, scheduleWeek.toJSON(), id);
+		db.update(dbName, scheduleWeek.toJSON(), id, responde);
 	}
 
 	function del () {
-		db.remove(dbName, id);
+		db.remove(dbName, id, responde);
 	};
 
-	function responde (dbQuery) {
-		m.unsubscribe(dbName + 'RequestHandeled', responde);
-	
+	function responde (err, dbQuery) {
 		res.send(scheduleView.returnSchedule(dbQuery));
 	}
 

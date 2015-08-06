@@ -11,8 +11,6 @@ function EventTypesController (req, res) {
 		dbName = 'eventTypes',
 		id = req.params.id;
 
-	m.subscribe(dbName + 'RequestHandeled', responde);
-
 	handle();
 
 	function handle () {
@@ -20,28 +18,26 @@ function EventTypesController (req, res) {
 	}
 
 	function get () {
-		db.fetch(dbName);			
+		db.fetch(dbName, responde);			
 	}
 
 	function create () {
 		var eventType = new EventType(req.body);
 
-		db.create(dbName, eventType.toJSON());
+		db.create(dbName, eventType.toJSON(), responde);
 	}	
 
 	function update () {
 		var eventType = new EventType(req.body);
 		
-		db.update(dbName, eventType.toJSON(), id);
+		db.update(dbName, eventType.toJSON(), id, responde);
 	}
 
 	function del () {
-		db.remove(dbName, id);
+		db.remove(dbName, id, responde);
 	};
 
-	function responde (dbQuery) {
-		m.unsubscribe(dbName + 'RequestHandeled', responde);
-	
+	function responde (err, dbQuery) {
 		res.send(eventTypesView.returnEventTypes(dbQuery));
 	}
 

@@ -1,32 +1,23 @@
 function DataBase () {
 	var ObjectID = require('mongodb').ObjectID,
 		MongoClient = require('mongodb').MongoClient,
-		url = 'mongodb://localhost:27017/notes_app';
+		url = 'mongodb://localhost:27017/caesar';
 
-	this.fetch = function (collectionName) {
+	this.fetch = function (collectionName, cb) {
 		MongoClient.connect(url, function(err, db) {
-		 	var collection = db.collection(collectionName),
-		 	searchCriteria = {};
+		 	var collection = db.collection(collectionName);
 		
-		    console.log("Connected correctly to server");
-		 	
 		 	collection.find({}).toArray(function (err, result) {
-		 		if (err) {
-		 			console.log(err);
-		 		} else {
-		 			m.publish(collectionName + 'RequestHandeled', result);
-		 		}
+		 		cb(err, result);
 
 		 		db.close();
 		 	});
 		});
 	};
 
-	this.create = function (collectionName, attributes) {
+	this.create = function (collectionName, attributes, cb) {
 		MongoClient.connect(url, function(err, db) {
 		 	var notes = db.collection(collectionName);
-
-		    console.log("Connected correctly to server");	 	
 
 		    getNextSequence(collectionName + 'Id', saveWithNewId);
 			
@@ -46,11 +37,7 @@ function DataBase () {
 
 		    function saveWithNewId (attributes) {
 			 	notes.insert(attributes, function (err, result) {
-			 		if (err) {
-			 			console.log(err);
-			 		} else {
-			 			m.publish(collectionName + 'RequestHandeled', result.ops[0]);
-			 		}
+			 		cb(err, result.ops[0]);
 
 			 		db.close();
 			 	});
@@ -58,11 +45,9 @@ function DataBase () {
 		});
 	};	
 
-	this.update = function (collectionName, attributes, id) {
+	this.update = function (collectionName, attributes, id, cb) {
 		MongoClient.connect(url, function(err, db) {
 		 	var collection = db.collection(collectionName);
-
-		    console.log("Connected correctly to server");
 
 		 	collection.findAndModify(
     			{ id: Number(id) },
@@ -70,7 +55,7 @@ function DataBase () {
     			{ $set: attributes },
     			{new: true},
     			function (err, result) {
-		 			m.publish(collectionName + 'RequestHandeled', result.value);
+			 		cb(err, result.value);
 
 		 			db.close();
     			}
@@ -78,31 +63,33 @@ function DataBase () {
 		});
 	};
 
-	this.remove = function (collectionName, id) {
+	this.remove = function (collectionName, id, cb) {
 		MongoClient.connect(url, function(err, db) {
 		 	var collection = db.collection(collectionName);
-
-		    console.log("Connected correctly to server");	 	
+	 	
 		 	collection.remove({id: Number(id)}, function (err, result) {	 		
-		 		if (err) {
-		 			console.log(err);
-		 		} else {
-		 			m.publish(collectionName + 'RequestHandeled', result.result);
-		 		}
+		 		cb(err, result.result);
 
 		 		db.close();
 		 	});
 		});
 	};
 
-	this.reset = function (defaults) {
+	this.findUser = function (login, password, cb) {
 		MongoClient.connect(url, function(err, db) {
-		 	var events = db.collection('events'),
-		 		resources = db.collection('resources'),
-		 		contributors = db.collection('contributors'),
-		 		holidays = db.collection('holidays'),
-		 		counters = db.collection('counters'),
-		 		resetsCount = 0,
+		 	var collection = db.collection('accounts');
+		
+		 	collection.findOne({login: login, password: password}, function (err, result) {
+		 		cb(err, result);
+
+		 		db.close();
+		 	});
+		});
+	};
+
+	this.reset = function (defaults, cb) {
+		MongoClient.connect(url, function(err, db) {
+		 	var resetsCount = 0,
 		 		collectionsCount = Object.keys(defaults).length,
 		 		key;
 
@@ -110,20 +97,17 @@ function DataBase () {
 		 		db.collection(key).remove({});
 
 		 		console.log(key);
-				console.log(collectionsCount);
+
 
 		 		db.collection(key).insert(defaults[key], function (err, res) {
+		 			
 	 				resetsCount++;	
 
-	 				if (err) {
-	 					console.log(err);
-	 				} else {
-	 					if (resetsCount === collectionsCount) {
-	 						m.publish('resetCompleted');
+ 					if (resetsCount === collectionsCount) {
+ 						cb(err, 'resetCompleted');
 
-	 						db.close();
-	 					}			 			
-	 				}
+ 						db.close();
+ 					}			 			
 		 		})
 		 	}
 		});

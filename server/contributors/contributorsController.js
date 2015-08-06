@@ -10,8 +10,6 @@ function ContributorsController (req, res) {
 		dbName = 'contributors',
 		id = req.params.id;
 
-	m.subscribe(dbName + 'RequestHandeled', responde);
-
 	handle();
 
 	function handle () {
@@ -19,7 +17,7 @@ function ContributorsController (req, res) {
 	}
 
 	function get () {
-		db.fetch(dbName);			
+		db.fetch(dbName, responde);			
 	}
 
 	function create () {
@@ -34,9 +32,7 @@ function ContributorsController (req, res) {
 		res.send('This operation is not available for Contributors');
 	};
 
-	function responde (dbQuery) {
-		m.unsubscribe(dbName + 'RequestHandeled', responde);
-		console.dir(contributorsView)
+	function responde (err, dbQuery) {
 		res.send(contributorsView.returnContributors(dbQuery));
 	}
 

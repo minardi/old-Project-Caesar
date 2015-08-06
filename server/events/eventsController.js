@@ -12,8 +12,6 @@ function EventsController (req, res) {
 		dbName = 'events',
 		id = req.params.id;
 
-	m.subscribe(dbName + 'RequestHandeled', responde);
-
 	handle();
 
 	function handle () {
@@ -23,25 +21,23 @@ function EventsController (req, res) {
 	}
 
 	function get (event) {
-		db.fetch(dbName);			
+		db.fetch(dbName, responde);			
 	}
 
 	function create (event) {
 		console.log(event.toJSON());
-		db.create(dbName, event.toJSON());
+		db.create(dbName, event.toJSON(), responde);
 	}	
 
 	function update (event) {
-		db.update(dbName, event.toJSON(), id);
+		db.update(dbName, event.toJSON(), id, responde);
 	}
 
 	function del (event) {
-		db.remove(dbName, id);
+		db.remove(dbName, id, responde);
 	};
 
-	function responde (dbQuery) {
-		m.unsubscribe(dbName + 'RequestHandeled', responde);
-	
+	function responde (err, dbQuery) {	
 		res.send(eventsView.returnEvents(dbQuery));
 	}
 

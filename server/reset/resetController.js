@@ -17,17 +17,13 @@ function ResetController (req, res) {
 			contributors: contributors,
 			accounts: accounts,
 			weeks: weeks,
-			counters: counters,
-			holidays: holidays
+			holidays: holidays,
+			counters: counters
 		};
 
-	m.subscribe('resetCompleted', responde);
+	db.reset(defaultValues, responde);
 
-	db.reset(defaultValues);
-
-	function responde () {
-		m.unsubscribe('resetCompleted', responde);
-	
+	function responde (err, result) {
 		res.redirect('/Events');
 		
 		console.log("DBs successfully reseted!");
