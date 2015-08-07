@@ -12,6 +12,7 @@
         start();
 
         function start () {
+            hideAll();
             $main.append((settingsView.render().el));
         }
 
