@@ -6,7 +6,7 @@
 		"password": "qqq",
 		"locationCountry": "USA",
 		"locationCity": "New York",
-		"role": 0
+		"role": "Admin"
 	},
 	{
 		"id": 1,
@@ -15,6 +15,6 @@
 		"password": "qqq",
 		"locationCountry": "England",
 		"locationCity": "Kensington, Middlesex",
-		"role": 1
+		"role": "Coordinator"
 	}
 ]

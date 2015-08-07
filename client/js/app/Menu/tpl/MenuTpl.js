@@ -19,7 +19,7 @@ templates.menuTpl = _.template([
     '</li>',
     '<li role="presentation" class="createAccount menu-item">',
         '<span class="glyphicon glyphicon-user"></span></br>',    
-        'Sign up',
+        'Accounts',
     '</li>',
     '<li role="presentation" class="about menu-item">',
         '<span class="glyphicon glyphicon-question-sign"></span></br>',    
