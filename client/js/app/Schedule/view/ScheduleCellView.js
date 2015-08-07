@@ -18,10 +18,12 @@
 
 		close: function () {
 			var dayNumber = this.$el.parent().attr('day'), 
-				timeline = this.$el.parent().parent().attr('timeline'), 
-				startDate = new Date(this.$el.parent().parent().parent().attr('startDate')),
-				weekItem = This.createWeekItem(dayNumber, timeline, this.model.get('id'), startDate);
-
+				timeline = this.$el.parent().attr('timeline'), 
+				startDate = new Date($('table.schedule').attr('startDate')),
+				weekItem = This.createWeekItem({'dayNumber': dayNumber, 
+												'timeline': timeline, 
+												'eventId': this.model.get('id'), 
+												'startDate':startDate});
 
 			collections.scheduleCollection.deleteEvent(weekItem);
 			this.remove();

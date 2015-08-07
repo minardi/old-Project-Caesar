@@ -22,15 +22,15 @@
 		'20': '18:00'
 	};
 
-	This.createWeekItem = function (dayNumber, timeline, eventId, _startDate) {
+	This.createWeekItem = function (options) {
 			var dayTimeline = {},
 				day = {},
 				week = new This.Week();
 
-			dayTimeline[timeline] = [eventId];
-			day[dayNumber] = dayTimeline;
+			dayTimeline[options.timeline] = [options.eventId];
+			day[options.dayNumber] = dayTimeline;
 			week.set({
-				'startDate': _startDate,
+				'startDate': options.startDate,
 				'days': day
 			});
 

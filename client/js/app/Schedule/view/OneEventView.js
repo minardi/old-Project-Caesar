@@ -8,7 +8,12 @@
 		},
 
 		sendEvent: function () {
-			cs.mediator.publish('EventSelected', this.model);
+			if (this.model.get('resources').length) {
+				cs.mediator.publish('EventSelected', this.model);
+			} else {
+				cs.mediator.publish('EventSelected', null);
+				cs.mediator.publish("Notice", 'There isn\'t any resources in chosen event');
+			}
 		},
 
 		render: function () {

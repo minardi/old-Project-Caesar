@@ -27,6 +27,7 @@
 		function showScheduleEvents () {
 			views['full'].appendView('events', views['events'].render().el);
 			views['full'].appendView('download', views['download'].render().el);
+
 			views['full'].appendView('schedule', views['schedule'].render().el);
 			views['full'].appendView('pager', views['pager'].render().el);
 			
@@ -37,16 +38,17 @@
 
 		function setupEvents () {
 			collections.eventsCollection.on('update', updateEvents);
+			collections.eventsCollection.on('change', updateEvents);
 		}
 
 		function updateEvents () {
 			views['events'].remove();
 			views['full'].appendView('events', views['events'].render().el);
+
 			views['schedule'].remove();
 			views['full'].appendView('schedule', views['schedule'].render().el);
 
 			views['schedule'].renderEvents();
-			views['schedule'].setupSelectedEvent(selectedEvent);
 		}
 
 		function showSchedule () {
