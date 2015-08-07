@@ -1,9 +1,9 @@
 var express = require('express'),
     mongoose = require('mongoose'),
-	router = express.Router(),
-	eventsRouter = require('./events/eventsRouter'),
+    router = express.Router(),
+    eventsRouter = require('./events/eventsRouter'),
     eventTypesRouter = require('./eventTypes/eventTypesRouter'),
-	resourcesRouter = require('./resources/resourcesRouter'),
+    resourcesRouter = require('./resources/resourcesRouter'),
     resourceTypesRouter = require('./resourceTypes/resourceTypesRouter'),    
     scheduleRouter = require('./schedule/scheduleRouter'),   
     accountsRouter = require('./accounts/accountsRouter'),   
@@ -13,7 +13,7 @@ var express = require('express'),
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
-mongoose.connect('mongodb://localhost:27017/notes_app');
+mongoose.connect('mongodb://localhost:27017/caesar');
 
 var Account = mongoose.model('Account', new Schema({
     id: ObjectId,
@@ -43,61 +43,55 @@ router.all('/download', function(req, res, next) {
 });
 
 router.post('/', function (req, res) {
+    var staticRoute = /^\/build/.test(req.url)? './public': '../client';
     Account.findOne( { login: req.body.login }, function (err, account) {
         if(!account){
             console.log('Invalid login');
         } else {
             if (req.body.password === account.password) {
-                req.session.account = account;
-                // res.cookie('role', account.role, { maxAge: 3600000 });
-                // res.cookie('locationCity', account.locationCity, { maxAge: 900000, httpOnly: false });
-                // res.cookie('locationCountry', account.locationCountry, { maxAge: 900000, httpOnly: false });
-                res.redirect('/Events');
-            } else {     
-                req.session.reset();    
+                res.cookie('account', account, { maxAge: 3600000 });
+                res.sendFile('home.html', { root: staticRoute });
+            } else {       
                 res.redirect('/');
             }   
         } 
     });
 });
 
+
+router.get('/', function (req, res) {
+    console.log('hello from get/'); 
+    var staticRoute = /^\/build/.test(req.url)? './public': '../client';
+    res.sendFile('index.html', { root: staticRoute });
+});
+
 router.get('/logout', function (req, res) {
-    if(req.session){
-        req.session.reset();
-    }  
+    console.log('hello from logout');
+    var staticRoute = /^\/build/.test(req.url)? './public': '../client';
+    if(req.cookies){
+        res.clearCookie('account');
+    }
     res.redirect('/');
 });
 
-router.get('/', function (req, res) {
-    console.log('hello from /');
-    var staticRoute = /^\/build/.test(req.url)? './public': '../client';
-    if(req.session && req.session.account){
-        req.session.reset();
-        
-    }  
-    
-    res.sendFile('index.html', { root: staticRoute });
-    
-});
 
 router.get('*', function (req, res) {
     var staticRoute = /^\/build/.test(req.url)? './public': '../client';
-
-     if(req.session && req.session.account) {
-        Account.findOne({ login: req.session.account.login }, function (err, account) {
+    if(req.cookies && req.cookies.account) {
+        Account.findOne({ login: req.cookies.account.login }, function (err, account) {
             if(!account){
                 console.log('no account');
-                req.session.reset();
+                res.clearCookie('account');
             } else {
                 if (!isRest(req.url)) { 
-                console.log('hello from send File'); 
-                res.sendFile('home.html', { root: staticRoute });
+                    console.log('hello from send File'); 
+                    res.sendFile('home.html', { root: staticRoute });
                 }
             }
         });
-     } else {
-         res.redirect('/');
-     }
+    } else {
+        res.redirect('/');
+    }   
 });
 
 function isRest (url) {
@@ -107,7 +101,7 @@ function isRest (url) {
         'schedule',
         'resources',
         'resourceTypes',
-        'users', 
+        'accounts', 
         'contributors', 
         'holidays'
         ],
