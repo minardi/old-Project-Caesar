@@ -5,13 +5,8 @@
 	cursor: pointer;
 }
 
-.scheduleEvents {
-	float: left;
-	width: 250px;
-	padding-top: 3%
-}
 
-.eventsAndDownload{
+.eventsAndDownload, .scheduleEvents {
 	float: left;
 	width: 250px;
 	padding-top: 3%
@@ -19,21 +14,20 @@
 
 .SheduleAndPager {
 	float: left;
-	width: 70%;
+	width: 800px;
 	padding-left: 5%;
 }
 
 .pager {
-    margin: 0; /* Обнуляем значение отступов */
-    padding: 4px; /* Значение полей */
-   
+    margin: 0; 
+    padding: 4px;
 }
 
 .table {
 	margin-bottom: 0px
 }
 
-.calendarCell {
+.calendarCell, .cell {
 	border: 1px solid #ddd !important;
 	width: 120px;
 	height: 30px;
@@ -41,22 +35,26 @@
 	font-style: italic;
 }
 
-.conflictCell{
+.conflictCell {
 	border: 1px solid #ddd !important;
 	background-color: #f2dede;
 	font-size: 10px;
 	font-style: italic;
 }
 
-.Myschedule {
-	float: left;
-	width: 70%;
-	padding-left: 5%;
+.holidayCell {
+	border: 1px solid #ddd !important;
+	background-color: #CACAFF;
+	font-size: 10px;
+	font-style: italic;
+	height: 100%;
+	width: 100%;
 }
 
-.schedulePager {
+
+.Myschedule, .schedulePager {
 	float: left;
-	width: 70%;
+	width: 800px;
 	padding-left: 5%;
 }
 
@@ -67,5 +65,9 @@
 
 .table-bordered tr>td:first-child {
     width:20px;
+}
+
+.selectedCell {
+	background-color: #E8E8FF;
 }
 

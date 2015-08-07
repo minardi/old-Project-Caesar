@@ -1,13 +1,47 @@
 (function (This) {
 	This.ScheduleView = Backbone.View.extend({
 		tagName: 'table',
+		className: 'schedule table table-bordered',
 		template: templates.calendarRowTpl,
 		direction: 0,
 
 		events: {
-			'click td:not(:nth-child(1))': 'renderSelectedEvent'
+			'click td[class=calendarCell]': 'renderSelectedEvent',
+			'click td[chooseDay]': 'chooseTimelineDay',
+			'click td[chooseTimeline]': 'chooseTimelineDay'
 		},
 
+		setStartDate: function () {
+			var date = new Date();
+
+			(this.direction > 0) && (date.setDate(date.getDate() + 7 * this.direction));
+			(this.direction < 0) && (date.adjustDate(this.direction * 7));
+
+			this.startDate = this.getFisrtDayOfWeek(date);
+			this.currentWeekNumber = this.startDate.getWeekNumber();
+		},
+
+		getFisrtDayOfWeek: function (date) {
+			//find Monday's date with any date of week
+			date = date.adjustDate(-(date.getDay() -1));
+			return date;
+		},
+
+		setDirection: function (_direction) {
+			this.direction = _direction;
+		},
+
+		setupSelectedEvent: function (event) {
+			this.selectedEvent = event;
+		},
+
+		render: function () {
+			this.renderGrid();
+			this.delegateEvents();
+			return this;
+		},
+
+	
 		renderGrid: function () {
 			var daysTpl = templates.daysRowTpl,
 				$fragment = $(document.createDocumentFragment());
@@ -26,33 +60,56 @@
 			this.$el.html($fragment);
 		},
 
-		render: function () {
-			this.renderGrid();
-			this.$el.addClass('table table-bordered');
-			this.delegateEvents();
-			this.$el.children().children().addClass('calendarCell');
-			return this;
-		},
-
-		setStartDate: function () {
-			var date = new Date();
-
-			(this.direction > 0) && (date.setDate(date.getDate() + 7 * this.direction));
-			(this.direction < 0) && (date.adjustDate(this.direction * 7));
-
-			date = date.adjustDate(-(date.getDay() -1));
-			this.startDate = date;
-			this.currentWeekNumber = this.startDate.getWeekNumber();
-		},
-
 		renderEvents: function () {
-			this.choseWeek();
+			this.chooseWeek();
+			this.checkHolidays();
 		},
 
-		choseWeek: function () {
+		chooseWeek: function () {
 			var rightWeek = collections.scheduleCollection.findWhere({weekNumber: this.currentWeekNumber});
 			
 			rightWeek && (_.each(rightWeek.get('days'), this.showDay, this));
+		},
+
+		chooseTimelineDay: function (event) {
+			var $target = $(event.currentTarget),
+				attr = $target.attr('chooseDay')? $target.attr('chooseDay'): $target.attr('chooseTimeline'),
+				tdAttr = $target.attr('chooseDay')? 'day': 'timeline';
+
+			this.$el.find('td[' + tdAttr + '="' + attr + '"]').addClass('selectedCell');
+		},
+
+		checkHolidays: function () {
+			var holidays = new App.Holidays.HolidaysCollection(),
+				holidayView,
+				week,
+				date,
+				$cells;
+			this.$el.find('.holidayCell').remove();
+
+			holidays.push({"id": 0,
+						  "name": "Labor Day",
+						  "location": "Ukraine",
+						  "date": "2015.08.06"});
+
+			holidays.push({"id": 1,
+						  "name": "Holiday",
+						  "location": "Ukraine",
+						  "date": "2015.08.12"});
+
+			_.each(holidays.models, function (holiday) {
+				date = new Date(holiday.get('date'));
+				week = date.getWeekNumber();
+				if (week === this.currentWeekNumber) {
+					
+					$cells = this.$el.find('td[day="' + date.getDay() + '"]');
+					$cells.each(function (i, el) {						
+						holidayView = new This.HolidayView({model: holiday});
+						($(el).has('div').length) && (holidayView.changeSize($(el))); 
+						$(el).append(holidayView.render().el);
+					});
+				};
+			}, this);
 		},
 
 		showDay: function (day, dayNumber) {	
@@ -73,14 +130,8 @@
 			return scheduleCellView.render().el;
 		},
 
-		//adding selectedEvent
-		setupSelectedEvent: function (event) {
-
-			this.selectedEvent = event;
-		},
-
 		renderSelectedEvent: function (event) {
-		
+			debugger;
 			if (this.selectedEvent) {
 				var $target = $(event.currentTarget),
 					dayNumber = $target.attr('day'),
@@ -95,19 +146,22 @@
 		},
 
 		addEventToCollection: function (dayNumber, timeline, eventId) {
-			collections.scheduleCollection.addEvent(This.createWeekItem(dayNumber, timeline, eventId, this.startDate));
-		},
-
-		setDirection: function (_direction) {
-			this.direction = _direction;
+			var weekItem = This.createWeekItem({'dayNumber': dayNumber, 
+												'timeline': timeline, 
+												'eventId': eventId, 
+												'startDate': this.startDate});
+			collections.scheduleCollection.addEvent(weekItem);
 		},
 
 		checkAvailableCells: function () {
+			var selectedResources,
+				$eventsCells = this.$el.find('.calendarCellDiv').show(),
+				conflictView;
+
+			this.$el.find('.conflictCell').remove();
 			if (this.selectedEvent) {
-				var selectedResources = this.selectedEvent.toJSON()['resources'],
-					$eventsCells = this.$el.find('.calendarCellDiv').show(),
-					conflictView;
-				this.$el.find('.conflictCell').remove();
+				selectedResources = this.selectedEvent.toJSON()['resources'],
+				$eventsCells = this.$el.find('.calendarCellDiv').show(),
 	
 				$eventsCells.each( function (i, el) {
 					
