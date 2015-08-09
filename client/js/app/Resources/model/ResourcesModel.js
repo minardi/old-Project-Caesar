@@ -3,7 +3,9 @@
         defaults: function () {
             return {
                 'type': '',
-                'name': ''
+                'name': '',
+				'city': '',
+				'location': ''
             }
         },
 

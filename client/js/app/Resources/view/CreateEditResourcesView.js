@@ -41,7 +41,11 @@
                     );
 
                 }, this);
+				
+                var loginMan = new Role();
 
+                this.model.set({city: loginMan.locationCity, location: loginMan.locationCountry});
+				
                 this.model.save();
                 cs.mediator.publish('ResourcesViewClosed'); //publish to Controller
             }

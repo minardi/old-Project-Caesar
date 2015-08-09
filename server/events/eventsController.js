@@ -38,7 +38,7 @@ function EventsController (req, res) {
 	};
 
 	function responde (err, dbQuery) {	
-		res.send(eventsView.returnEvents(dbQuery));
+		res.send(eventsView.returnEvents(dbQuery, req));
 	}
 
 	return this;

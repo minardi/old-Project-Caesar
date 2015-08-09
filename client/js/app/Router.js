@@ -15,7 +15,7 @@
 
         initialize: function () {
             cs.mediator.subscribe('MenuClicked', this.navigateMenuItem, null, this); //published from MenuView
-
+            this.loginMan = new Role();
         },
 		
         mainPage: function () {
@@ -39,15 +39,27 @@
         },
 
         settings: function () {
-            cs.subRouters['Settings'] || (cs.subRouters['Settings'] = new App.Settings.Router());
+           	if(this.loginMan.role === "Admin") {
+                cs.subRouters['Settings'] || (cs.subRouters['Settings'] = new App.Settings.Router());
+			} else {
+				var errorPage = errorPage || new App.ErrorPage.Controller();
+			}
         },
 
         account: function () {
-            cs.subRouters['Accounts'] || (cs.subRouters['Accounts'] = new App.Accounts.Router());
-        },
+            if(this.loginMan.role === "Admin") {
+                cs.subRouters['Accounts'] || (cs.subRouters['Accounts'] = new App.Accounts.Router());
+			} else {
+				var errorPage = errorPage || new App.ErrorPage.Controller();
+			}
+		},
 
         holidays: function () {
-            cs.subRouters['Holidays'] || (cs.subRouters['Holidays'] = new App.Holidays.Router());
+            if(this.loginMan.role === "Admin") {
+				cs.subRouters['Holidays'] || (cs.subRouters['Holidays'] = new App.Holidays.Router());
+			} else {
+				var errorPage = errorPage || new App.ErrorPage.Controller();
+			}
         },
         
         navigateMenuItem: function (pathname) {

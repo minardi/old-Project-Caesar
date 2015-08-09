@@ -18,7 +18,9 @@
         },
 
         render: function () {
-            this.$el.html(this.tpl);
+			var loginMan = new Role();
+			
+            this.$el.html(this.tpl({name : loginMan}));
 
             return this;
         },
