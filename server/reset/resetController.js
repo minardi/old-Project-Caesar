@@ -10,6 +10,7 @@ function ResetController (req, res) {
 		holidays = require('./defaults/holidays.json'),
 		db = new require('../db/db')(),
 		defaultValues = {
+			counters: counters,
 			events: events, 
 			eventTypes: eventTypes,
 			resources:resources, 
@@ -17,15 +18,14 @@ function ResetController (req, res) {
 			contributors: contributors,
 			accounts: accounts,
 			weeks: weeks,
-			holidays: holidays,
-			counters: counters
+			holidays: holidays
 		};
 
 	db.reset(defaultValues, responde);
 
 	function responde (err, result) {
-		res.redirect('/Events');
-		
+		//res.redirect('/Events');
+		res.send("DBs successfully reseted!")
 		console.log("DBs successfully reseted!");
 	}
 

@@ -93,14 +93,13 @@ function DataBase () {
 		 		collectionsCount = Object.keys(defaults).length,
 		 		key;
 
-		 	for (key in defaults) {
-		 		db.collection(key).remove({});
+		 	for (collectionName in defaults) {
+		 		var currentCollection = db.collection(collectionName),
+		 			currentDefaults = defaults[collectionName];
 
-		 		console.log(key);
+		 		currentCollection.remove({});
 
-
-		 		db.collection(key).insert(defaults[key], function (err, res) {
-		 			
+		 		currentCollection.insert(currentDefaults, function (err, res) {
 	 				resetsCount++;	
 
  					if (resetsCount === collectionsCount) {
