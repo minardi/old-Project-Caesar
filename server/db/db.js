@@ -1,7 +1,8 @@
 function DataBase () {
 	var ObjectID = require('mongodb').ObjectID,
 		MongoClient = require('mongodb').MongoClient,
-		url = 'mongodb://localhost:27017/caesar';
+		url = 'mongodb://localhost:27017/caesar',
+		async = require('async');
 
 	this.fetch = function (collectionName, cb) {
 		MongoClient.connect(url, function(err, db) {
@@ -93,24 +94,41 @@ function DataBase () {
 		 		collectionsCount = Object.keys(defaults).length,
 		 		key;
 
-		 	for (collectionName in defaults) {
-		 		var currentCollection = db.collection(collectionName),
-		 			currentDefaults = defaults[collectionName];
-
-		 		currentCollection.remove({});
-
-		 		currentCollection.insert(currentDefaults, function (err, res) {
-	 				resetsCount++;	
-
- 					if (resetsCount === collectionsCount) {
- 						cb(err, 'resetCompleted');
-
- 						db.close();
- 					}			 			
-		 		})
+		 	if (err) {
+		 		return cb(err);
 		 	}
+
+		 	async.series([
+				clearCollections,
+				setDefaults
+			], cb)
+
+			function clearCollections (callback) {
+				async.each(
+					Object.keys(defaults), 
+					function (collectionName, callback) {
+						db.collection(collectionName).remove({}, callback);
+					}, 
+					callback
+				)
+			}
+
+			function setDefaults (callback) {
+				async.each(
+					Object.keys(defaults), 
+					function (collectionName, callback) {
+						var currentDefaults = defaults[collectionName];
+
+						db.collection(collectionName).insert(currentDefaults, callback);
+					}, 
+					callback
+				)
+			}
 		});
 	};
+
+
+
 
 	return this;
 }
