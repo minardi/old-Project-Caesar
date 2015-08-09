@@ -4,6 +4,8 @@ exports.EventsModel = function (newAttributes) {
 			id: '',
 			name: '',
 			type: '',
+			city:'',
+			location: '',
 			resources: []
 		};
 	

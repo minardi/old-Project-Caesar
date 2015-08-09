@@ -36,7 +36,7 @@ function ResourcesController (req, res) {
 	};
 
 	function responde (err, dbQuery) {
-		res.send(resourcesView.returnResources(dbQuery));
+		res.send(resourcesView.returnResources(dbQuery, req));
 	}
 
 	return this;

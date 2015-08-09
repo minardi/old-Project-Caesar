@@ -5,6 +5,8 @@
         defaults: {
             name: '',
             type: '',
+			city:'',
+			location: '',
             resources: []
         },
 

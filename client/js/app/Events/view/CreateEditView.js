@@ -57,12 +57,16 @@
         },
 
         save: function () {
-              this.isNewModel = this.model.isNew();
+			var loginMan = new Role();
+			
+            this.isNewModel = this.model.isNew();
 
             if (!this.preValidate()) {
                 var attributes = {
                     name : this.$('.name').val(),
                     type: this.$('.type').val(),
+					location: loginMan.locationCountry,
+					city: loginMan.locationCity,
                     resources: getIdResourcesArray()
                 };
 

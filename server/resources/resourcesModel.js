@@ -4,6 +4,9 @@ function ResourcesModel (newAttributes) {
 			id: '',
 			name: '',
 			type: '',
+			city: '',
+			location: ''
+			
 		};
 	
 	setModel();

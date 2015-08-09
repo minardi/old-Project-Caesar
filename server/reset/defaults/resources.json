@@ -2,31 +2,43 @@
 	{
 		"id": 0,
 		"name": "DP 080 UI",
-		"type": 0
+		"type": 0,
+		"city": "New York",
+		"location": "USA"
 	},
 	{
 		"id": 1,
 		"name": "703",
-		"type": 1
+		"type": 1,
+		"city": "Lviv",
+		"location": "Ukraine"
 	},
 	{
 		"id": 2,
 		"name": "Petin D.",
-		"type": 2
+		"type": 2,
+		"city": "Lviv",
+		"location": "Ukraine"
 	},
 	{
 		"id": 3,
 		"name": "DP 076 ATQC",
-		"type": 0
+		"type": 0,
+		"city": "Lviv",
+		"location": "Ukraine"
 	},
 	{
 		"id": 4,
 		"name": "714",
-		"type": 1
+		"type": 1,
+		"city": "Lviv",
+		"location": "Ukraine"
 	},
 	{
 		"id": 5,
 		"name": "Mister X",
-		"type": 2
+		"type": 2,
+		"city": "Lviv",
+		"location": "Ukraine"
 	}	
 ]

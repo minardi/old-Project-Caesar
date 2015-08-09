@@ -16,5 +16,24 @@
 		"locationCountry": "England",
 		"locationCity": "Kensington, Middlesex",
 		"role": "Coordinator"
+	},
+	{
+		"id": 2,
+		"fullName": "Alex L",
+		"login": "Alex",
+		"password": "qqq",
+		"locationCountry": "England",
+		"locationCity": "Kensington, Middlesex",
+		"role": "Coordinator"
+	},
+	{
+		"id": 3,
+		"fullName": "Dima D",
+		"login": "Dima",
+		"password": "qqq",
+		"locationCountry": "Ukraine",
+		"locationCity": "Lviv",
+		"role": "Coordinator"
 	}
+	
 ]
