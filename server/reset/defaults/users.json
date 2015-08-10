@@ -4,8 +4,8 @@
 		"fullName": "Nikola Tesla",
 		"login": "Nikola",
 		"password": "qqq",
-		"locationCountry": "USA",
-		"locationCity": "New York",
+		"locationCountry": "Ukraine",
+		"locationCity": "Lviv",
 		"role": "Admin"
 	},
 	{
@@ -13,8 +13,8 @@
 		"fullName": "Isaac Newton",
 		"login": "Isaac",
 		"password": "qqq",
-		"locationCountry": "England",
-		"locationCity": "Kensington, Middlesex",
+		"locationCountry": "Ukraine",
+		"locationCity": "Lviv",
 		"role": Coordinator
 	},
 	{
@@ -22,8 +22,8 @@
 		"fullName": "Alex L",
 		"login": "Alex",
 		"password": "qqq",
-		"locationCountry": "England",
-		"locationCity": "Kensington, Middlesex",
+		"locationCountry": "Ukraine",
+		"locationCity": "Lviv",
 		"role": "Coordinator"
 	},
 	{
