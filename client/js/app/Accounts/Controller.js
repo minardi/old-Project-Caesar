@@ -1,25 +1,50 @@
 (function (This) {
     This.Controller = function () {
-        var account = new This.Account,
-            accountView = new This.CreateAccountView(),
-            $accounts = $('#main');
+        var collection = collections.accountsCollection,
+            accounts = new This.AccountCollectionView({collection: collection}),
+            $accounts = $('#main'),
+            view;
 
         start();
-        
+
         function start () {
             setUpMediator();
-            $accounts.append(accountView.render().el);
+            $accounts.append(accounts.render().el);
         }
 
         function setUpMediator () {
-            cs.mediator.subscribe('CreateAccount', showAccountView);
+            cs.mediator.subscribe('ShowAccounts', showAccounts);
+            cs.mediator.subscribe('EditAccount', editViewById);
+            cs.mediator.subscribe('CreateAccount', createAccount);
+            cs.mediator.subscribe('CreateAccountViewClosed', viewClosed); 
         }
 
-        function showAccountView () {
+        function showAccounts () {
             hideAll();
-            accountView.show();
+            view && view.remove();
+            accounts.show();
+        }
+
+        function createAccount () {
+            view && view.remove();
+            view = new This.CreateEditAccountView();
+            $accounts.append(view.render().el);
         }
         
+        function editAccount (account) {
+            view && view.remove();
+            view = new This.CreateEditAccountView({model: account });
+            $accounts.append(view.render().el);
+        }
+
+        function editViewById (id) {
+           accounts.getModelById(id, editAccount);
+        }
+
+        function viewClosed () {
+            view.remove();
+        }
+
         function hideAll () {
             $accounts.children().addClass('hidden');
         }

@@ -14,6 +14,7 @@ var DataLoader = function () {
         collections.eventTypes = new App.Settings.EventTypeCollection();
         collections.resourceTypes = new App.Settings.ResourceTypeCollection();
         collections.holidaysCollection = new App.Holidays.HolidaysCollection();
+        collections.accountsCollection = new App.Accounts.AccountsCollection();
     }
     
     function renderLoadingBar () {
@@ -33,8 +34,11 @@ var DataLoader = function () {
                         collections.resourceTypes.once('sync', function () {
                             collections.holidaysCollection.fetch();
                             collections.holidaysCollection.once('sync', function () {
+                                collections.accountsCollection.fetch();
+                                collections.accountsCollection.once('sync', function () {
                                 main();
                                 $('.sequence').remove();
+                                });
                             });
                         });
                     });

@@ -1,30 +1,34 @@
 var express = require('express'),
-	router = express.Router(),
-	eventsRouter = require('./events/eventsRouter'),
+    mongoose = require('mongoose'),
+    router = express.Router(),
+    eventsRouter = require('./events/eventsRouter'),
     eventTypesRouter = require('./eventTypes/eventTypesRouter'),
-	resourcesRouter = require('./resources/resourcesRouter'),
+    resourcesRouter = require('./resources/resourcesRouter'),
     resourceTypesRouter = require('./resourceTypes/resourceTypesRouter'),    
     scheduleRouter = require('./schedule/scheduleRouter'),   
     accountsRouter = require('./accounts/accountsRouter'),   
     contributorsRouter = require('./contributors/contributorsRouter'),
     holidaysRouter = require('./holidays/holidaysRouter');
 
-// router.use('*', function (req, res, next) {
-//     var staticRoute = /^\/build/.test(req.url)? './public': '../client',
-//         user = req.cookies.login,
-//         userExists = Boolean(user);  
-          
-//         if (userExists) {
-            
-//             next(req, res);
-//         } else {
-//             res.sendFile('index.html', { root: staticRoute });  
-//         } 
-// });
+var Schema = mongoose.Schema;
+var ObjectId = Schema.ObjectId;
+
+mongoose.connect('mongodb://localhost:27017/caesar');
+
+var Account = mongoose.model('Account', new Schema({
+    id: ObjectId,
+    fullName: String,
+    login: String,
+    password: String,
+    locationCity: String,
+    locationCountry: String,
+    role: String
+}));
 
 router.use(/^\/events\b/, eventsRouter);
 router.use(/^\/eventTypes\b/, eventTypesRouter);
-router.use(/^\/resources(\/.+)?$/, resourcesRouter);
+router.use(/^\/resources\b/, resourcesRouter);
+//router.use(/^\/resources(\/.+)?$/, resourcesRouter);
 router.use(/^\/resourceTypes\b/, resourceTypesRouter);
 router.use(/^\/schedule\b/, scheduleRouter);
 router.use(/^\/accounts/, accountsRouter);
@@ -39,36 +43,57 @@ router.all('/download', function(req, res, next) {
     var generatorController = new require('./generator/generatorController')(req, res);
 });
 
-// router.post('/', function (req, res) {
-//     var user = req.body.login,
-//         userExists = Boolean(user),
-//         minute = 60 * 1000,
-//         staticRoute = /^\/build/.test(req.url)? './public': '../client';;
-
-//     // check if exists in db
-//     if (userExists) {
-//         res.cookie('login', user, { maxAge: minute });
-//         res.sendFile('home.html', { root: staticRoute }); 
-//     } else {
-//         res.redirect('back'); 
-//     }    
-// });
-
-router.all('*', function (req, res, next) {
-    var staticRoute = /^\/build/.test(req.url)? './public': '../client',
-        user = req.cookies.login,
-        userExists = Boolean(user);
+router.post('/', function (req, res) {
+    var staticRoute = /^\/build/.test(req.url)? './public': '../client';
+    Account.findOne( { login: req.body.login }, function (err, account) {
+        if(!account){
+            console.log('Invalid login');
+            res.redirect('/');
+        } else {
+            if (req.body.password === account.password) {
+                res.cookie('account', account, { maxAge: 3600000 });
+                res.sendFile('home.html', { root: staticRoute });
+            } else {       
+                res.redirect('/');
+            }   
+        } 
+    });
+});
 
 
-    console.log('* route called');
+router.get('/', function (req, res) {
+    console.log('hello from get/'); 
+    var staticRoute = /^\/build/.test(req.url)? './public': '../client';
+    res.sendFile('index.html', { root: staticRoute });
+});
 
-    //if (userExists) {
-        if (!isRest(req.url)) {  
-            res.sendFile('index.html', { root: staticRoute });
-        }           
-    //} else {
-    //        res.sendFile('index.html', { root: staticRoute });            
-    //}
+router.get('/logout', function (req, res) {
+    console.log('hello from logout');
+    var staticRoute = /^\/build/.test(req.url)? './public': '../client';
+    if(req.cookies && req.cookies.account){
+        res.clearCookie('account');
+    }
+    res.redirect('/');
+});
+
+
+router.get('*', function (req, res) {
+    var staticRoute = /^\/build/.test(req.url)? './public': '../client';
+    if(req.cookies && req.cookies.account) {
+        Account.findOne({ login: req.cookies.account.login }, function (err, account) {
+            if(!account){
+                console.log('no account');
+                res.clearCookie('account');
+            } else {
+                if (!isRest(req.url)) { 
+                    console.log('hello from send File'); 
+                    res.sendFile('home.html', { root: staticRoute });
+                }
+            }
+        });
+    } else {
+        res.redirect('/');
+    }   
 });
 
 function isRest (url) {
@@ -78,7 +103,7 @@ function isRest (url) {
         'schedule',
         'resources',
         'resourceTypes',
-        'users', 
+        'accounts', 
         'contributors', 
         'holidays'
         ],

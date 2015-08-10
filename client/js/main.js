@@ -8,8 +8,14 @@ var App = {},
 setUp(App, ['Events', 'Resources', 'About', 'Menu', 'Messenger', 'Schedule', 'ErrorPage', 'Settings', 'Accounts', 'Holidays']);
 setUp(cs, ['mediator', 'subRouters', 'router', 'menu', 'messenger']);
 
-setUp(collections, ['resouresCollection', 'eventsCollection', 'scheduleCollection', 'eventTypes', 'resourceTypes', 'holidaysCollection']);
-
+setUp(collections, ['resouresCollection',
+                    'eventsCollection',
+                    'scheduleCollection',
+                    'eventTypes',
+                    'resourceTypes',
+                    'holidaysCollection',
+                    'accountsCollection'
+                    ]);
 
 $(function () {
     var dataLoader = new DataLoader(); 

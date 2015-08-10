@@ -4,16 +4,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session = require('client-sessions');
 var router = require('./router');
-
-var Mediator = new require('./mediator');
-
-global.m = new Mediator();
 
 var app = express();
 
-// // view engine setup
+// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.set('case sensitive routing', true);
@@ -24,13 +19,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
-app.use(session({
-    cookieName: 'session',
-    secret: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
-    duration: 90* 60* 1000,
-    activeDuration: 30* 60* 1000,
-}));
 
 app.use('/build', express.static('./public'));
 app.use(express.static('../client'));
