@@ -11,6 +11,33 @@
             role: ''
         },
 
-        urlRoot: '/accounts'
+        urlRoot: '/accounts',
+
+        validation: {
+            fullName: [
+                {
+                    required: true,
+                    msg: 'Field cannot be empty'
+                }
+            ],
+            login: [
+                {
+                    required: true,
+                    msg: 'Field cannot be empty'
+                }
+            ],
+            password: [
+                {
+                    required: true,
+                    msg: 'Field cannot be empty'
+                }
+            ],
+            role: [
+                {
+                    required: true,
+                    msg: 'Field cannot be empty'
+                }
+            ],
+        }
     });
 })(App.Accounts);

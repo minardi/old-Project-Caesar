@@ -1,9 +1,26 @@
 #auth {
 	position: absolute;
-	margin: 0 8px;
-	padding: 18px 10px 14px 10px;
+	margin: 0 90px;
+	padding: 5px 5px 5px 5px;
 	color: #777777;
 	right: 0;
+}
+
+.logout{
+	position: absolute;
+	margin: 0 5px;
+	padding: 5px 5px 5px 5px;
+	right: 0;
+	cursor: pointer;
+}
+
+.logout a{
+	color: black;
+}
+
+.logout:hover {
+	background-color: #dddddd;
+	color: #515151;
 }
 
 #auth span {

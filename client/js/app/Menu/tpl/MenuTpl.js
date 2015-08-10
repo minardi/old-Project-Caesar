@@ -18,7 +18,7 @@ templates.menuTpl = _.template([
 				'<span class="glyphicon glyphicon-cog"></span></br>',    
 				'Settings',
 			'</li>',
-			'<li role="presentation" class="createAccount menu-item">',
+			'<li role="presentation" class="accounts menu-item">',
 				'<span class="glyphicon glyphicon-user"></span></br>',    
 				'Accounts',
 			'</li>',
@@ -35,5 +35,8 @@ templates.menuTpl = _.template([
 	'<div id="auth">',
 		'<span class="glyphicon glyphicon-user"></span> ',
 		'<%= name.fullName %>',
-	'</div>'
-].join(''));
+	'</div>',
+	'<div class="logout">',
+		'<span class="glyphicon glyphicon-off"></span> ',
+		'<a href="/logout">Log out</a>',
+	'</div>'].join(''));

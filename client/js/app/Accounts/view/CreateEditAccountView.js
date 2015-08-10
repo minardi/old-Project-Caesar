@@ -21,12 +21,8 @@
         },
 
         submit: function () { 
-            // var $inputs = $('#formAccount :input'),
-            //     attributes = {};
-            // $inputs.each(function() {
-            //     attributes[this.name] = $(this).val();
-            // });
             var isNewModel = this.model.isNew();
+            if (!this.preValidate()) {
             var attributes = {
                     fullName : this.$('#InputFullName').val(),
                     login: this.$('#InputLogin').val(),
@@ -45,7 +41,51 @@
                 }, this);
             this.model.save(attributes);
            
-            cs.mediator.publish('CreateAccountViewClosed'); 
+            cs.mediator.publish('CreateAccountViewClosed');
+            } 
+        },
+
+        preValidate: function (e) {
+            var attrName,
+                errorMessage,
+                validationResult,
+                errors = {};
+
+            if (e) {
+                attrName = e.target.name;
+                errorMessage = this.model.preValidate(attrName, this.model.get(attrName));
+
+                if (errorMessage) {
+                    cs.mediator.publish(   
+                        'Hint',
+                        errorMessage,
+                        this.$('[name=' + attrName + ']')
+                    ); 
+                }
+
+                validationResult = errorMessage;
+            } else {
+                errors = this.model.preValidate({
+                    fullName: this.model.get('fullName'),
+                    login: this.model.get('login'),
+                    password: this.model.get('password'),
+                    //locationCity: this.model.get('locationCity'),
+                    //locationCountry: this.model.get('locationCountry'),
+                    role: this.model.get('role')
+                });
+
+                if (errors) {
+                    for (attrName in errors) {
+                        cs.mediator.publish(  
+                            'Hint',
+                            errors[attrName],
+                            this.$('[name=' + attrName + ']')
+                        ); 
+                    }
+                }
+                validationResult = errors;
+            }
+            return validationResult;
         },
 
         cancel: function () {
