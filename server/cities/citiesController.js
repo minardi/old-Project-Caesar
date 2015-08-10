@@ -1,6 +1,6 @@
-function UsersController (req, res) {
-	var usersView = new require('./usersView')(),
-		User = require('./userModel'),
+function CitiesController (req, res) {
+	var citiesView = new require('./citiesView')(),
+		City = require('./citiesModel'),
 		db = new require('../db/db')(),
 		actions = {
 			'GET': get,
@@ -8,7 +8,7 @@ function UsersController (req, res) {
 			'PUT': update,
 			'DELETE': del
 		},
-		dbName = 'users',
+		dbName = 'cities',
 		id = req.params.id;
 
 	handle();
@@ -22,15 +22,15 @@ function UsersController (req, res) {
 	}
 
 	function create () {
-		var user = new User(req.body);
+		var city = new City(req.body);
 
-		db.create(dbName, user.toJSON(), responde);
+		db.create(dbName, city.toJSON(), responde);
 	}	
 
 	function update () {
-		var user = new User(req.body);
+		var city = City(req.body);
 		
-		db.update(dbName, user.toJSON(), id, responde);
+		db.update(dbName, city.toJSON(), id, responde);
 	}
 
 	function del () {
@@ -38,10 +38,10 @@ function UsersController (req, res) {
 	};
 
 	function responde (err, dbQuery) {	
-		res.send(usersView.returnUser(dbQuery));
+		res.send(citiesView.returnCity(dbQuery));
 	}
 
 	return this;
 }
 
-module.exports = UsersController;
+module.exports = CitiesController;

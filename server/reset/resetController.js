@@ -9,7 +9,8 @@ function ResetController (req, res) {
 			weeks: require('./defaults/weeks.json'),
 			accounts: require('./defaults/accounts.json'),
 			holidays: require('./defaults/holidays.json'),
-			counters: require('./defaults/counters.json')
+			counters: require('./defaults/counters.json'),
+			cities: require('./defaults/cities.json')
 		};
 
 	db.reset(defaultValues, responde);

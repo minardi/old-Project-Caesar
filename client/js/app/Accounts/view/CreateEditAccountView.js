@@ -4,25 +4,24 @@
 
         events: {
             'click .save': 'submit',
-            'click .cancel': 'cancel'
+            'click .cancel': 'cancel',
+            'blur  input': 'preValidate'
         },
 
         initialize: function () {
             this.model = this.model || new This.Account();
             this.defaultModelJSON = this.model.toJSON();
-            this.modelBinder = new Backbone.ModelBinder();
             Backbone.Validation.bind(this);
         },
 
         render: function () {
             this.$el.append(this.template(this.defaultModelJSON)); 
-            this.modelBinder.bind(this.model, this.el);
             return this;
         },
 
         submit: function () { 
             var isNewModel = this.model.isNew();
-            if (!this.preValidate()) {
+            //if (!this.preValidate()) {
             var attributes = {
                     fullName : this.$('#InputFullName').val(),
                     login: this.$('#InputLogin').val(),
@@ -42,7 +41,7 @@
             this.model.save(attributes);
            
             cs.mediator.publish('CreateAccountViewClosed');
-            } 
+           // } 
         },
 
         preValidate: function (e) {
@@ -89,7 +88,6 @@
         },
 
         cancel: function () {
-            this.modelBinder.unbind();
             cs.mediator.publish('CreateAccountViewClosed');
         },
 

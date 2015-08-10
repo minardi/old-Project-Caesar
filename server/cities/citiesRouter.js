@@ -1,13 +1,13 @@
 var express = require('express'),
-	usersRouter = express.Router({mergeParams: true});
+	citiesRouter = express.Router({mergeParams: true});
 
-usersRouter.all('/:id', function(req, res, next) {	
-    var usersController = new require('./usersController')(req, res);
+citiesRouter.all('/:id', function(req, res, next) {	
+    var citiesController = new require('./citiesController')(req, res);
 });
 
-usersRouter.all('/', function(req, res, next) {		
-    var usersController = new require('./usersController')(req, res);
+citiesRouter.all('/', function(req, res, next) {		
+    var citiesController = new require('./citiesController')(req, res);
 });
 
 
-module.exports = usersRouter;
+module.exports = citiesRouter;

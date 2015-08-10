@@ -8,7 +8,8 @@ var express = require('express'),
     scheduleRouter = require('./schedule/scheduleRouter'),   
     accountsRouter = require('./accounts/accountsRouter'),   
     contributorsRouter = require('./contributors/contributorsRouter'),
-    holidaysRouter = require('./holidays/holidaysRouter');
+    holidaysRouter = require('./holidays/holidaysRouter'),
+    citiesRouter = require('./cities/citiesRouter');
 
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
@@ -27,13 +28,13 @@ var Account = mongoose.model('Account', new Schema({
 
 router.use(/^\/events\b/, eventsRouter);
 router.use(/^\/eventTypes\b/, eventTypesRouter);
-router.use(/^\/resources\b/, resourcesRouter);
-//router.use(/^\/resources(\/.+)?$/, resourcesRouter);
+router.use(/^\/resources(\/.+)?$/, resourcesRouter);
 router.use(/^\/resourceTypes\b/, resourceTypesRouter);
 router.use(/^\/schedule\b/, scheduleRouter);
 router.use(/^\/accounts/, accountsRouter);
 router.use(/^\/contributors\b/, contributorsRouter);
 router.use(/^\/holidays\b/, holidaysRouter);
+router.use(/^\/cities\b/, citiesRouter);
 
 router.get('/reset', function(req, res, next) {     
     var resetController = new require('./reset/resetController')(req, res);
@@ -52,6 +53,7 @@ router.post('/', function (req, res) {
         } else {
             if (req.body.password === account.password) {
                 res.cookie('account', account, { maxAge: 3600000 });
+                res.cookie('clientId', setRandomId(), { maxAge: 3600000 });
                 res.sendFile('home.html', { root: staticRoute });
             } else {       
                 res.redirect('/');
@@ -95,6 +97,16 @@ router.get('*', function (req, res) {
         res.redirect('/');
     }   
 });
+
+function setRandomId () {
+    var lettersNumbers = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+        length = 16,
+        clientId = '';
+    for( var i = 0; i < length; i++ ) {
+       clientId += lettersNumbers.charAt(Math.floor(Math.random() * length));
+    }
+    return clientId;
+}
 
 function isRest (url) {
     var restList = [
