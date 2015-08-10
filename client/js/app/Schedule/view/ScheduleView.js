@@ -105,7 +105,7 @@
 					$cells = this.$el.find('td[day="' + date.getDay() + '"]');
 					$cells.each(function (i, el) {						
 						holidayView = new This.HolidayView({model: holiday});
-						($(el).has('div').length) && (holidayView.changeSize($(el))); 
+						($(el).has('div[class="calendarCellDiv"]').length) && (holidayView.changeSize($(el))); 
 						$(el).append(holidayView.render().el);
 					});
 				};
@@ -131,7 +131,6 @@
 		},
 
 		renderSelectedEvent: function (event) {
-			debugger;
 			if (this.selectedEvent) {
 				var $target = $(event.currentTarget),
 					dayNumber = $target.attr('day'),

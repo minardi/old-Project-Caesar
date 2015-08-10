@@ -28,9 +28,13 @@ function DataBase () {
         			{ $inc: { seq: 1 } },
         			{new: true},
         			function (err, res) {
-        				attributes['id'] = res.value.seq;
+        				if (err) {
+        					console.log(err.message);
+        				} else {
+        					attributes['id'] = res.value.seq;
 
-        				cb(attributes);
+        					cb(attributes);
+        				}
         			}
           		);
 			}

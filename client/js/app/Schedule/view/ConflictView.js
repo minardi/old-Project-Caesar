@@ -34,9 +34,11 @@
 			var res;
 			_.each(this.conflicts, function (_id) {
 				res = collections.resouresCollection.findWhere({id: +_id});
-				this.$frag.append(res.get('type') + ':');
+				if (res) {
+					this.$frag.append(res.get('type') + ':');
 
-				this.$frag.append(res.get('name') + '<br>');
+					this.$frag.append(res.get('name') + '<br>');
+				}
 			}, this);
 
 			this.$el.html(this.$frag);
