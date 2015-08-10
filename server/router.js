@@ -47,6 +47,7 @@ router.post('/', function (req, res) {
     Account.findOne( { login: req.body.login }, function (err, account) {
         if(!account){
             console.log('Invalid login');
+            res.redirect('/');
         } else {
             if (req.body.password === account.password) {
                 res.cookie('account', account, { maxAge: 3600000 });
@@ -68,7 +69,7 @@ router.get('/', function (req, res) {
 router.get('/logout', function (req, res) {
     console.log('hello from logout');
     var staticRoute = /^\/build/.test(req.url)? './public': '../client';
-    if(req.cookies){
+    if(req.cookies && req.cookies.account){
         res.clearCookie('account');
     }
     res.redirect('/');
