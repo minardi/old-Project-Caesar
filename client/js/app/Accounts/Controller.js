@@ -1,7 +1,6 @@
 (function (This) {
     This.Controller = function () {
-        var accountView = new This.CreateAccountView(),
-            collection = new This.AccountsCollection(),
+        var collection = collections.accountsCollection,
             accounts = new This.AccountCollectionView({collection: collection}),
             $accounts = $('#main'),
             view;
@@ -11,36 +10,35 @@
         function start () {
             setUpMediator();
             $accounts.append(accounts.render().el);
-            $accounts.append(accountView.render().el);
         }
 
         function setUpMediator () {
-            cs.mediator.subscribe('CreateAccount', showAccountView);
-            cs.mediator.subscribe('EditAccount', editView);
-            cs.mediator.subscribe('AccountSaved', addToCollection);
-            cs.mediator.subscribe('CreateAccountView', showCreateAccountView);
+            cs.mediator.subscribe('ShowAccounts', showAccounts);
+            cs.mediator.subscribe('EditAccount', editViewById);
+            cs.mediator.subscribe('CreateAccount', createAccount);
             cs.mediator.subscribe('CreateAccountViewClosed', viewClosed); 
         }
 
-        function showAccountView () {
+        function showAccounts () {
             hideAll();
+            view && view.remove();
             accounts.show();
         }
 
-        function showCreateAccountView () {
+        function createAccount () {
             view && view.remove();
-            view = new This.CreateAccountView();
+            view = new This.CreateEditAccountView();
             $accounts.append(view.render().el);
         }
         
-        function editView (account) {
+        function editAccount (account) {
             view && view.remove();
-            view = new This.CreateAccountView({model: account });
+            view = new This.CreateEditAccountView({model: account });
             $accounts.append(view.render().el);
         }
 
-        function addToCollection (model) {
-            collection.add(model);
+        function editViewById (id) {
+           accounts.getModelById(id, editAccount);
         }
 
         function viewClosed () {

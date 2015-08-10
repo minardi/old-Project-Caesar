@@ -1,18 +1,18 @@
 'use strict';
 (function (This) {
     This.AccountCollectionView = Backbone.View.extend({
-		template: accountCollectionTpl,
+		template: templates.accountCollectionTpl,
         className: 'accounts',
+        tagName: 'div',
 
         events: {
             'click .create': 'createView'
         },
 
         initialize: function () {
-            this.listenTo(this.collection, 'add', this.renderOne);
-            this.collection = collections.accountsCollection;
-
+            cs.mediator.subscribe('AccountSaved', this.renderOne, {}, this);
         },
+
         render: function () {
            this.$el.append(this.template);
             this.collection.each(function (account) {
@@ -23,11 +23,12 @@
         },
 
         renderOne: function (model) {
-            var accountView = new App.Accounts.AccountView({model: model}).render();
+            var accountView = new App.Accounts.AccountView({model: model});
+            this.collection.add(model);
             this.$('.account-list').append(accountView.render().el);
         },
 
-        add: function () {
+        createView: function () {
             cs.mediator.publish('CreateAccount');
         },
 
@@ -35,8 +36,17 @@
             this.$el.removeClass('hidden');
         },
 
-        createView: function () {
-            cs.mediator.publish('CreateAccountView');
+        getModelById: function (id, callback) {
+            if (this.collection.get(id)) {
+                callback(this.collection.get(id));
+            } else {
+                this.collection.once('sync', function () {
+                    if (this.collection.get(id)) {
+                        callback(this.collection.get(id));
+                    } 
+                }, this);
+            }
         }
+
     });
 })(App.Accounts);

@@ -1,11 +1,10 @@
 'use strict';
-var accountTpl = _.template([
-	'<span class="col-sm-6">',
-		'<li><span><%= login  %></span> <span><%= role %></span>',
-		'<span> <%= locationCity %></span></li>',
-	'</span>',
-	'<span class="col-sm-6">',
-		'<i class="edit glyphicon glyphicon-edit customGlyphBtn"></i>',
-		'<i class="dell glyphicon glyphicon-trash customGlyphBtn"></i>',
-	'</span>',
+templates.accountTpl = _.template([
+'   <td><%= login %></td>',
+'   <td><%= role %></td>',
+'   <td><%= locationCity %></td>',
+'   <td class="col-lg-1">',
+'       <i class="glyphicon glyphicon-edit customGlyphBtn"></i>',
+'       <i class="glyphicon glyphicon-trash customGlyphBtn"></i>',
+'   </td>'
 ].join(''));	

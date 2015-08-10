@@ -8,7 +8,7 @@
             'About*path': 'about',
             'Schedule*path': 'calendar',
             'Settings*path': 'settings',
-            'Accounts*': 'account',
+            'Accounts*path': 'account',
             'Holidays*path': 'holidays',
             '*action': 'errorPage'
         },

@@ -1,11 +1,12 @@
 'use strict';
 (function (This) {
     This.AccountView = Backbone.View.extend({
-        template: accountTpl,
+        tagName: 'tr',
+        template: templates.accountTpl,
 
         events: {
-            'click .edit': 'edit',
-            'click .dell': 'delete'
+            'click .glyphicon-edit': 'edit',
+            'click .glyphicon-trash': 'delete'
         },
 
          initialize: function () {
