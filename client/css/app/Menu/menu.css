@@ -18,11 +18,6 @@
 	color: black;
 }
 
-.logout:hover {
-	background-color: #dddddd;
-	color: #515151;
-}
-
 #auth span {
 	padding: 2px 1px 1px 1px;
 	color: white;

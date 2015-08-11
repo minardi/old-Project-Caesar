@@ -18,9 +18,12 @@ templates.createAccountTpl = _.template([
                          '<label for="InputPassword">Enter Password</label>',
                         '<input type="password" class="name form-control editName" value="<%= password %>" name="password" id="InputPassword" placeholder="Enter Password">',
                     '</div>',
-                    '<div class="form-group" class="col-xs-4">',
-                         '<label for="InputCountry">Select Country</label>',
-                    '<select id="countries_states1" class="form-control bfh-select-fix bfh-countries" data-country="UA"></select>',
+                    '<div class="form-group">',
+                        '<label for="InputCountry">Select Country</label>',
+                         '<select class="form-control" id="selectCountry" size=2>',
+                            '<option value="Bulgaria">Bulgaria</option>',
+                            '<option value="Ukraine">Ukraine</option>',
+                        '</select>',
                     '</div>',
                     '<div class="form-group" class="col-xs-4">',
                         '<label for="InputCity">Select City</label>',
@@ -41,4 +44,4 @@ templates.createAccountTpl = _.template([
                     '</button>',
                 '</div>',
             '</div>',
-        '</div>'].join(''));
+        '</div>'].join(''));  

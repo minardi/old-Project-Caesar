@@ -1,10 +1,9 @@
-function UsersView () {
+function CitiesView () {
 	
-	this.returnUser = function (user) {
-		return JSON.stringify(user);
+	this.returnCity = function (city) {
+		return JSON.stringify(city);
 	}
-
 	return this;
 }
 
-module.exports = UsersView;
+module.exports = CitiesView;

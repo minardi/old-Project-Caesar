@@ -1,13 +1,9 @@
-function UserModel (newAttributes) {
+function CitiesModel (newAttributes) {
 	var _ = require('../../client/js/lib/underscore.js'),
 		attributes = {
 			id: '',
-			fullName: '',
-			login: '',
-			password: '',
-			locationCity: '',
-			locationCountry: '',
-			role: ''
+			name: '',
+			location: ''
 		};
 	
 	setModel();
@@ -36,4 +32,4 @@ function UserModel (newAttributes) {
 	return this;
 };
 
-module.exports = UserModel;
+module.exports = CitiesModel;

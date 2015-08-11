@@ -4,7 +4,6 @@ function EventsController (req, res) {
         archive = archiver('zip'),
         db = new require('../db/db')(),
         dirname = './generator/archivingData',
-        fileName = 'weeks.js',
         _ = require('underscore-node');
     
 	handle();
@@ -16,12 +15,34 @@ function EventsController (req, res) {
     function createFiles () {
         db.fetch('weeks', function (err, collection) {
             if (err) throw err;
-            var tpl = _.template("var weeks = <%= array %>;");
+            var tpl = _.template("var scheduleCollection = <%= array %>;");
             var data = tpl({array : JSON.stringify(collection)});
             
-            fs.writeFile(dirname + '/' + fileName, data, function (err) {
+            fs.writeFile(dirname + '/weeks.js', data, function (err) {
                 if (err) throw err;
-                console.log(fileName + ' created');
+                console.log('weeks.js created');
+            });
+        });
+        
+        db.fetch('events', function (err, collection) {
+            if (err) throw err;
+            var tpl = _.template("var eventsCollection = <%= array %>;");
+            var data = tpl({array : JSON.stringify(collection)});
+            
+            fs.writeFile(dirname + '/events.js', data, function (err) {
+                if (err) throw err;
+                console.log('events.js created');
+            });
+        });
+        
+        db.fetch('resources', function (err, collection) {
+            if (err) throw err;
+            var tpl = _.template("var resourcesCollection = <%= array %>;");
+            var data = tpl({array : JSON.stringify(collection)});
+            
+            fs.writeFile(dirname + '/resources.js', data, function (err) {
+                if (err) throw err;
+                console.log('resources.js created');
                 archivate();
             });
         });
@@ -36,9 +57,13 @@ function EventsController (req, res) {
 
         archive.pipe(res);
         
-        archive.append(fs.createReadStream(dirname + '/' + fileName), { name: fileName });
-        
-        archive.finalize();
+        fs.readdir(dirname, function (err, files) {
+            if (err) throw err;
+            _.each(files, function (file) {
+                archive.append(fs.createReadStream(dirname + '/' + file), { name: file });
+            });
+            archive.finalize();
+        });
 	}
 
 	return this;

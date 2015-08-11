@@ -1,0 +1,32 @@
+[
+	{
+		"id": 0,
+		"name": "Dnipropetrovsk",
+		"location": "Ukraine"
+	},
+	{
+		"id": 1,
+		"name": "Kyiv",
+		"location": "Ukraine"
+	},
+	{
+		"id": 2,
+		"name": "Lviv",
+		"location": "Ukraine"
+	},
+	{
+		"id": 3,
+		"name": "Ivano-Frankivsk",
+		"location": "Ukraine"
+	},
+	{
+		"id": 4,
+		"name": "Chernivtsi",
+		"location": "Ukraine"
+	},
+	{
+		"id": 5,
+		"name": "Rivne",
+		"location": "Ukraine"
+	}
+]
