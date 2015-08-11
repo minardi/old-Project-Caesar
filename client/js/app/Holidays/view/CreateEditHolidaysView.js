@@ -1,8 +1,6 @@
 (function (This) {
     This.CreateEditView = Backbone.View.extend({
-        
         className: 'modal fade in',
-
         template: templates.editHolidayTpl,
 
         events: {
@@ -12,13 +10,16 @@
 
         initialize: function () {
             this.model = this.model || new This.HolidaysModel(); 
-            this.defaultModelJSON = this.model.toJSON();
-            this.modelBinder = new Backbone.ModelBinder();
         },
 
         render: function () {
-            this.$el.append(this.template()); 
-            this.modelBinder.bind(this.model, this.el);
+            var locationCountry = collections.countriesCollection.toJSON();
+            this.$el.append(this.template({
+                name: this.model.get('name'),
+                locationCountry: locationCountry,
+                date: this.model.get('date')
+            })); 
+            
 
             setTimeout(function () {
                 $("#datetimepicker").datetimepicker({
@@ -31,35 +32,29 @@
         },
 
         save: function () {
-            var isNewModel = this.model.isNew();
-
+            var isNewModel = this.model.isNew(),
+                attributes = {
+                    name : this.$('#name').val(),
+                    locationCountry: this.$('#InputCountry').val(),
+                    date: $("#date").val()
+            };        
             this.model.once('sync', function () {
                 if (isNewModel) {
                     cs.mediator.publish('HolidaySaved', this.model); //publish to HolidaysCollectionView
                 } 
-
                 cs.mediator.publish( //publish to Messenger's Controller
                     'Notice',
                     isNewModel? 'You succesfully added a new holiday': 'Information succesfully changed'
                 );
-
             }, this);
-            console.log($("#date").val());
-            this.model.set({date: $("#date").val()});
             
-            this.model.save(); 
+            this.model.save(attributes); 
             
             cs.mediator.publish('HolidaysViewClosed'); //publish to Controller
         },
 
         cancel: function () {
-            this.undoChanges();
             cs.mediator.publish('HolidaysViewClosed'); //publish to Controller
-        },
-
-        undoChanges: function () {
-            this.modelBinder.unbind();
-            this.model.set(this.defaultModelJSON);
-        }        
+        }      
     });
 })(App.Holidays);
