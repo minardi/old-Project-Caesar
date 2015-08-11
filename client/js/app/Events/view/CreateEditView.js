@@ -8,7 +8,8 @@
             'click .save': 'save',
             'click .cancel': 'cancel',
             'click .resource': 'removeResource',
-            'keypress':	'updateOnEnter'
+            'keydown': 'closeOnEscape',
+            'keypress': 'updateOnEnter'
         },
 
         initialize: function (options) {
@@ -21,7 +22,9 @@
 
             Backbone.Validation.bind(this);
 
-            $('body').on('keydown', this.closeOnEscape);
+            $('body').one('keydown', this.closeOnEscape.bind(this));
+            $('body').one('keypress', this.updateOnEnter.bind(this));
+
             cs.mediator.subscribe('resourceAddedToEvent', this.addResourceIdToEvent, null, this);
         },
 
@@ -144,6 +147,9 @@
         },
 
         cancel: function () {
+            if(this.model.isNew()){
+                this.model.destroy();
+            }
             cs.mediator.publish('CreateEditViewClosed');
         },
 
@@ -155,7 +161,7 @@
 
         closeOnEscape: function (e) {
             if (e.which === ESC) {
-                cs.mediator.publish('CreateEditViewClosed');
+                this.cancel();
             }
         },
 
@@ -163,6 +169,11 @@
             if (e.keyCode === ENTER) {
                 this.save();
             }
+        },
+        
+        remove: function () {
+            this.resourcesCollectionView.remove();
+            Backbone.View.prototype.remove.call(this, arguments);
         }
     });
 })(App.Events);

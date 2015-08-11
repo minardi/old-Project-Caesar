@@ -4,14 +4,14 @@
     This.Controller = function () {
         var noticeView = new This.NoticeView(),
             hintView = new This.HintView(),
-            confirmView = new This.ConfirmView();
+            $confirm = $('#confirm'),
+            confirmView;
 
         cs.mediator.subscribe("Notice", showNotice);
         cs.mediator.subscribe("Hint", showHint);
         cs.mediator.subscribe("Confirm", showConfirm);
 
         $('#messenger').html(noticeView.el);
-        $('#confirm').html(confirmView.el);
 
         function showNotice (message) {
             noticeView.set(message);
@@ -24,6 +24,8 @@
         }
 
         function showConfirm (message, callback) {
+            confirmView = new This.ConfirmView();
+            $confirm.html(confirmView.el);
             confirmView.set(message, callback);
             confirmView.render();
         }
