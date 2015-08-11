@@ -17,6 +17,9 @@
             initialize: function (options) {
                 this.itaName = options.itaName;
                 this.model = options.model;
+				
+				var cl = "a" + this.model.id
+				$(this.el).addClass(cl);
             },
 
             render: function () {

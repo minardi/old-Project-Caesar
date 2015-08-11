@@ -18,6 +18,21 @@
         function showAbout () {
             hideAll();
 
+			$(".a4").show();
+			$(".a6").show();
+			
+			function second_passed() {
+			    $('.a4').addClass('zoomOutUp');
+				$('.a6').addClass('zoomOutUp');
+			}
+			setTimeout(second_passed, 3000);
+				
+			function second_passed1() {
+			    $(".a4").hide().removeClass('zoomOutUp');
+				$(".a6").hide().removeClass('zoomOutUp');
+			}
+			setTimeout(second_passed1, 4000);
+			
             view.show();
         }
 

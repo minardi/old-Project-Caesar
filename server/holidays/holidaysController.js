@@ -4,9 +4,9 @@ function HolidaysController (req, res) {
 		db = new require('../db/db')(),
 		actions = {
 			'GET': get,
-			'POST': (req.cookies.account.role === "Admin") ? create : get,
-			'PUT': (req.cookies.account.role === "Admin") ? update : get,
-			'DELETE': (req.cookies.account.role === "Admin") ? del : get
+			'POST': (globalMan[req.cookies.clientId].role === "Admin") ? create : get,
+			'PUT': (globalMan[req.cookies.clientId].role === "Admin") ? update : get,
+			'DELETE': (globalMan[req.cookies.clientId].role === "Admin") ? del : get
 		},
 		dbName = 'holidays',
 		id = req.params.id;

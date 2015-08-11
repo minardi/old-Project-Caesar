@@ -10,6 +10,8 @@ var express = require('express'),
     contributorsRouter = require('./contributors/contributorsRouter'),
     holidaysRouter = require('./holidays/holidaysRouter'),
     citiesRouter = require('./cities/citiesRouter');
+	
+globalMan = {};
 
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
@@ -28,7 +30,7 @@ var Account = mongoose.model('Account', new Schema({
 
 router.use(/^\/events\b/, eventsRouter);
 router.use(/^\/eventTypes\b/, eventTypesRouter);
-router.use(/^\/resources\b/, resourcesRouter);
+router.use(/^\/resources(\/.+)?$/, resourcesRouter);
 router.use(/^\/resourceTypes\b/, resourceTypesRouter);
 router.use(/^\/schedule\b/, scheduleRouter);
 router.use(/^\/accounts/, accountsRouter);
@@ -44,6 +46,13 @@ router.all('/download', function(req, res, next) {
     var generatorController = new require('./generator/generatorController')(req, res);
 });
 
+router.get('/name', function(req, res, next) {
+	var json = JSON.stringify(globalMan[req.cookies.clientId]);
+	
+	res.writeHead(200, {"Content-Type": "application/json"});
+    res.end(json);
+});
+
 router.post('/', function (req, res) {
     var staticRoute = /^\/build/.test(req.url)? './public': '../client';
     Account.findOne( { login: req.body.login }, function (err, account) {
@@ -52,8 +61,10 @@ router.post('/', function (req, res) {
             res.redirect('/');
         } else {
             if (req.body.password === account.password) {
-                res.cookie('account', account, { maxAge: 3600000 });
-                res.cookie('clientId', setRandomId(), { maxAge: 3600000 });
+                var id = setRandomId();
+				globalMan[id] = account;
+				
+                res.cookie('clientId', id, { maxAge: 3600000 });
                 res.sendFile('home.html', { root: staticRoute });
             } else {       
                 res.redirect('/');
@@ -72,8 +83,8 @@ router.get('/', function (req, res) {
 router.get('/logout', function (req, res) {
     console.log('hello from logout');
     var staticRoute = /^\/build/.test(req.url)? './public': '../client';
-    if(req.cookies && req.cookies.account){
-        res.clearCookie('account');
+    if(req.cookies && req.cookies.clientId){
+        res.clearCookie('clientId');
     }
     res.redirect('/');
 });
@@ -81,11 +92,11 @@ router.get('/logout', function (req, res) {
 
 router.get('*', function (req, res) {
     var staticRoute = /^\/build/.test(req.url)? './public': '../client';
-    if(req.cookies && req.cookies.account) {
-        Account.findOne({ login: req.cookies.account.login }, function (err, account) {
-            if(!account){
+    if(req.cookies && req.cookies.clientId) {
+        Account.findOne({ login: req.cookies.clientId.login }, function (err, clientId) {
+            if(!clientId){
                 console.log('no account');
-                res.clearCookie('account');
+                res.clearCookie('clientId');
             } else {
                 if (!isRest(req.url)) { 
                     console.log('hello from send File'); 

@@ -3,7 +3,7 @@ function HolidaysView () {
 		var Arr = [];
 		
 		function checkCity (city) {
-			if (city.location === req.cookies.account.locationCountry) {
+			if (city.location === globalMan[req.cookies.clientId].locationCountry) {
 				Arr.push(city);
 			}
 		}
