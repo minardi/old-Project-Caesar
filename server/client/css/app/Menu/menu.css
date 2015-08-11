@@ -1,0 +1,91 @@
+#auth {
+	position: absolute;
+	margin: 0 90px;
+	padding: 5px 5px 5px 5px;
+	color: #777777;
+	right: 0;
+}
+
+.logout{
+	position: absolute;
+	margin: 0 5px;
+	padding: 5px 5px 5px 5px;
+	right: 0;
+	cursor: pointer;
+}
+
+.logout a{
+	color: black;
+}
+
+.logout:hover {
+	background-color: #dddddd;
+	color: #515151;
+}
+
+#auth span {
+	padding: 2px 1px 1px 1px;
+	color: white;
+	background-color: #777777;
+}
+
+#logo {
+	position: absolute;
+	width: 65px;
+	height: 100%;
+	background-image: url("/img/caesar.png");	
+	background-size: 100% 100%;
+	border-right: 1px solid #aaaaaa;
+}
+
+#navbar {
+	margin-bottom: 24px;
+	background-color: #e8e8e8;
+	border-bottom: 3px solid #b6b6b6;
+	box-shadow: 0 0px 14px 0px;
+}
+
+#navbar a {
+	cursor: pointer;
+	
+}
+
+.menu {
+	padding: 0;
+	margin: 0;
+	-webkit-padding-start: 0;
+	margin-bottom: 15px;
+	list-style-type: none;
+}
+
+.menu-item {
+	padding: 0px 10px 0px;
+	width: 100px;
+	float: left;
+	cursor: pointer;
+	font-weight: 600;
+	color: #777777;
+	border-top: 6px solid transparent;
+	border-bottom: 4px solid transparent;
+	text-align: center;
+}
+
+.menu-item span {
+	padding-top: 4px;
+	color: inherit;
+	font-size: 20px;
+	text-align: center;
+}
+
+.menu-item:hover {
+	background-color: #dddddd;
+	color: #515151;
+}
+
+
+.menu-item.active {
+	color: #515151;
+	text-shadow: 1px 1px #f7f7f7;
+	border-top: 6px solid #deb62c;
+}
+
