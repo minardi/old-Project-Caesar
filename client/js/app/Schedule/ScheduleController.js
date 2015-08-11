@@ -6,7 +6,8 @@
 				'full': new This.ScheduleEventsView(),
 				'pager': new This.PagerView(),
 				'download': new This.DownloadView(),
-				'mode': new This.WeekModeView()
+				'mode': new This.WeekModeView(),
+				'clone': new This.CloneEventsView()
 			},
 			$el = $('#main'),
 			mode = 'allEvents',
@@ -33,6 +34,7 @@
 			views['full'].appendView('download', views['download'].render().el);
 			
 			views['full'].appendView('weekMode', views['mode'].render().el);
+			views['full'].appendView('clone', views['clone'].render().el);
 
 			views['full'].appendView('schedule', views['schedule'].render().el);
 			views['full'].appendView('pager', views['pager'].render().el);

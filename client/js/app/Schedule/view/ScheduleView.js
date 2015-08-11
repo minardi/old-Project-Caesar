@@ -76,7 +76,7 @@
 				attr = $target.attr('chooseDay')? $target.attr('chooseDay'): $target.attr('chooseTimeline'),
 				tdAttr = $target.attr('chooseDay')? 'day': 'timeline';
 
-			this.$el.find('td[' + tdAttr + '="' + attr + '"]').addClass('selectedCell');
+			this.$el.find('td[' + tdAttr + '="' + attr + '"]').toggleClass('selectedCell');
 		},
 
 		checkHolidays: function () {

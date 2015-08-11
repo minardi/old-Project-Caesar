@@ -3,6 +3,7 @@ templates.scheduleEventsTpl = _.template([
 '		<div class = "scheduleEvents"></div>',
 '		<div class = "download"></div>',
 '		<div class = "weekMode"></div>',
+'		<div class = "clone"></div>',
 '	</div>',
 '	<div class = "SheduleAndPager">',
 	'	<div class = "Myschedule"></div>',

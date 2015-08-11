@@ -13,7 +13,8 @@
 				'schedule': 'Myschedule',
 				'pager': 'schedulePager',
 				'download': 'download',
-				'weekMode': 'weekMode'
+				'weekMode': 'weekMode',
+				'clone': 'clone'
 			};
 			this.$el.find('.' + modules[moduleName]).html(element);
 		},
