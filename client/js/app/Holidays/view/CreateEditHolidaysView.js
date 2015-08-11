@@ -44,7 +44,7 @@
                 );
 
             }, this);
-            console.log($("#date").val());
+            
             this.model.set({date: $("#date").val()});
             
             this.model.save(); 
