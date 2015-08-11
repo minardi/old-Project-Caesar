@@ -6,7 +6,7 @@
 
         events: {
             'click .glyphicon-edit': 'edit',
-            'click .glyphicon-trash': 'delete'
+            'click .glyphicon-trash': 'confirmDelete'
         },
 
          initialize: function () {
@@ -27,9 +27,15 @@
             cs.mediator.publish('EditAccount', this.model);
         },
 
+        confirmDelete: function () {
+            var message = 'Are you sure to delete "' + this.model.get('login') + '" account?';
+            cs.mediator.publish('Confirm', message, this.delete.bind(this));
+        },
+
         delete: function () {
             this.model.destroy();
             this.remove();
+            cs.mediator.publish('Notice', 'Account was succesfully deleted'); //publish to Messenger's Controller
         }
     });
 })(App.Accounts);

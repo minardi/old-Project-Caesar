@@ -6,7 +6,7 @@
     
         events: {
             'click .glyphicon-edit': 'openEdit',
-            'click .glyphicon-trash': 'deleteResource'
+            'click .glyphicon-trash': 'confirmDelete'
         },
 
         initialize: function () {
@@ -16,10 +16,16 @@
         openEdit: function () {
             cs.mediator.publish('EditResource', this.model);
         },
+
+        confirmDelete: function () {
+            var message = 'Are you sure to delete "' + this.model.get('name') + '" resource?';
+            cs.mediator.publish('Confirm', message, this.delete.bind(this));
+        },
         
-        deleteResource: function () {
+        delete: function () {
             this.model.destroy();
             this.remove();
+            cs.mediator.publish('Notice', 'Resource was succesfully deleted'); //publish to Messenger's Controller
         },
     
         render: function () {

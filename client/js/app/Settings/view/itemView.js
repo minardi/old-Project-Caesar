@@ -46,13 +46,11 @@
         },
 
         updateOnEnter: function (e) {
-            var ENTER = 13;
             if (e.keyCode === ENTER) {
                 this.save();
             }
         },
         revertOnEscape: function (e) {
-            var ESC = 27;
             if (e.which === ESC) {
                 this.$el.removeClass('editing');
                 this.$('.edit-type').val(this.model.get('name'));

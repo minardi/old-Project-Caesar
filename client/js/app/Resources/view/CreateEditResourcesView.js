@@ -7,13 +7,15 @@
 
         events: {
             'click .save': 'save',
-            'click .cancel': 'cancel'
+            'click .cancel': 'cancel',
+            'keypress':	'updateOnEnter'
         },
 
         initialize: function () {
             this.model = this.model || new This.ResourcesModel(); 
             this.defaultModelJSON = this.model.toJSON();
             this.modelBinder = new Backbone.ModelBinder();
+            $('body').on('keydown', this.closeOnEscape);
             Backbone.Validation.bind(this);
         },
 
@@ -100,6 +102,18 @@
             this.modelBinder.unbind();
             this.model.off('change', this.preValidate);
             this.model.set(this.defaultModelJSON);
-        }        
+        },
+
+        closeOnEscape: function (e) {
+            if (e.which === ESC) {
+                cs.mediator.publish('ResourcesViewClosed');
+            }
+        },
+
+        updateOnEnter: function (e) {
+            if (e.keyCode === ENTER) {
+                this.save();
+            }
+        }
     });
 })(App.Resources);

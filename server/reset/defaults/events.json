@@ -34,7 +34,7 @@
 	{
 		"id": 4,
 		"name": "Web Sockets practice Kensington",
-		"type": 4,
+		"type": 0,
 		"city": "Lviv",
 		"location": "Ukraine",
 	  	"resources": [3, 4, 5]
@@ -42,7 +42,7 @@
 	{
 		"id": 5,
 		"name": "WEB UI 2nd Ukraine",
-		"type": 5,
+		"type": 0,
 		"city": "Lviv",
 		"location": "Ukraine",
 	  	"resources": [3, 4, 5]

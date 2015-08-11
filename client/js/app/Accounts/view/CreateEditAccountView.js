@@ -5,13 +5,16 @@
         events: {
             'click .save': 'submit',
             'click .cancel': 'cancel',
-            'blur  input': 'preValidate'
+            'blur  input': 'preValidate',
+            'keypress':	'updateOnEnter'
         },
 
         initialize: function () {
             this.model = this.model || new This.Account();
             this.defaultModelJSON = this.model.toJSON();
             Backbone.Validation.bind(this);
+
+            $('body').on('keydown', this.closeOnEscape);
         },
 
         render: function () {
@@ -96,6 +99,18 @@
         },
         hide: function () {
             this.$el.addClass('hidden');
-        }  
+        },
+
+        updateOnEnter: function (e) {
+            if (e.keyCode === ENTER) {
+                this.submit();
+            }
+        },
+
+        closeOnEscape: function (e) {
+            if (e.which === ESC) {
+                cs.mediator.publish('CreateAccountViewClosed');
+            }
+        }
     });
 })(App.Accounts);
