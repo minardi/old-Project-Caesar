@@ -16,6 +16,7 @@ var DataLoader = function () {
         collections.holidaysCollection = new App.Holidays.HolidaysCollection();
         collections.accountsCollection = new App.Accounts.AccountsCollection();
         collections.citiesCollection = new App.Accounts.CitiesCollection();
+        collections.countriesCollection = new App.Accounts.CountriesCollection();
     }
     
     function renderLoadingBar () {
@@ -39,8 +40,11 @@ var DataLoader = function () {
                                 collections.accountsCollection.once('sync', function () {
                                     collections.citiesCollection.fetch();
                                     collections.citiesCollection.once('sync', function () {
-                                    main();
-                                    $('.sequence').remove();
+                                        collections.countriesCollection.fetch();
+                                        collections.countriesCollection.once('sync', function () {
+                                        main();
+                                        $('.sequence').remove();
+                                        });
                                     });
                                 });
                             });

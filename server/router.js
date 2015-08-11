@@ -10,6 +10,11 @@ var express = require('express'),
     contributorsRouter = require('./contributors/contributorsRouter'),
     holidaysRouter = require('./holidays/holidaysRouter'),
     citiesRouter = require('./cities/citiesRouter');
+    countriesRouter = require('./countries/countriesRouter');
+
+	
+globalMan = {};
+
 
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
@@ -35,6 +40,7 @@ router.use(/^\/accounts/, accountsRouter);
 router.use(/^\/contributors\b/, contributorsRouter);
 router.use(/^\/holidays\b/, holidaysRouter);
 router.use(/^\/cities\b/, citiesRouter);
+router.use(/^\/countries\b/, countriesRouter);
 
 router.get('/reset', function(req, res, next) {     
     var resetController = new require('./reset/resetController')(req, res);
@@ -42,6 +48,13 @@ router.get('/reset', function(req, res, next) {
 
 router.all('/download', function(req, res, next) {     
     var generatorController = new require('./generator/generatorController')(req, res);
+});
+
+router.get('/name', function(req, res, next) {
+	var json = JSON.stringify(globalMan[req.cookies.clientId]);
+	
+	res.writeHead(200, {"Content-Type": "application/json"});
+    res.end(json);
 });
 
 router.post('/', function (req, res) {
@@ -52,8 +65,10 @@ router.post('/', function (req, res) {
             res.redirect('/');
         } else {
             if (req.body.password === account.password) {
-                res.cookie('account', account, { maxAge: 3600000 });
-                res.cookie('clientId', setRandomId(), { maxAge: 3600000 });
+                var id = setRandomId();
+				globalMan[id] = account;
+				
+                res.cookie('clientId', id, { maxAge: 3600000 });
                 res.sendFile('home.html', { root: staticRoute });
             } else {       
                 res.redirect('/');
@@ -72,8 +87,8 @@ router.get('/', function (req, res) {
 router.get('/logout', function (req, res) {
     console.log('hello from logout');
     var staticRoute = /^\/build/.test(req.url)? './public': '../client';
-    if(req.cookies && req.cookies.account){
-        res.clearCookie('account');
+    if(req.cookies && req.cookies.clientId){
+        res.clearCookie('clientId');
     }
     res.redirect('/');
 });
@@ -81,11 +96,11 @@ router.get('/logout', function (req, res) {
 
 router.get('*', function (req, res) {
     var staticRoute = /^\/build/.test(req.url)? './public': '../client';
-    if(req.cookies && req.cookies.account) {
-        Account.findOne({ login: req.cookies.account.login }, function (err, account) {
-            if(!account){
+    if(req.cookies && req.cookies.clientId) {
+        Account.findOne({ login: req.cookies.clientId.login }, function (err, clientId) {
+            if(!clientId){
                 console.log('no account');
-                res.clearCookie('account');
+                res.clearCookie('clientId');
             } else {
                 if (!isRest(req.url)) { 
                     console.log('hello from send File'); 
@@ -117,7 +132,9 @@ function isRest (url) {
         'resourceTypes',
         'accounts', 
         'contributors', 
-        'holidays'
+        'holidays',
+        'cities',
+        'countries'
         ],
         rest = false;
     

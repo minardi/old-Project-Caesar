@@ -17,7 +17,8 @@ setUp(collections, ['resouresCollection',
                     'resourceTypes',
                     'holidaysCollection',
                     'accountsCollection',
-                    'citiesCollection'
+                    'citiesCollection',
+                    'countriesCollection'
                     ]);
 
 $(function () {

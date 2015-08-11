@@ -14,10 +14,16 @@
         },
  
         render: function () {
+            var locationCity = collections.citiesCollection.get(this.model.get('locationCity')),
+                cityName = locationCity.get('name');
+                // locationCountry = collections.countriesCollection.get(this.model.get('locationCountry')),
+                // countryName = locationCountry.get('name');
+
             this.$el.html(this.template({
                 login: this.model.get('login'),
                 role: this.model.get('role'),
-                locationCity: this.model.get('locationCity')
+                locationCity: cityName,
+              // locationCountry: countryName
              }));
 
             return this;

@@ -8,14 +8,12 @@
         events: {
             'click .save': 'save',
             'click .cancel': 'cancel',
-            'keypress':	'updateOnEnter'
         },
 
         initialize: function () {
             this.model = this.model || new This.HolidaysModel(); 
             this.defaultModelJSON = this.model.toJSON();
             this.modelBinder = new Backbone.ModelBinder();
-            $('body').on('keydown', this.closeOnEscape);
         },
 
         render: function () {
@@ -46,9 +44,9 @@
                 );
 
             }, this);
-
+            
             this.model.set({date: $("#date").val()});
-
+            
             this.model.save(); 
             
             cs.mediator.publish('HolidaysViewClosed'); //publish to Controller
@@ -62,18 +60,6 @@
         undoChanges: function () {
             this.modelBinder.unbind();
             this.model.set(this.defaultModelJSON);
-        },
-
-        updateOnEnter: function (e) {
-            if (e.keyCode === ENTER) {
-                this.save();
-            }
-        },
-
-        closeOnEscape: function (e) {
-            if (e.which === ESC) {
-                cs.mediator.publish('HolidaysViewClosed');
-            }
-        }
+        }        
     });
 })(App.Holidays);

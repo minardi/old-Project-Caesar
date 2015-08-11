@@ -15,10 +15,14 @@
         initialize: function (options) {
             this.model = options.model || new This.Event();
             this.resourceCollection = options.resourceCollection;
+            this.resourceSorting();
+            
             this.resourcesCollectionView = new App.Events.ResourcesCollectionView({
                 collection: this.resourceCollection,
                 model: this.model
             });
+            
+            cs.mediator.subscribe('resourceAddedToEvent', this.addResourceIdToEvent, null, this);
 
             Backbone.Validation.bind(this);
 
@@ -49,7 +53,7 @@
             filtered = this.resourceCollection.filter(function (model) {
                 return resources.indexOf(model.get('id')) !== -1;
             });
-
+            
             return filtered;
         },
 
@@ -58,14 +62,17 @@
         },
 
         save: function () {
-			var loginMan = new Role();
+			var user = User.get();
+			
+            this.isNewModel = this.model.isNew();
 
             if (!this.preValidate()) {
+
                 var attributes = {
                     name : this.$('.name').val(),
                     type: this.$('.type').val(),
-					location: loginMan.locationCountry,
-					city: loginMan.locationCity,
+					locationCountry: user.locationCountry,
+					locationCity: user.locationCity,
                     resources: getIdResourcesArray()
                 };
 
@@ -74,7 +81,7 @@
 
                 cs.mediator.publish( //publish to Messenger's Controller
                     'Notice',
-                    this.model.isNew()? 'You succesfully added a new event': 'Information succesfully changed'
+                    this.isNewModel? 'You succesfully added a new event': 'Information succesfully changed'
                 );
 
                 cs.mediator.publish('CreateEditViewClosed');
@@ -163,17 +170,19 @@
             if (e.which === ESC) {
                 this.cancel();
             }
+
         },
 
-        updateOnEnter: function (e) {
-            if (e.keyCode === ENTER) {
-                this.save();
+        resourceSorting: function () {
+            this.resourceCollection.comparator = function(resource) {
+                return resource.get('type');
             }
         },
         
         remove: function () {
             this.resourcesCollectionView.remove();
             Backbone.View.prototype.remove.call(this, arguments);
+            this.resourceCollection.sort();
         }
     });
 })(App.Events);

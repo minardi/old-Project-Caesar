@@ -3,7 +3,7 @@ function HolidaysModel (newAttributes) {
 		attributes = {
 			id: '',
 			name: '',
-			location: '',
+			locationCountry: '',
 			date: ''
 		};
 	
