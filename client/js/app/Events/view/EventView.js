@@ -6,7 +6,7 @@
 		
 		events: {
             'click .edit': 'edit',
-            'click .dell': 'delete'
+            'click .dell': 'confirmDelete'
         },
 		
         initialize: function () {
@@ -30,9 +30,15 @@
             cs.mediator.publish('EditEvent', this.model);
         },
 
+        confirmDelete: function () {
+            var message = 'Are you sure to delete "' + this.model.get('name') + '" event?';
+            cs.mediator.publish('Confirm', message, this.delete.bind(this));
+        },
+
         delete: function () {
             this.model.destroy();
             this.remove();
+            cs.mediator.publish('Notice', 'Event was succesfully deleted'); //publish to Messenger's Controller
         }
     });
 })(App.Events);

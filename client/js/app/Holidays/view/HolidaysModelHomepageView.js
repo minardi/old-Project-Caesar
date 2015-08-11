@@ -6,7 +6,7 @@
     
         events: {
             'click .glyphicon-edit': 'openEdit',
-            'click .glyphicon-trash': 'deleteHoliday'
+            'click .glyphicon-trash': 'confirmDelete'
         },
 
         initialize: function () {
@@ -16,10 +16,16 @@
         openEdit: function () {
             cs.mediator.publish('EditHoliday', this.model);
         },
+
+        confirmDelete: function () {
+            var message = 'Are you sure to delete ' + this.model.get('name') + ' holiday?';
+            cs.mediator.publish('Confirm', message, this.delete.bind(this));
+        },
         
-        deleteHoliday: function () {
+        delete: function () {
             this.model.destroy();
             this.remove();
+            cs.mediator.publish('Notice', 'Holiday was succesfully deleted'); //publish to Messenger's Controller
         },
     
         render: function () {

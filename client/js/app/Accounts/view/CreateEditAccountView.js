@@ -4,7 +4,8 @@
 
         events: {
             'click .save': 'submit',
-            'click .cancel': 'cancel'
+            'click .cancel': 'cancel',
+            'keypress':	'updateOnEnter'
         },
 
         initialize: function () {
@@ -12,6 +13,8 @@
             this.defaultModelJSON = this.model.toJSON();
             this.modelBinder = new Backbone.ModelBinder();
             Backbone.Validation.bind(this);
+
+            $('body').on('keydown', this.closeOnEscape);
         },
 
         render: function () {
@@ -98,6 +101,18 @@
         },
         hide: function () {
             this.$el.addClass('hidden');
-        }  
+        },
+
+        updateOnEnter: function (e) {
+            if (e.keyCode === ENTER) {
+                this.submit();
+            }
+        },
+
+        closeOnEscape: function (e) {
+            if (e.which === ESC) {
+                cs.mediator.publish('CreateAccountViewClosed');
+            }
+        }
     });
 })(App.Accounts);

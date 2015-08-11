@@ -1,6 +1,6 @@
 
 templates.editEventTpl = _.template([
-    '<div class="modal-backdrop fade in"></div>',
+    '<div class="modal-backdrop fade in" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true"></div>',
         '<div class="modal-dialog modal-md">',
             '<div class="modal-content">',
                 '<div class="modal-header">',
@@ -33,7 +33,7 @@ templates.editEventTpl = _.template([
                             '</ul>',
                         '</div>',
                         '<div class="col-md-6 resources-list">',
-                            '<h4>Resources fre</h4>',
+                            '<h4>Resources free</h4>',
                         '</div>',
                     '</div>',
                     '<button type="button" class="btn btn-info save pull-right">',

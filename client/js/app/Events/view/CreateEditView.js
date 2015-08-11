@@ -7,24 +7,22 @@
         events: {
             'click .save': 'save',
             'click .cancel': 'cancel',
-            'click .resource': 'removeResource'
+            'click .resource': 'removeResource',
+            'keypress':	'updateOnEnter'
         },
 
         initialize: function (options) {
             this.model = options.model || new This.Event();
             this.resourceCollection = options.resourceCollection;
-            this.model.once('sync', function () {
-                cs.mediator.publish('EventSaved', this.model);
-            }, this);
             this.resourcesCollectionView = new App.Events.ResourcesCollectionView({
                 collection: this.resourceCollection,
                 model: this.model
             });
 
-            cs.mediator.subscribe('resourceAddedToEvent', this.addResourceIdToEvent, null, this);
-
             Backbone.Validation.bind(this);
 
+            $('body').on('keydown', this.closeOnEscape);
+            cs.mediator.subscribe('resourceAddedToEvent', this.addResourceIdToEvent, null, this);
         },
 
         render: function () {
@@ -58,8 +56,6 @@
 
         save: function () {
 			var loginMan = new Role();
-			
-            this.isNewModel = this.model.isNew();
 
             if (!this.preValidate()) {
                 var attributes = {
@@ -71,10 +67,11 @@
                 };
 
                 this.model.save(attributes);
+                collections.eventsCollection.add(this.model);
 
                 cs.mediator.publish( //publish to Messenger's Controller
                     'Notice',
-                    this.isNewModel? 'You succesfully added a new event': 'Information succesfully changed'
+                    this.model.isNew()? 'You succesfully added a new event': 'Information succesfully changed'
                 );
 
                 cs.mediator.publish('CreateEditViewClosed');
@@ -154,9 +151,18 @@
             var resource = e.target;
             this.resourcesCollectionView.renderRemoved(parseInt(resource.getAttribute('idValue')));
             resource.remove();
+        },
 
+        closeOnEscape: function (e) {
+            if (e.which === ESC) {
+                cs.mediator.publish('CreateEditViewClosed');
+            }
+        },
+
+        updateOnEnter: function (e) {
+            if (e.keyCode === ENTER) {
+                this.save();
+            }
         }
-
-
     });
 })(App.Events);
