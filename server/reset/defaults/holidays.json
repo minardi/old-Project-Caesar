@@ -2,13 +2,13 @@
 	{
 		"id": 0,
 		"name": "Labor Day",
-		"location": "Ukraine",
+		"locationCountry": 0,
 		"date": "06.08.2015"
 	},
 	{
 		"id": 1,
 		"name": "Independence Day",
-		"location": "Ukraine",
+		"locationCountry": 0,
 		"date": "01.05.2015"
 	}	
 ]

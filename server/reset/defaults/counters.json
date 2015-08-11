@@ -21,7 +21,7 @@
 	},
 	{
 		"_id": "eventTypesId",
-		"seq": 5
+		"seq": 3
 	},
 	{
 		"_id": "resourceTypesId",
@@ -34,5 +34,9 @@
 	{
 		"_id": "citiesId",
 		"seq": 6
+	},
+	{
+		"_id": "countriesId",
+		"seq": 2
 	}
 ]

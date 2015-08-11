@@ -3,7 +3,7 @@
         defaults: function () {
             return {
                 'name': '',
-                'location': '',
+                'locationCountry': '',
                 'date': ''
             }
         },

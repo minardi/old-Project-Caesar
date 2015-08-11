@@ -4,8 +4,8 @@ function ResourcesModel (newAttributes) {
 			id: '',
 			name: '',
 			type: '',
-			city: '',
-			location: ''
+			locationCity: '',
+			locationCountry: ''
 			
 		};
 	

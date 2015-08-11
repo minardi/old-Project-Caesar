@@ -10,6 +10,7 @@ var express = require('express'),
     contributorsRouter = require('./contributors/contributorsRouter'),
     holidaysRouter = require('./holidays/holidaysRouter'),
     citiesRouter = require('./cities/citiesRouter');
+    countriesRouter = require('./countries/countriesRouter');
 
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
@@ -28,13 +29,14 @@ var Account = mongoose.model('Account', new Schema({
 
 router.use(/^\/events\b/, eventsRouter);
 router.use(/^\/eventTypes\b/, eventTypesRouter);
-router.use(/^\/resources(\/.+)?$/, resourcesRouter);
+router.use(/^\/resources\b/, resourcesRouter);
 router.use(/^\/resourceTypes\b/, resourceTypesRouter);
 router.use(/^\/schedule\b/, scheduleRouter);
 router.use(/^\/accounts/, accountsRouter);
 router.use(/^\/contributors\b/, contributorsRouter);
 router.use(/^\/holidays\b/, holidaysRouter);
 router.use(/^\/cities\b/, citiesRouter);
+router.use(/^\/countries\b/, countriesRouter);
 
 router.get('/reset', function(req, res, next) {     
     var resetController = new require('./reset/resetController')(req, res);
@@ -117,7 +119,9 @@ function isRest (url) {
         'resourceTypes',
         'accounts', 
         'contributors', 
-        'holidays'
+        'holidays',
+        'cities',
+        'countries'
         ],
         rest = false;
     

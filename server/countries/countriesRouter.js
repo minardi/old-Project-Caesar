@@ -1,13 +1,13 @@
 var express = require('express'),
-	usersRouter = express.Router({mergeParams: true});
+	countriesRouter = express.Router({mergeParams: true});
 
-usersRouter.all('/:id', function(req, res, next) {	
-    var usersController = new require('./usersController')(req, res);
+countriesRouter.all('/:id', function(req, res, next) {	
+    var countriesController = new require('./countriesController')(req, res);
 });
 
-usersRouter.all('/', function(req, res, next) {		
-    var usersController = new require('./usersController')(req, res);
+countriesRouter.all('/', function(req, res, next) {		
+    var countriesController = new require('./countriesController')(req, res);
 });
 
 
-module.exports = usersRouter;
+module.exports = countriesRouter;

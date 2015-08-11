@@ -3,48 +3,48 @@
 		"id": 0,
 		"name": "IT Academy WEB UI courses New York",
 		"type": 0,
-		"city": "Lviv",
-		"location": "Ukraine",
+		"locationCity": 2,
+		"locationCountry": 0,
 	  	"resources": [0, 1, 2]
 	},
 	{
 		"id": 1,
 		"name": "Project Caesar New York",
 		"type": 1,
-		"city": "Lviv",
-		"location": "Ukraine",
+		"locationCity": 2,
+		"locationCountry": 0,
 	  	"resources": [3, 4, 5]
 	},
 	{
 		"id": 2,
 		"name": "Web Sockets practice New York",
 		"type": 2,
-		"city": "Lviv",
-		"location": "Ukraine",
+		"locationCity": 2,
+		"locationCountry": 0,
 	  	"resources": [0, 1, 2]
 	},
 	{
 		"id": 3,
 		"name": "WEB UI 2nd Demo Kensington",
 		"type": 3,
-		"city": "Lviv",
-		"location": "Ukraine",
+		"locationCity": 2,
+		"locationCountry": 0,
 	  	"resources": [3, 4, 5]
 	},
 	{
 		"id": 4,
 		"name": "Web Sockets practice Kensington",
 		"type": 0,
-		"city": "Lviv",
-		"location": "Ukraine",
+		"locationCity": 2,
+		"locationCountry": 0,
 	  	"resources": [3, 4, 5]
 	},
 	{
 		"id": 5,
 		"name": "WEB UI 2nd Ukraine",
 		"type": 0,
-		"city": "Lviv",
-		"location": "Ukraine",
+		"locationCity": 2,
+		"locationCountry": 0,
 	  	"resources": [3, 4, 5]
 	}
 	
