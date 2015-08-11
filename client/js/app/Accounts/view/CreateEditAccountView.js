@@ -5,17 +5,30 @@
         events: {
             'click .save': 'submit',
             'click .cancel': 'cancel',
-            'blur  input': 'preValidate'
+            //'blur  input': 'preValidate',
+            'keypress':	'updateOnEnter'
         },
 
         initialize: function () {
             this.model = this.model || new This.Account();
-            this.defaultModelJSON = this.model.toJSON();
             Backbone.Validation.bind(this);
+
+            $('body').on('keydown', this.closeOnEscape);
         },
 
         render: function () {
-            this.$el.append(this.template(this.defaultModelJSON)); 
+            var locationCity =  collections.citiesCollection.toJSON(),
+                locationCountry = collections.countriesCollection.toJSON();
+
+            this.$el.append(this.template({
+                fullName: this.model.get('fullName'),
+                login: this.model.get('login'),
+                password: this.model.get('password'),
+                locationCity: locationCity,
+                locationCountry: locationCountry,
+                role: this.model.get('role'),
+
+            })); 
             return this;
         },
 
@@ -26,10 +39,9 @@
                     fullName : this.$('#InputFullName').val(),
                     login: this.$('#InputLogin').val(),
                     password : this.$('#InputPassword').val(),
-                    locationCity: this.$('#selectCity').val(),
-                    locationCountry : this.$('#selectCountry').val(),
-                    role: this.$('#selectRole').val(),
-
+                    locationCity: this.$('#InputCity').val(),
+                    locationCountry : this.$('#InputCountry').val(),
+                    role: this.$('#InputRole').val(),
             };
             this.model.once('sync', function () {
                     if (isNewModel) {
@@ -96,6 +108,18 @@
         },
         hide: function () {
             this.$el.addClass('hidden');
-        }  
+        },
+
+        updateOnEnter: function (e) {
+            if (e.keyCode === ENTER) {
+                this.submit();
+            }
+        },
+
+        closeOnEscape: function (e) {
+            if (e.which === ESC) {
+                cs.mediator.publish('CreateAccountViewClosed');
+            }
+        }
     });
 })(App.Accounts);

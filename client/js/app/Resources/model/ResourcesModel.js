@@ -4,26 +4,26 @@
             return {
                 'type': '',
                 'name': '',
-				'city': '',
-				'location': ''
+                'locationCity': '',
+                'locationCountry': ''
             }
         },
 
         urlRoot: '/resources',
 
         validation: {
-        	type: [
-        		{
-        			required: true,
-        			msg: 'You forgot to choose a type'
-        		}
-        	],
-        	name: [
-        		{
-        			required: true,
-        			msg: 'Field cannot be empty'
-        		}
-        	]
+            type: [
+                {
+                    required: true,
+                    msg: 'You forgot to choose a type'
+                }
+            ],
+            name: [
+                {
+                    required: true,
+                    msg: 'Field cannot be empty'
+                }
+            ]
         }
     });
 })(App.Resources);

@@ -45,8 +45,6 @@
 
             }, this);
 
-            this.model.set({date: $("#date").val()});
-
             this.model.save(); 
             
             cs.mediator.publish('HolidaysViewClosed'); //publish to Controller

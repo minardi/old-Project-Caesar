@@ -3,6 +3,7 @@
         var collection = collections.accountsCollection,
             accounts = new This.AccountCollectionView({collection: collection}),
             $accounts = $('#main'),
+            $city = $('.city'),
             view;
 
         start();

@@ -1,27 +1,23 @@
 exports.EventsView = function () {
 	
 	this.returnEvents = function (events, req) {
-		var Arr = [];
+		var arrEvants = [];
 		
 		function checkCity (city) {
-			if(req.cookies.account.role === "Admin") {
-				if (city.location === req.cookies.account.locationCountry) {
-					Arr.push(city);
-				}
-			} else if (city.city === req.cookies.account.locationCity){
-				Arr.push(city);
-			}
-			
-		}
-		
+			if(globalMan[req.cookies.clientId].role === "Admin") {
+                arrEvants = events;
+			} else if (city.locationCity === globalMan[req.cookies.clientId].locationCity) {
+				console.log(city.locationCity)
+				arrEvants.push(city);
+			}   
+	    }
 		if(req.method === "GET") {
 		    events.forEach(function(item) {	
 				checkCity(item)
 		    });
-			events = Arr;
+			events = arrEvants;
 		}
-		return JSON.stringify(events);
-	}
-
+        return JSON.stringify(events);
+    }
 	return this;
 }

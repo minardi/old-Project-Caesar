@@ -27,12 +27,8 @@
             cs.mediator.subscribe('CreateEvent', createView);
             cs.mediator.subscribe('EditEvent', editView);
             cs.mediator.subscribe('CreateEditViewClosed', viewClosed);
-            cs.mediator.subscribe('EventSaved', addToCollection);
         }
 
-        function addToCollection (model) {
-            collection.add(model);
-        }
 		
         function showAll () {
             hideAll();

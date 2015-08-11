@@ -6,7 +6,7 @@
 
         events: {
             'click .glyphicon-edit': 'edit',
-            'click .glyphicon-trash': 'delete'
+            'click .glyphicon-trash': 'confirmDelete'
         },
 
          initialize: function () {
@@ -14,10 +14,16 @@
         },
  
         render: function () {
+            var locationCity = collections.citiesCollection.get(this.model.get('locationCity')),
+                cityName = locationCity.get('name');
+                // locationCountry = collections.countriesCollection.get(this.model.get('locationCountry')),
+                // countryName = locationCountry.get('name');
+
             this.$el.html(this.template({
                 login: this.model.get('login'),
                 role: this.model.get('role'),
-                locationCity: this.model.get('locationCity')
+                locationCity: cityName,
+              // locationCountry: countryName
              }));
 
             return this;
@@ -27,9 +33,15 @@
             cs.mediator.publish('EditAccount', this.model);
         },
 
+        confirmDelete: function () {
+            var message = 'Are you sure to delete "' + this.model.get('login') + '" account?';
+            cs.mediator.publish('Confirm', message, this.delete.bind(this));
+        },
+
         delete: function () {
             this.model.destroy();
             this.remove();
+            cs.mediator.publish('Notice', 'Account was succesfully deleted'); //publish to Messenger's Controller
         }
     });
 })(App.Accounts);

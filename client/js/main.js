@@ -3,7 +3,9 @@
 var App = {},
     cs = {},
     collections = {},
-    templates = {};
+    templates = {},
+    ESC = 27,
+    ENTER = 13;
 
 setUp(App, ['Events', 'Resources', 'About', 'Menu', 'Messenger', 'Schedule', 'ErrorPage', 'Settings', 'Accounts', 'Holidays']);
 setUp(cs, ['mediator', 'subRouters', 'router', 'menu', 'messenger']);
@@ -15,7 +17,8 @@ setUp(collections, ['resouresCollection',
                     'resourceTypes',
                     'holidaysCollection',
                     'accountsCollection',
-                    'citiesCollection'
+                    'citiesCollection',
+                    'countriesCollection'
                     ]);
 
 $(function () {

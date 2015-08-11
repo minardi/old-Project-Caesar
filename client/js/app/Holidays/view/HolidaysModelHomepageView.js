@@ -6,7 +6,7 @@
     
         events: {
             'click .glyphicon-edit': 'openEdit',
-            'click .glyphicon-trash': 'deleteHoliday'
+            'click .glyphicon-trash': 'confirmDelete'
         },
 
         initialize: function () {
@@ -17,13 +17,26 @@
             cs.mediator.publish('EditHoliday', this.model);
         },
         
-        deleteHoliday: function () {
+        confirmDelete: function () {
+            var message = 'Are you sure to delete ' + this.model.get('name') + ' holiday?';
+            cs.mediator.publish('Confirm', message, this.delete.bind(this));
+        },
+
+        delete: function () {
             this.model.destroy();
             this.remove();
+            cs.mediator.publish('Notice', 'Holiday was succesfully deleted'); //publish to Messenger's Controller
         },
     
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            var locationCountry = collections.countriesCollection.get(this.model.get('locationCountry')),
+            countryName = locationCountry.get('name');
+
+            this.$el.html(this.template({
+                name: this.model.get('name'),
+                locationCountry: countryName,
+                date: this.model.get('date')
+            }));
             return this;
         }
     });

@@ -13,9 +13,7 @@
         initialize: function (options) {
             this.model = options.model || new This.Event();
             this.resourceCollection = options.resourceCollection;
-            this.model.once('sync', function () {
-                cs.mediator.publish('EventSaved', this.model);
-            }, this);
+           
             this.resourcesCollectionView = new App.Events.ResourcesCollectionView({
                 collection: this.resourceCollection,
                 model: this.model
@@ -57,20 +55,22 @@
         },
 
         save: function () {
-			var loginMan = new Role();
+			var user = User.get();
 			
             this.isNewModel = this.model.isNew();
 
             if (!this.preValidate()) {
+
                 var attributes = {
                     name : this.$('.name').val(),
                     type: this.$('.type').val(),
-					location: loginMan.locationCountry,
-					city: loginMan.locationCity,
+					locationCountry: user.locationCountry,
+					locationCity: user.locationCity,
                     resources: getIdResourcesArray()
                 };
 
                 this.model.save(attributes);
+                collections.eventsCollection.add(this.model);
 
                 cs.mediator.publish( //publish to Messenger's Controller
                     'Notice',
