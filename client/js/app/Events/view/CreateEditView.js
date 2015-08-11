@@ -13,12 +13,13 @@
         initialize: function (options) {
             this.model = options.model || new This.Event();
             this.resourceCollection = options.resourceCollection;
-           
+            this.resourceSorting();
+            
             this.resourcesCollectionView = new App.Events.ResourcesCollectionView({
                 collection: this.resourceCollection,
                 model: this.model
             });
-
+            
             cs.mediator.subscribe('resourceAddedToEvent', this.addResourceIdToEvent, null, this);
 
             Backbone.Validation.bind(this);
@@ -46,7 +47,7 @@
             filtered = this.resourceCollection.filter(function (model) {
                 return resources.indexOf(model.get('id')) !== -1;
             });
-
+            
             return filtered;
         },
 
@@ -155,8 +156,13 @@
             this.resourcesCollectionView.renderRemoved(parseInt(resource.getAttribute('idValue')));
             resource.remove();
 
+        },
+
+        resourceSorting: function () {
+            this.resourceCollection.comparator = function(resource) {
+                return resource.get('type');
+            }
+            this.resourceCollection.sort();
         }
-
-
     });
 })(App.Events);
