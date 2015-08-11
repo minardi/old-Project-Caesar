@@ -16,9 +16,9 @@
         },
 
         render: function () {
-			var loginMan = People.get();
+			var user = User.get();
 			
-            this.$el.html(this.tpl({name : loginMan}));
+            this.$el.html(this.tpl({name : user}));
 
             return this;
         },

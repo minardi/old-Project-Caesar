@@ -1,15 +1,21 @@
 function ResourcesView () {
 	this.returnResources = function (resources, req) {
-		var Arr = [];
+		var arrEvants = [];
 
 		function checkCity (city) {
 			if(globalMan[req.cookies.clientId].role === "Admin") {
-                Arr = resources;
-			} else if (city.city === globalMan[req.cookies.clientId].locationCity){
-				Arr.push(city);
+                arrEvants = resources;
+			} else if (city.locationCity === globalMan[req.cookies.clientId].locationCity){
+				arrEvants.push(city);
 			}	
 		}
 		
+		if(req.method === "GET") {
+		    resources.forEach(function(item) {	
+				checkCity(item)
+		    });
+			resources = arrEvants;
+		}
 		return JSON.stringify(resources);
 	}
 

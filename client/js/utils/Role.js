@@ -1,4 +1,4 @@
-var People = (function() {
+var User = (function() {
 	var role;
 	(function () {
 	    $.ajax({

@@ -1,10 +1,10 @@
 function HolidaysView () {
 	this.returnHolidays = function (holidays, req) {
-		var Arr = [];
+		var arrEvants = [];
 
 		function checkCity (city) {
-			if (city.location === globalMan[req.cookies.clientId].locationCountry) {
-				Arr.push(city);
+			if (city.locationCity === globalMan[req.cookies.clientId].locationCountry) {
+				arrEvants.push(city);
 			}
 		}
 

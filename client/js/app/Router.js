@@ -15,7 +15,7 @@
 
         initialize: function () {
             cs.mediator.subscribe('MenuClicked', this.navigateMenuItem, null, this); //published from MenuView
-            this.loginMan = People.get();
+            this.user = User.get();
         },
 		
         mainPage: function () {
@@ -39,7 +39,7 @@
         },
 
         settings: function () {
-           	if(this.loginMan.role === "Admin") {
+           	if(this.user.role === "Admin") {
                 cs.subRouters['Settings'] || (cs.subRouters['Settings'] = new App.Settings.Router());
 			} else {
 				var errorPage = errorPage || new App.ErrorPage.Controller();
@@ -47,7 +47,7 @@
         },
 
         account: function () {
-            if(this.loginMan.role === "Admin") {
+            if(this.user.role === "Admin") {
                 cs.subRouters['Accounts'] || (cs.subRouters['Accounts'] = new App.Accounts.Router());
 			} else {
 				var errorPage = errorPage || new App.ErrorPage.Controller();
@@ -55,7 +55,7 @@
 		},
 
         holidays: function () {
-            if(this.loginMan.role === "Admin") {
+            if(this.user.role === "Admin") {
 				cs.subRouters['Holidays'] || (cs.subRouters['Holidays'] = new App.Holidays.Router());
 			} else {
 				var errorPage = errorPage || new App.ErrorPage.Controller();

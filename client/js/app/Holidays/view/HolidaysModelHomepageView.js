@@ -29,7 +29,7 @@
         },
     
         render: function () {
-            var locationCountry = collections.countriesCollection.get(this.model.get('location')),
+            var locationCountry = collections.countriesCollection.get(this.model.get('locationCountry')),
             countryName = locationCountry.get('name');
 
             this.$el.html(this.template({

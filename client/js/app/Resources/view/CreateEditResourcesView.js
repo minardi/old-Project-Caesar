@@ -44,9 +44,12 @@
 
                 }, this);
 				
-                var loginMan = new Role();
+                var user = User.get();
 
-                this.model.set({city: loginMan.locationCity, location: loginMan.locationCountry});
+                this.model.set({
+                    locationCity: user.locationCity, 
+                    locationCountry: user.locationCountry
+                });
 				
                 this.model.save();
                 cs.mediator.publish('ResourcesViewClosed'); //publish to Controller
