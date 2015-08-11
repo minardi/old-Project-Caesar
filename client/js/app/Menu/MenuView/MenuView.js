@@ -16,7 +16,7 @@
         },
 
         render: function () {
-			var loginMan = new Role();
+			var loginMan = People.get();
 			
             this.$el.html(this.tpl({name : loginMan}));
 

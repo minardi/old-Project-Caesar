@@ -15,7 +15,7 @@
 
         initialize: function () {
             cs.mediator.subscribe('MenuClicked', this.navigateMenuItem, null, this); //published from MenuView
-            this.loginMan = new Role();
+            this.loginMan = People.get();
         },
 		
         mainPage: function () {
