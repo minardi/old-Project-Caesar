@@ -28,7 +28,7 @@ var Account = mongoose.model('Account', new Schema({
 
 router.use(/^\/events\b/, eventsRouter);
 router.use(/^\/eventTypes\b/, eventTypesRouter);
-router.use(/^\/resources(\/.+)?$/, resourcesRouter);
+router.use(/^\/resources\b/, resourcesRouter);
 router.use(/^\/resourceTypes\b/, resourceTypesRouter);
 router.use(/^\/schedule\b/, scheduleRouter);
 router.use(/^\/accounts/, accountsRouter);

@@ -36,8 +36,12 @@
         },
 
         checkKeyCommand: function (e) {
-            if (e.keyCode === 27) {
+            if (e.keyCode === ESC) {
                 this.hide();
+            }
+
+            if (e.keyCode === ENTER) {
+                this.delete();
             }
         }
     });
