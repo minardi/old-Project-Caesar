@@ -6,7 +6,8 @@
         tpl: templates.eventCollectionTpl,
 		
 		events: {
-            'click .add': 'add'
+            'click .add': 'add',
+            'change .resourceSorting': 'sorting'
         },
 
         initialize: function () {
@@ -14,7 +15,7 @@
         },
 
         render: function () {
-            this.$el.append(this.tpl);
+            this.$el.html(this.tpl);
             this.collection.each(function (event) {
                 this.renderOne(event)
             }, this);
@@ -46,6 +47,24 @@
                         cs.mediator.publish('Show404');
                     }
                 }, this);
+            }
+        },
+        
+        sorting: function () {
+            var sortingType = $('.resourceSorting').val();
+            
+            if (sortingType === '0') {
+                this.collection.comparator = function(event) {
+                    return event.get('type');
+                }
+                this.collection.sort();
+                this.render();
+            } else {
+                this.collection.comparator = function(event) {
+                    return event.get('name');
+                }
+                this.collection.sort();
+                this.render();
             }
         }
     });

@@ -7,7 +7,8 @@
         template: templates.resourceCollectionTpl,
 
         events: {
-            'click .create': 'create'
+            'click .create': 'create',
+            'change .resourceSorting': 'sorting'
         },
     
         initialize: function () {
@@ -26,7 +27,7 @@
         },
     
         render: function () {
-            this.$el.append(this.template);
+            this.$el.html(this.template);
             this.collection.each(function (resource) {
                 this.renderOne(resource)
             }, this);
@@ -53,6 +54,24 @@
                         vm.mediator.publish('Show404');
                     }
                 }, this);
+            }
+        },
+        
+        sorting: function () {
+            var sortingType = $('.resourceSorting').val();
+            
+            if (sortingType === '0') {
+                this.collection.comparator = function(resource) {
+                    return resource.get('type');
+                }
+                this.collection.sort();
+                this.render();
+            } else {
+                this.collection.comparator = function(resource) {
+                    return resource.get('name');
+                }
+                this.collection.sort();
+                this.render();
             }
         }
     });
