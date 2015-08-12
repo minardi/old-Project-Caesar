@@ -16,15 +16,13 @@
         },
 
         render: function () {
-            var locationCity =  collections.citiesCollection.toJSON(),
-                locationCountry = collections.countriesCollection.toJSON();
+            var locationCity =  collections.citiesCollection.toJSON();
 
             this.$el.append(this.template({
                 fullName: this.model.get('fullName'),
                 login: this.model.get('login'),
                 password: this.model.get('password'),
                 locationCity: locationCity,
-                locationCountry: locationCountry,
                 role: this.model.get('role'),
 
             })); 

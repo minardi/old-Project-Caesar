@@ -3,7 +3,7 @@
     This.ItemView = Backbone.View.extend({
         tagName: 'li',
         className: 'list-group-item',
-        tpl: itemTpl,
+        tpl: templates.itemTpl,
 
         events:{
             'click .destroy': 'delete',

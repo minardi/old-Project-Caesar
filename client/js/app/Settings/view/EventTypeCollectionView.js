@@ -2,8 +2,8 @@
 (function (This) {
     This.EventTypeCollectionView = Backbone.View.extend({
         tagName: 'div',
-        className: 'col-md-6',
-        tpl: eventTypeTpl,
+        className: 'col-md-3',
+        tpl: templates.eventTypeTpl,
 
         events: {
             'keypress .new-type': 'createNewType'
@@ -25,7 +25,7 @@
 
         renderOne: function (model) {
             var eventTypeView = new App.Settings.ItemView({model: model});
-            this.$('.event-type').append(eventTypeView.render().$el);
+            this.$('.event-type').append(eventTypeView.render().el);
 
             return this;
         },

@@ -1,4 +1,4 @@
-var eventTypeTpl = _.template([
+templates.eventTypeTpl = _.template([
     '<div class="panel panel-default">',
         '<div class="panel-heading">',
             '<p>Events Types</p>',
