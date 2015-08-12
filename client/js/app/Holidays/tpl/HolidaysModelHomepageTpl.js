@@ -5,5 +5,6 @@ templates.holidaysModelHomepageTpl = _.template([
 '   <td class="col-lg-1">',
 '       <i class="glyphicon glyphicon-edit customGlyphBtn"></i>',
 '       <i class="glyphicon glyphicon-trash customGlyphBtn"></i>',
+'       <i class="glyphicon glyphicon-eye-open isActive customGlyphBtn"></i>',
 '   </td>'
 ].join(''));

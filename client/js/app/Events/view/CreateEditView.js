@@ -177,12 +177,19 @@
             this.resourceCollection.comparator = function(resource) {
                 return resource.get('type');
             }
+            this.resourceCollection.sort();
         },
         
         remove: function () {
             this.resourcesCollectionView.remove();
             Backbone.View.prototype.remove.call(this, arguments);
             this.resourceCollection.sort();
+        },
+
+        updateOnEnter: function (e) {
+            if (e.keyCode === ENTER) {
+                this.save();
+            }
         }
     });
 })(App.Events);

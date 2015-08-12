@@ -24,6 +24,9 @@
                 {
                     required: true,
                     msg: 'Field cannot be empty'
+                }, {
+                    minLength: 2,
+                    msg: 'Поле не может содержать менее 2 символов'
                 }
             ],
             password: [
@@ -31,13 +34,7 @@
                     required: true,
                     msg: 'Field cannot be empty'
                 }
-            ],
-            role: [
-                {
-                    required: true,
-                    msg: 'Field cannot be empty'
-                }
-            ],
+            ]
         }
     });
 })(App.Accounts);

@@ -3,12 +3,14 @@
 		"id": 0,
 		"name": "Labor Day",
 		"locationCountry": 0,
-		"date": "06.08.2015"
+		"date": "06.08.2015",
+		"isActive": true
 	},
 	{
 		"id": 1,
 		"name": "Independence Day",
 		"locationCountry": 0,
-		"date": "01.05.2015"
+		"date": "01.05.2015",
+		"isActive": true
 	}	
 ]
