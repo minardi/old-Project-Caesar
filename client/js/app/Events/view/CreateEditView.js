@@ -7,22 +7,29 @@
         events: {
             'click .save': 'save',
             'click .cancel': 'cancel',
-            'click .resource': 'removeResource'
+            'click .resource': 'removeResource',
+            'keydown': 'closeOnEscape',
+            'keypress': 'updateOnEnter'
         },
 
         initialize: function (options) {
             this.model = options.model || new This.Event();
             this.resourceCollection = options.resourceCollection;
-           
+            this.resourceSorting();
+            
             this.resourcesCollectionView = new App.Events.ResourcesCollectionView({
                 collection: this.resourceCollection,
                 model: this.model
             });
-
+            
             cs.mediator.subscribe('resourceAddedToEvent', this.addResourceIdToEvent, null, this);
 
             Backbone.Validation.bind(this);
 
+            $('body').one('keydown', this.closeOnEscape.bind(this));
+            $('body').one('keypress', this.updateOnEnter.bind(this));
+
+            cs.mediator.subscribe('resourceAddedToEvent', this.addResourceIdToEvent, null, this);
         },
 
         render: function () {
@@ -46,7 +53,7 @@
             filtered = this.resourceCollection.filter(function (model) {
                 return resources.indexOf(model.get('id')) !== -1;
             });
-
+            
             return filtered;
         },
 
@@ -147,6 +154,9 @@
         },
 
         cancel: function () {
+            if(this.model.isNew()){
+                this.model.destroy();
+            }
             cs.mediator.publish('CreateEditViewClosed');
         },
 
@@ -154,9 +164,25 @@
             var resource = e.target;
             this.resourcesCollectionView.renderRemoved(parseInt(resource.getAttribute('idValue')));
             resource.remove();
+        },
 
+        closeOnEscape: function (e) {
+            if (e.which === ESC) {
+                this.cancel();
+            }
+
+        },
+
+        resourceSorting: function () {
+            this.resourceCollection.comparator = function(resource) {
+                return resource.get('type');
+            }
+        },
+        
+        remove: function () {
+            this.resourcesCollectionView.remove();
+            Backbone.View.prototype.remove.call(this, arguments);
+            this.resourceCollection.sort();
         }
-
-
     });
 })(App.Events);

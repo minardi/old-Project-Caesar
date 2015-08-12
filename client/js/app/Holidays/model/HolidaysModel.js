@@ -2,9 +2,9 @@
     This.HolidaysModel = Backbone.Model.extend({
         defaults: function () {
             return {
-                'name': '',
-                'locationCountry': '',
-                'date': ''
+                name: '',
+                locationCountry: '',
+                date: ''
             }
         },
 

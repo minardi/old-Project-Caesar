@@ -7,11 +7,11 @@
 
         events: {
             'click .delete': 'delete',
-            'click .cancel': 'hide'
+            'click .cancel': 'close'
         },
 
         initialize: function () {
-            $(document).on('keydown', this.checkKeyCommand.bind(this));
+            $('body').one('keydown', this.checkKeyCommand.bind(this));
         },
 
         set: function (message, callback) {
@@ -27,17 +27,17 @@
         },
 
         delete: function () {
-            this.hide();
             this.callback();
+            this.remove();
         },
 
-        hide: function () {
-            this.$el.addClass('hidden');
+        close: function () {
+            this.remove();
         },
 
         checkKeyCommand: function (e) {
             if (e.keyCode === ESC) {
-                this.hide();
+                this.remove();
             }
 
             if (e.keyCode === ENTER) {

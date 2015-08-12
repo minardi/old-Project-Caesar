@@ -30,7 +30,7 @@
     
         render: function () {
             var locationCountry = collections.countriesCollection.get(this.model.get('locationCountry')),
-            countryName = locationCountry.get('name');
+                countryName = locationCountry.get('name');
 
             this.$el.html(this.template({
                 name: this.model.get('name'),
