@@ -177,6 +177,7 @@
             this.resourceCollection.comparator = function(resource) {
                 return resource.get('type');
             }
+            this.resourceCollection.sort();
         },
         
         remove: function () {
