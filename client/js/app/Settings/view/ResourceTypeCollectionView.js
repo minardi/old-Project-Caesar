@@ -2,8 +2,8 @@
 (function (This) {
     This.ResourceTypeCollectionView = Backbone.View.extend({
         tagName: 'div',
-        className: 'col-md-6',
-        tpl: resourceTypeTpl,
+        className: 'col-md-3',
+        tpl: templates.resourceTypeTpl,
 
         events: {
             'keypress .new-type': 'createNewType'
@@ -25,7 +25,7 @@
 
         renderOne: function (model) {
             var resourceTypeView = new App.Settings.ItemView({model: model});
-            this.$('.resource-type').append(resourceTypeView.render().$el);
+            this.$('.resource-type').append(resourceTypeView.render().el);
 
             return this;
         },

@@ -17,7 +17,7 @@
 	},
 	{
 		"_id": "accountsId",
-		"seq": 4
+		"seq": 3
 	},
 	{
 		"_id": "eventTypesId",
@@ -33,10 +33,10 @@
 	},
 	{
 		"_id": "citiesId",
-		"seq": 7
+		"seq": 6
 	},
 	{
 		"_id": "countriesId",
-		"seq": 2
+		"seq": 1
 	}
 ]
