@@ -24,7 +24,7 @@
             setTimeout(function () {
                 $("#datetimepicker").datetimepicker({
                     locale: 'ru',
-                    format: 'DD.MM.YYYY'
+                    format: 'YYYY.MM.DD'
                 });
             }, 0);
 
@@ -36,7 +36,8 @@
                 attributes = {
                     name : this.$('#name').val(),
                     locationCountry: this.$('#InputCountry').val(),
-                    date: $("#date").val()
+                    date: $("#date").val(),
+					isActive: true
             };        
             this.model.once('sync', function () {
                 if (isNewModel) {
@@ -47,7 +48,7 @@
                     isNewModel? 'You succesfully added a new holiday': 'Information succesfully changed'
                 );
             }, this);
-            
+			
             this.model.save(attributes); 
             
             cs.mediator.publish('HolidaysViewClosed'); //publish to Controller

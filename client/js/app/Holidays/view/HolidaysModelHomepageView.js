@@ -6,7 +6,8 @@
     
         events: {
             'click .glyphicon-edit': 'openEdit',
-            'click .glyphicon-trash': 'confirmDelete'
+            'click .glyphicon-trash': 'confirmDelete',
+            'click .isActive': 'isActive'
         },
 
         initialize: function () {
@@ -27,6 +28,18 @@
             this.remove();
             cs.mediator.publish('Notice', 'Holiday was succesfully deleted'); //publish to Messenger's Controller
         },
+		
+		isActive: function () {
+			var isActiveClass = this.$('.isActive');
+			
+			if(this.model.get('isActive')) {
+				this.model.set('isActive', false);
+				this.$('.isActive').removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
+			} else {
+				this.model.set('isActive', true);
+			}
+			this.model.save(); 
+		},
     
         render: function () {
             var locationCountry = collections.countriesCollection.get(this.model.get('locationCountry')),
@@ -37,6 +50,11 @@
                 locationCountry: countryName,
                 date: this.model.get('date')
             }));
+			
+			if(!this.model.get('isActive')) {
+				this.$('.isActive').removeClass('glyphicon-eye-open').addClass('glyphicon glyphicon-eye-close');
+			}
+			
             return this;
         }
     });

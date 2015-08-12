@@ -4,7 +4,8 @@ function HolidaysModel (newAttributes) {
 			id: '',
 			name: '',
 			locationCountry: '',
-			date: ''
+			date: '',
+			isActive: ''
 		};
 	
 	setModel();
