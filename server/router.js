@@ -81,7 +81,11 @@ router.post('/', function (req, res) {
 router.get('/', function (req, res) {
     console.log('hello from get/'); 
     var staticRoute = /^\/build/.test(req.url)? './public': '../client';
-    res.sendFile('index.html', { root: staticRoute });
+    if(req.cookies && req.cookies.clientId) {
+         res.sendFile('home.html', { root: staticRoute });
+    } else {
+        res.sendFile('login.html', { root: staticRoute });
+    }
 });
 
 router.get('/logout', function (req, res) {

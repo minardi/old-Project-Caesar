@@ -4,13 +4,16 @@
 		url: '/schedule',
 
 		addEvent: function (week) {
-			var rightWeek = this.findWhere({weekNumber: week.get('weekNumber')}),
+			var startdate = week.get('startDate'),
+				rightWeek = this.findWhere({weekNumber: week.get('weekNumber')}),
 				attributes = {},
 				json,
 				days;
+
+			debugger;
 			if (!rightWeek) {
 				this.push(week);
-				rightWeek = this.findWhere({weekNumber: week.get('weekNumber')});
+				rightWeek = this.findWhere({startDate: week.get('startDate')});
 
 			} else {
 				days = rightWeek.get('days');
@@ -32,7 +35,7 @@
 				startDate: String(rightWeek.get('startDate')),
 				days: rightWeek.get('days')
 			};
-
+			
 			rightWeek.save(attributes);
 		
 		},

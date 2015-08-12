@@ -33,6 +33,9 @@
 			cs.mediator.subscribe('DiffWeekSelected', showWeek);	
 			cs.mediator.subscribe('WeekModeSelected', setupWeekMode);
 			cs.mediator.subscribe('EventPreviewConflictsSelected', showPreviewConflicts);
+			cs.mediator.subscribe('EventDeleted', checkAvailableCells);
+
+
 		}
 
 		function showScheduleEvents () {
@@ -112,6 +115,10 @@
 		function showPreviewConflicts (event) {
 			$('.conflictCell').remove();
 			views['schedule'].checkAvailableCells(event);
+		}
+
+		function checkAvailableCells () {
+			views['schedule'].checkAvailableCells();
 		}
 
 		function hideAll () {

@@ -3,14 +3,18 @@
 		"id": 0,
 		"name": "Labor Day",
 		"locationCountry": 0,
-		"date": "06.08.2015",
-		"isActive": true
+		"date": "06.08.2015"
 	},
 	{
 		"id": 1,
 		"name": "Independence Day",
 		"locationCountry": 0,
-		"date": "01.05.2015",
-		"isActive": true
-	}	
+		"date": "01.05.2015"
+	},
+	{
+		"id": 2,
+		"name": "Independence Day in Bulgaria",
+		"locationCountry": 1,
+		"date": "01.07.2015"
+	}		
 ]

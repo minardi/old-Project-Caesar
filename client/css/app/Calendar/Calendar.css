@@ -84,3 +84,8 @@
 td {
 	height: auto;
 }
+
+.resourceSorting, .weeksNumber {
+	width: 100px;
+}
+

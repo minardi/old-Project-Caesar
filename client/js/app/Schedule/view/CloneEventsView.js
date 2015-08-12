@@ -1,11 +1,10 @@
 (function (This){
 	This.CloneEventsView = Backbone.View.extend({
-		tagName: 'button',
-		className: 'btn btn-primary',
+		template: templates.cloneEventsTpl,
 		$table: '',
 
 		events: {
-			'click': 'generateWeekItem'
+			'click button': 'generateWeekItem'
 		},
 
 		initialize: function () {
@@ -13,7 +12,7 @@
 		},
 
 		render: function () {
-			this.$el.html('Clone');
+			this.$el.html(this.template());
 			return this;
 		},
 
@@ -34,36 +33,90 @@
 
 		generateWeekItem: function () {
 			var $elements = this.$table.find('.selectedCell .calendarCellDiv'),
+				$els,
 				startDate = this.$table.attr('startDate'),
-				dayNumber,
-				timeline,
-				eventId,
-				weekItems = [];
-			
-			$elements.each( function (i, el) {
-				eventId = $(el).attr('event');
-				dayNumber = $(el).parent().attr('day');
-				timeline = $(el).parent().attr('timeline');
+				days = this.getDays($elements),
+				daysHash  = {},
+				context = this,
+				weekItem = new This.Week({'startDate': startDate});
 
-				weekItems.push(This.createWeekItem({'dayNumber': dayNumber, 
-												'timeline': timeline, 
-												'eventId': eventId, 
-												'startDate': startDate}));
+			_.each(days, function (dayNumber) {
+				$els = $elements.parent('td[day=' + dayNumber + ']');
+				$els.each(function (i, el) {
+					daysHash[dayNumber] = context.getTimelinesByDay(dayNumber, $els);
+				});
+			}, this);
+
+			weekItem.set('days', daysHash);
+			this.clonetoWeeks(weekItem);		
+		},
+
+		getDays: function ($elements) {
+			var dayNumber,
+				days = [];
+
+			$elements.each(function (i, el) {
+				dayNumber = $(el).parent().attr('day');
+				if (days.indexOf(dayNumber) < 0) {
+					days.push(dayNumber);
+				};
 			});
 
-			this.clone(weekItems);
+			return days;
+		}, 
+
+		getTimelinesByDay: function (dayNumber, $elements) {
+			var children,
+				id = [],
+				rez = {};
+
+			$elements.each( function (i, el) {
+
+				$children = $(el).children();
+				id = [];
+				$children.each(function (i, child) {
+					id.push($(child).attr('event'));
+				});
+
+				rez[$(el).attr('timeline')] = id;
+			});
+
+			return rez;	
+
+		},
+
+		clonetoWeeks: function (weekItem) {
+			var weekNum = this.$el.find('.weeksNumber').val(),
+				date = new Date(weekItem.get('startDate')),
+				temp,
+				i;
+
+			for (i = 1; i <= weekNum; i++) {
+				date.setDate(date.getDate() + 7);
+				temp = weekItem.clone();
+				temp.set('startDate', date);
+
+				collections.scheduleCollection.addEvent(temp);
+			}
 		},
 
 		clone: function (weekItems) {
-			var date;
-
+			var weekNum = this.$el.find('.weeksNumber').val(),
+				date,
+				temp,
+				i = 1;
+			console.log(this.$el.find('select').val());
 			_.each(weekItems, function (item) {
 				date = new Date(item.get('startDate'));
-				date.setDate(date.getDate() + 7);
-				item.set({'startDate': date});
-				collections.scheduleCollection.addEvent(item);
-				debugger;
+
+				for (i = 1; i <= weekNum; i++) {
+					temp = item.clone();
+					date.setDate(date.getDate() + 7);
+					temp.set({'startDate': date});
+					collections.scheduleCollection.addEvent(temp);
+				}
 			}, this);
+			
 		}
 	})
 })(App.Schedule);

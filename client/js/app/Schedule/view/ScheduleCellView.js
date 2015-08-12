@@ -28,6 +28,7 @@
 			weekItem.destroy();
 			collections.scheduleCollection.deleteEvent(weekItem);
 			this.remove();
+			cs.mediator.publish('EventDeleted');
 		},
 
 		click: function (event) {
