@@ -5,7 +5,6 @@
         events: {
             'click .save': 'submit',
             'click .cancel': 'cancel',
-            //'blur  input': 'preValidate',
             'keypress':	'updateOnEnter'
         },
 
@@ -33,71 +32,49 @@
         },
 
         submit: function () { 
-            var isNewModel = this.model.isNew();
-            //if (!this.preValidate()) {
-            var attributes = {
-                    fullName : this.$('#InputFullName').val(),
-                    login: this.$('#InputLogin').val(),
-                    password : this.$('#InputPassword').val(),
-                    locationCity: this.$('#InputCity').val(),
-                    locationCountry : this.$('#InputCountry').val(),
-                    role: this.$('#InputRole').val(),
-            };
-            this.model.once('sync', function () {
+            var isNewModel = this.model.isNew(),
+                attributes = {},
+                $inputs;
+
+            $inputs = $('.clearfix :input');                  
+            $inputs.each(function() {
+              attributes[this.name] = $(this).val();
+            });
+            this.model.set(attributes);
+            if (!this.preValidate()) {
+                this.model.once('sync', function () {
                     if (isNewModel) {
                         cs.mediator.publish('AccountSaved', this.model);
                     } 
-                    cs.mediator.publish( 'Notice',
+                cs.mediator.publish( 'Notice',
                     isNewModel? 'You succesfully added a new account': 'Information succesfully changed');
                 }, this);
-            this.model.save(attributes);
-           
-            cs.mediator.publish('CreateAccountViewClosed');
-           // } 
+                this.model.save();
+                cs.mediator.publish('CreateAccountViewClosed');
+            } 
         },
 
-        preValidate: function (e) {
+        preValidate: function () {
             var attrName,
-                errorMessage,
-                validationResult,
-                errors = {};
+                validationResult;
 
-            if (e) {
-                attrName = e.target.name;
-                errorMessage = this.model.preValidate(attrName, this.model.get(attrName));
-
-                if (errorMessage) {
-                    cs.mediator.publish(   
-                        'Hint',
-                        errorMessage,
-                        this.$('[name=' + attrName + ']')
-                    ); 
-                }
-
-                validationResult = errorMessage;
-            } else {
-                errors = this.model.preValidate({
+                validationResult = this.model.preValidate({
                     fullName: this.model.get('fullName'),
                     login: this.model.get('login'),
                     password: this.model.get('password'),
-                    //locationCity: this.model.get('locationCity'),
-                    //locationCountry: this.model.get('locationCountry'),
-                    role: this.model.get('role')
                 });
 
-                if (errors) {
-                    for (attrName in errors) {
+                if (validationResult) {
+                    for (attrName in validationResult) {
                         cs.mediator.publish(  
                             'Hint',
-                            errors[attrName],
+                            validationResult[attrName],
                             this.$('[name=' + attrName + ']')
-                        ); 
+                        );
                     }
                 }
-                validationResult = errors;
-            }
             return validationResult;
-        },
+        }, 
 
         cancel: function () {
             cs.mediator.publish('CreateAccountViewClosed');

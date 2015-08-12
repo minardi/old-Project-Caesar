@@ -16,14 +16,11 @@
         render: function () {
             var locationCity = collections.citiesCollection.get(this.model.get('locationCity')),
                 cityName = locationCity.get('name');
-                // locationCountry = collections.countriesCollection.get(this.model.get('locationCountry')),
-                // countryName = locationCountry.get('name');
 
             this.$el.html(this.template({
                 login: this.model.get('login'),
                 role: this.model.get('role'),
                 locationCity: cityName,
-              // locationCountry: countryName
              }));
 
             return this;
@@ -41,7 +38,7 @@
         delete: function () {
             this.model.destroy();
             this.remove();
-            cs.mediator.publish('Notice', 'Account was succesfully deleted'); //publish to Messenger's Controller
+            cs.mediator.publish('Notice', 'Account was succesfully deleted');
         }
     });
 })(App.Accounts);
