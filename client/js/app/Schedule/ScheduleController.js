@@ -10,6 +10,7 @@
 				'clone': new This.CloneEventsView()
 			},
 			$el = $('#main'),
+			$table,
 			mode = 'allEvents',
 			selectedEvent;
 
@@ -19,6 +20,11 @@
 			setupMediator();
 			showScheduleEvents();
 			setupEvents();
+
+			$table = views['schedule'].getElement();
+
+			views['mode'].setTableEl($table);
+			views['clone'].setTableEl($table);
 		}
 		
 		function setupMediator () {
@@ -66,12 +72,13 @@
 		function setupSelectedEvent (event) {
 			selectedEvent = event;
 			views['schedule'].setupSelectedEvent(event);
+			views['mode'].setupSelectedEvent(event);
 			views['schedule'].checkAvailableCells();
 
 			if (mode === 'allEvents') {
-				views['schedule'].showAllEvents();
+				views['mode'].showAllEvents();
 			} else {
-				views['schedule'].showSelectedEvent();
+				views['mode'].showSelectedEvent();
 				
 			};
 		}
@@ -83,15 +90,21 @@
 
 			views['schedule'].renderEvents();
 			views['schedule'].setupSelectedEvent(selectedEvent);
+
+			$table = views['schedule'].getElement();
+
+			views['clone'].setTableEl($table);
+
 		}
 
 		function setupWeekMode (_mode) {
 			mode = _mode;
 
 			if (mode === 'allEvents') {
-				views['schedule'].showAllEvents();
+				views['mode'].showAllEvents();
 			} else {
-				views['schedule'].showSelectedEvent();
+				views['mode'].setupSelectedEvent(selectedEvent);
+				views['mode'].showSelectedEvent();
 			};
 			views['schedule'].checkAvailableCells();
 		}

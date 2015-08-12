@@ -6,9 +6,7 @@
 		direction: 0,
 
 		events: {
-			'click td[class=calendarCell]': 'renderSelectedEvent',
-			'click td[chooseDay]': 'chooseTimelineDay',
-			'click td[chooseTimeline]': 'chooseTimelineDay'
+			'click td[class=calendarCell]': 'renderSelectedEvent'
 		},
 
 		setStartDate: function () {
@@ -33,6 +31,10 @@
 
 		setupSelectedEvent: function (event) {
 			this.selectedEvent = event;
+		},
+
+		getElement: function () {
+			return this.$el;
 		},
 
 		render: function () {
@@ -69,14 +71,6 @@
 			var rightWeek = collections.scheduleCollection.findWhere({weekNumber: this.currentWeekNumber});
 			
 			rightWeek && (_.each(rightWeek.get('days'), this.showDay, this));
-		},
-
-		chooseTimelineDay: function (event) {
-			var $target = $(event.currentTarget),
-				attr = $target.attr('chooseDay')? $target.attr('chooseDay'): $target.attr('chooseTimeline'),
-				tdAttr = $target.attr('chooseDay')? 'day': 'timeline';
-
-			this.$el.find('td[' + tdAttr + '="' + attr + '"]').toggleClass('selectedCell');
 		},
 
 		checkHolidays: function () {
@@ -177,16 +171,6 @@
 					};
 				});
 			};
-		},
-
-		showAllEvents: function () {
-			this.$el.find('.calendarCellDiv').show();
-		},
-
-		showSelectedEvent: function () {
-			var elements = this.$el.find('div[event=' + this.selectedEvent.get('id') + ']');
-			this.$el.find('.calendarCellDiv').hide();
-			elements.show();
 		}
  	});
 })(App.Schedule);

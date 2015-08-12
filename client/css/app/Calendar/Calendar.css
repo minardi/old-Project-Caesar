@@ -6,10 +6,10 @@
 }
 
 
-.eventsAndDownload, .scheduleEvents {
+.eventsAndDownload, .scheduleEvents, .download, .clone, .weekMode {
 	float: left;
 	width: 250px;
-	padding-top: 3%
+	margin: 10px;
 }
 
 .SheduleAndPager {
