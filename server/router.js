@@ -62,16 +62,15 @@ router.post('/', function (req, res) {
     Account.findOne( { login: req.body.login }, function (err, account) {
         if(!account){
             console.log('Invalid login');
-            res.redirect('/');
+            res.render('index.jade', { error: 'No such user'});
         } else {
             if (req.body.password === account.password) {
                 var id = setRandomId();
 				globalMan[id] = account;
-				
                 res.cookie('clientId', id, { maxAge: 3600000 });
                 res.sendFile('home.html', { root: staticRoute });
             } else {       
-                res.redirect('/');
+                res.render('index.jade', { error: 'Invalid password'});
             }   
         } 
     });
@@ -84,13 +83,12 @@ router.get('/', function (req, res) {
     if(req.cookies && req.cookies.clientId) {
          res.sendFile('home.html', { root: staticRoute });
     } else {
-        res.sendFile('login.html', { root: staticRoute });
+        res.render('index.jade');
     }
 });
 
 router.get('/logout', function (req, res) {
     console.log('hello from logout');
-    var staticRoute = /^\/build/.test(req.url)? './public': '../client';
     if(req.cookies && req.cookies.clientId){
         res.clearCookie('clientId');
     }
@@ -103,7 +101,6 @@ router.get('*', function (req, res) {
     if(req.cookies && req.cookies.clientId) {
         Account.findOne({ login: req.cookies.clientId.login }, function (err, clientId) {
             if(!clientId){
-                console.log('no account');
                 res.clearCookie('clientId');
             } else {
                 if (!isRest(req.url)) { 
