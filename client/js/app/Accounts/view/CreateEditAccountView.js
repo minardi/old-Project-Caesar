@@ -38,7 +38,12 @@
             $inputs.each(function() {
               attributes[this.name] = $(this).val();
             });
+           
             this.model.set(attributes);
+            var locationCity = collections.citiesCollection.get(this.model.get('locationCity')),
+                countryId = locationCity.get('location');
+            this.model.set('locationCountry', countryId);
+
             if (!this.preValidate()) {
                 this.model.once('sync', function () {
                     if (isNewModel) {

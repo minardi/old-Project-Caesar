@@ -5,4 +5,4 @@
         url: '/cities'
     });
 
-})(App.Accounts);
+})(App.Settings);

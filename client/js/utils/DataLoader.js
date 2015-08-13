@@ -15,8 +15,8 @@ var DataLoader = function () {
         collections.resourceTypes = new App.Settings.ResourceTypeCollection();
         collections.holidaysCollection = new App.Holidays.HolidaysCollection();
         collections.accountsCollection = new App.Accounts.AccountsCollection();
-        collections.citiesCollection = new App.Accounts.CitiesCollection();
-        collections.countriesCollection = new App.Accounts.CountriesCollection();
+        collections.citiesCollection = new App.Settings.CitiesCollection();
+        collections.countriesCollection = new App.Settings.CountriesCollection();
     }
     
     function renderLoadingBar () {

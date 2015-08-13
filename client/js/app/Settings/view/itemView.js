@@ -25,7 +25,8 @@
         },
 
         delete: function () {
-            this.model.destroy();
+            this.model.destroy();   
+            cs.mediator.publish('DeleteCountry', this);
         },
 
         edit: function () {
@@ -49,6 +50,7 @@
             if (e.keyCode === ENTER) {
                 this.save();
             }
+            cs.mediator.publish('UpdateCountry', this);
         },
         revertOnEscape: function (e) {
             if (e.which === ESC) {

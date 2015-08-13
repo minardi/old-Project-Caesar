@@ -35,7 +35,7 @@
             var isNewModel = this.model.isNew(),
                 attributes = {
                     name : this.$('#name').val(),
-                    locationCountry: this.$('#InputCountry').val(),
+                    locationCountry: this.$('#selectCountry').val(),
                     date: $("#date").val(),
 					isActive: true
             };        

@@ -4,5 +4,4 @@
         model: This.Country,
         url: '/countries'
     });
-
-})(App.Accounts);
+})(App.Settings);

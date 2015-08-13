@@ -35,9 +35,9 @@
             if(e.which !== ENTER || !this.$('.new-country').val().trim()){
                 return;
             }
-
             this.collection.create({name: this.$('.new-country').val()});
             this.$('.new-country').val('');
+            cs.mediator.publish('CreateCountry', this);
         }
     });
 })(App.Settings);
