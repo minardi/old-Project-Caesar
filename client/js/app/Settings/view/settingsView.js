@@ -14,9 +14,8 @@
         render: function () {
             this.$el.append(this.resourcesView.render().el);
             this.$el.append(this.eventsView.render().el);
-            this.$el.append(this.countryView.render().el);
             this.$el.append(this.cityView.render().el);
-
+            this.$el.append(this.countryView.render().el);
             return this;
         },
 

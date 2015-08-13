@@ -5,6 +5,5 @@
         defaults: {
             name: ''
         }
-        
     });
-})(App.Accounts);
+})(App.Settings);

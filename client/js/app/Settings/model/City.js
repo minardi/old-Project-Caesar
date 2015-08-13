@@ -8,4 +8,4 @@
         }
         
     });
-})(App.Accounts);
+})(App.Settings);
