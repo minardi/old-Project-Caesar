@@ -93,6 +93,7 @@ router.get('/logout', function (req, res) {
     var staticRoute = /^\/build/.test(req.url)? './public': '../client';
     if(req.cookies && req.cookies.clientId){
         res.clearCookie('clientId');
+		delete globalMan[req.cookies.clientId];
     }
     res.redirect('/');
 });
@@ -100,6 +101,12 @@ router.get('/logout', function (req, res) {
 
 router.get('*', function (req, res) {
     var staticRoute = /^\/build/.test(req.url)? './public': '../client';
+	
+	if(globalMan[req.cookies.clientId] == undefined) {
+		 res.clearCookie('clientId');
+		 res.redirect('/');
+	}
+	
     if(req.cookies && req.cookies.clientId) {
         Account.findOne({ login: req.cookies.clientId.login }, function (err, clientId) {
             if(!clientId){
