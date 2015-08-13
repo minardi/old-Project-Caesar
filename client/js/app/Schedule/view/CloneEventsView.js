@@ -34,6 +34,7 @@
 		generateWeekItem: function () {
 			var $elements = this.$table.find('.selectedCell .calendarCellDiv'),
 				$els,
+				cloneMode = this.$el.find('.cloneMode'),
 				startDate = this.$table.attr('startDate'),
 				days = this.getDays($elements),
 				daysHash  = {},
@@ -45,10 +46,16 @@
 				$els.each(function (i, el) {
 					daysHash[dayNumber] = context.getTimelinesByDay(dayNumber, $els);
 				});
+
 			}, this);
 
 			weekItem.set('days', daysHash);
-			this.clonetoWeeks(weekItem);		
+
+			if (cloneMode === '0') {
+				this.clonetoWeeks(weekItem);	
+			} else {
+				this.clonetoDays(weekItem);
+			}	
 		},
 
 		getDays: function ($elements) {
@@ -75,7 +82,9 @@
 				$children = $(el).children();
 				id = [];
 				$children.each(function (i, child) {
-					id.push($(child).attr('event'));
+					if ($(child).attr('event')) {
+						id.push($(child).attr('event'));
+					}
 				});
 
 				rez[$(el).attr('timeline')] = id;
@@ -100,23 +109,37 @@
 			}
 		},
 
-		clone: function (weekItems) {
-			var weekNum = this.$el.find('.weeksNumber').val(),
-				date,
-				temp,
-				i = 1;
-			console.log(this.$el.find('select').val());
-			_.each(weekItems, function (item) {
-				date = new Date(item.get('startDate'));
-
-				for (i = 1; i <= weekNum; i++) {
-					temp = item.clone();
-					date.setDate(date.getDate() + 7);
-					temp.set({'startDate': date});
-					collections.scheduleCollection.addEvent(temp);
-				}
-			}, this);
+		clonetoDays: function (weekItem) {
 			
+			var daysNum = this.$el.find('.weeksNumber').val(),
+				cloneWeekItem = weekItem.clone(),
+				dayCollection = cloneWeekItem.get('days'),
+				clodeDayCollection = {},
+				i;
+
+			_.each(dayCollection, function (day, dayNumber, dayCollection) {
+				for (i = 0; i < daysNum; i++) {
+					dayNumber ++;
+					if (dayNumber < 6) {
+						if (clodeDayCollection[dayNumber]) {
+							_.each(day, function (event, timeline) {
+									if (clodeDayCollection[dayNumber][timeline]) {
+										clodeDayCollection[dayNumber][timeline].push(day[timeline]);
+										
+									} else {
+											clodeDayCollection[dayNumber][timeline] = day[timeline];
+									}
+							});
+						} else {
+							clodeDayCollection[dayNumber] = day;
+						}
+						
+					}
+				}
+			});
+			console.log(clodeDayCollection);
+			cloneWeekItem.set('days', clodeDayCollection);
+			collections.scheduleCollection.addEvent(cloneWeekItem);
 		}
 	})
 })(App.Schedule);

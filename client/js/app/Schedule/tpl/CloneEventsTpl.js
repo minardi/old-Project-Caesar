@@ -1,7 +1,7 @@
 templates.cloneEventsTpl = _.template([
 '	Clone events to next',
 '	<input type="text" class="weeksNumber" value="1"> </input>',
-'	<select class="form-control resourceSorting">',
+'	<select class="form-control cloneMode">',
 '		<option value="0">weeks</option>',
 '		<option value="1">days</option>',
 '	</select>',

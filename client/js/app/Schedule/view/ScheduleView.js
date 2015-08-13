@@ -64,7 +64,7 @@
 
 		renderEvents: function () {
 			this.chooseWeek();
-			this.checkHolidays();
+			//this.checkHolidays();
 		},
 
 		chooseWeek: function () {
@@ -99,7 +99,7 @@
 					$cells = this.$el.find('td[day="' + date.getDay() + '"]');
 					$cells.each(function (i, el) {						
 						holidayView = new This.HolidayView({model: holiday});
-						($(el).has('div[class="calendarCellDiv"]').length) && (holidayView.changeSize($(el))); 
+						($(el).has('div').length) && (holidayView.changeSize($(el))); 
 						$(el).append(holidayView.render().el);
 					});
 				};

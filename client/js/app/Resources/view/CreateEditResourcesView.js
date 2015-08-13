@@ -14,7 +14,6 @@
         initialize: function () {
             this.model = this.model || new This.ResourcesModel(); 
             this.defaultModelJSON = this.model.toJSON();
-            this.modelBinder = new Backbone.ModelBinder();
             $('body').on('keydown', this.closeOnEscape);
             Backbone.Validation.bind(this);
         },
@@ -22,64 +21,44 @@
         render: function () {
             var resourceTypes = collections.resourceTypes.toJSON();
 
-            this.$el.append(this.template({resourceTypes: resourceTypes}));
-            this.modelBinder.bind(this.model, this.el);
+            this.$el.append(this.template({
+                name: this.model.get('name'),
+                resourceTypes: resourceTypes
+            }));
 
             return this;
         },
 
         save: function () {
-            var isNewModel = this.model.isNew();
+            var isNewModel = this.model.isNew(),
+                user = User.get(),
+                attributes;
 
-            if (!this.preValidate()) {
-                this.model.once('sync', function () {
-                    if (isNewModel) {
-                        cs.mediator.publish('ResourceSaved', this.model); //publish to ResourcesCollectionView
-                    } 
+            attributes = {
+                name : this.$('.name').val(),
+                type: this.$('.type').val(),
+                locationCountry: user.locationCountry,
+                locationCity: user.locationCity
+            };
 
-                    cs.mediator.publish( //publish to Messenger's Controller
-                        'Notice',
-                        isNewModel? 'You succesfully added a new resource': 'Information succesfully changed'
-                    );
+            if (!this.preValidate(attributes)) {
+                this.model.save(attributes);
+                collections.resouresCollection.add(this.model);
+                cs.mediator.publish( //publish to Messenger's Controller
+                    'Notice',
+                    isNewModel? 'You succesfully added a new resource': 'Information succesfully changed'
+                );
 
-                }, this);
-				
-                var user = User.get();
-
-                this.model.set({
-                    locationCity: user.locationCity, 
-                    locationCountry: user.locationCountry
-                });
-				
-                this.model.save();
                 cs.mediator.publish('ResourcesViewClosed'); //publish to Controller
             }
         },
 
-        preValidate: function (e) {
+        preValidate: function (atributes) {
             var attrName,
-                errorMessage,
                 validationResult,
-                errors = {};
+                errors;
 
-            if (e) {
-                attrName = e.target.name;
-                errorMessage = this.model.preValidate(attrName, this.model.get(attrName));
-
-                if (errorMessage) {
-                    cs.mediator.publish(   //publish to Messenger's Controller
-                        'Hint',
-                        errorMessage,
-                        this.$('[name=' + attrName + ']')
-                    ); 
-                }
-
-                validationResult = errorMessage;
-            } else {
-                errors = this.model.preValidate({
-                    type: this.model.get('type'),
-                    name: this.model.get('name')
-                });
+                errors = this.model.preValidate(atributes);
 
                 if (errors) {
                     for (attrName in errors) {
@@ -91,7 +70,6 @@
                     }
                 }
                 validationResult = errors;
-            }
 
             return validationResult;
         },
@@ -102,7 +80,6 @@
         },
 
         undoChanges: function () {
-            this.modelBinder.unbind();
             this.model.off('change', this.preValidate);
             this.model.set(this.defaultModelJSON);
         },
