@@ -15,7 +15,7 @@
 		},
 
         notFound: function () {
-            var errorPage = errorPage || new App.ErrorPage.Controller();
+			cs.mediator.publish('Show404');
         }		
 	})
 })(App.Schedule);

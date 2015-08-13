@@ -5,9 +5,10 @@
         className: 'list-group',
 
         initialize: function (options) {
+            this.collection = collections.resouresCollection;
             this.eventModel = options.model;
-
         },
+
         render: function () {
             this.collection.each(function (model) {
                 this.renderOne(model);

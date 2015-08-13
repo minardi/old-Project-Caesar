@@ -1,16 +1,14 @@
 (function (This)  {
-    This.Controller = function () {
-        var $ErrorPage = $('#main'),
-            view;
+    This.Controller = Backbone.Controller.extend({
+        subscribes: {
+            'Show404': 'showAll'
+        },
 
-        start();
-
-        function start () {
-            view = new This.ErrorPageView();
-
-            $ErrorPage.html(view.render().el);
+        initialize: function () {
+            this.collectionView = new This.ErrorPageView();
+            this.el = $('#main');
+            this.mediator = cs.mediator;
+            this.start();
         }
-
-        return this;
-    }
+    });
 })(App.ErrorPage);

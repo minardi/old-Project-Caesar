@@ -5,15 +5,16 @@
 
         events: {
             'click .save': 'save',
-            'click .cancel': 'cancel',
+            'click .cancel': 'cancel'
         },
 
         initialize: function () {
-            this.model = this.model || new This.HolidaysModel(); 
+            this.model = this.model || new This.HolidaysModel();
         },
 
         render: function () {
             var locationCountry = collections.countriesCollection.toJSON();
+            console.dir(this.model);
             this.$el.append(this.template({
                 name: this.model.get('name'),
                 locationCountry: locationCountry,
