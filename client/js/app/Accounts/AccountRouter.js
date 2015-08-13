@@ -10,7 +10,8 @@
         },
 
         initialize: function () {
-            var controller = new App.Accounts.Controller();
+            this.controller = new App.Accounts.Controller();
+            this.controller.start();
 
             cs.mediator.subscribe('ShowAccounts', this.navigateAccounts, null, this);
             cs.mediator.subscribe('CreateAccount', this.navigateNewAccount, null, this);
@@ -38,19 +39,19 @@
         },
 
         showAccountsView: function () {
-            cs.mediator.publish('ShowAccounts');
+            this.controller.showAll();
         },
 
         createAccountView: function () {
-            cs.mediator.publish('CreateAccount');
+            this.controller.createView();
         },
 
         editAccount: function (id) {
-            cs.mediator.publish('EditAccount', id);
+            this.controller.editViewById(id);
         },
 
         notFound: function () {
-            var errorPage = errorPage || new App.ErrorPage.Controller();
+            cs.mediator.publish('Show404');
         }
     });
 })(App.Accounts);

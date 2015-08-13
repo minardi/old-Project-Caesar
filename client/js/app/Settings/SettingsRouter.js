@@ -2,7 +2,8 @@
 (function (This) {
     This.Router = Backbone.Router.extend({
         routes: {
-            'Settings': 'getSettings'
+            'Settings': 'getSettings',
+            'Settings*path': 'notFound'
         },
 
         initialize: function () {
@@ -11,6 +12,10 @@
 
         getSettings: function () {
             this.controller.showAll();
+        },
+
+        notFound: function () {
+            cs.mediator.publish('Show404');
         }
 
     });

@@ -1,60 +1,16 @@
 (function (This) {
-    This.Controller = function () {
-        var collection = collections.holidaysCollection,
-            holidays = new This.CollectionView({collection: collection}),
-            $holidays = $('#main'),
-            view,
-            api;
+        This.Controller = Backbone.Controller.extend({
+            subscribes: {
+                'CreateHoliday': 'createView',            //published from CollectionView
+                'EditHoliday': 'editView',                //published from HolidaysModeView
+                'HolidaysViewClosed': 'viewClosed'    //published from CreateEditView
+            },
 
-        api = {
-            showAll: showAll,
-            createView: createView,
-            editViewById: editViewById
-        };
-
-        start();
-        
-        function start () {
-            setUpMediator();
-            $holidays.append(holidays.render().el);
-        }
-
-        function setUpMediator () {
-            cs.mediator.subscribe('CreateHoliday', createView); //published from CollectionView 
-            cs.mediator.subscribe('EditHoliday', editView); //published from HolidaysModeView
-            cs.mediator.subscribe('HolidaysViewClosed', viewClosed); //published from CreateEditView
-        }
-
-        function showAll () {
-            hideAll();
-            view && view.remove();
-            holidays.show();
-        }
-
-        function createView () {
-            view && view.remove();
-            view = new This.CreateEditView();
-            $holidays.append(view.render().el);
-        }
-
-        function editView (holiday) {
-            view && view.remove();
-            view = new This.CreateEditView({model: holiday}); 
-            $holidays.append(view.render().el); 
-        }
-        
-        function editViewById (id) {
-            holidays.getModelById(id, editView);
-        }
-
-        function viewClosed () {
-            view.remove();
-        }
-
-        function hideAll () {
-            $holidays.children().addClass('hidden');
-        }
-
-        return api;
-    }
+            initialize: function () {
+                this.collectionView = new This.CollectionView({collection: collections.holidaysCollection});
+                this.createEditView = This.CreateEditView;
+                this.el = $('#main');
+                this.mediator = cs.mediator;
+            }
+        });
 })(App.Holidays);

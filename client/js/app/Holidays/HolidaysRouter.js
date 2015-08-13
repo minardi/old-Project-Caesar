@@ -10,6 +10,7 @@
 
 		initialize: function () {
 			this.controller = new App.Holidays.Controller();
+            this.controller.start();
 
 			cs.mediator.subscribe('ShowHolidays', this.navigateHolidays, null, this);
             cs.mediator.subscribe('CreateHoliday', this.navigateNewHoliday, null, this);
@@ -49,7 +50,7 @@
         },
 
         notFound: function () {
-            cs.mediator.publish('Show404View');
+            cs.mediator.publish('Show404');
         }
 	});
 })(App.Holidays);

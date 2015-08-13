@@ -12,15 +12,12 @@
             'keypress': 'updateOnEnter'
         },
 
-        initialize: function (options) {
-            this.model = options.model || new This.Event();
-            this.resourceCollection = options.resourceCollection;
+        initialize: function () {
+            this.model = this.model || new This.Event();
+            this.resourceCollection = collections.resouresCollection;
             this.resourceSorting();
             
-            this.resourcesCollectionView = new App.Events.ResourcesCollectionView({
-                collection: this.resourceCollection,
-                model: this.model
-            });
+            this.resourcesCollectionView = new App.Events.ResourcesCollectionView({ model: this.model });
 
             Backbone.Validation.bind(this);
 
@@ -62,7 +59,7 @@
 
         save: function () {
 			var user = User.get();
-			
+
             this.isNewModel = this.model.isNew();
 
             if (!this.preValidate()) {
@@ -129,7 +126,7 @@
                         placement: 'top',
                         title: 'Field cannot be empty'
                     }).tooltip('show');
-					
+
                     setTimeout(remove, 5000);
                 }
 
@@ -163,6 +160,7 @@
             var resource = e.target;
             this.resourcesCollectionView.renderRemoved(parseInt(resource.getAttribute('idValue')));
             resource.remove();
+            this.resourceSorting();
         },
 
         closeOnEscape: function (e) {
@@ -175,14 +173,13 @@
         resourceSorting: function () {
             this.resourceCollection.comparator = function(resource) {
                 return resource.get('type');
-            }
+            };
             this.resourceCollection.sort();
         },
         
         remove: function () {
             this.resourcesCollectionView.remove();
             Backbone.View.prototype.remove.call(this, arguments);
-            this.resourceCollection.sort();
         },
 
         updateOnEnter: function (e) {
