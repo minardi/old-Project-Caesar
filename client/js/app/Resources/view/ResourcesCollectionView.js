@@ -12,15 +12,9 @@
         },
     
         initialize: function () {
-            cs.mediator.subscribe('ResourceSaved', this.updateCollection, {}, this); //published from CreateEditView
+            this.listenTo(this.collection, 'add', this.renderOne);
         },
 
-        updateCollection: function (model) {
-            var view = new This.ResourcesModelHomepageView({model: model}).render();
-            this.collection.add(model);
-            $('.resource-list').append(view.$el);
-        },
-        
         renderOne: function (model) {
             var view = new App.Resources.ResourcesModelHomepageView({model: model});
             this.$('.resource-list').append(view.render().el);
@@ -63,13 +57,13 @@
             if (sortingType === '0') {
                 this.collection.comparator = function(resource) {
                     return resource.get('type');
-                }
+                };
                 this.collection.sort();
                 this.render();
             } else {
                 this.collection.comparator = function(resource) {
                     return resource.get('name');
-                }
+                };
                 this.collection.sort();
                 this.render();
             }

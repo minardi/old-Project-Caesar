@@ -21,8 +21,6 @@
                 collection: this.resourceCollection,
                 model: this.model
             });
-            
-            cs.mediator.subscribe('resourceAddedToEvent', this.addResourceIdToEvent, null, this);
 
             Backbone.Validation.bind(this);
 
@@ -37,6 +35,7 @@
 
             this.$el.append(this.template({
                 name: this.model.get('name'),
+                typeId: this.model.get('type'),
                 eventTypes: eventTypes,
                 resourcesList: this.getResourcesInEvent()
             }));
