@@ -2,6 +2,7 @@ templates.calendarRowTpl = _.template([
 '	<tr  timeline = "<%= timeline %>">',
 '		<td class="cell" chooseTimeline = <%= timeline %>>',
 '			<%= timeline %>',
+'			<a name= "<%= timeline %>"></a>',
 '		</td>',
 '		<td class="calendarCell" day= "<%= day %>" timeline = "<%= timeline %>">',
 '		</td>',

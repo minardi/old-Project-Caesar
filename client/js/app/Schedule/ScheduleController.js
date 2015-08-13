@@ -7,7 +7,8 @@
 				'pager': new This.PagerView(),
 				'download': new This.DownloadView(),
 				'mode': new This.WeekModeView(),
-				'clone': new This.CloneEventsView()
+				'clone': new This.CloneEventsView(),
+				'scroll': new This.ScrollView()
 			},
 			$el = $('#main'),
 			$table,
@@ -25,6 +26,9 @@
 
 			views['mode'].setTableEl($table);
 			views['clone'].setTableEl($table);
+			views['scroll'].setTableEl($table.parent());
+
+			views['full'].appendView('scroll', views['scroll'].render().el);
 		}
 		
 		function setupMediator () {
@@ -34,6 +38,7 @@
 			cs.mediator.subscribe('WeekModeSelected', setupWeekMode);
 			cs.mediator.subscribe('EventPreviewConflictsSelected', showPreviewConflicts);
 			cs.mediator.subscribe('EventDeleted', checkAvailableCells);
+			cs.mediator.subscribe('EventsCloned', showWeek);
 
 
 		}
