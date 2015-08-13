@@ -48,7 +48,7 @@
             if(e.which !== ENTER || !this.$('.new-city').val().trim()){
                 return;
             }
-            this.$('.new-city').focus();
+            
             this.collection.create({
                 name: this.$('.new-city').val(),
                 location: this.$('#selectCountry').val(),
