@@ -37,7 +37,7 @@ _.extend(Backbone.Controller.prototype, {
         },
 
         editViewById: function (id) {
-            this.collectionView.getModelById(id, this.editView);
+            this.collectionView.getModelById(id, _.bind(this.editView, this));
         },
 
         editView: function (event) {

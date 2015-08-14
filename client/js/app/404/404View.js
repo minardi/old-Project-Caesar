@@ -1,6 +1,6 @@
 (function (This)  {
     This.ErrorPageView = Backbone.View.extend({
-
+        className: 'hidden',
         tpl: templates.ErrorPageTpl,
 
         render: function () {
