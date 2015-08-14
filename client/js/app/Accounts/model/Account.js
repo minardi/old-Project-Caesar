@@ -20,15 +20,26 @@
                     msg: 'Field cannot be empty'
                 }
             ],
-            login: [
-                {
-                    required: true,
-                    msg: 'Field cannot be empty'
-                }, {
-                    minLength: 2,
-                    msg: 'Поле не может содержать менее 2 символов'
+            login: function (value) {
+                var msg = '',
+                    cool = collections.accountsCollection.toJSON(),
+                    logins = [],
+                    result;
+                    cool.forEach(function (element) {
+                        logins.push(element['login']);
+                    });
+                        
+                result = _.contains(logins, value); 
+                if (value !== '') { 
+                    if(result) {
+                        msg = 'That login already exists';
+                        return msg;
+                    }
+                } else if (value === '') {
+                    msg ='Field cannot be empty';
+                    return msg;
                 }
-            ],
+            },
             password: [
                 {
                     required: true,
