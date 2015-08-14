@@ -30,20 +30,29 @@
         },
 		
 		isActive: function () {
-			var isActiveClass = this.$('.isActive');
+			var skip = this.model.skipped(),
+                location = User.get();
 			
-			if(this.model.get('isActive')) {
-				this.model.set('isActive', false);
-				this.$('.isActive').removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
+			var isActiveClass = this.model.get('isActive');
+
+			if(!skip.skip) {
+				isActiveClass.splice(skip.elNumber, 1);
+				this.$el.removeClass("warning");
+				this.$('.isActive').removeClass('glyphicon-thumbs-down').addClass('glyphicon-thumbs-up');
 			} else {
-				this.model.set('isActive', true);
+				isActiveClass.push(location.locationCity);
+				this.model.set('isActive', isActiveClass);
+				this.$el.addClass("warning");
+				this.$('.isActive').removeClass('glyphicon-thumbs-up').addClass('glyphicon-thumbs-down');
 			}
+			
 			this.model.save(); 
 		},
     
         render: function () {
             var locationCountry = collections.countriesCollection.get(this.model.get('locationCountry')),
-                countryName = locationCountry.get('name');
+                countryName = locationCountry.get('name'),
+				skip = this.model.skipped();
 
             this.$el.html(this.template({
                 name: this.model.get('name'),
@@ -51,8 +60,9 @@
                 date: this.model.get('date')
             }));
 			
-			if(!this.model.get('isActive')) {
-				this.$('.isActive').removeClass('glyphicon-eye-open').addClass('glyphicon glyphicon-eye-close');
+			if(!skip.skip) {
+				this.$('.isActive').removeClass('glyphicon-thumbs-up').addClass('glyphicon-thumbs-down');
+				this.$el.addClass("warning");
 			}
 			
             return this;
