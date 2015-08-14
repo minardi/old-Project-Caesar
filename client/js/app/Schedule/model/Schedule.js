@@ -26,7 +26,9 @@
 						
 							_.each(eventsId, function (eventId) {
 								days[dayNumber][timeline].push(eventId);
-								days[dayNumber][timeline] = _.uniq(days[dayNumber][timeline]);							
+								days[dayNumber][timeline] = _.flatten(days[dayNumber][timeline]);
+								days[dayNumber][timeline] = days[dayNumber][timeline].map(function (el) { return String(el);});
+								days[dayNumber][timeline] = _.uniq(days[dayNumber][timeline]);						
 							}, this);
 					}, this);
 				}, this);

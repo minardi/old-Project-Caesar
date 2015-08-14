@@ -130,7 +130,6 @@
 			if (clodeDayCollection[dayNumber]) {
 				_.each(day, function (event, timeline) {
 					if (clodeDayCollection[dayNumber][timeline]) {
-						console.log(day[timeline]);
 						events = _.flatten(day[timeline]);
 						clodeDayCollection[dayNumber][timeline].push(events);	
 					

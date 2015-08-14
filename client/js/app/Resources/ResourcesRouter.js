@@ -10,6 +10,7 @@
 
 		initialize: function () {
 			this.controller = new App.Resources.Controller();
+            this.controller.start();
 
 			cs.mediator.subscribe('ShowResources', this.navigateResources, null, this);
             cs.mediator.subscribe('CreateResource', this.navigateNewResource, null, this);
@@ -49,7 +50,7 @@
         },
 
         notFound: function () {
-            var errorPage = errorPage || new App.ErrorPage.Controller();
+            cs.mediator.publish('Show404');
         }
 	});
 })(App.Resources);

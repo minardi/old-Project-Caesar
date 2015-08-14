@@ -25,7 +25,7 @@
 		render: function () {
 			this.$el.html('Show');
 	
-			this.setupCSS();
+			//this.setupCSS();
 			return this;
 		},
 

@@ -1,9 +1,10 @@
 function EventsController (req, res) {
     var archiver = require('archiver'),
+        path = require('path'),
         fs = require('fs'),
         archive = archiver('zip'),
         db = new require('../db/db')(),
-        dirname = './generator/archivingData',
+        dirname = './CalendarApplication',
         _ = require('underscore-node');
     
 	handle();
@@ -53,18 +54,28 @@ function EventsController (req, res) {
             res.status(500).send({error: err.message});
         });
 
-        res.attachment('archive.zip');
+        res.attachment('calendar.zip');
 
         archive.pipe(res);
         
-        fs.readdir(dirname, function (err, files) {
-            if (err) throw err;
-            _.each(files, function (file) {
-                archive.append(fs.createReadStream(dirname + '/' + file), { name: file });
-            });
-            archive.finalize();
+        walk(dirname, function(filePath, stat) {
+            archive.append(fs.createReadStream(filePath), { name: filePath });
         });
+        
+        archive.finalize();
 	}
+    
+    function walk(currentDirPath, callback) {
+        fs.readdirSync(currentDirPath).forEach(function(name) {
+            var filePath = path.join(currentDirPath, name);
+            var stat = fs.statSync(filePath);
+            if (stat.isFile()) {
+                callback(filePath, stat);
+            } else if (stat.isDirectory()) {
+                walk(filePath, callback);
+            }
+        });
+    }
 
 	return this;
 }

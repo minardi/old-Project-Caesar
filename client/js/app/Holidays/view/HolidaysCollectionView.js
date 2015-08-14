@@ -57,16 +57,11 @@
         },
         
         getModelById: function (id, callback) {
-            if (this.collection.get(id)) {
-                callback(this.collection.get(id));
+            var model = this.collection.get(id);
+            if (model) {
+                callback(model);
             } else {
-                this.collection.once('sync', function () {
-                    if (this.collection.get(id)) {
-                        callback(this.collection.get(id));
-                    } else {
-                        vm.mediator.publish('Show404');
-                    }
-                }, this);
+                cs.mediator.publish('Show404');
             }
         },
         

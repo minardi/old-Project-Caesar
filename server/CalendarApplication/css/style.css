@@ -1,0 +1,55 @@
+.hiden {
+    display: none;
+}
+
+div#main table {
+    margin: 0 auto;
+    margin-bottom: 3%;
+}
+
+table {
+    width: 50%;
+}
+
+table tr {
+    height: 2em;
+}
+
+table {
+    margin-bottom: 3%;
+}
+
+table tr td{
+    border: 1px solid #49A1C6;
+    background-color: #99cccc;
+    text-align: center;
+}
+
+.daysList td{
+    background-color: #C6E7F4;
+}
+
+.monthName td{
+    text-align: center;
+    background-color: #70ADC9;
+    font-size: 1.5em;
+    color: white;
+}
+
+.daysName td{
+    background-color: #70ADC9;    
+}
+
+.daysDate td {
+    background-color: #C6E7F4;
+}
+
+table tr td a {
+    text-decoration: none;
+    font-size: 1.3em;
+    padding: 10 5 10 10;
+}
+
+.monthHeader{
+    text-align: center;
+}
