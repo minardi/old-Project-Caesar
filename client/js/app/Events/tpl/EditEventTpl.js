@@ -4,7 +4,7 @@ templates.editEventTpl = _.template([
         '<div class="modal-dialog modal-md">',
             '<div class="modal-content">',
                 '<div class="modal-header">',
-                     '<h4 class="modal-title">Edit event</h4>',
+                     '<h4 class="modal-title"><%= (name === "")? "Create event": "Edit event" %></h4>',
                 '</div>',
                 '<div class="modal-body clearfix">',
                     '<div class="form-group" class="col-xs-4">',
