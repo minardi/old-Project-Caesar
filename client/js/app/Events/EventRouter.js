@@ -12,6 +12,7 @@
 
         initialize: function () {
             this.controller = new App.Events.Controller();
+            this.controller.start();
 
             //URL navigation
             cs.mediator.subscribe('RouteToEvents', this.navigateEvents, null, this);
@@ -47,11 +48,11 @@
         },
 
         editEvent: function (id) {
-            this.controller.editEventById(id);
+            this.controller.editViewById(id);
         },
 
         notFound: function () {
-            var errorPage = errorPage || new App.ErrorPage.Controller();
+            cs.mediator.publish('Show404');
         }
     });
 })(App.Events);

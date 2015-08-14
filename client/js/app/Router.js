@@ -55,11 +55,7 @@
 		},
 
         holidays: function () {
-            if(this.user.role === "Admin") {
 				cs.subRouters['Holidays'] || (cs.subRouters['Holidays'] = new App.Holidays.Router());
-			} else {
-				var errorPage = errorPage || new App.ErrorPage.Controller();
-			}
         },
         
         navigateMenuItem: function (pathname) {

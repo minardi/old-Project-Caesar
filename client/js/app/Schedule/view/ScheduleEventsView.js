@@ -14,7 +14,8 @@
 				'pager': 'schedulePager',
 				'download': 'download',
 				'weekMode': 'weekMode',
-				'clone': 'clone'
+				'clone': 'clone',
+				'scroll': 'scroll'
 			};
 			this.$el.find('.' + modules[moduleName]).html(element);
 		},

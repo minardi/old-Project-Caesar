@@ -11,6 +11,7 @@
         },
 
         initialize: function () {
+            this.collection = collections.eventsCollection;
             this.listenTo(this.collection, 'add', this.renderOne);
         },
 
@@ -37,16 +38,11 @@
         },
 
         getModelById: function (id, callback) {
-            if (this.collection.get(id)) {
-                callback(this.collection.get(id));
+            var model = this.collection.get(id);
+            if (model) {
+                callback(model);
             } else {
-                this.collection.once('sync', function () {
-                    if (this.collection.get(id)) {
-                        callback(this.collection.get(id));
-                    } else {
-                        cs.mediator.publish('Show404');
-                    }
-                }, this);
+                cs.mediator.publish('Show404');
             }
         },
         
@@ -56,13 +52,13 @@
             if (sortingType === '0') {
                 this.collection.comparator = function(event) {
                     return event.get('type');
-                }
+                };
                 this.collection.sort();
                 this.render();
             } else {
                 this.collection.comparator = function(event) {
                     return event.get('name');
-                }
+                };
                 this.collection.sort();
                 this.render();
             }

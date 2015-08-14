@@ -7,10 +7,6 @@
 			'click button': 'generateWeekItem'
 		},
 
-		initialize: function () {
-		
-		},
-
 		render: function () {
 			this.$el.html(this.template());
 			return this;
@@ -33,29 +29,29 @@
 
 		generateWeekItem: function () {
 			var $elements = this.$table.find('.selectedCell .calendarCellDiv'),
-				$els,
-				cloneMode = this.$el.find('.cloneMode'),
 				startDate = this.$table.attr('startDate'),
-				days = this.getDays($elements),
+				weekItem = new This.Week({'startDate': startDate}),
+				cloneMode = this.$el.find('.cloneMode').val(),
+				dayArray = this.getDays($elements),
 				daysHash  = {},
 				context = this,
-				weekItem = new This.Week({'startDate': startDate});
+				$day;	
+				
+			_.each(dayArray, function (dayNumber) {
+				$day = $elements.parent('td[day=' + dayNumber + ']');
 
-			_.each(days, function (dayNumber) {
-				$els = $elements.parent('td[day=' + dayNumber + ']');
-				$els.each(function (i, el) {
-					daysHash[dayNumber] = context.getTimelinesByDay(dayNumber, $els);
+				$day.each(function (i, el) {
+					daysHash[dayNumber] = context.getTimelinesByDay(dayNumber, $day);
 				});
 
 			}, this);
 
 			weekItem.set('days', daysHash);
-
-			if (cloneMode === '0') {
-				this.clonetoWeeks(weekItem);	
-			} else {
-				this.clonetoDays(weekItem);
-			}	
+			 if (cloneMode === '0') {
+			 	this.clonetoWeeks(weekItem);	
+			 } else {
+			 	this.clonetoDays(weekItem);
+			 }	
 		},
 
 		getDays: function ($elements) {
@@ -73,15 +69,13 @@
 		}, 
 
 		getTimelinesByDay: function (dayNumber, $elements) {
-			var children,
-				id = [],
+			var id = [],
 				rez = {};
 
 			$elements.each( function (i, el) {
-
-				$children = $(el).children();
 				id = [];
-				$children.each(function (i, child) {
+
+				$(el).children().each(function (i, child) {
 					if ($(child).attr('event')) {
 						id.push($(child).attr('event'));
 					}
@@ -121,25 +115,32 @@
 				for (i = 0; i < daysNum; i++) {
 					dayNumber ++;
 					if (dayNumber < 6) {
-						if (clodeDayCollection[dayNumber]) {
-							_.each(day, function (event, timeline) {
-									if (clodeDayCollection[dayNumber][timeline]) {
-										clodeDayCollection[dayNumber][timeline].push(day[timeline]);
-										
-									} else {
-											clodeDayCollection[dayNumber][timeline] = day[timeline];
-									}
-							});
-						} else {
-							clodeDayCollection[dayNumber] = day;
-						}
+						this.addTimelinesToDay(day, dayNumber, clodeDayCollection);
 						
 					}
 				}
-			});
-			console.log(clodeDayCollection);
+			}, this);
 			cloneWeekItem.set('days', clodeDayCollection);
 			collections.scheduleCollection.addEvent(cloneWeekItem);
+			cs.mediator.publish('EventsCloned');
+		},
+
+		addTimelinesToDay: function (day, dayNumber, clodeDayCollection) {
+			var events;
+			if (clodeDayCollection[dayNumber]) {
+				_.each(day, function (event, timeline) {
+					if (clodeDayCollection[dayNumber][timeline]) {
+						events = _.flatten(day[timeline]);
+						clodeDayCollection[dayNumber][timeline].push(events);	
+					
+						clodeDayCollection[dayNumber][timeline] = _.flatten(clodeDayCollection[dayNumber][timeline]);
+					} else {
+						clodeDayCollection[dayNumber][timeline] = day[timeline];
+					}
+				});
+			} else {
+				clodeDayCollection[dayNumber] = day;
+			};
 		}
 	})
 })(App.Schedule);
