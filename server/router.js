@@ -50,6 +50,10 @@ router.all('/download', function(req, res, next) {
     var generatorController = new require('./generator/generatorController')(req, res);
 });
 
+router.all('/preload', function(req, res, next) {     
+    var preloadController = new require('./preload/preloadController')(req, res);
+});
+
 router.get('/name', function(req, res, next) {
 	var json = JSON.stringify(globalMan[req.cookies.clientId]);
 	

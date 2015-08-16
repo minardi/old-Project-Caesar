@@ -3,8 +3,7 @@ templates.editResourceTpl = _.template([
     '<div class="modal-dialog modal-md">',
     '    <div class="modal-content">',
     '        <div class="modal-header">',
-    // '            <!-- <h4 class="modal-title"><%= message %> </h4> -->'
-    '            <h4 class="modal-title">Edit resource</h4>',
+    '            <h4 class="modal-title"><%= (name === "")? "Create resource": "Edit resource" %></h4>',
     '        </div>',
     '        <div class="modal-body clearfix">',
     '            <div class="form-group" class="col-xs-4">',

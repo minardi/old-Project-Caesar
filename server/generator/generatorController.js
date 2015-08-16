@@ -65,7 +65,7 @@ function EventsController (req, res) {
         archive.finalize();
 	}
     
-    function walk(currentDirPath, callback) {
+    function walk (currentDirPath, callback) {
         fs.readdirSync(currentDirPath).forEach(function(name) {
             var filePath = path.join(currentDirPath, name);
             var stat = fs.statSync(filePath);

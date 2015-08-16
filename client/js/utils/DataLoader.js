@@ -1,5 +1,6 @@
 var DataLoader = function () {
-    var $main = $('#main');
+    var $main = $('#main'),
+        $loadingAnimation = $('.sequence');
     start();
     
     function start () {
@@ -24,34 +25,12 @@ var DataLoader = function () {
     }
     
     this.loadCollections = function (main) {
-        collections.resouresCollection.fetch();
-        collections.resouresCollection.once('sync', function () {
-            collections.eventsCollection.fetch();
-            collections.eventsCollection.once('sync', function () {
-                collections.scheduleCollection.fetch();
-                collections.scheduleCollection.once('sync', function () {
-                    collections.eventTypes.fetch();
-                    collections.eventTypes.once('sync', function () {
-                        collections.resourceTypes.fetch();
-                        collections.resourceTypes.once('sync', function () {
-                            collections.holidaysCollection.fetch();
-                            collections.holidaysCollection.once('sync', function () {
-                                collections.accountsCollection.fetch();
-                                collections.accountsCollection.once('sync', function () {
-                                    collections.citiesCollection.fetch();
-                                    collections.citiesCollection.once('sync', function () {
-                                        collections.countriesCollection.fetch();
-                                        collections.countriesCollection.once('sync', function () {
-                                        main();
-                                        $('.sequence').remove();
-                                        });
-                                    });
-                                });
-                            });
-                        });
-                    });
-                });
-            })
-        });
+        $.get('/preload', function (preloadData) {
+            _.each(preloadData, function (collection, key) {
+                collections[key].set(collection);
+            });
+            main();
+            $loadingAnimation.remove();
+        })
     }
 };
