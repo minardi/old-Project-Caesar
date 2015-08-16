@@ -6,16 +6,17 @@
         tagName: 'div',
 
         events: {
-            'click .create': 'createView'
+            'click .create': 'add'
         },
 
         initialize: function () {
-            cs.mediator.subscribe('AccountSaved', this.renderOne, {}, this);
+            this.collection = collections.accountsCollection;
+            this.listenTo(this.collection, 'add', this.renderOne);
         },
 
         render: function () {
-           this.$el.append(this.template);
-            this.collection.each(function (account) {
+           this.$el.html(this.template);
+           this.collection.each(function (account) {
                 this.renderOne(account);
             }, this);
 
@@ -24,11 +25,10 @@
 
         renderOne: function (model) {
             var accountView = new App.Accounts.AccountView({model: model});
-            this.collection.add(model);
             this.$('.account-list').append(accountView.render().el);
         },
 
-        createView: function () {
+        add: function () {
             cs.mediator.publish('CreateAccount');
         },
 

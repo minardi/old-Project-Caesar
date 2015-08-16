@@ -24,7 +24,7 @@ mongoose.connect('mongodb://localhost:27017/caesar');
 var Account = mongoose.model('Account', new Schema({
     id: ObjectId,
     fullName: String,
-    login: { type: String, unique: true },
+    login: String, //{ type: String, unique: true },
     password: String,
     locationCity: String,
     locationCountry: String,

@@ -40,10 +40,10 @@ _.extend(Backbone.Controller.prototype, {
             this.collectionView.getModelById(id, _.bind(this.editView, this));
         },
 
-        editView: function (event) {
+        editView: function (model) {
             this.crudView && this.crudView.remove();
             this.crudView = new this.createEditView({
-                model: event
+                model: model
             });
             this.el.append(this.crudView.render().el);
         },

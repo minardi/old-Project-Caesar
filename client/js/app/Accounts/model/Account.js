@@ -18,32 +18,35 @@
                 {
                     required: true,
                     msg: 'Field cannot be empty'
-                }
-            ],
-            login: function (value) {
-                var msg = '',
-                    cool = collections.accountsCollection.toJSON(),
-                    logins = [],
-                    result;
-                    cool.forEach(function (element) {
-                        logins.push(element['login']);
-                    });
-                        
-                result = _.contains(logins, value); 
-                if (value !== '') { 
-                    if(result) {
-                        msg = 'That login already exists';
-                        return msg;
-                    }
-                } else if (value === '') {
-                    msg ='Field cannot be empty';
-                    return msg;
-                }
-            },
+                }, {
+                    minLength: 2,
+                    msg: 'Min length is 2 symbols'
+                }, {
+                    maxLength: 60,
+                    msg: 'Max length is 60 symbols'
+                }],
             password: [
                 {
                     required: true,
                     msg: 'Field cannot be empty'
+                }, {
+                    minLength: 2,
+                    msg: 'Min length is 2 symbols'
+                }, {
+                    maxLength: 15,
+                    msg: 'Max length is 15 symbols'
+                }
+            ],
+            login: [
+                {
+                    required: true,
+                    msg: 'Field cannot be empty'
+                }, {
+                    minLength: 2,
+                    msg: 'Min length is 2 symbols'
+                }, {
+                    maxLength: 15,
+                    msg: 'Max length is 15 symbols'
                 }
             ]
         }

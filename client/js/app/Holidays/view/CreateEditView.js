@@ -18,6 +18,7 @@
             this.$el.append(this.template({
                 name: this.model.get('name'),
                 locationCountry: locationCountry,
+                countryId: this.model.get('locationCountry'),
                 date: this.model.get('date')
             })); 
             
