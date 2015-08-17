@@ -54,6 +54,7 @@
 				this.model.save(attributes); 
 				
 				cs.mediator.publish('HolidaysViewClosed'); //publish to Controller
+				cs.mediator.publish('HolidayCreated', 'all'); //publish to HolidaysCollectionView
 			}
         },
 		

@@ -27,6 +27,9 @@
         delete: function () {
             this.model.destroy();   
             cs.mediator.publish('DeleteCountry', this);
+            if (App.Holidays.CollectionView) {
+                cs.mediator.publish('CountryDeleted', 'all'); //publish to HolidaysCollectionView
+            }
         },
 
         edit: function () {

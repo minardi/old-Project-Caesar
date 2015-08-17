@@ -38,6 +38,9 @@
             this.collection.create({name: this.$('.new-country').val()});
             this.$('.new-country').val('');
             cs.mediator.publish('CreateCountry', this);
+            if (App.Holidays.CollectionView) {
+                cs.mediator.publish('CountryCreated', 'all'); //publish to HolidaysCollectionView
+            }
         }
     });
 })(App.Settings);

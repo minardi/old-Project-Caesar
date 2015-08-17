@@ -13,6 +13,9 @@
     
         initialize: function () {
             cs.mediator.subscribe('HolidaySaved', this.updateCollection, {}, this); //published from CreateEditView
+            cs.mediator.subscribe('CountryCreated', this.render, {}, this); //published from CountryCollectionView
+            cs.mediator.subscribe('CountryDeleted', this.render, {}, this); //published from itemView
+            cs.mediator.subscribe('HolidayCreated', this.render, {}, this); //published from CreateEditView
         },
 
         updateCollection: function (model) {
