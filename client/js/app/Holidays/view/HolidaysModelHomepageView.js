@@ -11,7 +11,8 @@
         },
 
         initialize: function () {
-            this.listenTo(this.model, 'change', this.render); 
+            this.listenTo(this.model, 'change', this.render);
+            this.user = User.get();			
         },
     
         openEdit: function () {
@@ -57,7 +58,8 @@
             this.$el.html(this.template({
                 name: this.model.get('name'),
                 locationCountry: countryName,
-                date: this.model.get('date')
+                date: this.model.get('date'),
+				role: this.user.role
             }));
 			
 			if(!skip.skip) {
