@@ -10,12 +10,28 @@
 
 		initialize: function () {
 			this.$el.parent().addClass('list-group');
+			this.liCollection = [];
 		},
 
 		selectItem: function (event) {
 
-			$(event.target).parent().children().removeClass('active');
-			$(event.target).addClass('active');
+			if (Object.is(this.selectedEvent, event.target)) {
+				$(event.target).removeClass('active');
+				this.selectedEvent = null;
+
+				this.liCollection.forEach( function (li) {
+					li.delegateEvents();
+				});
+			} else {
+				this.$el.children().removeClass('active');
+				$(event.target).addClass('active');
+				this.selectedEvent = event.target;
+
+				this.liCollection.forEach( function (li) {
+					li.undelegateEvents();
+				});
+			}
+			
 		},
 
 		render: function () {
@@ -31,6 +47,8 @@
 		renderOne: function (event) {
 			var eventView = new This.OneEventView({model:event});
 			this.$fragment.append(eventView.render().el);
+
+			this.liCollection.push(eventView);
 		}
 	})
 })(App.Schedule);
