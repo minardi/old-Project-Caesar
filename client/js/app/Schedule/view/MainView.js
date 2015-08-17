@@ -1,0 +1,103 @@
+(function (This) {
+	This.MainView = Backbone.View.extend({
+		initialize: function () {
+			this.fullView = new This.ScheduleEventsView();
+
+			this.views = {
+				'schedule': new This.ScheduleView(),
+				'events': new This.EventsView(),
+				'pager': new This.PagerView(),
+				'download': new This.DownloadView(),
+				'weekMode': new This.WeekModeView(),
+				'clone': new This.CloneEventsView(),
+			};
+
+			this.mode = 'allEvents';
+		},
+
+		setupEl: function (_el) {
+			this.$el = _el;
+		},
+
+		setupTable: function () {
+			this.$table = this.views['schedule'].getElement();
+
+			this.views['weekMode'].setTableEl(this.$table);
+			this.views['clone'].setTableEl(this.$table);
+		},
+
+		render: function () {
+			_.each(this.views, function (view, viewName) {
+				this.fullView.appendView(viewName, view.render().el);
+			}, this);
+
+			this.views['schedule'].renderEvents();
+			this.$el.append(this.fullView.render().el);
+
+			this.setupTable();
+		},
+
+		show: function () {
+			this.fullView.show();
+		},
+
+		setupSelectedEvent: function (event) {
+		 	this.selectedEvent = event;
+		 	this.views['schedule'].setupSelectedEvent(event);
+		 	this.views['weekMode'].setupSelectedEvent(event);
+		 	this.views['schedule'].checkAvailableCells();
+
+		 	if (this.mode === 'allEvents') {
+		 		this.views['weekMode'].showAllEvents();
+		 	} else {
+		 		this.views['weekMode'].showSelectedEvent();
+				
+		 	};
+		},
+
+		showWeek: function (direction) {
+			this.views['schedule'].remove();
+			this.views['schedule'].setDirection(direction);
+			this.fullView.appendView('schedule', this.views['schedule'].render().el);
+
+			this.views['schedule'].renderEvents();
+			this.views['schedule'].setupSelectedEvent(this.selectedEvent);
+
+			this.$table = this.views['schedule'].getElement();
+			
+			this.setupTable();
+		},
+
+		setupWeekMode: function (_mode) {
+			this.mode = _mode;
+
+			if (this.mode === 'allEvents') {
+				this.views['weekMode'].showAllEvents();
+			} else {
+				this.views['weekMode'].setupSelectedEvent(this.selectedEvent);
+				this.views['weekMode'].showSelectedEvent();
+			};
+			this.views['schedule'].checkAvailableCells();
+		},
+
+		showPreviewConflicts: function (event) {
+			$('.conflictCell').remove();
+
+			this.views['schedule'].checkAvailableCells(event);
+		},
+
+		checkAvailableCells: function () {
+			this.views['schedule'].checkAvailableCells();
+		},
+
+		updateEvents: function () {
+			this.views['events'].remove();
+			this.views['full'].appendView('events', this.views['events'].render().el);
+
+			this.views['schedule'].remove();
+			this.views['full'].appendView('schedule', this.views['schedule'].render().el);
+
+			this.views['schedule'].renderEvents();
+		}
+	})
+})(App.Schedule);

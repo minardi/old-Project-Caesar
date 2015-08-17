@@ -1,28 +1,9 @@
 (function (This) {
-	This.ScheduleView = Backbone.View.extend({
-		tagName: 'table',
-		className: 'schedule table table-bordered',
-		template: templates.calendarRowTpl,
+	This.ScheduleView = This.CalendarView.extend({
 		direction: 0,
 
 		events: {
 			'click td[class=calendarCell]': 'renderSelectedEvent'
-		},
-
-		setStartDate: function () {
-			var date = new Date();
-
-			(this.direction > 0) && (date.setDate(date.getDate() + 7 * this.direction));
-			(this.direction < 0) && (date.adjustDate(this.direction * 7));
-
-			this.startDate = this.getFisrtDayOfWeek(date);
-			this.currentWeekNumber = this.startDate.getWeekNumber();
-		},
-
-		getFisrtDayOfWeek: function (date) {
-			//find Monday's date with any date of week
-			date = date.adjustDate(-(date.getDay() -1));
-			return date;
 		},
 
 		setDirection: function (_direction) {
@@ -35,31 +16,6 @@
 
 		getElement: function () {
 			return this.$el;
-		},
-
-		render: function () {
-			this.renderGrid();
-			this.delegateEvents();
-			return this;
-		},
-
-	
-		renderGrid: function () {
-			var daysTpl = templates.daysRowTpl,
-				$fragment = $(document.createDocumentFragment());
-
-			this.setStartDate();
-			$fragment.append(daysTpl({'startDate': this.startDate}));
-
-			//return startDate value after template
-			this.startDate.adjustDate(-4);
-
-			_.each(This.timelines, function (value) {
-				$fragment.append(this.template({'day': 1, 'timeline': value}));
-			}, this);
-
-			this.$el.attr('startDate', this.startDate);
-			this.$el.html($fragment);
 		},
 
 		renderEvents: function () {
@@ -114,13 +70,18 @@
 				$elements = $elements.find('td[day="' + dayNumber + '"]');
 					_.each(timelines, function (eventId) {
 						event = collections.eventsCollection.findWhere({id: Number(eventId)});
-						event && ($elements.append(this.createCell(event)));
+						event && ($elements.append(this.createCell(event, dayNumber, key, this.$el)));
 					}, this);
 			}, this);
 		},
 
-		createCell: function (event) {
-			var scheduleCellView = new This.ScheduleCellView({model:event});
+		createCell: function (event, dayNumber, timeline, $table) {
+			var scheduleCellView = new This.ScheduleCellView({model: event});
+
+			scheduleCellView.setDayNumber(dayNumber);
+			scheduleCellView.setTimeline(timeline);
+			scheduleCellView.setTable($table);
+
 			return scheduleCellView.render().el;
 		},
 
@@ -134,7 +95,7 @@
 			if (this.selectedEvent && !accept.length) {
 					dayNumber = $target.attr('day'),
 					timeline = $target.parent().attr('timeline');
-				$target.append(this.createCell(this.selectedEvent));
+				$target.append(this.createCell(this.selectedEvent, dayNumber, timeline, this.$el));
 
 				this.addEventToCollection(dayNumber, timeline, this.selectedEvent.get('id'));
 
@@ -150,16 +111,17 @@
 			collections.scheduleCollection.addEvent(weekItem);
 		},
 
-		checkAvailableCells: function (_event) {
+		checkAvailableCells: function (_event, _table) {
 			var selectedResources,
 				event = (_event)? _event: this.selectedEvent,
+				$table = (_table)? _table: this.$el,
 				$eventsCells = this.$el.find('.calendarCellDiv'),
 				conflictView;
 
-			this.$el.find('.conflictCell').remove();
+			$table.find('.conflictCell').remove();
 			if (event) {
 				selectedResources = event.toJSON()['resources'],
-				$eventsCells = this.$el.find('.calendarCellDiv'),
+				$eventsCells = $table.find('.calendarCellDiv'),
 	
 				$eventsCells.each( function (i, el) {
 					
