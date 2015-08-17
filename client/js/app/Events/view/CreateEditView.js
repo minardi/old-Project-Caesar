@@ -32,7 +32,7 @@
 
             this.$el.append(this.template({
                 name: this.model.get('name'),
-                typeId: this.model.get('type'),
+                type: collections.eventTypes.get(this.model.get('type')),
                 eventTypes: eventTypes,
                 resourcesList: this.getResourcesInEvent()
             }));
@@ -66,7 +66,7 @@
 
                 var attributes = {
                     name : this.$('.name').val(),
-                    type: this.$('.type').val(),
+                    type: Number(this.$('.type').val()),
 					locationCountry: user.locationCountry,
 					locationCity: user.locationCity,
                     resources: getIdResourcesArray()

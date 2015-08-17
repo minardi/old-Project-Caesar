@@ -5,12 +5,17 @@
 
         events: {
             'click .save': 'save',
-            'click .cancel': 'cancel'
+            'click .cancel': 'cancel',
+            'keydown': 'closeOnEscape',
+            'keypress': 'updateOnEnter'
         },
 
         initialize: function () {
             this.model = this.model || new This.HolidaysModel();
 			Backbone.Validation.bind(this);
+
+            $('body').one('keydown', this.closeOnEscape.bind(this));
+            $('body').one('keypress', this.updateOnEnter.bind(this));
         },
 
         render: function () {
@@ -115,6 +120,18 @@
 
         cancel: function () {
             cs.mediator.publish('HolidaysViewClosed'); //publish to Controller
-        }      
+        },
+
+        closeOnEscape: function (e) {
+            if (e.which === ESC) {
+                this.cancel();
+            }
+        },
+
+        updateOnEnter: function (e) {
+            if (e.keyCode === ENTER) {
+                this.save();
+            }
+        }
     });
 })(App.Holidays);
