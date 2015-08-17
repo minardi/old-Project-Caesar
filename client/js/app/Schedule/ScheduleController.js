@@ -1,34 +1,15 @@
 (function (This) {
 	This.Controller = function () {
-		var views = {
-				'schedule': new This.ScheduleView(),
-				'events': new This.EventsView(),
-				'full': new This.ScheduleEventsView(),
-				'pager': new This.PagerView(),
-				'download': new This.DownloadView(),
-				'mode': new This.WeekModeView(),
-				'clone': new This.CloneEventsView(),
-				'scroll': new This.ScrollView()
-			},
-			$el = $('#main'),
-			$table,
-			mode = 'allEvents',
-			selectedEvent;
-
+		var mainView = new This.MainView(),
+			$el = $('#main');
+	
 		start();
 
 		function start () {
 			setupMediator();
+			mainView.setupEl($el);
 			showScheduleEvents();
 			setupEvents();
-
-			$table = views['schedule'].getElement();
-
-			views['mode'].setTableEl($table);
-			views['clone'].setTableEl($table);
-			views['scroll'].setTableEl($table.parent());
-
-			views['full'].appendView('scroll', views['scroll'].render().el);
 		}
 		
 		function setupMediator () {
@@ -39,22 +20,10 @@
 			cs.mediator.subscribe('EventPreviewConflictsSelected', showPreviewConflicts);
 			cs.mediator.subscribe('EventDeleted', checkAvailableCells);
 			cs.mediator.subscribe('EventsCloned', showWeek);
-
-
 		}
 
 		function showScheduleEvents () {
-			views['full'].appendView('events', views['events'].render().el);
-			views['full'].appendView('download', views['download'].render().el);
-			
-			views['full'].appendView('weekMode', views['mode'].render().el);
-			views['full'].appendView('clone', views['clone'].render().el);
-
-			views['full'].appendView('schedule', views['schedule'].render().el);
-			views['full'].appendView('pager', views['pager'].render().el);
-			
-			views['schedule'].renderEvents();
-			$el.append(views['full'].render().el);
+			mainView.render();
 		}
 
 		function setupEvents () {
@@ -63,71 +32,37 @@
 		}
 
 		function updateEvents () {
-			views['events'].remove();
-			views['full'].appendView('events', views['events'].render().el);
-
-			views['schedule'].remove();
-			views['full'].appendView('schedule', views['schedule'].render().el);
-
-			views['schedule'].renderEvents();
+			mainView.updateEvents();
 		}
 
 		function showSchedule () {
-			hideAll();
-			views['full'].show();
+		 	hideAll();
+		 	mainView.show();
 		}
 
 		function setupSelectedEvent (event) {
-			selectedEvent = event;
-			views['schedule'].setupSelectedEvent(event);
-			views['mode'].setupSelectedEvent(event);
-			views['schedule'].checkAvailableCells();
-
-			if (mode === 'allEvents') {
-				views['mode'].showAllEvents();
-			} else {
-				views['mode'].showSelectedEvent();
-				
-			};
+		 	mainView.setupSelectedEvent(event);
 		}
 
-		function showWeek (prevNumber) {
-			views['schedule'].remove();
-			views['schedule'].setDirection(prevNumber);
-			views['full'].appendView('schedule', views['schedule'].render().el);
-
-			views['schedule'].renderEvents();
-			views['schedule'].setupSelectedEvent(selectedEvent);
-
-			$table = views['schedule'].getElement();
-
-			views['clone'].setTableEl($table);
+		function showWeek (direction) {
+			mainView.showWeek(direction);
 
 		}
 
 		function setupWeekMode (_mode) {
-			mode = _mode;
-
-			if (mode === 'allEvents') {
-				views['mode'].showAllEvents();
-			} else {
-				views['mode'].setupSelectedEvent(selectedEvent);
-				views['mode'].showSelectedEvent();
-			};
-			views['schedule'].checkAvailableCells();
+			mainView.setupWeekMode(_mode);
 		}
 
 		function showPreviewConflicts (event) {
-			$('.conflictCell').remove();
-			views['schedule'].checkAvailableCells(event);
+			mainView.showPreviewConflicts(event);
 		}
 
 		function checkAvailableCells () {
-			views['schedule'].checkAvailableCells();
+			mainView.checkAvailableCells();
 		}
 
 		function hideAll () {
-			$('#main').children().addClass('hidden');
+		 	$('#main').children().addClass('hidden');
 		}
 	}
 })(App.Schedule);

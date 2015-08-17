@@ -77,7 +77,7 @@
 
 				$(el).children().each(function (i, child) {
 					if ($(child).attr('event')) {
-						id.push($(child).attr('event'));
+						id.push(Number($(child).attr('event')));
 					}
 				});
 

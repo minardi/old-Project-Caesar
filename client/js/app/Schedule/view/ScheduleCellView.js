@@ -1,5 +1,5 @@
 (function (This) {
-	This.ScheduleCellView = Backbone.View.extend({
+	This.ScheduleCellView = This.ScheduleView.extend({
 		className: 'calendarCellDiv',
 		model: App.Events.Event,
 		template: templates.sheduleCellTpl,
@@ -17,12 +17,22 @@
 			return this;
 		},
 
+		setTimeline: function (_timeline) {
+			this.timeline = _timeline;
+		},
+
+		setDayNumber: function (_dayNumber) {
+			this.dayNumber = _dayNumber;
+		},
+
+		setTable: function (_table) {
+			this.$table = _table;
+		},
+
 		close: function () {
-			var dayNumber = this.$el.parent().attr('day'), 
-				timeline = this.$el.parent().attr('timeline'), 
-				startDate = new Date($('table.schedule').attr('startDate')),
-				weekItem = This.createWeekItem({'dayNumber': dayNumber, 
-												'timeline': timeline, 
+			var startDate = new Date(this.$table.attr('startDate')),
+				weekItem = This.createWeekItem({'dayNumber': this.dayNumber, 
+												'timeline': this.timeline, 
 												'eventId': this.model.get('id'), 
 												'startDate':startDate});
 			weekItem.destroy();
