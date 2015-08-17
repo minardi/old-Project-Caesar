@@ -8,9 +8,7 @@
 
         events: {
             'click .create': 'create',
-            'click .all': 'filterHandler',
-            'click .0': 'filterHandler',
-            'click .1': 'filterHandler'
+            'click .countryFilter': 'filterHandler'
         },
     
         initialize: function () {
@@ -30,18 +28,12 @@
     
         render: function (_filter) {
             var filter = _filter || 'all';
-            this.$el.html(this.template);
+            this.$el.html(this.template({counties: collections.countriesCollection.toJSON()}));
             this.collection.each(function (holiday) {
                 if (filter === 'all') {
                     this.renderOne(holiday);
-                } else if (filter == 0) {
-                    if (holiday.get('locationCountry') == 0) {
-                        this.renderOne(holiday);
-                    }
-                } else if (filter == 1) {
-                    if (holiday.get('locationCountry') == 1) {
-                        this.renderOne(holiday);
-                    }
+                } else if (filter == holiday.get('locationCountry')) {
+                    this.renderOne(holiday);
                 }
             }, this);
 
