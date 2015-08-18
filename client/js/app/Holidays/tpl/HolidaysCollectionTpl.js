@@ -8,7 +8,7 @@ templates.holidaysCollectionTpl = _.template([
                 '<div class="btn-group col-md-5 col-sm-6" role="group">',
                     '<button type="button" class="all btn btn-default countryFilter">All</button>',
                     '<% _.each(counties, function (country) { %>',
-                        '<button type="button" class="<%= country.id %> btn btn-default countryFilter"><%= country.name %></button>',
+                        '<button type="button" class="<%= country.id %> btn btn-default countryFilter"><%= country.countryName %></button>',
                     '<% }); %>',
                 '</div>',
                 '<div class="col-md-3 col-sm-4">',
