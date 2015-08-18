@@ -28,7 +28,7 @@
 				this.selectedEvent = event.target;
 
 				this.liCollection.forEach( function (li) {
-					li.undelegateEvents();
+					li.undelegate('mouseenter');
 				});
 			}
 			
