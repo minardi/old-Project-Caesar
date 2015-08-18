@@ -13,6 +13,15 @@
             view = new This.GroupCollectionView();
 
             $service.append(view.render().el);
+			
+			var sortable;
+			// первый аргумент - функция
+			function dragNdrop() {
+			  	var el = document.getElementById('testim');
+				console.log("el");
+                sortable = Sortable.create(el, {animation: 150 });
+			}
+			setTimeout(dragNdrop, 1000);
         }
 
         function showAbout () {

@@ -5,7 +5,9 @@
                 'type': '',
                 'name': '',
                 'locationCity': '',
-                'locationCountry': ''
+                'locationCountry': '',
+				'dateStart': '',
+				'dateFinish': ''
             }
         },
 
@@ -18,12 +20,25 @@
                     msg: 'You forgot to choose a type'
                 }
             ],
+			
             name: [
                 {
                     required: true,
                     msg: 'Field cannot be empty'
                 }
-            ]
+            ],
+			
+			dateStart: function(attrs) {
+				if(!attrs.match(/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/)) {
+				  return 'Something wrong with this date'
+				}
+		    },	
+			
+			dateFinish: function(attrs) {		
+				if(!attrs.match(/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/)) {
+				  return 'Something wrong with this date'
+				}
+			}	
         }
     });
 })(App.Resources);

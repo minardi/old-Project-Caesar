@@ -9,7 +9,8 @@
             'click .save': 'save',
             'click .cancel': 'cancel',
             'keydown': 'closeOnEscape',
-            'keypress': 'updateOnEnter'
+            'keypress': 'updateOnEnter',
+			'click .chekType' : 'chekType'
         },
 
         initialize: function () {
@@ -20,27 +21,57 @@
         },
 
         render: function () {
-            var resourceTypes = collections.resourceTypes.toJSON();
+            var resourceTypes = collections.resourceTypes.toJSON(),
+			    type = this.model.get('type'),
+			    classForHide = 'hide';
+				
+				if(type === '0') {
+				    classForHide = "";
+			    }
 
             this.$el.append(this.template({
                 name: this.model.get('name'),
                 type: collections.resourceTypes.get(this.model.get('type')),
-                resourceTypes: resourceTypes
+                resourceTypes: resourceTypes,
+				dateStart: this.model.get('dateStart'),
+				dateFinish: this.model.get('dateFinish'),
+				classForHide: classForHide
             }));
+			
+			setTimeout(function () {
+                $("#datetimepickerStart").datetimepicker({
+                    locale: 'ru',
+                    format: 'YYYY.MM.DD'
+                });
+				
+				$("#datetimepickerFinish").datetimepicker({
+                    locale: 'ru',
+                    format: 'YYYY.MM.DD'
+                });
+            }, 0);
 
             return this;
         },
 
         save: function () {
             var isNewModel = this.model.isNew(),
+			    dateStart = '2015.01.01',
+				dateFinish = '2015.01.01',
                 user = User.get(),
                 attributes;
+			
+            if(this.$('.type').val() === '0') {
+				dateStart = this.$('#dateStart').val(),
+				dateFinish = this.$('#dateFinish').val();
+			}				
 
             attributes = {
                 name : this.$('.name').val(),
                 type: this.$('.type').val(),
                 locationCountry: user.locationCountry,
-                locationCity: user.locationCity
+                locationCity: user.locationCity,
+				dateStart: dateStart,
+				dateFinish: dateFinish
             };
 
             if (!this.preValidate(attributes)) {
@@ -96,6 +127,16 @@
             if (e.keyCode === ENTER) {
                 this.save();
             }
-        }
+        },
+		
+		chekType: function () {
+			var type = this.$('.type').val();
+			if(type === '0') {
+				$('.hideData').removeClass('hide');
+			} else {
+				$('.hideData').addClass('hide');
+			}
+			
+		}
     });
 })(App.Resources);
