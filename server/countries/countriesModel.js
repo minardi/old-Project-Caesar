@@ -2,7 +2,7 @@ function CountriesModel (newAttributes) {
 	var _ = require('../../client/js/lib/underscore.js'),
 		attributes = {
 			id: '',
-			name: ''
+			countryName: ''
 		};
 	
 	setModel();

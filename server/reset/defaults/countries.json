@@ -1,10 +1,10 @@
 [
 	{
 		"id": 0,
-		"name": "Ukraine"
+		"countryName": "Ukraine"
 	},
 	{
 		"id": 1,
-		"name": "Bulgaria"
+		"countryName": "Bulgaria"
 	}
 ]

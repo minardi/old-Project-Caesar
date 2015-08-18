@@ -5,7 +5,7 @@ templates.cityTpl = _.template([
                  '<select class="form-control" id="selectCountry" name="locationCountry">',
                     '<%_.each(locationCountry, function (country) {%>',
                         '<option value="<%= country.id %>">',
-                            '<%= country.name %>',
+                            '<%= country.countryName %>',
                         '</option>',
                     '<%})%>',
                 '</select>',

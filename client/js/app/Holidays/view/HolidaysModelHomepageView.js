@@ -51,7 +51,7 @@
     
         render: function () {
             var locationCountry = collections.countriesCollection.get(this.model.get('locationCountry')),
-                countryName = locationCountry.get('name'),
+                countryName = locationCountry.get('countryName'),
 				skip = this.model.skipped();
 
             this.$el.html(this.template({

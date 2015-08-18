@@ -13,13 +13,13 @@
             this.collection = collections.citiesCollection;
             this.listenTo(this.collection, 'add', this.renderOne);
             cs.mediator.subscribe('CreateCountry', this.updateCollection, {}, this);
-            cs.mediator.subscribe('DeleteCountry', this.updateCollection, {}, this);
+            cs.mediator.subscribe('DeleteCountry', this.deleteCollection, {}, this);
             cs.mediator.subscribe('UpdateCountry', this.updateCollection, {}, this);
         },
 
         render: function () {
             this.$el.html(this.template({
-                locationCountry: this.renderCountryList()
+                locationCountry: collections.countriesCollection.toJSON()
             }));
             this.collection.each(function (model) {
                 this.renderOne(model);
@@ -31,28 +31,46 @@
         renderOne: function (model) {
             var cityView = new App.Settings.ItemView({model: model});
             this.$('.cities').append(cityView.render().el);
-
             return this;
         },
 
-        updateCollection: function(country){
-            this.render();
+        selectCountry: function () {          
+            var selectedCountry =  $('#selectCountry option:selected').text(),
+                valueSelected;
+            collections.countriesCollection.toJSON().forEach(function (item) {
+                if(item['countryName'] === selectedCountry){
+                    valueSelected = item['id'];
+                }
+            });
+            return valueSelected;
         },
 
-        renderCountryList: function () {
-            return collections.countriesCollection.toJSON();
+        updateCollection: function (){
+            this.render();  
         },
+
+        deleteCollection: function (deletedId) {        
+            _.each(_.clone(collections.citiesCollection.toJSON()), function(item) {
+                if(item['location'] === deletedId){
+                    var modelCity = collections.citiesCollection.get(item);
+                    modelCity.destroy();
+                }
+            });
+           this.render();
+        }, 
 
         createNewCity: function (e) {
-            var ENTER = 13;
-            if(e.which !== ENTER || !this.$('.new-city').val().trim()){
+            var ENTER = 13,
+                $inputCity = $('.new-city');
+            if(e.which !== ENTER || !$inputCity.val().trim()){
                 return;
             }
             this.collection.create({
-                name: this.$('.new-city').val(),
-                location: this.$('#selectCountry').val(),
+                name: $inputCity.val(),
+                location: this.selectCountry(),
+                
             });
-            this.$('.new-city').val('');
+            $inputCity.val('');
         }
     });
 })(App.Settings);

@@ -22,7 +22,7 @@
                 fullName: this.model.get('fullName'),
                 login: this.model.get('login'),
                 password: this.model.get('password'),
-                cityId: this.model.get('locationCity'),
+                city: collections.citiesCollection.get(this.model.get('locationCity')),
                 locationCity: locationCity,
                 role: this.model.get('role')
             })); 

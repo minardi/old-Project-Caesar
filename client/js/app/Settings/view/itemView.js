@@ -6,7 +6,7 @@
         tpl: templates.itemTpl,
 
         events:{
-            'click .destroy': 'delete',
+            'click .destroy': 'confirmDelete',
             'dblclick': 'edit',
             'keypress .edit-type':	'updateOnEnter',
             'keydown .edit-type': 'revertOnEscape',
@@ -24,14 +24,28 @@
             return this;
         },
 
+        confirmDelete: function () {
+            if (this.model.get('countryName')) {
+                cs.mediator.publish('Confirm', 
+                    'All cities will be deleted in "'  + this.model.get('countryName') + '". Delete in any case?',
+                    this.delete.bind(this)); 
+            } else {
+                this.delete();
+            }
+        },
+
         delete: function () {
-            this.model.destroy();   
-            cs.mediator.publish('DeleteCountry', this);
+            if (this.model.get('countryName')) {
+                cs.mediator.publish('DeleteCountry', this.model.id);
+            }
+            this.model.destroy();
+            cs.mediator.publish('Notice', 'Item was succesfully deleted');
+            cs.mediator.publish('UpdateCountry', this);
         },
 
         edit: function () {
             this.$el.addClass('editing');
-            this.$el.find('.edit-type').focus();
+            this.$('.edit-type').focus();
         },
 
         save: function () {
@@ -50,7 +64,9 @@
             if (e.keyCode === ENTER) {
                 this.save();
             }
-            cs.mediator.publish('UpdateCountry', this);
+            if(this.model.get('countryName')){
+                cs.mediator.publish('UpdateCountry', this);
+            }
         },
         revertOnEscape: function (e) {
             if (e.which === ESC) {
