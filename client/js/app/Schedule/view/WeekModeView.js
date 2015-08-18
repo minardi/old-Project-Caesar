@@ -22,11 +22,10 @@
 
 		showSelectedEvent: function () {
 			var elements;
-
 			this.$table.find('.calendarCellDiv').hide();
 
 			if (this.selectedEvent) {
-				elements = this.$table.find('div[event=' + this.selectedEvent.get('id') + ']');
+				elements = this.$table.find('div[event="' + this.selectedEvent.get('id') + '"]');
 				elements.show();
 			}
 		},

@@ -37,16 +37,6 @@
 				$cells;
 			this.$el.find('.holidayCell').remove();
 
-			holidays.push({"id": 0,
-						  "name": "Labor Day",
-						  "location": "Ukraine",
-						  "date": "2015.08.06"});
-
-			holidays.push({"id": 1,
-						  "name": "Holiday",
-						  "location": "Ukraine",
-						  "date": "2015.08.12"});
-
 			_.each(holidays.models, function (holiday) {
 				date = new Date(holiday.get('date'));
 				week = date.getWeekNumber();

@@ -16,12 +16,12 @@
 			this.conflicts = [];
 			this.isConflict = true;
 
-			_.each(this.arrayOfResources, function (id) {	
-				if (this.stringOfResources.indexOf(id) >= 0) {
-					this.conflicts.push(id);
-				}
-			}, this);
+			this.stringOfResources = this.stringOfResources.split(',');
+			this.stringOfResources = this.stringOfResources.map(function (el) {
+				return +el;
+			});
 
+			this.conflicts = _.intersection(this.stringOfResources, this.arrayOfResources);
 			(_.isEmpty(this.conflicts)) && (this.isConflict = false);
 
 		},
