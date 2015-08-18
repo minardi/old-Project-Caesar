@@ -8,7 +8,8 @@
         events: {
             'click .save': 'save',
             'click .cancel': 'cancel',
-            'keypress':	'updateOnEnter'
+            'keydown': 'closeOnEscape',
+            'keypress': 'updateOnEnter'
         },
 
         initialize: function () {
@@ -23,6 +24,7 @@
 
             this.$el.append(this.template({
                 name: this.model.get('name'),
+                type: collections.resourceTypes.get(this.model.get('type')),
                 resourceTypes: resourceTypes
             }));
 

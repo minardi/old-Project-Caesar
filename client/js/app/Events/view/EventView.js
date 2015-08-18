@@ -2,11 +2,13 @@
 (function (This) {
     This.EventView = Backbone.View.extend({
         tagName: 'tr',
+		className: 'shortInfo',
         tpl: templates.eventTpl,
 		
 		events: {
             'click .edit': 'edit',
-            'click .dell': 'confirmDelete'
+            'click .dell': 'confirmDelete',
+            'click .fullInfo': 'showFullInfo'
         },
 		
         initialize: function () {
@@ -39,6 +41,25 @@
             this.model.destroy();
             this.remove();
             cs.mediator.publish('Notice', 'Event was succesfully deleted'); //publish to Messenger's Controller
-        }
+			this.fullEveClose();
+        },
+		
+		fullEveClose: function () {
+			$('.toshow').addClass('hidden');
+			$('.toshowfirst').removeClass('col-md-8');
+			$('.toshowfirst').addClass('col-md-12');
+			$('.shortInfo').removeClass('warning');
+		},
+		
+		showFullInfo: function () {
+		    var modelId = this.model.get('id');
+		    $('.shortInfo').removeClass('warning');
+		    this.$el.addClass('warning');
+			$('.toshowfirst').removeClass('col-md-12');
+			$('.toshowfirst').addClass('col-md-8');
+			$('.fullInform').addClass('hidden');
+			$('.toshow').removeClass('hidden');
+			$('.ad' + modelId).removeClass('hidden');
+		}
     });
 })(App.Events);

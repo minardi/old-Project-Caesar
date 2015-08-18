@@ -4,7 +4,8 @@
 		$table: '',
 
 		events: {
-			'click button': 'generateWeekItem'
+			'click .weeks': 'clonetoWeeks',
+			'click .days': 'clonetoDays'
 		},
 
 		render: function () {
@@ -14,16 +15,29 @@
 
 		setTableEl: function (_table) {
 			this.$table = _table;
-			this.$table.on('click', '[chooseDay]', this.chooseTimelineDay.bind(this));
-			this.$table.on('click', '[chooseTimeline]', this.chooseTimelineDay.bind(this));
+			this.$table.on('click', '.chooseDay', this.chooseTimelineDay.bind(this));
+			this.$table.on('click', '.chooseTimeline', this.chooseTimelineDay.bind(this));
+			this.$table.on('click', '.chooseWeek', this.chooseTimelineDay.bind(this));
 		},
 
 		chooseTimelineDay: function (event) {
 			var $target = $(event.currentTarget),
-				attr = $target.attr('chooseDay')? $target.attr('chooseDay'): $target.attr('chooseTimeline'),
-				tdAttr = $target.attr('chooseDay')? 'day': 'timeline';
+				targetClass = $target.attr('class').match(/choose.*/),
+				attr = $target.attr('attribute'),
+				findAttr = {
+					'chooseDay': 'td[day="' + attr + '"]',
+					'chooseTimeline': 'td[timeline="' + attr + '"]',
+					'chooseWeek': 'td[timeline]'
+				};				
 
-			this.$table.find('td[' + tdAttr + '="' + attr + '"]').toggleClass('selectedCell');
+			if ($target.attr('checked')) {
+				this.$table.find(findAttr[targetClass]).removeClass('selectedCell');
+				$target.attr('checked', false);
+			} else {
+				this.$table.find(findAttr[targetClass]).addClass('selectedCell');
+				$target.attr('checked', true);
+			}
+
 		},
 
 
@@ -47,11 +61,7 @@
 			}, this);
 
 			weekItem.set('days', daysHash);
-			 if (cloneMode === '0') {
-			 	this.clonetoWeeks(weekItem);	
-			 } else {
-			 	this.clonetoDays(weekItem);
-			 }	
+			return weekItem;
 		},
 
 		getDays: function ($elements) {
@@ -77,7 +87,7 @@
 
 				$(el).children().each(function (i, child) {
 					if ($(child).attr('event')) {
-						id.push($(child).attr('event'));
+						id.push(Number($(child).attr('event')));
 					}
 				});
 
@@ -88,8 +98,9 @@
 
 		},
 
-		clonetoWeeks: function (weekItem) {
+		clonetoWeeks: function () {
 			var weekNum = this.$el.find('.weeksNumber').val(),
+				weekItem = this.generateWeekItem(),
 				date = new Date(weekItem.get('startDate')),
 				temp,
 				i;
@@ -103,9 +114,9 @@
 			}
 		},
 
-		clonetoDays: function (weekItem) {
-			
+		clonetoDays: function () {
 			var daysNum = this.$el.find('.weeksNumber').val(),
+				weekItem = this.generateWeekItem(),
 				cloneWeekItem = weekItem.clone(),
 				dayCollection = cloneWeekItem.get('days'),
 				clodeDayCollection = {},

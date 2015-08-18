@@ -1,6 +1,6 @@
 'use strict';
 templates.eventCollectionTpl = _.template([
-	'<div class="panel panel-default">',
+	'<div class="panel panel-default toshowfirst col-md-12">',
 		'<div class="panel-heading">',
 			'<div class="row">',
 				'<div class="col-md-3 col-sm-4">',
@@ -22,5 +22,18 @@ templates.eventCollectionTpl = _.template([
 		'</div>',
 		'<table class="table event-list list-group">',
 		'</table>',
+	'</div>',
+	'<div class="col-md-1"></div>',
+	'<div class="panel panel-default col-md-3 toshow hidden">',
+	    '<i class="glyphicon glyphicon-remove fullEventClose"></i>',
+	    '<div class="panel-heading">',
+			'<div class="row">',
+				'<div class="col-md-3 col-sm-4">',
+						'<h4>Event</h4>',
+				'</div>',
+			'</div>',
+		'</div>',
+		'<table class="table fullEvent">',
+	    '</table>',
 	'</div>'
 ].join(''));

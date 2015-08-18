@@ -5,6 +5,7 @@
         events: {
             'click .save': 'submit',
             'click .cancel': 'cancel',
+            'keydown': 'closeOnEscape',
             'keypress':	'updateOnEnter'
         },
 
@@ -12,7 +13,8 @@
             this.model = this.model || new This.Account();
             Backbone.Validation.bind(this);
 
-            $('body').on('keydown', this.closeOnEscape);
+            $('body').one('keydown', this.closeOnEscape.bind(this));
+            $('body').one('keypress', this.updateOnEnter.bind(this));
         },
 
         render: function () {

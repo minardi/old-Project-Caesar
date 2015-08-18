@@ -10,3 +10,17 @@
     font-size: 15px;
     opacity: 0.5;
 }
+
+.fullEventClose {
+    position: absolute;
+	top: 7px;
+	right:10px;
+}
+
+.toshowfirst, .toshow {
+    padding: 0;
+}
+
+.fullInfo {
+cursor: pointer;
+}

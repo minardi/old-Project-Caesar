@@ -7,12 +7,15 @@
 		
 		events: {
             'click .add': 'add',
-            'change .resourceSorting': 'sorting'
+            'change .resourceSorting': 'sorting',
+			'click .fullEventClose': 'fullEveClose',
+			'keydown': 'closeOnEscape'
         },
 
         initialize: function () {
             this.collection = collections.eventsCollection;
             this.listenTo(this.collection, 'add', this.renderOne);
+			$('body').on('keydown', this.closeOnEscape.bind(this));
         },
 
         render: function () {
@@ -27,6 +30,9 @@
         renderOne: function (model) {
             var eventView = new App.Events.EventView({model: model});
             this.$('.event-list').append(eventView.render().el);
+			
+			var eventFullView = new App.Events.EventFullView({model: model});
+			this.$('.fullEvent').append(eventFullView.render().el);
         },
 
         add: function () {
@@ -43,6 +49,12 @@
                 callback(model);
             } else {
                 cs.mediator.publish('Show404');
+            }
+        },
+		
+		closeOnEscape: function (e) {
+            if (e.which === ESC) {
+                this.fullEveClose();
             }
         },
         
@@ -62,6 +74,13 @@
                 this.collection.sort();
                 this.render();
             }
-        }
+        },
+		
+		fullEveClose: function () {
+			$('.toshow').addClass('hidden');
+			$('.toshowfirst').removeClass('col-md-8');
+			$('.toshowfirst').addClass('col-md-12');
+			$('.shortInfo').removeClass('warning');
+		}
     });
 })(App.Events);

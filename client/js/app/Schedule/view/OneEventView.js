@@ -5,7 +5,8 @@
 
 		events: {
 			'click': 'sendEvent',
-			// 'mouseenter': 'showPreviewConflicts',
+		    'mouseenter': 'showPreviewConflicts',
+		    'mousedown': 'stopSelection'
 		},
 
 		sendEvent: function () {
@@ -20,12 +21,18 @@
 
 		render: function () {
 			this.delegateEvents();
+			this.$el.attr('mouseenter', true);
 			this.$el.html(this.model.get('name'));
 			return this;
 		},
 
 		showPreviewConflicts: function () {
 			cs.mediator.publish('EventPreviewConflictsSelected', this.model);
+			
+		},
+
+		stopSelection: function () {
+			return false;
 		}
 	})
 })(App.Schedule);

@@ -1,6 +1,6 @@
 templates.calendarRowTpl = _.template([
 '	<tr  timeline = "<%= timeline %>">',
-'		<td class="cell" chooseTimeline = <%= timeline %>>',
+'		<td class="cell chooseTimeline" attribute = <%= timeline %>>',
 '			<%= timeline %>',
 '			<a name= "<%= timeline %>"></a>',
 '		</td>',
