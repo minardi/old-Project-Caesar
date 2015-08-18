@@ -4,6 +4,19 @@ function setUp (parent, modules) {
     });
 };
 
+function formatDate (defaultDate) {
+    var day, month, year;
+      day = defaultDate.getDate();
+      month =   defaultDate.getMonth() + 1;          
+      year = defaultDate.getFullYear();
+
+    return formatValue(year) + '.' + formatValue(month) + '.' + formatValue(day);  
+}
+
+function formatValue (value) {
+    return (value < 10)? ('0' + value): value;
+}
+
 Date.prototype.getWeekNumber = function(){
     var d = new Date(+this);
     d.setHours(0,0,0);

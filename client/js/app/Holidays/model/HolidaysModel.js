@@ -1,10 +1,11 @@
 (function (This) {
     This.HolidaysModel = Backbone.Model.extend({
         defaults: function () {
+        	var defaultDate = new Date();
             return {
                 name: '',
                 locationCountry: '',
-                date: '',
+                date: formatDate(defaultDate),
 				isActive: []
             }
         },
@@ -36,13 +37,6 @@
                     required: true,
                     msg: 'You forgot to choose a type'
                 }
-		    ], 
-			
-			type: [
-                {
-                    required: true,
-                    msg: 'Field cannot be empty'
-                }
-            ]}		
+		    ]}		
     });
 })(App.Holidays);
