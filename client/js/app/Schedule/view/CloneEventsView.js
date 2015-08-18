@@ -16,6 +16,7 @@
 		setTableEl: function (_table) {
 			this.$table = _table;
 			this.$table.on('click', '.chooseDay', this.chooseTimelineDay.bind(this));
+			this.$table.on('contextmenu', '.chooseDay', this.cloneToSelectedDay.bind(this));
 			this.$table.on('click', '.chooseTimeline', this.chooseTimelineDay.bind(this));
 			this.$table.on('click', '.chooseWeek', this.chooseTimelineDay.bind(this));
 		},
@@ -45,7 +46,6 @@
 			var $elements = this.$table.find('.selectedCell .calendarCellDiv'),
 				startDate = this.$table.attr('startDate'),
 				weekItem = new This.Week({'startDate': startDate}),
-				cloneMode = this.$el.find('.cloneMode').val(),
 				dayArray = this.getDays($elements),
 				daysHash  = {},
 				context = this,
@@ -114,6 +114,24 @@
 			}
 		},
 
+		cloneToSelectedDay: function (event) {
+			var dayNumber = $(event.currentTarget).attr('attribute'),
+				weekItem = this.generateWeekItem(),
+				cloneWeekItem = weekItem.clone(),
+				days = weekItem.get('days'),
+				cloneDays = {};
+
+			_.each(days, function (day) {
+				this.addTimelinesToDay(day, dayNumber, cloneDays);
+			}, this);
+			
+			cloneWeekItem.set('days', cloneDays);
+			collections.scheduleCollection.addEvent(cloneWeekItem);
+
+			cs.mediator.publish('EventsCloned');
+			return false;
+		},
+
 		clonetoDays: function () {
 			var daysNum = this.$el.find('.weeksNumber').val(),
 				weekItem = this.generateWeekItem(),
@@ -122,7 +140,7 @@
 				clodeDayCollection = {},
 				i;
 
-			_.each(dayCollection, function (day, dayNumber, dayCollection) {
+			_.each(dayCollection, function (day, dayNumber) {
 				for (i = 0; i < daysNum; i++) {
 					dayNumber ++;
 					if (dayNumber < 6) {
@@ -136,21 +154,21 @@
 			cs.mediator.publish('EventsCloned');
 		},
 
-		addTimelinesToDay: function (day, dayNumber, clodeDayCollection) {
+		addTimelinesToDay: function (day, dayNumber, cloneDaysCollection) {
 			var events;
-			if (clodeDayCollection[dayNumber]) {
+			if (cloneDaysCollection[dayNumber]) {
 				_.each(day, function (event, timeline) {
-					if (clodeDayCollection[dayNumber][timeline]) {
+					if (cloneDaysCollection[dayNumber][timeline]) {
 						events = _.flatten(day[timeline]);
-						clodeDayCollection[dayNumber][timeline].push(events);	
+						cloneDaysCollection[dayNumber][timeline].push(events);	
 					
-						clodeDayCollection[dayNumber][timeline] = _.flatten(clodeDayCollection[dayNumber][timeline]);
+						cloneDaysCollection[dayNumber][timeline] = _.flatten(cloneDaysCollection[dayNumber][timeline]);
 					} else {
-						clodeDayCollection[dayNumber][timeline] = day[timeline];
+						cloneDaysCollection[dayNumber][timeline] = day[timeline];
 					}
 				});
 			} else {
-				clodeDayCollection[dayNumber] = day;
+				cloneDaysCollection[dayNumber] = day;
 			};
 		}
 	})

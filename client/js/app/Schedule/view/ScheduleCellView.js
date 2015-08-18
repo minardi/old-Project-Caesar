@@ -1,6 +1,7 @@
 (function (This) {
 	This.ScheduleCellView = This.ScheduleView.extend({
 		className: 'calendarCellDiv',
+		tagName: 'div',
 		model: App.Events.Event,
 		template: templates.sheduleCellTpl,
 		weekItem: null,
