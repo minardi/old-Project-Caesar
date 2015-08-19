@@ -15,10 +15,8 @@
 
 		setTableEl: function (_table) {
 			this.$table = _table;
-			this.$table.on('click', '.chooseDay', this.chooseTimelineDay.bind(this));
 			this.$table.on('contextmenu', '.chooseDay', this.cloneToSelectedDay.bind(this));
-			this.$table.on('click', '.chooseTimeline', this.chooseTimelineDay.bind(this));
-			this.$table.on('click', '.chooseWeek', this.chooseTimelineDay.bind(this));
+			this.$table.on('click', '.chooseTimeline, .chooseWeek, .chooseDay', this.chooseTimelineDay.bind(this));
 		},
 
 		chooseTimelineDay: function (event) {
@@ -38,9 +36,7 @@
 				this.$table.find(findAttr[targetClass]).addClass('selectedCell');
 				$target.attr('checked', true);
 			}
-
 		},
-
 
 		generateWeekItem: function () {
 			var $elements = this.$table.find('.selectedCell .calendarCellDiv'),
@@ -105,7 +101,7 @@
 				temp,
 				i;
 
-			for (i = 1; i <= weekNum; i++) {
+			for (i = 0; i < weekNum; i++) {
 				date.setDate(date.getDate() + 7);
 				temp = weekItem.clone();
 				temp.set('startDate', date);
@@ -150,6 +146,8 @@
 				}
 			}, this);
 			cloneWeekItem.set('days', clodeDayCollection);
+
+			this.checkResourcesConflicts(cloneWeekItem);
 			collections.scheduleCollection.addEvent(cloneWeekItem);
 			cs.mediator.publish('EventsCloned');
 		},
@@ -170,6 +168,69 @@
 			} else {
 				cloneDaysCollection[dayNumber] = day;
 			};
+		},
+
+		checkResourcesConflicts: function (weekItem) {
+			var weekNumber = weekItem.get('weekNumber'),
+				updatedDays = weekItem.get('days'),
+				rightWeek = collections.scheduleCollection.findWhere({'weekNumber': weekNumber}),
+				days = rightWeek.get('days'),
+				resources = [],
+				updateRecources = [],
+				conflicts = [],
+				deletedWeekItem,
+				message,
+				eventName,
+				events = [];
+
+			_.each(updatedDays, function (timelines, dayNumber) {
+				_.each(timelines, function (eventsId, timeline) {
+				
+						if (days[dayNumber] && days[dayNumber][timeline]) {
+							updateRecources = this. getResources(eventsId);
+							
+							events = _.difference(days[dayNumber][timeline], eventsId);
+							_.each(events, function (id) {
+								resources = this.getResources([id]);
+								conflicts = _.intersection(updateRecources, resources);
+								
+								if (!_.isEmpty(conflicts)) {
+									eventName = collections.eventsCollection.findWhere({'id': id});
+									eventName = eventName.get('name');
+
+									message = 'Resources conflicts found: day - ' + This.daysName[dayNumber] + 'at ' + timeline + eventName;
+
+									cs.mediator.publish('Confirm', message, function () {
+										deletedWeekItem = This.createWeekItem({
+																		'startDate': weekItem.get('startDate'),
+																		'timeline': timeline,
+																		'dayNumber': dayNumber,
+																		'eventId': id
+																		});
+
+										collections.scheduleCollection.deleteEvent(deletedWeekItem);
+										cs.mediator.publish('EventsCloned');
+									});
+								}	
+							}, this);			
+						}
+				}, this);
+			}, this);
+
+		
+		},
+
+		getResources: function (eventsId) {
+			var resources = [],
+				event;
+		
+			_.each(eventsId, function (id) {
+				event = collections.eventsCollection.findWhere({'id': id});
+				resources.push(event.get('resources'));
+
+			});
+			resources = _.flatten(resources);
+			return resources;
 		}
 	})
 })(App.Schedule);

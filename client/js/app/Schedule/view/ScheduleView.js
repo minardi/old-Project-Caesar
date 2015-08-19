@@ -20,36 +20,15 @@
 
 		renderEvents: function () {
 			this.chooseWeek();
-			//this.checkHolidays();
+			this.checkHolidays();
 		},
 
 		chooseWeek: function () {
 			var rightWeek = collections.scheduleCollection.findWhere({weekNumber: this.currentWeekNumber});
 			
-			rightWeek && (_.each(rightWeek.get('days'), this.showDay, this));
-		},
-
-		checkHolidays: function () {
-			var holidays = new App.Holidays.HolidaysCollection(),
-				holidayView,
-				week,
-				date,
-				$cells;
-			this.$el.find('.holidayCell').remove();
-
-			_.each(holidays.models, function (holiday) {
-				date = new Date(holiday.get('date'));
-				week = date.getWeekNumber();
-				if (week === this.currentWeekNumber) {
-					
-					$cells = this.$el.find('td[day="' + date.getDay() + '"]');
-					$cells.each(function (i, el) {						
-						holidayView = new This.HolidayView({model: holiday});
-						($(el).has('div').length) && (holidayView.changeSize($(el))); 
-						$(el).append(holidayView.render().el);
-					});
-				};
-			}, this);
+			if (rightWeek) {
+				_.each(rightWeek.get('days'), this.showDay, this)
+			};
 		},
 
 		showDay: function (day, dayNumber) {	
@@ -60,7 +39,9 @@
 				$elements = $elements.find('td[day="' + dayNumber + '"]');
 					_.each(timelines, function (eventId) {
 						event = collections.eventsCollection.findWhere({id: Number(eventId)});
-						event && ($elements.append(this.createCell(event, dayNumber, key, this.$el)));
+						if (event) {
+							$elements.append(this.createCell(event, dayNumber, key, this.$el))
+						};
 					}, this);
 			}, this);
 		},
@@ -75,9 +56,34 @@
 			return scheduleCellView.render().el;
 		},
 
+		checkHolidays: function () {
+			var holidayView,
+				week,
+				date,
+				$cells;
+			this.$el.find('.holidayCell').remove();
+
+			collections.holidaysCollection.each(function (holiday) {
+				if (holiday.skipped().skip) {
+					date = new Date(holiday.get('date'));
+					week = date.getWeekNumber();
+				
+					if (week === this.currentWeekNumber) {
+
+						$cells = this.$el.find('td[day="' + date.getDay() + '"]');
+						$cells.each(function (i, el) {			
+
+							holidayView = new This.HolidayView({model: holiday});
+							$(el).append(holidayView.render().el);
+						});
+					};
+				};
+			}, this);
+		},
+
 		renderSelectedEvent: function (event) {
 			var $target = $(event.currentTarget),
-				accept = $target.find('.conflictCell'),
+				accept = $target.find('.conflictCell, .holidayCell'),
 				dayNumber,
 				timeline;
 
@@ -117,7 +123,6 @@
 					
 					conflictView = new This.ConflictView($(el).attr('resources'), selectedResources);
 					if (conflictView.isConflict === true) {
-						conflictView.changeSize($(el).parent());
 						$(el).parent().append(conflictView.render().el);
 
 					};

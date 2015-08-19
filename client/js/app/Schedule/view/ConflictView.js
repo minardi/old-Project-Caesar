@@ -22,7 +22,9 @@
 			});
 
 			this.conflicts = _.intersection(this.stringOfResources, this.arrayOfResources);
-			(_.isEmpty(this.conflicts)) && (this.isConflict = false);
+			if (_.isEmpty(this.conflicts)) {
+				this.isConflict = false;
+			}
 
 		},
 
@@ -39,15 +41,6 @@
 
 			// this.$el.html(this.$frag);
 			return this;
-		},
-
-		changeSize: function ($parent) {
-			var parentHeight = parseInt($parent.css('height')),
-				childrenHeight = parseInt($parent.children().height),
-				height;
-			
-			height = (parentHeight - childrenHeight) * 100 / parentHeight;
-			this.$el.css('height', height + '%');
 		}
 	})
 })(App.Schedule);

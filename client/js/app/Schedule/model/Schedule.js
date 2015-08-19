@@ -54,12 +54,17 @@
 					_.each(day, function (eventId, timeline) {
 
 						currentEvents = rightDay[timeline];
-						currentEvents.splice(currentEvents.indexOf(+eventId), 1);
+						currentEvents.splice(currentEvents.indexOf( Number(eventId)), 1);
 
-						_.isEmpty(currentEvents) && (delete rightDay[timeline]);
-						_.isEmpty(rightDay) && (delete rightWeek.get('days')[dayNumber]);
-						_.isEmpty(rightWeek.get('days')) && (this.remove(this.models[this.models.indexOf(rightWeek)]));
-
+						if (_.isEmpty(currentEvents)) {
+							delete rightDay[timeline]
+						};
+						if (_.isEmpty(rightDay)) {
+							delete rightWeek.get('days')[dayNumber]
+						};
+						if (_.isEmpty(rightWeek.get('days'))) {
+							this.remove(this.models[this.models.indexOf(rightWeek)]);
+						};
 					}, this)
 				}, this);
 

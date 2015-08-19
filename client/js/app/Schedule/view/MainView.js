@@ -77,7 +77,6 @@
 				this.views['weekMode'].setupSelectedEvent(this.selectedEvent);
 				this.views['weekMode'].showSelectedEvent();
 			};
-			this.views['schedule'].checkAvailableCells();
 		},
 
 		showPreviewConflicts: function (event) {
@@ -92,12 +91,13 @@
 
 		updateEvents: function () {
 			this.views['events'].remove();
-			this.views['full'].appendView('events', this.views['events'].render().el);
+			this.fullView.appendView('events', this.views['events'].render().el);
 
 			this.views['schedule'].remove();
-			this.views['full'].appendView('schedule', this.views['schedule'].render().el);
+			this.fullView.appendView('schedule', this.views['schedule'].render().el);
 
 			this.views['schedule'].renderEvents();
+
 		}
 	})
 })(App.Schedule);

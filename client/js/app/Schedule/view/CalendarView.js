@@ -31,8 +31,13 @@
 		setStartDate: function () {
 			var date = new Date();
 
-			(this.direction > 0) && (date.setDate(date.getDate() + 7 * this.direction));
-			(this.direction < 0) && (date.adjustDate(this.direction * 7));
+			if (this.direction > 0)  {
+				date.setDate(date.getDate() + 7 * this.direction);
+			};
+			
+			if (this.direction < 0) {
+				date.adjustDate(this.direction * 7);
+			};
 
 			this.startDate = this.getFisrtDayOfWeek(date);
 			this.currentWeekNumber = this.startDate.getWeekNumber();
