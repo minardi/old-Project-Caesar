@@ -38,17 +38,16 @@
 				classForHide: classForHide
             }));
 			
-			setTimeout(function () {
-                $("#datetimepickerStart").datetimepicker({
+
+                this.$("#datetimepickerStart").datetimepicker({
                     locale: 'ru',
                     format: 'YYYY.MM.DD'
                 });
 				
-				$("#datetimepickerFinish").datetimepicker({
+				this.$("#datetimepickerFinish").datetimepicker({
                     locale: 'ru',
                     format: 'YYYY.MM.DD'
                 });
-            }, 0);
 
             return this;
         },

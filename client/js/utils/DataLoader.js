@@ -1,6 +1,5 @@
 var DataLoader = function () {
-    var $main = $('#main'),
-        $loadingAnimation = $('.sequence');
+    var $main = $('#main');
     start();
     
     function start () {
@@ -30,7 +29,7 @@ var DataLoader = function () {
                 collections[key].set(collection);
             });
             main();
-            $loadingAnimation.remove();
+            $('.sequence').remove();
         })
     }
 };

@@ -7,8 +7,7 @@
             'click .save': 'save',
             'click .cancel': 'cancel',
             'keydown': 'closeOnEscape',
-            'keypress': 'updateOnEnter',
-            'click .glyphicon-calendar': 'showCalender'
+            'keypress': 'updateOnEnter'
         },
 
         initialize: function () {
@@ -27,18 +26,14 @@
                 locationCountry: locationCountry,
                 country: countryName,
                 date: this.model.get('date')
-            })); 
+            }));
+
+            this.$('#datetimepicker').datetimepicker({
+                locale: 'ru',
+                format: 'YYYY.MM.DD'
+            });
            
             return this;
-        },
-
-        showCalender: function () {
-            $(function () {
-                $('#datetimepicker').datetimepicker({
-                    locale: 'ru',
-                    format: 'YYYY.MM.DD'
-                });
-            });
         },
 
         save: function () {

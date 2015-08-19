@@ -1,11 +1,10 @@
 (function (This) {
     This.HolidaysModel = Backbone.Model.extend({
         defaults: function () {
-        	var defaultDate = new Date();
             return {
                 name: '',
                 locationCountry: '',
-                date: formatDate(defaultDate),
+                date: '',
 				isActive: []
             }
         },
