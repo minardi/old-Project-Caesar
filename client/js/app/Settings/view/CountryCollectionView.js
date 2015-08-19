@@ -26,13 +26,13 @@
         renderOne: function (model) {
             var countryView = new App.Settings.ItemView({model: model});
             this.$('.countries').append(countryView.render().el);
-            $('.destroy').addClass('country');
+            this.$('.destroy').addClass('country');
             return this;
         },
 
         createNewCountry: function (e) {
             var ENTER = 13,
-                $inputCountry = $('.new-country');
+                $inputCountry = this.$('.new-country');
             if(e.which !== ENTER || !$inputCountry.val().trim()){
                 return;
             }

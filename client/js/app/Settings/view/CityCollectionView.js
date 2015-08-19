@@ -35,7 +35,7 @@
         },
 
         selectCountry: function () {          
-            var selectedCountry =  $('#selectCountry option:selected').text(),
+            var selectedCountry =  this.$('#selectCountry option:selected').text(),
                 valueSelected;
             collections.countriesCollection.toJSON().forEach(function (item) {
                 if(item['countryName'] === selectedCountry){
@@ -61,7 +61,7 @@
 
         createNewCity: function (e) {
             var ENTER = 13,
-                $inputCity = $('.new-city');
+                $inputCity = this.$('.new-city');
             if(e.which !== ENTER || !$inputCity.val().trim()){
                 return;
             }

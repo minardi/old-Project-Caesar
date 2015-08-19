@@ -36,17 +36,19 @@
             var isNewModel = this.model.isNew();
 
             if(!isNewModel) {
-                $('#InputLogin').val() !== this.model.get('login')? this.checkLogin(): this.saveAccount();
+                this.$('#InputLogin').val() !== this.model.get('login')? this.checkLogin(): this.saveAccount();
             } else {
                 this.checkLogin();
             }
         },
 
         checkLogin: function () {
-            if (!this.isLoginTaken($('#InputLogin').val())) {
+            var $login = this.$('#InputLogin');
+
+            if (!this.isLoginTaken($login .val())) {
                 this.saveAccount();
             } else {
-                cs.mediator.publish('Hint', 'This login already exists', $('#InputLogin'));
+                cs.mediator.publish('Hint', 'This login already exists', $login);
             }
         },
 
@@ -57,7 +59,7 @@
                 countryId,
                 $inputs;
 
-            $inputs = $('.accountForm :input');                  
+            $inputs = this.$('.accountForm :input');                  
             $inputs.each(function() {
               attributes[this.name] = $(this).val();
             });

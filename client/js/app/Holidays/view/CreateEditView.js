@@ -7,8 +7,7 @@
             'click .save': 'save',
             'click .cancel': 'cancel',
             'keydown': 'closeOnEscape',
-            'keypress': 'updateOnEnter',
-            'click .glyphicon-calendar': 'showCalender'
+            'keypress': 'updateOnEnter'
         },
 
         initialize: function () {
@@ -27,18 +26,14 @@
                 locationCountry: locationCountry,
                 country: countryName,
                 date: this.model.get('date')
-            })); 
-           
-            return this;
-        },
+            }));
 
-        showCalender: function () {
-            $(function () {
-                $('#datetimepicker').datetimepicker({
+            this.$("#datetimepicker").datetimepicker({
                     locale: 'ru',
                     format: 'YYYY.MM.DD'
                 });
-            });
+
+            return this;
         },
 
         save: function () {
@@ -47,7 +42,7 @@
 					attributes = {
 						name : this.$('#name').val(),
 						locationCountry: this.$('#selectCountry').val(),
-						date: $("#date").val()
+						date: this.$("#date").val()
 				};        
 				this.model.once('sync', function () {
 					if (isNewModel) {
@@ -68,14 +63,17 @@
 		
 		preValidate: function (e) {
               var holidayName = $('.holidayName'),
+                  holidayDate =  $('.holidayDate'),
                   validationResult,
                   errors = {},
 
                 errors = this.model.preValidate({
                     name: this.$('.holidayName').val(),
+                    date: this.$('.holidayDate').val()
                 });
 				
                 holidayName.parent().removeClass('has-error');
+                holidayDate.parent().removeClass('has-error');
 
                 $('.tooltip-arrow').removeClass('myTooltip');
                 $('.tooltip-inner').removeClass('myTooltipInner');
@@ -84,6 +82,7 @@
 
                 function remove () {
                     holidayName.tooltip('destroy');
+                    holidayDate.tooltip('destroy');
                 }
 
                 function toolTip (place) {
@@ -102,6 +101,10 @@
                     if (errors.name) {
                         holidayName.parent().addClass('has-error');
                         toolTip(holidayName);
+                    }
+                    if (errors.type) {
+                        holidayDate.parent().addClass('has-error');
+                        toolTip(holidayDate);
                     }
                 }
                 validationResult = errors;

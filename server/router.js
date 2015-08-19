@@ -1,6 +1,6 @@
 var express = require('express'),
-    mongoose = require('mongoose'),
     router = express.Router(),
+    database = require('./db/db'),
     eventsRouter = require('./events/eventsRouter'),
     eventTypesRouter = require('./eventTypes/eventTypesRouter'),
     resourcesRouter = require('./resources/resourcesRouter'),
@@ -14,22 +14,6 @@ var express = require('express'),
 
 	
 globalMan = {};
-
-
-var Schema = mongoose.Schema;
-var ObjectId = Schema.ObjectId;
-
-mongoose.connect('mongodb://localhost:27017/caesar');
-
-var Account = mongoose.model('Account', new Schema({
-    id: ObjectId,
-    fullName: String,
-    login: String, //{ type: String, unique: true },
-    password: String,
-    locationCity: String,
-    locationCountry: String,
-    role: String
-}));
 
 router.use(/^\/events\b/, eventsRouter);
 router.use(/^\/eventTypes\b/, eventTypesRouter);
@@ -63,20 +47,17 @@ router.get('/name', function(req, res, next) {
 
 router.post('/', function (req, res) {
     var staticRoute = /^\/build/.test(req.url)? './public': '../client';
-    Account.findOne( { login: req.body.login }, function (err, account) {
-        if(!account){
+    var db = new database();
+    db.findUser( req.body.login , req.body.password, function (err, account) {
+        if (!account) {
             console.log('Invalid login');
-            res.render('index.jade', { error: 'No such user'});
+            res.render('index.jade', { error: 'Invalid login or password'});
         } else {
-            if (req.body.password === account.password) {
                 var id = setRandomId();
-				globalMan[id] = account;
+                globalMan[id] = account;
                 res.cookie('clientId', id, { maxAge: 3600000 });
-                res.sendFile('home.html', { root: staticRoute });
-            } else {       
-                res.render('index.jade', { error: 'Invalid password'});
-            }   
-        } 
+                res.sendFile('home.html', { root: staticRoute });       
+        }   
     });
 });
 
@@ -93,8 +74,8 @@ router.get('/', function (req, res) {
 
 router.get('/logout', function (req, res) {
     console.log('hello from logout');
-    if(req.cookies && req.cookies.clientId){
-        res.clearCookie('clientId');
+    if (req.cookies && req.cookies.clientId) {
+        res.clearCookie('clientId', { path: '/' });
 		delete globalMan[req.cookies.clientId];
     }
     res.redirect('/');
@@ -104,22 +85,17 @@ router.get('/logout', function (req, res) {
 router.get('*', function (req, res) {
     var staticRoute = /^\/build/.test(req.url)? './public': '../client';
 	
-	if(globalMan[req.cookies.clientId] == undefined) {
-		 res.clearCookie('clientId');
-		 res.redirect('/');
+	if (globalMan[req.cookies.clientId] === undefined) {
+        console.log(globalMan[req.cookies.clientId]); 
+		res.clearCookie('clientId', { path: '/' });
+		res.redirect('/');
 	}
-	
-    if(req.cookies && req.cookies.clientId) {
-        Account.findOne({ login: req.cookies.clientId.login }, function (err, clientId) {
-            if(!clientId){
-                res.clearCookie('clientId');
-            } else {
-                if (!isRest(req.url)) { 
-                    console.log('hello from send File'); 
-                    res.sendFile('home.html', { root: staticRoute });
-                }
-            }
-        });
+
+    if (req.cookies && req.cookies.clientId) {
+        if (!isRest(req.url)) { 
+            console.log('hello from send File - home.html'); 
+            res.sendFile('home.html', { root: staticRoute });
+        }
     } else {
         res.redirect('/');
     }   
@@ -128,8 +104,9 @@ router.get('*', function (req, res) {
 function setRandomId () {
     var lettersNumbers = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
         length = 16,
-        clientId = '';
-    for( var i = 0; i < length; i++ ) {
+        clientId = '',
+        i;
+    for ( i = 0; i < length; i++ ) {
        clientId += lettersNumbers.charAt(Math.floor(Math.random() * length));
     }
     return clientId;
