@@ -1,5 +1,5 @@
 (function (This) {
-	This.ScheduleCellView = This.ScheduleView.extend({
+	This.ScheduleCellView = Backbone.View.extend({
 		className: 'calendarCellDiv',
 		tagName: 'div',
 		model: App.Events.Event,
@@ -36,6 +36,7 @@
 												'timeline': this.timeline, 
 												'eventId': this.model.get('id'), 
 												'startDate':startDate});
+
 			weekItem.destroy();
 			collections.scheduleCollection.deleteEvent(weekItem);
 			this.remove();

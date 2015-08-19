@@ -17,6 +17,8 @@
 
 			if (Object.is(this.selectedEvent, event.target)) {
 				$(event.target).removeClass('active');
+				
+				cs.mediator.publish('EventSelected', null);
 				this.selectedEvent = null;
 
 				this.liCollection.forEach( function (li) {

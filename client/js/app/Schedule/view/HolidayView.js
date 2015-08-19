@@ -13,7 +13,6 @@
 		},
 
 		stopPropagation: function () {
-
 			return false;
 
 		},

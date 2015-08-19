@@ -22,6 +22,14 @@
 		'20': '18:00'
 	};
 
+	This.daysName = {
+		'1': 'Monday',
+		'2': 'Tuesday',
+		'3': 'Wednesday',
+		'4': 'Thursday',
+		'5': 'Friday'
+	};
+
 	This.createWeekItem = function (options) {
 			var dayTimeline = {},
 				day = {},
@@ -35,6 +43,6 @@
 			});
 
 			return week;
-	}
+	};
 
 })(App.Schedule);
