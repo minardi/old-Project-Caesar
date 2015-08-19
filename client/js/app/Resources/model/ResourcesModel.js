@@ -7,7 +7,8 @@
                 'locationCity': '',
                 'locationCountry': '',
 				'dateStart': '',
-				'dateFinish': ''
+				'dateFinish': '',
+                'useInSchedule': true
             }
         },
 

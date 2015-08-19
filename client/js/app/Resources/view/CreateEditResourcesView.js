@@ -35,7 +35,8 @@
                 resourceTypes: resourceTypes,
 				dateStart: this.model.get('dateStart'),
 				dateFinish: this.model.get('dateFinish'),
-				classForHide: classForHide
+				classForHide: classForHide,
+                useInSchedule: this.model.get('useInSchedule')
             }));
 			
 
@@ -70,7 +71,8 @@
                 locationCountry: user.locationCountry,
                 locationCity: user.locationCity,
 				dateStart: dateStart,
-				dateFinish: dateFinish
+				dateFinish: dateFinish,
+                useInSchedule: this.$('input[type=checkbox]').is(":checked")
             };
 
             if (!this.preValidate(attributes)) {
