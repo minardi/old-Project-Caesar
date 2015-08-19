@@ -78,8 +78,7 @@
 		
 		fullEveClose: function () {
 			$('.toshow').addClass('hidden');
-			$('.toshowfirst').removeClass('col-md-8');
-			$('.toshowfirst').addClass('col-md-12');
+			$('.toshowfirst').switchClass('col-md-8', 'col-md-12', 1000);
 			$('.shortInfo').removeClass('warning');
 		}
     });

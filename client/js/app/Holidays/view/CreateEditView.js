@@ -28,11 +28,10 @@
                 date: this.model.get('date')
             }));
 
-            this.$("#datetimepicker").datetimepicker({
-                    locale: 'ru',
-                    format: 'YYYY.MM.DD'
-                });
-
+            this.$('#datetimepicker').datetimepicker({
+                locale: 'ru',
+                format: 'YYYY.MM.DD'
+            });
             return this;
         },
 

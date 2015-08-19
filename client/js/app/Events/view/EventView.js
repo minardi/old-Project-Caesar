@@ -46,8 +46,7 @@
 		
 		fullEveClose: function () {
 			$('.toshow').addClass('hidden');
-			$('.toshowfirst').removeClass('col-md-8');
-			$('.toshowfirst').addClass('col-md-12');
+			$('.toshowfirst').switchClass('col-md-8', 'col-md-12', 1000);
 			$('.shortInfo').removeClass('warning');
 		},
 		
@@ -55,10 +54,9 @@
 		    var modelId = this.model.get('id');
 		    $('.shortInfo').removeClass('warning');
 		    this.$el.addClass('warning');
-			$('.toshowfirst').removeClass('col-md-12');
-			$('.toshowfirst').addClass('col-md-8');
+			$('.toshowfirst').switchClass('col-md-12', 'col-md-8', 1000);
+            $('.toshow').switchClass('hidden', '', 1000);
 			$('.fullInform').addClass('hidden');
-			$('.toshow').removeClass('hidden');
 			$('.ad' + modelId).removeClass('hidden');
 		}
     });

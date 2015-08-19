@@ -65,6 +65,12 @@ router.post('/', function (req, res) {
 router.get('/', function (req, res) {
     console.log('hello from get/'); 
     var staticRoute = /^\/build/.test(req.url)? './public': '../client';
+	
+	if(globalMan[req.cookies.clientId] == undefined) {
+		 res.clearCookie('clientId');
+		 res.render('index.jade');
+	}
+	
     if(req.cookies && req.cookies.clientId) {
          res.sendFile('home.html', { root: staticRoute });
     } else {

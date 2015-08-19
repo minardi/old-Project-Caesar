@@ -15,21 +15,27 @@
         },
 
         render: function () {
-			var resources = this.model.get('resources');
+			var eventType = collections.eventTypes.get(this.model.get('type')),
+			    resources = this.model.get('resources'),
+                eventTypeName = eventType.get('name'),
+				id = this.model.get('id'),
+				res = "";
+				
+			this.$el.addClass('ad' + id);
 			
-			var res = "";
 	        _.each(resources, function (num) {
 				this.resourceCollection.each(function (event) {
 	                if(num === event.get('id')) {
-						res += "<tr><td>" + event.get('name') + '</td></tr>';
+						var date = '';
+
+						if(event.get('type') === "0") {
+							date = '<br>' + event.get('dateStart') + " - " +  event.get('dateFinish');
+						}
+						res += '<tr><td>' + event.get('name') + ': ' + date + '</td></tr>';
+						date = '';
 					}
                 });  
-			}, this);		
-			
-			 var eventType = collections.eventTypes.get(this.model.get('type')),
-                eventTypeName = eventType.get('name'),
-				id = this.model.get('id');
-			this.$el.addClass('ad' + id);
+			}, this);			
 			
             this.$el.html(this.tpl({
                 name: this.model.get('name'),
@@ -38,8 +44,7 @@
             }));
 			$('.shortInfo').removeClass('warning');
 			$('.toshow').addClass('hidden');
-			$('.toshowfirst').removeClass('col-md-8');
-			$('.toshowfirst').addClass('col-md-12');
+			$('.toshowfirst').switchClass('col-md-8', 'col-md-12', 1000);
 			$('.fullInform').addClass('hidden');
             $('.ad' + id).removeClass('hidden');
 			

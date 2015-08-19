@@ -5,7 +5,9 @@ function ResourcesModel (newAttributes) {
 			name: '',
 			type: '',
 			locationCity: '',
-			locationCountry: ''
+			locationCountry: '',
+			dateStart: '',
+			dateFinish: ''
 			
 		};
 	
