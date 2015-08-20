@@ -48,7 +48,13 @@
                     maxLength: 15,
                     msg: 'Max length is 15 symbols'
                 }
-            ]
+            ],
+            locationCity: function (value) {
+                if(value === null) {
+                    return 'Select city';
+                }
+            }
+
         }
     });
 })(App.Accounts);

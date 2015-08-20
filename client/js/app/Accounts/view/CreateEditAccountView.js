@@ -27,7 +27,8 @@
                 city: collections.citiesCollection.get(this.model.get('locationCity')),
                 locationCity: locationCity,
                 role: this.model.get('role')
-            })); 
+            }));
+
             return this;
         },
 
@@ -63,13 +64,11 @@
             $inputs.each(function() {
               attributes[this.name] = $(this).val();
             });
-
             this.model.set(attributes);
-            locationCity = collections.citiesCollection.get(this.model.get('locationCity'));
-            countryId = locationCity.get('location');
-            this.model.set('locationCountry', countryId);
-                
             if (!this.preValidate()) {
+                locationCity = collections.citiesCollection.get(this.model.get('locationCity'));
+                countryId = locationCity.get('location');
+                this.model.set('locationCountry', countryId);
                 this.model.save(attributes);
                 collections.accountsCollection.add(this.model);   
                 cs.mediator.publish( 'Notice',
@@ -86,6 +85,8 @@
                     fullName: this.model.get('fullName'),
                     login: this.model.get('login'),
                     password: this.model.get('password'),
+                    locationCity: this.model.get('locationCity')
+
                 });
 
                 if (validationResult) {
