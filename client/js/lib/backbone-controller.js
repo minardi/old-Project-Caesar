@@ -12,11 +12,14 @@ _.extend(Backbone.Controller.prototype, {
         },
 
         setupSubscribes: function () {
-            var subscribes = _.result(this, 'subscribes');
+            var subscribes = _.result(this, 'subscribes'),
+                method;
 
             for (var key in subscribes) {
-                var method = subscribes[key];
-                if (!_.isFunction(method)) method = this[method];
+                method = subscribes[key];
+                if (!_.isFunction(method)) {
+                    method = this[method];
+                }
                 this.mediator.subscribe(key, _.bind(method, this));
             }
         },

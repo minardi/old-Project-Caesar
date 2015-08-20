@@ -31,7 +31,10 @@
     
         render: function (_filter) {
             var filter = _filter || 'all';
-            this.$el.html(this.template({counties: collections.countriesCollection.toJSON()}));
+
+            this.$el.html(this.template({
+                counties: collections.countriesCollection.toJSON()
+            }));
             this.collection.each(function (holiday) {
                 if (filter === 'all') {
                     this.renderOne(holiday);
@@ -63,6 +66,15 @@
         filterHandler: function (e) {
             var filter = e.target.classList[0];
             this.render(filter);
+        },
+
+        startSearch: function () {
+            var searchRequest = this.$('.searchField').val();
+            if (searchRequest !== '') {
+                this.filter(searchRequest);
+            } else {
+                this.render()
+            }
         }
     });
 })(App.Holidays);

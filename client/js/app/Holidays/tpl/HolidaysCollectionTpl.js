@@ -12,6 +12,7 @@ templates.holidaysCollectionTpl = _.template([
                     '<% }); %>',
                 '</div>',
                 '<div class="col-md-3 col-sm-4">',
+                    '<input type="text" class="form-control searchField" autofocus placeholder="Search">',
                     '<button class="btn btn-success pull-right create">',
                         '<i class="glyphicon glyphicon-plus-sign"></i> Add',
                     '</button>',

@@ -32,7 +32,7 @@
 
             this.$el.append(this.template({
                 name: this.model.get('name'),
-                type: collections.eventTypes.get(this.model.get('type')),
+                typeId: this.model.get('type'),
                 eventTypes: eventTypes,
                 resourcesList: this.getResourcesInEvent()
             }));
@@ -83,7 +83,7 @@
                 cs.mediator.publish('CreateEditViewClosed');
             }
 
-            // return array of Integer values resources ID in current event
+            // return array of resources ID in current event
             function getIdResourcesArray () {
                 var idArray = [];
                 $('.resource-field  li').each(function (i, el) {
@@ -98,15 +98,13 @@
               var input = $('.editName'),
                 select =  $('.editType'),
                 validationResult,
-                errors = {},
-
                 errors = this.model.preValidate({
                     name: this.$('.name').val(),
                     type: this.$('.type').val()
                 });
 
-                $('.editName').parent().removeClass('has-error');
-                $('.editType').parent().removeClass('has-error');
+            input.parent().removeClass('has-error');
+            select.parent().removeClass('has-error');
 
                 $('.tooltip-arrow').removeClass('myTooltip');
                 $('.tooltip-inner').removeClass('myTooltipInner');
