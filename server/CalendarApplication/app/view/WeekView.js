@@ -1,12 +1,15 @@
 (function (This) {
     This.WeekView = Backbone.View.extend({
+        tagName: 'table',
+        className: 'schedule',
+        
         template: templates.weekTpl,
         
         render: function (resourceId, currentWeekId) {
             var week = this.getCurrentWeek(currentWeekId),
                 eventsWithResources = this.getEventsWithResource(resourceId),
                 eventsForWeek = this.createWeekView(week.days, eventsWithResources);
-            
+
             this.$el.append(this.template({
                     resources: eventsForWeek, 
                     week: week, 
@@ -16,9 +19,10 @@
             return this;
         },
         
-        getCurrentWeek: function (currentWeekId) {
+        getCurrentWeek: function (_currentWeekId) {
             var currentWeek = {},
-                weeks = collections.weeks.toJSON();
+                weeks = collections.weeks.toJSON(),
+                currentWeekId = Number(_currentWeekId);
             
             _.each(weeks, function (week) {
                 if (currentWeekId === week.id) {

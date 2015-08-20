@@ -1,4 +1,7 @@
 var WeekPreView = Backbone.View.extend({
+    tagName: 'table',
+    className: 'preview',
+    
     template: templates.weekPreviewTpl,
     
     events: {
@@ -19,9 +22,9 @@ var WeekPreView = Backbone.View.extend({
     
     renderWeek: function (e) {
         var resourceId = e.target.className,
-            weekView = new App.WeekView();
+            weekId = this.currentWeekId;
         
-        $('#main').html(weekView.render(resourceId, this.currentWeekId).el);
+        App.mediator.publish('ShowSchedule', resourceId, weekId);
     },
     
     getEventsId: function () {

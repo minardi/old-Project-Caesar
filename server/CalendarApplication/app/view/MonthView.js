@@ -1,5 +1,8 @@
 (function (This) {
     This.MonthView = Backbone.View.extend({
+        tagName: 'div',
+        className: 'calendar',
+        
         template: templates.monthTpl,
         
         events: {
@@ -45,10 +48,9 @@
     
         renderPreview: function (e) {
             var startDate = $(e.target).parent().attr('class').split(' ')[1],
-                previewWeek = this.getWeek(startDate),
-                weekPreView = new WeekPreView({model: previewWeek});
+                previewWeek = this.getWeek(startDate);
             
-            $('#main').html(weekPreView.render(previewWeek.id).el);
+            App.mediator.publish('ShowWeek', previewWeek);
         },
         
         getWeek: function (startDate) {
