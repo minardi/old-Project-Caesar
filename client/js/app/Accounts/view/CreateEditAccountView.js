@@ -5,6 +5,7 @@
         events: {
             'click .save': 'saveAccount',
             'click .cancel': 'cancel',
+
             'keydown': 'closeOnEscape',
             'keypress':	'updateOnEnter'
         },
@@ -18,7 +19,8 @@
         },
 
         render: function () {
-            var locationCity =  collections.citiesCollection.toJSON();
+            var locationCity =  collections.citiesCollection.toJSON(),
+			    _this = this;
 
             this.$el.append(this.template({
                 fullName: this.model.get('fullName'),
@@ -28,6 +30,12 @@
                 locationCity: locationCity,
                 role: this.model.get('role')
             }));
+			
+			this.$('#accountModal').modal('show');			
+			
+			this.$('#save').click(function () {
+			     _this.save();		
+			});
 
             return this;
         },
@@ -50,12 +58,14 @@
                 locationCity = collections.citiesCollection.get(this.model.get('locationCity'));
                 countryId = locationCity.get('location');
                 this.model.set('locationCountry', countryId);
-
                     this.model.save(attributes, {
                         success: function() {
                             cs.mediator.publish( 'Notice',
                             isNewModel? 'You succesfully added a new account': 'Information succesfully changed');
-                            cs.mediator.publish('CreateAccountViewClosed');
+                            $('#accountModal').modal('hide');
+                            this.$('#accountModal').on('hidden.bs.modal', function () { 
+                                cs.mediator.publish('CreateAccountViewClosed');
+                            });
                             collections.accountsCollection.add(model);
                         }, 
 
@@ -92,7 +102,9 @@
         },   
 
         cancel: function () {
-            cs.mediator.publish('CreateAccountViewClosed');
+            $('#accountModal').on('hidden.bs.modal', function (e) {
+                cs.mediator.publish('CreateAccountViewClosed');
+			})
         },
 
         show: function () {
@@ -109,9 +121,11 @@
         },
 
         closeOnEscape: function (e) {
-            if (e.which === ESC) {
-                cs.mediator.publish('CreateAccountViewClosed');
-            }
+			$('#accountModal').on('hidden.bs.modal', function (e) {
+				if (e.which === ESC) {
+					cs.mediator.publish('CreateAccountViewClosed');
+				}
+			})
         }
     });
 })(App.Accounts);

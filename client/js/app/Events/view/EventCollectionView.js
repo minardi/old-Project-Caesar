@@ -9,20 +9,38 @@
             'click .add': 'add',
             'change .resourceSorting': 'sorting',
 			'click .fullEventClose': 'fullEveClose',
-			'keydown': 'closeOnEscape'
+			'keydown': 'closeOnEscape',
+            'click .pageEl': 'changePage'
         },
 
         initialize: function () {
+            this.pageSize = 15;
+            this.pageIndex = 0;
             this.collection = collections.eventsCollection;
             this.listenTo(this.collection, 'add', this.renderOne);
+            this.listenTo(this.collection, 'destroy', this.render);
 			$('body').on('keydown', this.closeOnEscape.bind(this));
         },
 
         render: function () {
-            this.$el.html(this.tpl);
-            this.collection.each(function (event) {
-                this.renderOne(event)
-            }, this);
+            var pageCount = Math.ceil(this.collection.length / this.pageSize),
+                startPosition = this.pageIndex * this.pageSize,
+                endPosition = startPosition + this.pageSize,
+                currentModel,
+                i;
+
+            this.$el.html(this.tpl({
+                pageCount: pageCount
+            }));
+
+            for (i = startPosition; i < endPosition; i++) {
+                currentModel = this.collection.models[i];
+                if (currentModel) {
+                    this.renderOne(currentModel)
+                }
+            }
+
+            this.$(".pagination li").eq(this.pageIndex).addClass('active');
 
             return this;
         },
@@ -80,6 +98,11 @@
 			$('.toshow').addClass('hidden');
 			$('.toshowfirst').switchClass('col-md-8', 'col-md-12', 1000);
 			$('.shortInfo').removeClass('warning');
-		}
+		},
+
+        changePage: function (e) {
+            this.pageIndex = e.currentTarget.value - 1;
+            this.render();
+        }
     });
 })(App.Events);

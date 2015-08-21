@@ -1,13 +1,8 @@
 (function (This) {
     This.CreateEditView = Backbone.View.extend({
-        
-        className: 'modal fade in',
-
         template: templates.editResourceTpl,
 
         events: {
-            'click .save': 'save',
-            'click .cancel': 'cancel',
             'keydown': 'closeOnEscape',
             'keypress': 'updateOnEnter',
 			'click .chekType' : 'chekType'
@@ -23,7 +18,8 @@
         render: function () {
             var resourceTypes = collections.resourceTypes.toJSON(),
 			    type = this.model.get('type'),
-			    classForHide = 'hide';
+			    classForHide = 'hide',
+				_this = this;
 				
 				if(type === '0') {
 				    classForHide = "";
@@ -31,7 +27,7 @@
 
             this.$el.append(this.template({
                 name: this.model.get('name'),
-                type: collections.resourceTypes.get(this.model.get('type')),
+                typeId: this.model.get('type'),
                 resourceTypes: resourceTypes,
 				dateStart: this.model.get('dateStart'),
 				dateFinish: this.model.get('dateFinish'),
@@ -49,6 +45,14 @@
                     locale: 'ru',
                     format: 'YYYY.MM.DD'
                 });
+				
+				
+
+				this.$('#resourseModal').modal('show');			
+				
+				 this.$('#save').click(function () {
+					 _this.save();		
+				 });
 
             return this;
         },
@@ -78,12 +82,18 @@
             if (!this.preValidate(attributes)) {
                 this.model.save(attributes);
                 collections.resouresCollection.add(this.model);
+				
+				$('#resourseModal').modal('hide');
+				
                 cs.mediator.publish( //publish to Messenger's Controller
                     'Notice',
                     isNewModel? 'You succesfully added a new resource': 'Information succesfully changed'
                 );
+				
+				this.$('#resourseModal').on('hidden.bs.modal', function (e) {//////////////////////////////////////
+				   cs.mediator.publish('ResourcesViewClosed'); //publish to Controller
+				})
 
-                cs.mediator.publish('ResourcesViewClosed'); //publish to Controller
             }
         },
 
@@ -109,8 +119,10 @@
         },
 
         cancel: function () {
-            this.undoChanges();
-            cs.mediator.publish('ResourcesViewClosed'); //publish to Controller
+			$('#resourseModal').on('hidden.bs.modal', function (e) {
+                this.undoChanges();
+                cs.mediator.publish('ResourcesViewClosed'); //publish to Controller
+			})
         },
 
         undoChanges: function () {
@@ -119,9 +131,11 @@
         },
 
         closeOnEscape: function (e) {
-            if (e.which === ESC) {
-                cs.mediator.publish('ResourcesViewClosed');
-            }
+			$('#resourseModal').on('hidden.bs.modal', function (e) {
+				if (e.which === ESC) {
+					cs.mediator.publish('ResourcesViewClosed');
+				}
+			})
         },
 
         updateOnEnter: function (e) {

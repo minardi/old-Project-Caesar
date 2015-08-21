@@ -19,10 +19,7 @@ function EventsController (req, res) {
             var tpl = _.template("var scheduleCollection = <%= array %>;");
             var data = tpl({array : JSON.stringify(collection)});
             
-            fs.writeFile(dirname + '/weeks.js', data, function (err) {
-                if (err) throw err;
-                console.log('weeks.js created');
-            });
+            fs.writeFileSync(dirname + '/weeks.js', data);
         });
         
         db.fetch('events', function (err, collection) {
@@ -30,10 +27,7 @@ function EventsController (req, res) {
             var tpl = _.template("var eventsCollection = <%= array %>;");
             var data = tpl({array : JSON.stringify(collection)});
             
-            fs.writeFile(dirname + '/events.js', data, function (err) {
-                if (err) throw err;
-                console.log('events.js created');
-            });
+            fs.writeFileSync(dirname + '/events.js', data);
         });
         
         db.fetch('resources', function (err, collection) {
@@ -41,15 +35,13 @@ function EventsController (req, res) {
             var tpl = _.template("var resourcesCollection = <%= array %>;");
             var data = tpl({array : JSON.stringify(collection)});
             
-            fs.writeFile(dirname + '/resources.js', data, function (err) {
-                if (err) throw err;
-                console.log('resources.js created');
-                archivate();
-            });
+            fs.writeFileSync(dirname + '/resources.js', data);
+            archivate();
         });
     }
 
 	function archivate () {
+        console.log('archive');
         archive.on('error', function(err) {
             res.status(500).send({error: err.message});
         });

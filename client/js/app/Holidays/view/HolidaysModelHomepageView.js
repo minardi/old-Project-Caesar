@@ -51,6 +51,7 @@
 		},
     
         render: function () {
+            console.dir(this.model.get('locationCountry'));
             var locationCountry = collections.countriesCollection.get(this.model.get('locationCountry')),
                 countryName = locationCountry.get('countryName'),
 				skip = this.model.skipped();
