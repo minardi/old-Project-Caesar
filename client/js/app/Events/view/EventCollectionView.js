@@ -14,7 +14,7 @@
         },
 
         initialize: function () {
-            this.pageSize = 5;
+            this.pageSize = 15;
             this.pageIndex = 0;
             this.collection = collections.eventsCollection;
             this.listenTo(this.collection, 'add', this.renderOne);

@@ -13,7 +13,7 @@
         },
     
         initialize: function () {
-            this.pageSize = 5;
+            this.pageSize = 15;
             this.pageIndex = 0;
             this.collection = collections.resouresCollection;
             this.listenTo(this.collection, 'add', this.render);
@@ -26,6 +26,7 @@
                 endPosition = startPosition + this.pageSize,
                 currentModel,
                 i;
+
             this.$el.html(this.template({
                 pageCount: pageCount
             }));
