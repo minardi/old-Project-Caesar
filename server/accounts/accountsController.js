@@ -24,13 +24,24 @@ function AccountsController (req, res) {
 	function create () {
 		var account = new Account(req.body);
 
-		db.create(dbName, account.toJSON(), responde);
+		db.IsUniqueLogin( req.body.login , function (err, result) {
+			if (!result) {
+				db.create(dbName, account.toJSON(), responde);
+			} else {
+				res.status(409).send('Sorry, login already exists!');
+			}
+		});
 	}	
 
 	function update () {
 		var account = new Account(req.body);
-		
-		db.update(dbName, account.toJSON(), id, responde);
+		db.IsUniqueLogin( req.body.login , function (err, result) {
+			if (!result) {
+				db.update(dbName, account.toJSON(), id, responde);
+			} else {
+				res.status(409).send('Sorry, login already exists!');
+			}
+		});
 	}
 
 	function del () {

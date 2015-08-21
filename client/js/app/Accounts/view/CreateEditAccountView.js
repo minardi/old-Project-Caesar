@@ -3,7 +3,7 @@
         template: templates.createAccountTpl,
 
         events: {
-            'click .save': 'submit',
+            'click .save': 'saveAccount',
             'click .cancel': 'cancel',
             'keydown': 'closeOnEscape',
             'keypress':	'updateOnEnter'
@@ -32,29 +32,10 @@
             return this;
         },
 
-
-        submit: function () { 
-            var isNewModel = this.model.isNew();
-
-            if(!isNewModel) {
-                this.$('#InputLogin').val() !== this.model.get('login')? this.checkLogin(): this.saveAccount();
-            } else {
-                this.checkLogin();
-            }
-        },
-
-        checkLogin: function () {
-            var $login = this.$('#InputLogin');
-
-            if (!this.isLoginTaken($login .val())) {
-                this.saveAccount();
-            } else {
-                cs.mediator.publish('Hint', 'This login already exists', $login);
-            }
-        },
-
         saveAccount: function () {
             var isNewModel = this.model.isNew(),
+                $login = this.$('#InputLogin'),
+                model = this.model,
                 attributes = {},
                 locationCity,
                 countryId,
@@ -69,14 +50,23 @@
                 locationCity = collections.citiesCollection.get(this.model.get('locationCity'));
                 countryId = locationCity.get('location');
                 this.model.set('locationCountry', countryId);
-                this.model.save(attributes);
-                collections.accountsCollection.add(this.model);   
-                cs.mediator.publish( 'Notice',
-                    isNewModel? 'You succesfully added a new account': 'Information succesfully changed');
-                cs.mediator.publish('CreateAccountViewClosed');
-            } 
-        },
 
+                    this.model.save(attributes, {
+                        success: function() {
+                            cs.mediator.publish( 'Notice',
+                            isNewModel? 'You succesfully added a new account': 'Information succesfully changed');
+                            cs.mediator.publish('CreateAccountViewClosed');
+                            collections.accountsCollection.add(model);
+                        }, 
+
+                        error: function (model, err) {
+                            cs.mediator.publish('Hint', err.responseText, $login);
+                        },
+                        wait: true
+                });          
+           } 
+        },
+ 
         preValidate: function () {
             var attrName,
                 validationResult;
@@ -99,20 +89,7 @@
                     }
                 }
             return validationResult;
-        },
-
-        isLoginTaken: function (value) {
-            var msg = '',
-                accounts = collections.accountsCollection.toJSON(),
-                logins = [],
-                result;
-            accounts.forEach(function (element) {
-                logins.push(element['login']);
-            });
-                        
-            result = _.contains(logins, value); 
-            return result;
-        }, 
+        },   
 
         cancel: function () {
             cs.mediator.publish('CreateAccountViewClosed');

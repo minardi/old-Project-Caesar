@@ -52,7 +52,7 @@
         deleteCollection: function (deletedId) {        
             _.each(_.clone(collections.citiesCollection.toJSON()), function(item) {
                 if(item['location'] === deletedId){
-                    var modelCity = collections.citiesCollection.get(item);
+                var modelCity = collections.citiesCollection.get(item);
                     modelCity.destroy();
                 }
             });

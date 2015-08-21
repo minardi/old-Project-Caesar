@@ -13,6 +13,10 @@
             this.model.on('change', function() {
                 this.render();
             },this);
+
+            this.model.on('error', function () {
+                console.log('error');
+            }, this);
         },
  
         render: function () {
