@@ -3,7 +3,6 @@
         template: templates.editResourceTpl,
 
         events: {
-            'keydown': 'closeOnEscape',
             'keypress': 'updateOnEnter',
 			'click .chekType' : 'chekType'
         },
@@ -11,7 +10,6 @@
         initialize: function () {
             this.model = this.model || new This.ResourcesModel(); 
             this.defaultModelJSON = this.model.toJSON();
-            $('body').on('keydown', this.closeOnEscape);
             Backbone.Validation.bind(this);
         },
 
@@ -53,6 +51,11 @@
 				 this.$('#save').click(function () {
 					 _this.save();		
 				 });
+				 
+				 
+				this.$('#resourseModal').on('hidden.bs.modal', function (e) {
+		            cs.mediator.publish('ResourcesViewClosed', 'ShowResources'); //publish to Controller
+				})
 
             return this;
         },
@@ -90,9 +93,6 @@
                     isNewModel? 'You succesfully added a new resource': 'Information succesfully changed'
                 );
 				
-				this.$('#resourseModal').on('hidden.bs.modal', function (e) {//////////////////////////////////////
-				   cs.mediator.publish('ResourcesViewClosed'); //publish to Controller
-				})
 
             }
         },
@@ -118,24 +118,9 @@
             return validationResult;
         },
 
-        cancel: function () {
-			$('#resourseModal').on('hidden.bs.modal', function (e) {
-                this.undoChanges();
-                cs.mediator.publish('ResourcesViewClosed'); //publish to Controller
-			})
-        },
-
         undoChanges: function () {
             this.model.off('change', this.preValidate);
             this.model.set(this.defaultModelJSON);
-        },
-
-        closeOnEscape: function (e) {
-			$('#resourseModal').on('hidden.bs.modal', function (e) {
-				if (e.which === ESC) {
-					cs.mediator.publish('ResourcesViewClosed');
-				}
-			})
         },
 
         updateOnEnter: function (e) {

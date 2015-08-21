@@ -3,7 +3,6 @@
         template: templates.createAccountTpl,
 
         events: {
-            'keydown': 'closeOnEscape',
             'keypress':	'updateOnEnter'
         },
 
@@ -11,7 +10,6 @@
             this.model = this.model || new This.Account();
             Backbone.Validation.bind(this);
 
-            $('body').one('keydown', this.closeOnEscape.bind(this));
             $('body').one('keypress', this.updateOnEnter.bind(this));
         },
 
@@ -31,8 +29,12 @@
 			this.$('#accountModal').modal('show');			
 			
 			this.$('#save').click(function () {
-			     _this.save();		
+			     _this.submit();		
 			});
+			
+			this.$('#accountModal').on('hidden.bs.modal', function (e) {	
+                    cs.mediator.publish('CreateAccountViewClosed', 'ShowAccounts');
+				})
 
             return this;
         },
@@ -82,9 +84,6 @@
                 cs.mediator.publish( 'Notice',
                     isNewModel? 'You succesfully added a new account': 'Information succesfully changed');
                 
-				this.$('#accountModal').on('hidden.bs.modal', function (e) {//////////////////////////////////////	
-                    cs.mediator.publish('CreateAccountViewClosed');
-				})
             } 
         },
 
@@ -125,15 +124,10 @@
             return result;
         }, 
 
-        cancel: function () {
-            $('#accountModal').on('hidden.bs.modal', function (e) {
-                cs.mediator.publish('CreateAccountViewClosed');
-			})
-        },
-
         show: function () {
             this.$el.removeClass('hidden');
         },
+		
         hide: function () {
             this.$el.addClass('hidden');
         },
@@ -142,14 +136,6 @@
             if (e.keyCode === ENTER) {
                 this.submit();
             }
-        },
-
-        closeOnEscape: function (e) {
-			$('#accountModal').on('hidden.bs.modal', function (e) {
-				if (e.which === ESC) {
-					cs.mediator.publish('CreateAccountViewClosed');
-				}
-			})
         }
     });
 })(App.Accounts);

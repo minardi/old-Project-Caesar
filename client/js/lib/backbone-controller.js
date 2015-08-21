@@ -51,9 +51,9 @@ _.extend(Backbone.Controller.prototype, {
             this.el.append(this.crudView.render().el);
         },
 
-        viewClosed: function () {
+        viewClosed: function (route) {
             this.crudView && this.crudView.remove();
-            this.mediator.publish('RouteToEvents');
+            this.mediator.publish(route);
         },
         hideAll: function () {
             this.el.children().addClass('hidden');

@@ -3,7 +3,6 @@
         template: templates.editHolidayTpl,
 
         events: {
-            'keydown': 'closeOnEscape',
             'keypress': 'updateOnEnter'
         },
 
@@ -11,7 +10,6 @@
             this.model = this.model || new This.HolidaysModel();
 			Backbone.Validation.bind(this);
 
-            $('body').one('keydown', this.closeOnEscape.bind(this));
             $('body').one('keypress', this.updateOnEnter.bind(this));
         },
 
@@ -36,6 +34,10 @@
 			
      		this.$('#save').click(function () {
 			    _this.save();		
+			});
+			
+			this.$('#hollidaysModal').on('hidden.bs.modal', function (e) {
+				cs.mediator.publish('HolidaysViewClosed', 'ShowHolidays'); //publish to Controller
 			});
 			
             return this;
@@ -63,13 +65,8 @@
 
 				$('#hollidaysModal').modal('hide');
 				
-				this.$('#hollidaysModal').on('hidden.bs.modal', function (e) {//////////////////////////////////////
-				    cs.mediator.publish('HolidaysViewClosed'); //publish to Controller
-				    cs.mediator.publish('HolidayCreated', 'all'); //publish to HolidaysCollectionView
-				});
-
-				cs.mediator.publish('HolidaysViewClosed'); //publish to Controller
-				//cs.mediator.publish('HolidayCreated', 'all'); //publish to HolidaysCollectionView
+                cs.mediator.publish('HolidayCreated', 'all'); //publish to HolidaysCollectionView
+				
 			}
         },
 		
@@ -122,18 +119,6 @@
                 validationResult = errors;
 
             return validationResult;
-        },
-
-        cancel: function () {
-            $('#hollidaysModal').on('hidden.bs.modal', function (e) {
-                cs.mediator.publish('HolidaysViewClosed'); //publish to Controller
-			})
-		},
-
-        closeOnEscape: function (e) {
-            if (e.which === ESC) {
-                this.cancel();
-            }
         },
 
         updateOnEnter: function (e) {
