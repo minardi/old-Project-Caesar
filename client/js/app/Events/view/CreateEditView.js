@@ -5,7 +5,6 @@
 
         events: {
             'click .resource': 'removeResource',
-            'keydown': 'closeOnEscape',
             'keypress': 'updateOnEnter'
         },
 
@@ -18,7 +17,6 @@
 
             Backbone.Validation.bind(this);
 
-            $('body').one('keydown', this.closeOnEscape.bind(this));
             $('body').one('keypress', this.updateOnEnter.bind(this));
 
             cs.mediator.subscribe('resourceAddedToEvent', this.addResourceIdToEvent, null, this);
@@ -41,6 +39,10 @@
 			 this.$('#save').click(function () {
 				 _this.save();               			
 			 });
+			 
+			this.$('#evetModal').on('hidden.bs.modal', function (e) {
+				 cs.mediator.publish('CreateEditViewClosed', 'RouteToEvents');
+			})
 
             return this;
         },
@@ -86,9 +88,7 @@
                     this.isNewModel? 'You succesfully added a new event': 'Information succesfully changed'
                 );
 
-                this.$('#evetModal').on('hidden.bs.modal', function (e) {//////////////////////////////////////
-				    cs.mediator.publish('CreateEditViewClosed');
-				})
+                
             }
 
             // return array of resources ID in current event
@@ -155,28 +155,11 @@
             return validationResult;
         },
 
-        cancel: function () {
-			var _this = this;
-			this.$('#evetModal').on('hidden.bs.modal', function (e) {
-				if(_this.model.isNew()){
-					_this.model.destroy();
-				}
-                cs.mediator.publish('CreateEditViewClosed');
-			})
-        },
-
         removeResource: function (e) {
             var resource = e.target;
             this.resourcesCollectionView.renderRemoved(parseInt(resource.getAttribute('idValue')));
             resource.remove();
             this.resourceSorting();
-        },
-
-        closeOnEscape: function (e) {
-            if (e.which === ESC) {
-                this.cancel();
-            }
-
         },
 
         resourceSorting: function () {
