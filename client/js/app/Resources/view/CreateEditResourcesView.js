@@ -27,7 +27,7 @@
 
             this.$el.append(this.template({
                 name: this.model.get('name'),
-                type: collections.resourceTypes.get(this.model.get('type')),
+                typeId: this.model.get('type'),
                 resourceTypes: resourceTypes,
 				dateStart: this.model.get('dateStart'),
 				dateFinish: this.model.get('dateFinish'),

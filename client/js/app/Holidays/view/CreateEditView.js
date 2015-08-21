@@ -60,14 +60,16 @@
 				}, this);
 				
 				this.model.save(attributes); 
-				
+
 				$('#hollidaysModal').modal('hide');
 				
 				this.$('#hollidaysModal').on('hidden.bs.modal', function (e) {//////////////////////////////////////
 				    cs.mediator.publish('HolidaysViewClosed'); //publish to Controller
 				    cs.mediator.publish('HolidayCreated', 'all'); //publish to HolidaysCollectionView
-				})
-				
+				});
+
+				cs.mediator.publish('HolidaysViewClosed'); //publish to Controller
+				//cs.mediator.publish('HolidayCreated', 'all'); //publish to HolidaysCollectionView
 			}
         },
 		

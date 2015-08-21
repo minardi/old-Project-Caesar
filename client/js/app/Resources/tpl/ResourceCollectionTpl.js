@@ -21,5 +21,12 @@ templates.resourceCollectionTpl = _.template([
         '</div>',
         '<table class="table resource-list">',
         '</table>',
-    '</div>'
+    '</div>',
+    '<nav>',
+        '<ul class="pagination">',
+            '<% for (var i = 1; (i <= pageCount) && (pageCount > 1); i++) { %>',
+                '<li class="pageEl" value="<%= i %>"><a><%= i %></a></li>',
+            '<% }; %>',
+        '</ul>',
+    '</nav>'
 ].join(''));
