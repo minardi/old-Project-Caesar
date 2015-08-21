@@ -160,8 +160,8 @@
         cancel: function () {
 			var _this = this;
 			this.$('#evetModal').on('hidden.bs.modal', function (e) {
-				if(this.model.isNew()){
-					this.model.destroy();
+				if(_this.model.isNew()){
+					_this.model.destroy();
 				}
                 cs.mediator.publish('CreateEditViewClosed');
 			})
