@@ -20,10 +20,23 @@
 			cs.mediator.subscribe('EventPreviewConflictsSelected', showPreviewConflicts);
 			cs.mediator.subscribe('EventDeleted', checkAvailableCells);
 			cs.mediator.subscribe('EventsCloned', showWeek);
+			cs.mediator.subscribe('ShowPreView', showPreView);
+			cs.mediator.subscribe('RemovwPreView', removwPreView);
 		}
 
 		function showScheduleEvents () {
 			mainView.render();
+		}
+		
+		function showPreView () {
+            var preView = new This.PreView();
+		    preView.render();
+
+		}
+		
+		function removwPreView () {
+			$('.showPreView').remove();
+			$('.modal-dialog').remove();
 		}
 
 		function setupEvents () {

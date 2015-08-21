@@ -18,7 +18,7 @@
 		},
 
 		preview: function () {
-			;
+			cs.mediator.publish('ShowPreView');
 		}
 	})
 })(App.Schedule);

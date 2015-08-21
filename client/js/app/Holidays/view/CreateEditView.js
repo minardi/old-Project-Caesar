@@ -1,11 +1,8 @@
 (function (This) {
     This.CreateEditView = Backbone.View.extend({
-        className: 'modal fade in',
         template: templates.editHolidayTpl,
 
         events: {
-            'click .save': 'save',
-            'click .cancel': 'cancel',
             'keydown': 'closeOnEscape',
             'keypress': 'updateOnEnter'
         },
@@ -20,7 +17,9 @@
 
         render: function () {
             var locationCountry = collections.countriesCollection.toJSON(),
-                countryName = collections.countriesCollection.get(this.model.get('locationCountry'));
+                countryName = collections.countriesCollection.get(this.model.get('locationCountry')),
+				_this = this;
+				
             this.$el.append(this.template({
                 name: this.model.get('name'),
                 locationCountry: locationCountry,
@@ -32,6 +31,13 @@
                 locale: 'ru',
                 format: 'YYYY.MM.DD'
             });
+			
+			this.$('#hollidaysModal').modal('show');			
+			
+     		this.$('#save').click(function () {
+			    _this.save();		
+			});
+			
             return this;
         },
 
@@ -55,8 +61,13 @@
 				
 				this.model.save(attributes); 
 				
-				cs.mediator.publish('HolidaysViewClosed'); //publish to Controller
-				cs.mediator.publish('HolidayCreated', 'all'); //publish to HolidaysCollectionView
+				$('#hollidaysModal').modal('hide');
+				
+				this.$('#hollidaysModal').on('hidden.bs.modal', function (e) {//////////////////////////////////////
+				    cs.mediator.publish('HolidaysViewClosed'); //publish to Controller
+				    cs.mediator.publish('HolidayCreated', 'all'); //publish to HolidaysCollectionView
+				})
+				
 			}
         },
 		
@@ -112,8 +123,10 @@
         },
 
         cancel: function () {
-            cs.mediator.publish('HolidaysViewClosed'); //publish to Controller
-        },
+            $('#hollidaysModal').on('hidden.bs.modal', function (e) {
+                cs.mediator.publish('HolidaysViewClosed'); //publish to Controller
+			})
+		},
 
         closeOnEscape: function (e) {
             if (e.which === ESC) {

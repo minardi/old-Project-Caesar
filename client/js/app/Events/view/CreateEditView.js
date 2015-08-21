@@ -1,12 +1,9 @@
 (function (This) {
     This.CreateEditView = Backbone.View.extend({
-        className: 'modal fade in',
         template: templates.editEventTpl,
         resourceItemTpl: templates.resourceItemTpl,
 
         events: {
-            'click .save': 'save',
-            'click .cancel': 'cancel',
             'click .resource': 'removeResource',
             'keydown': 'closeOnEscape',
             'keypress': 'updateOnEnter'
@@ -28,7 +25,8 @@
         },
 
         render: function () {
-            var eventTypes = collections.eventTypes.toJSON();
+            var eventTypes = collections.eventTypes.toJSON(),
+			    _this = this;
 
             this.$el.append(this.template({
                 name: this.model.get('name'),
@@ -37,6 +35,12 @@
                 resourcesList: this.getResourcesInEvent()
             }));
             this.$('.resources-list').append(this.resourcesCollectionView.render().el);
+			
+			this.$('#evetModal').modal('show');			
+			
+			 this.$('#save').click(function () {
+				 _this.save();               			
+			 });
 
             return this;
         },
@@ -74,13 +78,17 @@
 
                 this.model.save(attributes);
                 collections.eventsCollection.add(this.model);
+				
+				$('#evetModal').modal('hide');
 
                 cs.mediator.publish( //publish to Messenger's Controller
                     'Notice',
                     this.isNewModel? 'You succesfully added a new event': 'Information succesfully changed'
                 );
 
-                cs.mediator.publish('CreateEditViewClosed');
+                this.$('#evetModal').on('hidden.bs.modal', function (e) {//////////////////////////////////////
+				    cs.mediator.publish('CreateEditViewClosed');
+				})
             }
 
             // return array of Integer values resources ID in current event
@@ -150,10 +158,13 @@
         },
 
         cancel: function () {
-            if(this.model.isNew()){
-                this.model.destroy();
-            }
-            cs.mediator.publish('CreateEditViewClosed');
+			var _this = this;
+			this.$('#evetModal').on('hidden.bs.modal', function (e) {
+				if(this.model.isNew()){
+					this.model.destroy();
+				}
+                cs.mediator.publish('CreateEditViewClosed');
+			})
         },
 
         removeResource: function (e) {

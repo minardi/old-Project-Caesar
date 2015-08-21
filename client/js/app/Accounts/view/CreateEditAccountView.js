@@ -3,8 +3,6 @@
         template: templates.createAccountTpl,
 
         events: {
-            'click .save': 'submit',
-            'click .cancel': 'cancel',
             'keydown': 'closeOnEscape',
             'keypress':	'updateOnEnter'
         },
@@ -18,7 +16,8 @@
         },
 
         render: function () {
-            var locationCity =  collections.citiesCollection.toJSON();
+            var locationCity =  collections.citiesCollection.toJSON(),
+			    _this = this;
 
             this.$el.append(this.template({
                 fullName: this.model.get('fullName'),
@@ -28,6 +27,12 @@
                 locationCity: locationCity,
                 role: this.model.get('role')
             }));
+			
+			this.$('#accountModal').modal('show');			
+			
+			this.$('#save').click(function () {
+			     _this.save();		
+			});
 
             return this;
         },
@@ -70,10 +75,16 @@
                 countryId = locationCity.get('location');
                 this.model.set('locationCountry', countryId);
                 this.model.save(attributes);
+				
+				$('#accountModal').modal('hide');
+				
                 collections.accountsCollection.add(this.model);   
                 cs.mediator.publish( 'Notice',
                     isNewModel? 'You succesfully added a new account': 'Information succesfully changed');
-                cs.mediator.publish('CreateAccountViewClosed');
+                
+				this.$('#accountModal').on('hidden.bs.modal', function (e) {//////////////////////////////////////	
+                    cs.mediator.publish('CreateAccountViewClosed');
+				})
             } 
         },
 
@@ -115,7 +126,9 @@
         }, 
 
         cancel: function () {
-            cs.mediator.publish('CreateAccountViewClosed');
+            $('#accountModal').on('hidden.bs.modal', function (e) {
+                cs.mediator.publish('CreateAccountViewClosed');
+			})
         },
 
         show: function () {
@@ -132,9 +145,11 @@
         },
 
         closeOnEscape: function (e) {
-            if (e.which === ESC) {
-                cs.mediator.publish('CreateAccountViewClosed');
-            }
+			$('#accountModal').on('hidden.bs.modal', function (e) {
+				if (e.which === ESC) {
+					cs.mediator.publish('CreateAccountViewClosed');
+				}
+			})
         }
     });
 })(App.Accounts);
