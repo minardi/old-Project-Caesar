@@ -20,6 +20,7 @@
 			cs.mediator.subscribe('EventPreviewConflictsSelected', showPreviewConflicts);
 			cs.mediator.subscribe('EventDeleted', checkAvailableCells);
 			cs.mediator.subscribe('EventsCloned', showWeek);
+			cs.mediator.subscribe('SheduleConfirmSelected', showScheduleConfirm);
 		}
 
 		function showScheduleEvents () {
@@ -59,6 +60,10 @@
 
 		function checkAvailableCells () {
 			mainView.checkAvailableCells();
+		}
+
+		function showScheduleConfirm (message, callbackYes, yesOptions) {
+			mainView.showConfirm(message, callbackYes, yesOptions);
 		}
 
 		function hideAll () {

@@ -36,6 +36,8 @@
 				week = new This.Week();
 
 			dayTimeline[options.timeline] = [options.eventId];
+			dayTimeline[options.timeline] = _.flatten(dayTimeline[options.timeline]);
+			
 			day[options.dayNumber] = dayTimeline;
 			week.set({
 				'startDate': options.startDate,

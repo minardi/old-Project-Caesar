@@ -64,7 +64,7 @@
 			this.views['schedule'].setupSelectedEvent(this.selectedEvent);
 
 			this.$table = this.views['schedule'].getElement();
-			
+			this.checkAvailableCells();
 			this.setupTable();
 		},
 
