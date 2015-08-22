@@ -24,3 +24,7 @@
 .fullInfo {
 cursor: pointer;
 }
+
+.eventsScroll {
+    overflow: auto;
+}

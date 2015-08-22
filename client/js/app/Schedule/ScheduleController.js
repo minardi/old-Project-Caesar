@@ -21,8 +21,6 @@
 			cs.mediator.subscribe('EventDeleted', checkAvailableCells);
 			cs.mediator.subscribe('EventsCloned', showWeek);
 			cs.mediator.subscribe('ShowPreView', showPreView);
-			cs.mediator.subscribe('RemovwPreView', removwPreView);
-
 		}
 
 		function showScheduleEvents () {
@@ -30,16 +28,13 @@
 		}
 		
 		function showPreView () {
-            var preView = new This.PreView();
-		    preView.render();
-
+			var preView,
+			    el = $('#main');
+			preView && preView.remove();
+	        preView = new This.PreView();
+			el.append(preView.render().el);
 		}
 		
-		function removwPreView () {
-			$('.showPreView').remove();
-			$('.modal-dialog').remove();
-		}
-
 		function setupEvents () {
 			collections.eventsCollection.on('update', updateEvents);
 			collections.eventsCollection.on('change', updateEvents);

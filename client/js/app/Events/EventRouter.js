@@ -19,6 +19,7 @@
             cs.mediator.subscribe('ShowEventById', this.navigateShowEventById, null, this);
             cs.mediator.subscribe('CreateEvent', this.navigateNewEvent, null, this);
             cs.mediator.subscribe('EditEvent', this.navigateEditEvent, null, this);
+			cs.mediator.subscribe('CreateEditViewClosed', this.navigateEvents, null, this);
             
             Backbone.history.loadUrl(Backbone.history.fragment);
         },

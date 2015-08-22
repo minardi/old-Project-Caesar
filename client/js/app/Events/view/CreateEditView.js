@@ -1,10 +1,14 @@
 (function (This) {
     This.CreateEditView = Backbone.View.extend({
+		className: 'modal fade in eventsScroll',
         template: templates.editEventTpl,
         resourceItemTpl: templates.resourceItemTpl,
 
         events: {
+            'click .save': 'save',
+            'click .cancel': 'cancel',
             'click .resource': 'removeResource',
+            'keydown': 'closeOnEscape',
             'keypress': 'updateOnEnter'
         },
 
@@ -18,6 +22,7 @@
             Backbone.Validation.bind(this);
 
             $('body').one('keypress', this.updateOnEnter.bind(this));
+			 $('body').one('keydown', this.closeOnEscape.bind(this));
 
             cs.mediator.subscribe('resourceAddedToEvent', this.addResourceIdToEvent, null, this);
         },
@@ -34,16 +39,6 @@
             }));
             this.$('.resources-list').append(this.resourcesCollectionView.render().el);
 			
-			this.$('#evetModal').modal('show');			
-			
-			 this.$('#save').click(function () {
-				 _this.save();               			
-			 });
-			 
-			this.$('#evetModal').on('hidden.bs.modal', function (e) {
-				 cs.mediator.publish('CreateEditViewClosed', 'RouteToEvents');
-			})
-
             return this;
         },
 
@@ -81,14 +76,12 @@
                 this.model.save(attributes);
                 collections.eventsCollection.add(this.model);
 				
-				$('#evetModal').modal('hide');
-
                 cs.mediator.publish( //publish to Messenger's Controller
                     'Notice',
                     this.isNewModel? 'You succesfully added a new event': 'Information succesfully changed'
                 );
-
-                
+				
+				this.changeClassAndCansel();
             }
 
             // return array of resources ID in current event
@@ -154,6 +147,21 @@
 
             return validationResult;
         },
+		
+		cancel: function () {
+            if(this.model.isNew()){
+                this.model.destroy();
+            }
+			
+			this.changeClassAndCansel();
+        },
+		
+		changeClassAndCansel: function () {
+			$('.myAnimateClass').removeClass('slideInDown').addClass('slideOutDown');
+			setTimeout(function() {
+			   cs.mediator.publish('CreateEditViewClosed');
+			}, 400); 
+		},
 
         removeResource: function (e) {
             var resource = e.target;
@@ -178,6 +186,12 @@
             if (e.keyCode === ENTER) {
                 this.save();
             }
-        }
+        },
+				
+		closeOnEscape: function (e) {
+            if (e.keyCode === ESC) {
+                this.cancel();
+            }
+        },
     });
 })(App.Events);

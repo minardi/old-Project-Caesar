@@ -1,9 +1,13 @@
 (function (This) {
     This.CreateEditView = Backbone.View.extend({
+		className: 'modal fade in holidayScroll',
         template: templates.editHolidayTpl,
 
         events: {
-            'keypress': 'updateOnEnter'
+			'click .save': 'save',
+            'click .cancel': 'cancel',
+            'keypress': 'updateOnEnter',
+			'keydown': 'closeOnEscape'
         },
 
         initialize: function () {
@@ -11,6 +15,7 @@
 			Backbone.Validation.bind(this);
 
             $('body').one('keypress', this.updateOnEnter.bind(this));
+			$('body').one('keydown', this.closeOnEscape.bind(this));
         },
 
         render: function () {
@@ -29,16 +34,6 @@
                 locale: 'ru',
                 format: 'YYYY.MM.DD'
             });
-			
-			this.$('#hollidaysModal').modal('show');			
-			
-     		this.$('#save').click(function () {
-			    _this.save();		
-			});
-			
-			this.$('#hollidaysModal').on('hidden.bs.modal', function (e) {
-				cs.mediator.publish('HolidaysViewClosed', 'ShowHolidays'); //publish to Controller
-			});
 			
             return this;
         },
@@ -63,10 +58,8 @@
 				
 				this.model.save(attributes); 
 
-				$('#hollidaysModal').modal('hide');
-				
-                cs.mediator.publish('HolidayCreated', 'all'); //publish to HolidaysCollectionView
-				
+                this.cancel();
+
 			}
         },
 		
@@ -120,11 +113,24 @@
 
             return validationResult;
         },
+		
+		cancel: function () {
+            $('.myAnimateClass').removeClass('slideInDown').addClass('slideOutDown');
+			setTimeout(function() {
+			    cs.mediator.publish('HolidaysViewClosed'); //publish to Controller
+			}, 400); 
+        },
 
         updateOnEnter: function (e) {
             if (e.keyCode === ENTER) {
                 this.save();
             }
-        }
+        },
+		
+		closeOnEscape: function (e) {
+            if (e.keyCode === ESC) {
+                this.cancel();
+            }
+        },
     });
 })(App.Holidays);

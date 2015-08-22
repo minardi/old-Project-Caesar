@@ -1,8 +1,10 @@
 (function (This) {
     This.CreateEditAccountView = Backbone.View.extend({
+		className: 'modal fade in accountsScroll',
         template: templates.createAccountTpl,
 
         events: {
+			'click .cancel': 'cancel',
             'click .save': 'saveAccount',
             'keydown': 'closeOnEscape',
             'keypress':	'updateOnEnter'
@@ -13,6 +15,7 @@
             Backbone.Validation.bind(this);
 
             $('body').one('keypress', this.updateOnEnter.bind(this));
+			$('body').one('keydown', this.closeOnEscape.bind(this));
         },
 
         render: function () {
@@ -26,13 +29,7 @@
                 locationCity: locationCity,
                 role: this.model.get('role')
             }));
-			
-			this.$('#accountModal').modal('show');
-			
-			this.$('#accountModal').on('hidden.bs.modal', function (e) {	
-                    cs.mediator.publish('CreateAccountViewClosed', 'ShowAccounts');
-				})
-
+		
             return this;
         },
 
@@ -56,10 +53,10 @@
                 this.model.set('locationCountry', countryId);
                     this.model.save(attributes, {
                         success: function() {
-                            $('#accountModal').modal('hide');
                             collections.accountsCollection.add(model);   
                             cs.mediator.publish( 'Notice',
                                 isNewModel? 'You succesfully added a new account': 'Information succesfully changed');
+							this.cancel();	
                         }, 
 
                         error: function (model, err) {
@@ -92,7 +89,14 @@
                     }
                 }
             return validationResult;
-        },   
+        },
+  
+        cancel: function () {
+			$('.myAnimateClass').removeClass('slideInDown').addClass('slideOutDown');
+			setTimeout(function() {
+			    cs.mediator.publish('CreateAccountViewClosed');
+			}, 400); 
+        },  
 
         show: function () {
             this.$el.removeClass('hidden');
@@ -104,7 +108,13 @@
 
         updateOnEnter: function (e) {
             if (e.keyCode === ENTER) {
-                this.submit();
+                this.saveAccount();
+            }
+        },
+
+        closeOnEscape: function (e) {
+            if (e.keyCode === ESC) {
+               this.cancel();
             }
         }
     });
