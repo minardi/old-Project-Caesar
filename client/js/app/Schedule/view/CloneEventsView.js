@@ -122,9 +122,8 @@
 			}, this);
 			
 			cloneWeekItem.set('days', cloneDays);
-			collections.scheduleCollection.addEvent(cloneWeekItem);
-
-			cs.mediator.publish('EventsCloned');
+			
+			this.checkResourcesConflicts(cloneWeekItem);
 			return false;
 		},
 
@@ -145,11 +144,10 @@
 					}
 				}
 			}, this);
-			cloneWeekItem.set('days', clodeDayCollection);
 
+			cloneWeekItem.set('days', clodeDayCollection);
 			this.checkResourcesConflicts(cloneWeekItem);
-			collections.scheduleCollection.addEvent(cloneWeekItem);
-			cs.mediator.publish('EventsCloned');
+			
 		},
 
 		addTimelinesToDay: function (day, dayNumber, cloneDaysCollection) {
@@ -170,67 +168,138 @@
 			};
 		},
 
-		checkResourcesConflicts: function (weekItem) {
-			var weekNumber = weekItem.get('weekNumber'),
-				updatedDays = weekItem.get('days'),
-				rightWeek = collections.scheduleCollection.findWhere({'weekNumber': weekNumber}),
-				days = rightWeek.get('days'),
-				resources = [],
-				updateRecources = [],
-				conflicts = [],
-				deletedWeekItem,
-				message,
-				eventName,
-				events = [];
+		checkResourcesConflicts: function (weekItemToClone) {
+			var daysToClone = weekItemToClone.get('days'),
+				actualWeek = collections.scheduleCollection.findWhere({'weekNumber': weekItemToClone.get('weekNumber')}),
+				actualDays = actualWeek.get('days'),
+				actualEvent, 
+				isCellFonflict = false;
+				event;
+	
+			this.conflicts = [];
+			this.noConflicts = [];
+			this.conflictsEventsId = [];
 
-			_.each(updatedDays, function (timelines, dayNumber) {
-				_.each(timelines, function (eventsId, timeline) {
-				
-						if (days[dayNumber] && days[dayNumber][timeline]) {
-							updateRecources = this. getResources(eventsId);
-							
-							events = _.difference(days[dayNumber][timeline], eventsId);
-							_.each(events, function (id) {
-								resources = this.getResources([id]);
-								conflicts = _.intersection(updateRecources, resources);
-								
-								if (!_.isEmpty(conflicts)) {
-									eventName = collections.eventsCollection.findWhere({'id': id});
-									eventName = eventName.get('name');
+			_.each(daysToClone, function (timelines, dayNumber) {
+				_.each(timelines, function (eventsToCopy, timeline) {
+						if (!actualDays[dayNumber] || !actualDays[dayNumber][timeline]) {
+							this.addEventsToWeek({
+								'startDate': actualWeek.get('startDate'),
+								'dayNumber': dayNumber,
+								'timeline': timeline,
+								'events': eventsToCopy
+							});
+						} else {
+							_.each(eventsToCopy, function (eventId) {
+								event = collections.eventsCollection.findWhere({'id': eventId});
+								isCellFonflict = false;
 
-									message = 'Resources conflicts found: day - ' + This.daysName[dayNumber] + 'at ' + timeline + eventName;
+								_.each(actualDays[dayNumber][timeline], function (actualEventId) {
 
-									cs.mediator.publish('Confirm', message, function () {
-										deletedWeekItem = This.createWeekItem({
-																		'startDate': weekItem.get('startDate'),
-																		'timeline': timeline,
-																		'dayNumber': dayNumber,
-																		'eventId': id
-																		});
+									if (eventId !== actualEventId) {
+										event = collections.eventsCollection.findWhere({'id': eventId});
+										actualEvent = collections.eventsCollection.findWhere({'id': actualEventId});
 
-										collections.scheduleCollection.deleteEvent(deletedWeekItem);
-										cs.mediator.publish('EventsCloned');
-									});
-								}	
-							}, this);			
+										if (!(_.isEmpty(_.intersection(event.get('resources'), actualEvent.get('resources'))))) 
+										{
+											this.conflicts.push(This.createWeekItem({
+												'startDate': actualWeek.get('startDate'),
+												'dayNumber': dayNumber,
+												'timeline': timeline,
+												'eventId': actualEventId
+											}));
+
+											this.noConflicts.push(This.createWeekItem({
+												'startDate': actualWeek.get('startDate'),
+												'dayNumber': dayNumber,
+												'timeline': timeline,
+												'eventId': eventId
+											}));
+
+											this.conflictsEventsId.push(actualEventId);
+
+											isCellFonflict = true;
+										};
+
+									};
+
+								}, this);
+
+								if (!isCellFonflict) {
+									this.addEventsToWeek({
+											'startDate': actualWeek.get('startDate'),
+											'dayNumber': dayNumber,
+											'timeline': timeline,
+											'events': eventId
+											});
+								};
+							}, this);
 						}
+					
 				}, this);
-			}, this);
+			}, this);	
 
-		
+			this.solveConflict();
 		},
 
-		getResources: function (eventsId) {
-			var resources = [],
-				event;
-		
-			_.each(eventsId, function (id) {
-				event = collections.eventsCollection.findWhere({'id': id});
-				resources.push(event.get('resources'));
-
+		addEventsToWeek: function (options) {
+			var weekItem = This.createWeekItem({
+					'startDate': options.startDate,
+					'dayNumber': options.dayNumber,
+					'timeline': options.timeline,
+					'eventId': options.events
 			});
-			resources = _.flatten(resources);
-			return resources;
+
+			collections.scheduleCollection.addEvent(weekItem);
+			cs.mediator.publish('EventsCloned');
+		},
+
+		solveConflict: function () {
+			var	eventName,
+				startDate,
+				dayNumber,
+				timeline,
+				eventId,
+				message;
+
+			if (!_.isEmpty(this.conflicts)) {
+				startDate = this.conflicts[0].get('startDate');
+				dayNumber = Number(Object.keys(this.conflicts[0].get('days')));
+				timeline = Object.keys(this.conflicts[0].get('days')[dayNumber]);
+
+				eventId = Number(Object.keys(this.conflicts[0].get('days')[dayNumber][timeline]));
+
+				eventName = collections.eventsCollection.findWhere({'id': this.conflictsEventsId[0]});
+				eventName = eventName.get('name');
+
+				message = 'Resources conflicts found: '+ startDate.toDateString() + ' ' + This.daysName[dayNumber] + ' at  ' + timeline + ' : ' + eventName;
+		
+				this.showConfirm(message, this.deleteConflictEvent, 
+														{
+															'conflictWeekItem': this.conflicts[0].clone(),
+															'weekItemtoCopy': this.noConflicts[0].clone()
+														}, this.solveConflict.bind(this));
+
+				this.conflicts.shift();
+				this.noConflicts.shift();
+				this.conflictsEventsId.shift();
+			};
+
+		},
+
+		showConfirm: function (message, Yescallback, options, callback) {
+			var confirmView = new This.ScheduleConfirmView();
+            confirmView.set(message, Yescallback, options, callback);
+
+            $('#confirm').html(confirmView.render().el);
+		},
+
+		deleteConflictEvent: function (options) {
+
+			collections.scheduleCollection.deleteEvent(options.conflictWeekItem);
+			collections.scheduleCollection.addEvent(options.weekItemtoCopy);
+
+			cs.mediator.publish('EventsCloned');
 		}
 	})
 })(App.Schedule);

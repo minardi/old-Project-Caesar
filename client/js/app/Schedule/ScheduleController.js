@@ -22,6 +22,7 @@
 			cs.mediator.subscribe('EventsCloned', showWeek);
 			cs.mediator.subscribe('ShowPreView', showPreView);
 			cs.mediator.subscribe('RemovwPreView', removwPreView);
+
 		}
 
 		function showScheduleEvents () {
@@ -72,6 +73,10 @@
 
 		function checkAvailableCells () {
 			mainView.checkAvailableCells();
+		}
+
+		function showScheduleConfirm (message, callbackYes, yesOptions) {
+			mainView.showConfirm(message, callbackYes, yesOptions);
 		}
 
 		function hideAll () {
