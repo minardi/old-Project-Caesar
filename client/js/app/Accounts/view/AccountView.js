@@ -10,12 +10,13 @@
         },
 
          initialize: function () {
+            this.defaultModelJSON = this.model.toJSON();
             this.model.on('change', function() {
                 this.render();
             },this);
 
             this.model.on('error', function () {
-                console.log('error');
+                this.model.set(this.defaultModelJSON);
             }, this);
         },
  

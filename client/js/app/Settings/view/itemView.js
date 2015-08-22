@@ -41,9 +41,6 @@
             this.model.destroy();
             cs.mediator.publish('Notice', 'Item was succesfully deleted');
             cs.mediator.publish('UpdateCountry', this);
-            if (App.Holidays.CollectionView) {
-                cs.mediator.publish('CountryDeleted', 'all'); //publish to HolidaysCollectionView
-            }
         },
 
         edit: function () {

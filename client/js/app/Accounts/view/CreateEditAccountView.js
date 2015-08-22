@@ -4,7 +4,6 @@
 
         events: {
             'click .save': 'saveAccount',
-            'click .cancel': 'cancel',
             'keydown': 'closeOnEscape',
             'keypress':	'updateOnEnter'
         },
@@ -17,8 +16,7 @@
         },
 
         render: function () {
-            var locationCity =  collections.citiesCollection.toJSON(),
-			    _this = this;
+            var locationCity =  collections.citiesCollection.toJSON();
 
             this.$el.append(this.template({
                 fullName: this.model.get('fullName'),
@@ -29,11 +27,7 @@
                 role: this.model.get('role')
             }));
 			
-			this.$('#accountModal').modal('show');			
-			
-			this.$('#save').click(function () {
-			     _this.submit();		
-			});
+			this.$('#accountModal').modal('show');
 			
 			this.$('#accountModal').on('hidden.bs.modal', function (e) {	
                     cs.mediator.publish('CreateAccountViewClosed', 'ShowAccounts');
@@ -63,11 +57,9 @@
                     this.model.save(attributes, {
                         success: function() {
                             $('#accountModal').modal('hide');
-                
-                            collections.accountsCollection.add(this.model);   
+                            collections.accountsCollection.add(model);   
                             cs.mediator.publish( 'Notice',
                                 isNewModel? 'You succesfully added a new account': 'Information succesfully changed');
-                
                         }, 
 
                         error: function (model, err) {
