@@ -60,6 +60,8 @@
 
                 this.cancel();
 
+				$('#hollidaysModal').modal('hide');
+
 			}
         },
 		

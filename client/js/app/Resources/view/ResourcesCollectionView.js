@@ -1,10 +1,9 @@
 (function (This) {
     This.CollectionView = Backbone.View.extend({
         tagName: 'div',
-
         className: 'resource',
-
         template: templates.resourceCollectionTpl,
+        itemViews: [],
 
         events: {
             'click .create': 'create',
@@ -13,38 +12,58 @@
         },
     
         initialize: function () {
+            this.collection = collections.resouresCollection;
             this.pageSize = 15;
             this.pageIndex = 0;
-            this.collection = collections.resouresCollection;
             this.listenTo(this.collection, 'add', this.render);
             this.listenTo(this.collection, 'destroy', this.render);
         },
     
         render: function () {
-            var pageCount = Math.ceil(this.collection.length / this.pageSize),
-                startPosition = this.pageIndex * this.pageSize,
-                endPosition = startPosition + this.pageSize,
-                currentModel,
-                i;
-
+            this.pageCount = Math.ceil(this.collection.length / this.pageSize);
+            this.$el.empty();
             this.$el.html(this.template({
-                pageCount: pageCount
+                pageCount: this.pageCount
             }));
 
-            for(i = startPosition; i < endPosition; i ++){
-                currentModel = this.collection.models[i];
-                if(currentModel) {
-                    this.renderOne(currentModel);
-                }
-            }
-
-            this.$(".pagination li").eq(this.pageIndex).addClass('active');
+            this.renderGrid();
 
             return this;
         },
 
+        renderGrid: function () {
+            var currentModel,
+                i;
+
+            this.pageCount = Math.ceil(this.collection.length / this.pageSize);
+            this.startPosition = this.pageIndex * this.pageSize;
+            this.endPosition = this.startPosition + this.pageSize;
+
+            _.each(this.itemViews, function (view) {
+                view.remove();
+            });
+
+            if(!this.collection.models[this.startPosition]){
+                this.pageIndex = this.pageIndex -1;
+                this.startPosition = this.pageIndex * this.pageSize;
+                this.endPosition = this.startPosition + this.pageSize;
+            }
+
+            for(i = this.startPosition; i < this.endPosition; i ++){
+                currentModel = this.collection.models[i];
+                if(currentModel) {
+                    this.renderOne(currentModel);
+                }else {
+                    break;
+                }
+            }
+
+            this.$(".pagination li").eq(this.pageIndex).addClass('active');
+        },
+
         renderOne: function (model) {
             var view = new App.Resources.ResourcesModelHomepageView({model: model});
+            this.itemViews.push(view);
             this.$('.resource-list').append(view.render().el);
         },
 
@@ -73,19 +92,20 @@
                     return resource.get('type');
                 };
                 this.collection.sort();
-                this.render();
+                this.renderGrid();
             } else {
                 this.collection.comparator = function(resource) {
                     return resource.get('name');
                 };
                 this.collection.sort();
-                this.render();
+                this.renderGrid();
             }
         },
 
         changePage: function (e) {
             this.pageIndex = e.currentTarget.value - 1;
-            this.render();
+            this.$(".pagination li").removeClass('active');
+            this.renderGrid();
         }
     });
 })(App.Resources);

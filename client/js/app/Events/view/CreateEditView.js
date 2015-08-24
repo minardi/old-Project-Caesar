@@ -192,6 +192,6 @@
             if (e.keyCode === ESC) {
                 this.cancel();
             }
-        },
+        }
     });
 })(App.Events);
