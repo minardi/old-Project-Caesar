@@ -63,3 +63,40 @@
 .modal-preview {
   background-color: #99cccc;
 }
+
+.modal-preview {
+    margin: 0 auto;
+    width: 100%;
+    margin-bottom: 3%;
+    border-collapse: collapse;
+}
+
+.modal-preview tr td {
+    font-size: 1.3em;
+    border: 1px solid #49a1c6;
+    padding: 10px 5px 10px 10px;
+}
+
+.modal-schedule {
+    margin: 0 auto;
+    width: 100%;
+    margin-bottom: 3%;
+    border-collapse: collapse;
+}
+
+.modal-schedule tr td {
+    text-align: center;
+    border: 1px solid #49a1c6;
+}
+
+.modal-schedule tr {
+    background-color: #49a1c6;
+}
+
+.modal-schedule tr:nth-child(2n) {
+    background-color: #99cc99;
+}
+
+.modal-schedule tr td {
+    font-size: 1.3em;
+}
