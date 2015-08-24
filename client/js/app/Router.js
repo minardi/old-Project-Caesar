@@ -55,7 +55,7 @@
 		},
 
         holidays: function () {
-				cs.subRouters['Holidays'] || (cs.subRouters['Holidays'] = new App.Holidays.Router());
+            cs.subRouters['Holidays'] || (cs.subRouters['Holidays'] = new App.Holidays.Router());
         },
         
         navigateMenuItem: function (pathname) {
