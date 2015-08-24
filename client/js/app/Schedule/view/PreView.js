@@ -28,7 +28,7 @@
 		
 		cancel: function () {
             var _this = this;			
-			$('.myAnimateClass').removeClass('slideInDown').addClass('slideOutDown');
+			$('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');
 			setTimeout(function() {
 				_this.el.remove();
 		    	cs.mediator.publish('PreViewClose');

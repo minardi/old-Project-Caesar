@@ -30,11 +30,15 @@
 
         edit: function () {
             cs.mediator.publish('EditEvent', this.model);
+			this.fullEveClose();
+			$('.toshowfirst').switchClass('col-md-8', 'col-md-12', 1000);
         },
 
         confirmDelete: function () {
             var message = 'Are you sure to delete "' + this.model.get('name') + '" event?';
             cs.mediator.publish('Confirm', message, this.delete.bind(this));
+			this.fullEveClose();
+			$('.toshowfirst').switchClass('col-md-8', 'col-md-12', 1000);
         },
 
         delete: function () {
@@ -46,18 +50,26 @@
 		
 		fullEveClose: function () {
 			$('.toshow').addClass('hidden');
-			$('.toshowfirst').switchClass('col-md-8', 'col-md-12', 1000);
 			$('.shortInfo').removeClass('warning');
 		},
 		
 		showFullInfo: function () {
-		    var modelId = this.model.get('id');
+			var eventFullView = new App.Events.EventFullView({model: this.model});
+			
+			$('.fullInform').remove();
+			$('.fullEvent').append(eventFullView.render().el);
+			
+		    
 		    $('.shortInfo').removeClass('warning');
 		    this.$el.addClass('warning');
-			$('.toshowfirst').switchClass('col-md-12', 'col-md-8', 1000);
-            $('.toshow').switchClass('hidden', '', 1000);
-			$('.fullInform').addClass('hidden');
-			$('.ad' + modelId).removeClass('hidden');
+			
+			if($('.toshowfirst').hasClass('col-md-12')){
+				$('.toshow').switchClass('hidden', '', 1000);
+			} else {
+				$('.toshow').removeClass('hidden');
+			}
+			
+            $('.toshowfirst').switchClass('col-md-12', 'col-md-8', 1000);
 		}
     });
 })(App.Events);

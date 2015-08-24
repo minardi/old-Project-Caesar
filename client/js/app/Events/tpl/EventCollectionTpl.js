@@ -23,13 +23,6 @@ templates.eventCollectionTpl = _.template([
 		'<table class="table event-list list-group">',
 		'</table>',
 	'</div>',
-	'<nav>',
-		'<ul class="pagination">',
-			'<% for (var i = 1; (i <= pageCount) && (pageCount > 1); i++) { %>',
-				'<li class="pageEl" value="<%= i %>"><a><%= i %></a></li>',
-			'<% }; %>',
-		'</ul>',
-	'</nav>',
 	'<div class="col-md-1"></div>',
 	'<div class="panel panel-default col-md-3 toshow hidden">',
 	    '<i class="glyphicon glyphicon-remove fullEventClose"></i>',
@@ -42,5 +35,12 @@ templates.eventCollectionTpl = _.template([
 		'</div>',
 		'<table class="table fullEvent">',
 	    '</table>',
-	'</div>'
+	'</div>',
+	'<nav>',
+		'<ul class="pagination">',
+			'<% for (var i = 1; (i <= pageCount) && (pageCount > 1); i++) { %>',
+				'<li class="pageEl" value="<%= i %>"><a><%= i %></a></li>',
+			'<% }; %>',
+		'</ul>',
+	'</nav>'
 ].join(''));

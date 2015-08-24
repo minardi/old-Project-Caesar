@@ -21,9 +21,14 @@
     padding: 0;
 }
 
-.fullInfo {
-cursor: pointer;
+.fullInfo, .fullEventClose {
+    cursor: pointer;
 }
+
+.fullEventClose{
+    margin-top: 4px;
+}
+
 
 .eventsScroll {
     overflow: auto;

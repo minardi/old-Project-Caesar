@@ -22,7 +22,7 @@
             Backbone.Validation.bind(this);
 
             $('body').one('keypress', this.updateOnEnter.bind(this));
-			 $('body').one('keydown', this.closeOnEscape.bind(this));
+			$('body').one('keydown', this.closeOnEscape.bind(this));
 
             cs.mediator.subscribe('resourceAddedToEvent', this.addResourceIdToEvent, null, this);
         },
@@ -80,7 +80,10 @@
                     'Notice',
                     this.isNewModel? 'You succesfully added a new event': 'Information succesfully changed'
                 );
-				
+				$('.shortInfo').removeClass('warning');
+			    $('.toshow').addClass('hidden');
+				$('.toshowfirst').switchClass('col-md-8', 'col-md-12', 1000);
+	
 				this.changeClassAndCansel();
             }
 
@@ -157,7 +160,7 @@
         },
 		
 		changeClassAndCansel: function () {
-			$('.myAnimateClass').removeClass('slideInDown').addClass('slideOutDown');
+			$('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');
 			setTimeout(function() {
 			   cs.mediator.publish('CreateEditViewClosed');
 			}, 400); 

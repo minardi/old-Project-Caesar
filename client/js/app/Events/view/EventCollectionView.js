@@ -48,13 +48,11 @@
         renderOne: function (model) {
             var eventView = new App.Events.EventView({model: model});
             this.$('.event-list').append(eventView.render().el);
-			
-			var eventFullView = new App.Events.EventFullView({model: model});
-			this.$('.fullEvent').append(eventFullView.render().el);
         },
 
         add: function () {
             cs.mediator.publish('CreateEvent');
+		    this.fullEveClose();
         },
 
         show: function () {
