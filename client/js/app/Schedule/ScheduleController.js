@@ -10,6 +10,8 @@
 			mainView.setupEl($el);
 			showScheduleEvents();
 			setupEvents();
+			setupHolidays();
+			setupSchedule();
 		}
 		
 		function setupMediator () {
@@ -40,6 +42,15 @@
 			collections.eventsCollection.on('change', updateEvents);
 		}
 
+		function setupSchedule () {
+			collections.scheduleCollection.on('change', updateConflicts);
+		}
+
+		function setupHolidays() {
+			collections.holidaysCollection.on('update', showWeek);
+			collections.holidaysCollection.on('change', showWeek);
+		}
+
 		function updateEvents () {
 			mainView.updateEvents();
 		}
@@ -49,13 +60,16 @@
 		 	mainView.show();
 		}
 
+		function updateConflicts () {
+			mainView.updateConflicts();
+		}
+
 		function setupSelectedEvent (event) {
 		 	mainView.setupSelectedEvent(event);
 		}
 
 		function showWeek (direction) {
 			mainView.showWeek(direction);
-
 		}
 
 		function setupWeekMode (_mode) {
@@ -68,10 +82,6 @@
 
 		function checkAvailableCells () {
 			mainView.checkAvailableCells();
-		}
-
-		function showScheduleConfirm (message, callbackYes, yesOptions) {
-			mainView.showConfirm(message, callbackYes, yesOptions);
 		}
 
 		function hideAll () {

@@ -2,7 +2,7 @@
 	This.Router = Backbone.Router.extend({
 		routes: {
 			'Schedule': 'showSchedule',
-			'Schedule/Preview': 'showPreView',
+			'Schedule/Preview*path': 'showPreView',
 			'Schedule*path': 'notFound'
 		},
 

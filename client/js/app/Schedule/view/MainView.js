@@ -10,6 +10,7 @@
 				'download': new This.DownloadView(),
 				'weekMode': new This.WeekModeView(),
 				'clone': new This.CloneEventsView(),
+				'conflict': new This.ConflictsInCellView()
 			};
 
 			this.mode = 'allEvents';
@@ -98,6 +99,13 @@
 
 			this.views['schedule'].renderEvents();
 
+			this.views['conflict'].remove();
+			this.fullView.appendView('conflict',  this.views['conflict'].render().el);
+		}, 
+
+		updateConflicts: function () {
+			this.views['conflict'].remove();
+			this.fullView.appendView('conflict',  this.views['conflict'].render().el);
 		}
 	})
 })(App.Schedule);

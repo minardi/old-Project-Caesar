@@ -27,29 +27,35 @@
             $('.holidays-list').append(view.$el);
         },
 
-        render: function (HolidayArray) {
-            var collection;
-
-            if (HolidayArray) {
-                collection = new App.Holidays.HolidaysCollection(HolidayArray);
-            } else {
-                collection = this.collection;
-            }
-
-            this.$el.empty().html(this.template({
+        render: function () {
+            this.$el.empty().append(this.template({
                 counties: collections.countriesCollection.toJSON()
             }));
-            collection.each(function (holiday) {
-                this.renderOne(holiday);
-            }, this);
+            this.renderGrid();
 
             return this;
         },
 
+        renderGrid: function (holidayArray) {
+            var collection;
+
+            if (holidayArray) {
+                collection = new App.Holidays.HolidaysCollection(holidayArray);
+            } else {
+                collection = this.collection;
+            }
+            _.each(this.itemViews, function (view) {
+                view.remove();
+            });
+            collection.each(function (holiday) {
+                this.renderOne(holiday);
+            }, this);
+        },
 
         renderOne: function (model) {
             var view = new This.HolidaysModelHomepageView({model: model});
             this.$('.holidays-list').append(view.render().el);
+            this.itemViews.push(view);
         },
 
         create: function () {
@@ -74,10 +80,10 @@
                 filteredCollection;
 
             if (filter === 'all') {
-                this.render();
+                this.renderGrid();
             } else {
                 filteredCollection = this.collection.where({locationCountry: Number(filter)});
-                this.render(filteredCollection);
+                this.renderGrid(filteredCollection);
             }
         },
 
@@ -88,14 +94,12 @@
             if (searchRequest !== '') {
                 searchPattern = new RegExp(searchRequest, 'gi');
                 filteredArray = this.collection.filter(function (model) {
-                    return searchPattern.test(model.get('name'));
+                    return searchPattern.test(model.get('name')) || searchPattern.test(model.get('date'));
                 });
 
-                this.render(filteredArray);
-                this.$('.searchField').val(searchRequest);
-                this.$('.searchField').focus();
+                this.renderGrid(filteredArray);
             } else {
-                this.render()
+                this.renderGrid();
             }
         }
     });

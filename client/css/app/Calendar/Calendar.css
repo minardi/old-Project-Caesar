@@ -6,7 +6,7 @@
 }
 
 
-.eventsAndDownload, .scheduleEvents, .download, .clone, .weekMode, .scroll {
+.eventsAndDownload, .scheduleEvents, .download, .clone, .weekMode, .scroll, .conflict {
 	float: left;
 	width: 250px;
 	margin: 10px;

@@ -43,7 +43,7 @@
 				var isNewModel = this.model.isNew(),
 					attributes = {
 						name : this.$('#name').val(),
-						locationCountry: this.$('#selectCountry').val(),
+						locationCountry: Number(this.$('#selectCountry').val()),
 						date: this.$("#date").val()
 				};        
 				this.model.once('sync', function () {
@@ -59,6 +59,8 @@
 				this.model.save(attributes); 
 
                 this.cancel();
+
+				$('#hollidaysModal').modal('hide');
 
 			}
         },
@@ -115,7 +117,7 @@
         },
 		
 		cancel: function () {
-            $('.myAnimateClass').removeClass('slideInDown').addClass('slideOutDown');
+            $('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');
 			setTimeout(function() {
 			    cs.mediator.publish('HolidaysViewClosed'); //publish to Controller
 			}, 400); 

@@ -18,10 +18,7 @@
 			var eventType = collections.eventTypes.get(this.model.get('type')),
 			    resources = this.model.get('resources'),
                 eventTypeName = eventType.get('name'),
-				id = this.model.get('id'),
 				res = "";
-				
-			this.$el.addClass('ad' + id);
 			
 	        _.each(resources, function (num) {
 				this.resourceCollection.each(function (event) {
@@ -29,9 +26,9 @@
 						var date = '';
 
 						if(event.get('type') === "0") {
-							date = '<br>' + event.get('dateStart') + " - " +  event.get('dateFinish');
+							date =  ': ' + '<br>' + event.get('dateStart') + " - " +  event.get('dateFinish');
 						}
-						res += '<tr><td>' + event.get('name') + ': ' + date + '</td></tr>';
+						res += '<tr><td>' + event.get('name') + date + '</td></tr>';
 						date = '';
 					}
                 });  
@@ -44,9 +41,6 @@
             }));
 			$('.shortInfo').removeClass('warning');
 			$('.toshow').addClass('hidden');
-			$('.toshowfirst').switchClass('col-md-8', 'col-md-12', 1000);
-			$('.fullInform').addClass('hidden');
-            $('.ad' + id).removeClass('hidden');
 			
             return this;
         }
