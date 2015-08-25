@@ -8,23 +8,22 @@
         events: {
             'click .create': 'create',
             'change .resourceSorting': 'sorting',
-            'click .pageEl': 'changePage'
+            'click .pageEl': 'changePage',
+            'keyup .searchField': 'startSearch'
         },
     
         initialize: function () {
             this.collection = collections.resouresCollection;
-            this.pageSize = 15;
+            this.pageSize = 5;
             this.pageIndex = 0;
             this.listenTo(this.collection, 'add', this.render);
-            this.listenTo(this.collection, 'destroy', this.render);
+            this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
         },
     
         render: function () {
             this.pageCount = Math.ceil(this.collection.length / this.pageSize);
             this.$el.empty();
-            this.$el.html(this.template({
-                pageCount: this.pageCount
-            }));
+            this.$el.html(this.template());
 
             this.renderGrid();
 
@@ -32,7 +31,8 @@
         },
 
         renderGrid: function () {
-            var currentModel,
+            var tpl = templates.paginationTpl,
+                currentModel,
                 i;
 
             this.pageCount = Math.ceil(this.collection.length / this.pageSize);
@@ -43,12 +43,6 @@
                 view.remove();
             });
 
-            if(!this.collection.models[this.startPosition]){
-                this.pageIndex = this.pageIndex -1;
-                this.startPosition = this.pageIndex * this.pageSize;
-                this.endPosition = this.startPosition + this.pageSize;
-            }
-
             for(i = this.startPosition; i < this.endPosition; i ++){
                 currentModel = this.collection.models[i];
                 if(currentModel) {
@@ -58,6 +52,10 @@
                 }
             }
 
+            this.$('nav').html(tpl({
+                pageCount: this.pageCount
+            }));
+
             this.$(".pagination li").eq(this.pageIndex).addClass('active');
         },
 
@@ -65,6 +63,14 @@
             var view = new App.Resources.ResourcesModelHomepageView({model: model});
             this.itemViews.push(view);
             this.$('.resource-list').append(view.render().el);
+        },
+
+        renderAfterDestroy: function () {
+            if(!this.collection.at(this.startPosition)){
+             this.pageIndex = this.pageIndex -1;
+             }
+
+            this.renderGrid();
         },
 
         create: function () {
@@ -92,19 +98,35 @@
                     return resource.get('type');
                 };
                 this.collection.sort();
-                this.renderGrid();
             } else {
                 this.collection.comparator = function(resource) {
                     return resource.get('name');
                 };
                 this.collection.sort();
-                this.renderGrid();
             }
+
+            this.renderGrid();
         },
 
         changePage: function (e) {
             this.pageIndex = e.currentTarget.value - 1;
             this.$(".pagination li").removeClass('active');
+            this.renderGrid();
+        },
+
+        startSearch: function () {
+            var searchRequest = this.$('.searchField').val(),
+                filteredArray;
+            if (searchRequest !== '') {
+                filteredArray = collections.resouresCollection.filter(function (model) {
+                    return model.get('name').toLowerCase().indexOf(searchRequest.toLowerCase()) >= 0;
+                });
+                this.collection = new App.Resources.ResourcesCollection(filteredArray);
+            } else {
+                this.collection = collections.resouresCollection;
+                this.pageIndex = 0;
+            }
+
             this.renderGrid();
         }
     });

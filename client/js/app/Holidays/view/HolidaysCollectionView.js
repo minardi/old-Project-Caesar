@@ -36,11 +36,11 @@
             return this;
         },
 
-        renderGrid: function (HolidayArray) {
+        renderGrid: function (holidayArray) {
             var collection;
 
-            if (HolidayArray) {
-                collection = new App.Holidays.HolidaysCollection(HolidayArray);
+            if (holidayArray) {
+                collection = new App.Holidays.HolidaysCollection(holidayArray);
             } else {
                 collection = this.collection;
             }

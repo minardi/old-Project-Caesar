@@ -16,36 +16,28 @@
         },
 
         initialize: function () {
-            this.pageSize = 15;
-            this.pageIndex = 0;
             this.collection = collections.eventsCollection;
-            this.listenTo(this.collection, 'add', this.render);
-            this.listenTo(this.collection, 'destroy', this.render);
+            this.pageSize = 5;
+            this.pageIndex = 0;
+            this.listenTo(this.collection, 'add', this.renderGrid);
+            this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
 			$('body').on('keydown', this.closeOnEscape.bind(this));
         },
 
         render: function () {
             this.pageCount = Math.ceil(this.collection.length / this.pageSize);
             this.$el.empty();
-            this.$el.html(this.tpl({
-                pageCount: this.pageCount
-            }));
+            this.$el.html(this.tpl());
 
             this.renderGrid();
 
             return this;
         },
 
-        renderGrid: function (HolidayArray) {
+        renderGrid: function () {
             var tpl = templates.paginationTpl,
                 currentModel,
                 i;
-
-            if (HolidayArray) {
-                this.collection = new App.Holidays.HolidaysCollection(HolidayArray);
-            } else {
-                this.collection = collections.eventsCollection;
-            }
 
             this.pageCount = Math.ceil(this.collection.length / this.pageSize);
             this.startPosition = this.pageIndex * this.pageSize;
@@ -54,12 +46,6 @@
             _.each(this.itemViews, function (view) {
                 view.remove();
             });
-
-            if(!this.collection.models[this.startPosition]){
-                this.pageIndex = this.pageIndex -1;
-                this.startPosition = this.pageIndex * this.pageSize;
-                this.endPosition = this.startPosition + this.pageSize;
-            }
 
             for(i = this.startPosition; i < this.endPosition; i ++){
                 currentModel = this.collection.models[i];
@@ -84,6 +70,14 @@
 			this.itemViews.push(eventView);
 			var eventFullView = new App.Events.EventFullView({model: model});
 			this.$('.fullEvent').append(eventFullView.render().el);
+        },
+
+        renderAfterDestroy: function () {
+            if(!this.collection.at(this.startPosition)){
+                this.pageIndex = this.pageIndex -1;
+            }
+
+            this.renderGrid();
         },
 
         add: function () {
@@ -146,11 +140,13 @@
                     return model.get('name').toLowerCase().indexOf(searchRequest.toLowerCase()) >= 0;
                 });
 
-                this.renderGrid(filteredArray);
+                this.collection = new App.Events.EventCollection(filteredArray);
+                this.pageIndex = 0;
             } else {
                 this.collection = collections.eventsCollection;
-                this.renderGrid();
             }
+
+            this.renderGrid();
         }
     });
 })(App.Events);
