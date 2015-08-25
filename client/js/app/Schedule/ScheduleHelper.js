@@ -47,4 +47,11 @@
 			return week;
 	};
 
+	This.getFisrtDayOfWeek = function (date) {
+		var tempDate = new Date(date);
+		//find Monday's date with any date of week
+		tempDate = tempDate.adjustDate(-(tempDate.getDay() -1));
+		return tempDate;
+	};
+
 })(App.Schedule);

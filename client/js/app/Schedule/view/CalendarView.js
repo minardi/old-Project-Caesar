@@ -39,14 +39,10 @@
 				date.adjustDate(this.direction * 7);
 			};
 
-			this.startDate = this.getFisrtDayOfWeek(date);
+			this.startDate = This.getFisrtDayOfWeek(date);
 			this.currentWeekNumber = this.startDate.getWeekNumber();
 		},
 
-		getFisrtDayOfWeek: function (date) {
-			//find Monday's date with any date of week
-			date = date.adjustDate(-(date.getDay() -1));
-			return date;
-		}
+		
 	})
 })(App.Schedule);

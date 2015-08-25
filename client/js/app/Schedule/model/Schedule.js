@@ -10,10 +10,9 @@
 				json,
 				days;
 
-			
 			if (!rightWeek) {
 				this.push(week);
-				rightWeek = this.findWhere({startDate: week.get('startDate')});
+				rightWeek = this.findWhere({weekNumber: week.get('weekNumber')});
 
 			} else {
 				days = rightWeek.get('days');
@@ -39,7 +38,7 @@
 				days: rightWeek.get('days')
 			};
 			
-			rightWeek.save(attributes);
+			rightWeek.save(attributes, {wait: true});
 		
 		},
 
@@ -69,7 +68,7 @@
 				}, this);
 
 			if (_.isEmpty(rightWeek.get('days'))) {
-				rightWeek.destroy();
+				rightWeek.destroy({wait: true});
 			} else {
 				rightWeek.save();
 			};
