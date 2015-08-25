@@ -28,7 +28,7 @@ function AccountsController (req, res) {
 			if (!result) {
 				db.create(dbName, account.toJSON(), responde);
 			} else {
-				res.status(202).send('Sorry, login already exists!');
+				res.status(201).send('Sorry, login already exists!');
 			}
 		});
 	}	
@@ -39,7 +39,7 @@ function AccountsController (req, res) {
 			if (!result) {
 				db.update(dbName, account.toJSON(), id, responde);
 			} else {
-				res.status(202).send('Sorry, login already exists!');
+				res.status(201).send('Sorry, login already exists!');
 			}
 		});
 	}

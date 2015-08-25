@@ -15,8 +15,9 @@
                 this.render();
             },this);
 
-            this.model.on('error', function () {
-                this.model.set(this.defaultModelJSON);
+
+             this.model.on('error', function () {
+                    this.model.set(this.defaultModelJSON);
             }, this);
         },
  

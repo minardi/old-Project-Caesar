@@ -45,6 +45,7 @@ router.get('/name', function(req, res, next) {
     res.end(json);
 });
 
+
 router.post('/', function (req, res) {
     var staticRoute = /^\/build/.test(req.url)? './public': '../client';
     var db = new database();
@@ -66,15 +67,15 @@ router.get('/', function (req, res) {
     console.log('hello from get/'); 
     var staticRoute = /^\/build/.test(req.url)? './public': '../client';
 	
-	if(globalMan[req.cookies.clientId] == undefined) {
+	if(globalMan[req.cookies.clientId] === undefined) {
 		 res.clearCookie('clientId');
 		 res.render('index.jade');
-	}
-	
-    if(req.cookies && req.cookies.clientId) {
-         res.sendFile('home.html', { root: staticRoute });
-    } else {
-        res.render('index.jade');
+	} else {
+        if(req.cookies && req.cookies.clientId) {
+            res.sendFile('home.html', { root: staticRoute });
+        } else {
+            res.render('index.jade');
+        }
     }
 });
 
@@ -90,21 +91,19 @@ router.get('/logout', function (req, res) {
 
 router.get('*', function (req, res) {
     var staticRoute = /^\/build/.test(req.url)? './public': '../client';
-	
 	if (globalMan[req.cookies.clientId] === undefined) {
-        console.log(globalMan[req.cookies.clientId]); 
 		res.clearCookie('clientId', { path: '/' });
 		res.redirect('/');
-	}
-
-    if (req.cookies && req.cookies.clientId) {
-        if (!isRest(req.url)) { 
-            console.log('hello from send File - home.html'); 
-            res.sendFile('home.html', { root: staticRoute });
-        }
-    } else {
-        res.redirect('/');
-    }   
+	} else {
+        if (req.cookies && req.cookies.clientId) {
+            if (!isRest(req.url)) { 
+                console.log('hello from send File - home.html'); 
+                res.sendFile('home.html', { root: staticRoute });
+            }
+        } else {
+            res.redirect('/');
+        }   
+    }
 });
 
 function setRandomId () {

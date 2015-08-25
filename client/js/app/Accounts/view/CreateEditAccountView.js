@@ -33,11 +33,8 @@
             return this;
         },
 
-        saveAccount: function () {
-            var isNewModel = this.model.isNew(),
-                $login = this.$('#InputLogin'),
-                model = this.model,
-                attributes = {},
+        setAttributes: function () {
+            var attributes = {},
                 locationCity,
                 countryId,
                 $inputs;
@@ -47,23 +44,32 @@
               attributes[this.name] = $(this).val();
             });
             this.model.set(attributes);
+            locationCity = collections.citiesCollection.get(this.model.get('locationCity'));
+            countryId = locationCity.get('location');
+            this.model.set('locationCountry', countryId);
+        },
+
+        saveAccount: function () {
+            var isNewModel = this.model.isNew(),
+                closeView = this.cancel.bind(this),
+                $login = this.$('#InputLogin'),
+                model = this.model;
+
+            this.setAttributes();
             if (!this.preValidate()) {
-                locationCity = collections.citiesCollection.get(this.model.get('locationCity'));
-                countryId = locationCity.get('location');
-                this.model.set('locationCountry', countryId);
-                    this.model.save(attributes, {
+                    this.model.save({}, {
                         success: function() {
                             collections.accountsCollection.add(model);   
                             cs.mediator.publish( 'Notice',
                                 isNewModel? 'You succesfully added a new account': 'Information succesfully changed');
-							this.cancel();	
-                        }, 
+                            closeView();
+                        },
 
                         error: function (model, err) {
                             cs.mediator.publish('Hint', err.responseText, $login);
                         },
                         wait: true
-                });          
+                });
            }
         },
  
@@ -96,7 +102,7 @@
 			setTimeout(function() {
 			    cs.mediator.publish('CreateAccountViewClosed');
 			}, 400); 
-        },  
+        },
 
         show: function () {
             this.$el.removeClass('hidden');
