@@ -54,4 +54,24 @@
 		return tempDate;
 	};
 
+	This.isConflicts = function (eventsId) {
+		var conflicts = [],
+			isConflict = false,
+			resources,
+			event;
+
+			_.each(eventsId, function (id) {
+				event = collections.eventsCollection.findWhere({'id': id});
+				resources = event.get('resources');
+
+				conflicts = _.intersection(resources, conflicts);
+				if (!_.isEmpty(conflicts)) {
+					isConflict = true;
+				};
+				conflicts.push(resources);
+				conflicts = _.flatten(conflicts);
+			}, this);
+
+		return isConflict;
+	};
 })(App.Schedule);

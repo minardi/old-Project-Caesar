@@ -106,6 +106,7 @@
 		updateConflicts: function () {
 			this.views['conflict'].remove();
 			this.fullView.appendView('conflict',  this.views['conflict'].render().el);
+			this.views['schedule'].checkConglictsInCells();
 		}
 	})
 })(App.Schedule);
