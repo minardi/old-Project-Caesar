@@ -59,20 +59,18 @@
         },
 
         save: function () {
-			var user = User.get();
-
-            this.isNewModel = this.model.isNew();
-
-            if (!this.preValidate()) {
-
-                var attributes = {
+			var isNewModel = this.model.isNew(),
+                user = User.get(),
+                attributes;
+                
+                attributes = {
                     name : this.$('.name').val(),
                     type: Number(this.$('.type').val()),
 					locationCountry: user.locationCountry,
 					locationCity: user.locationCity,
                     resources: getIdResourcesArray()
                 };
-
+            if (!this.preValidate(attributes)) {
                 this.model.save(attributes);
                 collections.eventsCollection.add(this.model);
 				
@@ -86,7 +84,6 @@
 	
 				this.changeClassAndCansel();
             }
-
             // return array of resources ID in current event
             function getIdResourcesArray () {
                 var idArray = [];
@@ -95,59 +92,23 @@
                 });
                 return idArray;
             }
-
         },
 
-        preValidate: function (e) {
-              var input = $('.editName'),
-                select =  $('.editType'),
-                validationResult,
-                errors = this.model.preValidate({
-                    name: this.$('.name').val(),
-                    type: this.$('.type').val()
-                });
+        preValidate: function (attributes) {
+            var attrName,
+                validationResult;
 
-            input.parent().removeClass('has-error');
-            select.parent().removeClass('has-error');
+                validationResult = this.model.preValidate(attributes);
 
-                $('.tooltip-arrow').removeClass('myTooltip');
-                $('.tooltip-inner').removeClass('myTooltipInner');
-
-                remove ();
-
-                function remove () {
-                    input.tooltip('destroy');
-                    select.tooltip('destroy');
-                }
-
-                function toolTip (place) {
-                    var  formGroup = place.parents('.form-group');
-
-                    place.tooltip({
-                        trigger: 'manual',
-                        placement: 'top',
-                        title: 'Field cannot be empty'
-                    }).tooltip('show');
-
-                    setTimeout(remove, 5000);
-                }
-
-                if(errors) {
-
-                    if (errors.name) {
-                        $('.editName').parent().addClass('has-error');
-
-                        toolTip(input);
-                    }
-
-                    if (errors.type) {
-                        $('.editType').parent().addClass('has-error');
-
-                        toolTip(select);
+                if (validationResult) {
+                    for (attrName in validationResult) {
+                        cs.mediator.publish(  
+                            'Hint',
+                            validationResult[attrName],
+                            this.$('[name=' + attrName + ']')
+                        );
                     }
                 }
-                validationResult = errors;
-
             return validationResult;
         },
 		

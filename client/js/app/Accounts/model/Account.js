@@ -33,8 +33,8 @@
                     minLength: 2,
                     msg: 'Min length is 2 symbols'
                 }, {
-                    maxLength: 15,
-                    msg: 'Max length is 15 symbols'
+                    maxLength: 18,
+                    msg: 'Max length is 18 symbols'
                 }
             ],
             login: [
@@ -45,8 +45,8 @@
                     minLength: 2,
                     msg: 'Min length is 2 symbols'
                 }, {
-                    maxLength: 15,
-                    msg: 'Max length is 15 symbols'
+                    maxLength: 18,
+                    msg: 'Max length is 18 symbols'
                 }
             ],
             locationCity: function (value) {

@@ -23,8 +23,7 @@
         render: function () {
             var resourceTypes = collections.resourceTypes.toJSON(),
 			    type = this.model.get('type'),
-			    classForHide = 'hide',
-				_this = this;
+			    classForHide = 'hide';
 				
 				if(type === 0) {
 				    classForHide = "";
