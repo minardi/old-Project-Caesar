@@ -43,7 +43,7 @@
 				var isNewModel = this.model.isNew(),
 					attributes = {
 						name : this.$('#name').val(),
-						locationCountry: this.$('#selectCountry').val(),
+						locationCountry: Number(this.$('#selectCountry').val()),
 						date: this.$("#date").val()
 				};        
 				this.model.once('sync', function () {

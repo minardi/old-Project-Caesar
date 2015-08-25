@@ -73,6 +73,7 @@
         },
 
         renderAfterDestroy: function () {
+            this.startSearch();
             if(!this.collection.at(this.startPosition)){
                 this.pageIndex = this.pageIndex -1;
             }

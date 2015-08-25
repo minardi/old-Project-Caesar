@@ -26,7 +26,7 @@
 			    classForHide = 'hide',
 				_this = this;
 				
-				if(type === '0') {
+				if(type === 0) {
 				    classForHide = "";
 			    }
 
@@ -68,7 +68,7 @@
 
             attributes = {
                 name : this.$('.name').val(),
-                type: this.$('.type').val(),
+                type: Number(this.$('.type').val()),
                 locationCountry: user.locationCountry,
                 locationCity: user.locationCity,
 				dateStart: dateStart,

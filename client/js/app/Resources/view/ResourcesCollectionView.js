@@ -66,6 +66,7 @@
         },
 
         renderAfterDestroy: function () {
+            this.startSearch();
             if(!this.collection.at(this.startPosition)){
              this.pageIndex = this.pageIndex -1;
              }
@@ -119,7 +120,7 @@
                 filteredArray;
             if (searchRequest !== '') {
                 filteredArray = collections.resouresCollection.filter(function (model) {
-                    return model.get('name').toLowerCase().indexOf(searchRequest.toLowerCase()) >= 0;
+                    return model.get('name').toLowerCase().indexOf(searchRequest.toLowerCase()) !== -1;
                 });
                 this.collection = new App.Resources.ResourcesCollection(filteredArray);
             } else {
