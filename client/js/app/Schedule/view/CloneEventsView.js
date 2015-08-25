@@ -5,7 +5,9 @@
 
 		events: {
 			'click .weeks': 'clonetoWeeks',
-			'click .days': 'clonetoDays'
+			'click .days': 'clonetoDays',
+			'click .endDays': 'clonetoEndOfDays',
+
 		},
 
 		render: function () {
@@ -91,7 +93,6 @@
 			});
 
 			return rez;	
-
 		},
 
 		clonetoWeeks: function () {
@@ -106,7 +107,7 @@
 				temp = weekItem.clone();
 				temp.set('startDate', date);
 
-				collections.scheduleCollection.addEvent(temp);
+				this.checkResourcesConflicts(temp);
 			}
 		},
 
@@ -114,10 +115,9 @@
 			var dayNumber = $(event.currentTarget).attr('attribute'),
 				weekItem = this.generateWeekItem(),
 				cloneWeekItem = weekItem.clone(),
-				days = weekItem.get('days'),
 				cloneDays = {};
 
-			_.each(days, function (day) {
+			_.each(weekItem.get('days'), function (day) {
 				this.addTimelinesToDay(day, dayNumber, cloneDays);
 			}, this);
 			
@@ -147,7 +147,68 @@
 
 			cloneWeekItem.set('days', clodeDayCollection);
 			this.checkResourcesConflicts(cloneWeekItem);
-			
+		},
+
+		clonetoEndOfDays: function () {
+			var weekItem = this.generateWeekItem(),
+				weekItemToClone,
+				currentDate,
+				saturdayDayNumber = 6,
+				sundayDayNumber = 0,
+				event,
+				finish,
+				resources;
+
+			_.each(weekItem.get('days'), function (day, dayNumber) {
+				_.each(day, function (events, timeline) {
+					_.each(events, function (id) {
+						event = collections.eventsCollection.findWhere({'id': id});
+						resources = this.getGroupsWithFinishDate(event);
+				
+						currentDate = new Date(weekItem.get('startDate'));
+						currentDate.setDate(currentDate.getDate() + (dayNumber - 1));
+
+						_.each(resources, function (finishDate, resourceId) {
+							finish = new Date(finishDate);
+						
+							while (currentDate <= finish) {
+								currentDate.setDate(currentDate.getDate() + 1);
+							
+
+								if ((currentDate.getDay() < saturdayDayNumber ) && (currentDate.getDay() > sundayDayNumber)) {
+									weekItemToClone = This.createWeekItem({
+																'startDate': This.getFisrtDayOfWeek(currentDate),
+																'dayNumber': currentDate.getDay(),
+																'timeline': timeline,
+																'eventId': id
+									});
+								
+									this.checkResourcesConflicts(weekItemToClone);
+								};
+							};
+						}, this);
+					}, this);
+				}, this)
+			}, this);
+		},
+
+		getGroupsWithFinishDate: function (event) {
+			var resources = event.get('resources'),
+				resType,
+				oneRes,
+				resourcesWithDate = {};
+
+			_.each(resources, function (id) {
+				oneRes = collections.resouresCollection.findWhere({'id': id});
+				resType = oneRes.get('type');
+				resType = collections.resourceTypes.findWhere({'id': Number(resType)});
+
+				if (resType.get('name') === 'group') {
+					resourcesWithDate[id] = oneRes.get('dateFinish');
+				};
+			}, this);
+
+			return resourcesWithDate;
 		},
 
 		addTimelinesToDay: function (day, dayNumber, cloneDaysCollection) {
@@ -171,73 +232,77 @@
 		checkResourcesConflicts: function (weekItemToClone) {
 			var daysToClone = weekItemToClone.get('days'),
 				actualWeek = collections.scheduleCollection.findWhere({'weekNumber': weekItemToClone.get('weekNumber')}),
-				actualDays = actualWeek.get('days'),
+				actualDays,
 				actualEvent, 
 				isCellFonflict = false;
 				event;
 	
 			this.conflicts = [];
 			this.noConflicts = [];
-			this.conflictsEventsId = [];
 
-			_.each(daysToClone, function (timelines, dayNumber) {
-				_.each(timelines, function (eventsToCopy, timeline) {
-						if (!actualDays[dayNumber] || !actualDays[dayNumber][timeline]) {
-							this.addEventsToWeek({
-								'startDate': actualWeek.get('startDate'),
-								'dayNumber': dayNumber,
-								'timeline': timeline,
-								'events': eventsToCopy
-							});
-						} else {
-							_.each(eventsToCopy, function (eventId) {
-								event = collections.eventsCollection.findWhere({'id': eventId});
-								isCellFonflict = false;
+			if (actualWeek) {
+				actualDays = actualWeek.get('days');
 
-								_.each(actualDays[dayNumber][timeline], function (actualEventId) {
+				_.each(daysToClone, function (timelines, dayNumber) {
+					_.each(timelines, function (eventsToCopy, timeline) {
+							if (!actualDays[dayNumber] || !actualDays[dayNumber][timeline]) {
+								this.addEventsToWeek({
+									'startDate': actualWeek.get('startDate'),
+									'dayNumber': dayNumber,
+									'timeline': timeline,
+									'events': eventsToCopy
+								});
+							} else {
+								_.each(eventsToCopy, function (eventId) {
+									event = collections.eventsCollection.findWhere({'id': eventId});
+									isCellFonflict = false;
 
-									if (eventId !== actualEventId) {
-										event = collections.eventsCollection.findWhere({'id': eventId});
-										actualEvent = collections.eventsCollection.findWhere({'id': actualEventId});
+									_.each(actualDays[dayNumber][timeline], function (actualEventId) {
 
-										if (!(_.isEmpty(_.intersection(event.get('resources'), actualEvent.get('resources'))))) 
-										{
-											this.conflicts.push(This.createWeekItem({
-												'startDate': actualWeek.get('startDate'),
-												'dayNumber': dayNumber,
-												'timeline': timeline,
-												'eventId': actualEventId
-											}));
+										if (eventId !== actualEventId) {
+											event = collections.eventsCollection.findWhere({'id': eventId});
+											actualEvent = collections.eventsCollection.findWhere({'id': actualEventId});
 
-											this.noConflicts.push(This.createWeekItem({
-												'startDate': actualWeek.get('startDate'),
-												'dayNumber': dayNumber,
-												'timeline': timeline,
-												'eventId': eventId
-											}));
+											if (!(_.isEmpty(_.intersection(event.get('resources'), actualEvent.get('resources'))))) 
+											{
+												this.conflicts.push(This.createWeekItem({
+													'startDate': actualWeek.get('startDate'),
+													'dayNumber': dayNumber,
+													'timeline': timeline,
+													'eventId': actualEventId
+												}));
 
-											this.conflictsEventsId.push(actualEventId);
+												this.noConflicts.push(This.createWeekItem({
+													'startDate': actualWeek.get('startDate'),
+													'dayNumber': dayNumber,
+													'timeline': timeline,
+													'eventId': eventId
+												}));
 
-											isCellFonflict = true;
+												isCellFonflict = true;
+											};
+
 										};
 
+									}, this);
+
+									if (!isCellFonflict) {
+										this.addEventsToWeek({
+												'startDate': actualWeek.get('startDate'),
+												'dayNumber': dayNumber,
+												'timeline': timeline,
+												'events': eventId
+												});
 									};
-
 								}, this);
-
-								if (!isCellFonflict) {
-									this.addEventsToWeek({
-											'startDate': actualWeek.get('startDate'),
-											'dayNumber': dayNumber,
-											'timeline': timeline,
-											'events': eventId
-											});
-								};
-							}, this);
-						}
-					
-				}, this);
-			}, this);	
+							}
+						
+					}, this);
+				}, this);	
+			} else {
+				collections.scheduleCollection.addEvent(weekItemToClone);
+			}
+			
 
 			this.solveConflict();
 		},
@@ -256,23 +321,25 @@
 
 		solveConflict: function () {
 			var	eventName,
-				startDate,
+				date,
 				dayNumber,
 				timeline,
 				eventId,
 				message;
 
 			if (!_.isEmpty(this.conflicts)) {
-				startDate = this.conflicts[0].get('startDate');
 				dayNumber = Number(Object.keys(this.conflicts[0].get('days')));
+
+				date = this.conflicts[0].get('startDate');
+				date.setDate(date.getDate() + (dayNumber - 1));
 				timeline = Object.keys(this.conflicts[0].get('days')[dayNumber]);
 
 				eventId = Number(Object.keys(this.conflicts[0].get('days')[dayNumber][timeline]));
 
-				eventName = collections.eventsCollection.findWhere({'id': this.conflictsEventsId[0]});
+				eventName = collections.eventsCollection.findWhere({'id': eventId});
 				eventName = eventName.get('name');
 
-				message = 'Resources conflicts found: '+ startDate.toDateString() + ' ' + This.daysName[dayNumber] + ' at  ' + timeline + ' : ' + eventName;
+				message = 'Resources conflicts found: ' + date.toDateString() + This.daysName[dayNumber] + ' at  ' + timeline + ' : ' + eventName;
 		
 				this.showConfirm(message, this.deleteConflictEvent, 
 														{
@@ -282,7 +349,6 @@
 
 				this.conflicts.shift();
 				this.noConflicts.shift();
-				this.conflictsEventsId.shift();
 			};
 
 		},
@@ -295,7 +361,6 @@
 		},
 
 		deleteConflictEvent: function (options) {
-
 			collections.scheduleCollection.deleteEvent(options.conflictWeekItem);
 			collections.scheduleCollection.addEvent(options.weekItemtoCopy);
 

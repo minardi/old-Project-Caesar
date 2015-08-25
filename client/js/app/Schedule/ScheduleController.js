@@ -10,6 +10,7 @@
 			mainView.setupEl($el);
 			showScheduleEvents();
 			setupEvents();
+			setupHolidays();
 		}
 		
 		function setupMediator () {
@@ -20,7 +21,6 @@
 			cs.mediator.subscribe('EventPreviewConflictsSelected', showPreviewConflicts);
 			cs.mediator.subscribe('EventDeleted', checkAvailableCells);
 			cs.mediator.subscribe('EventsCloned', showWeek);
-			cs.mediator.subscribe('SheduleConfirmSelected', showScheduleConfirm);
 		}
 
 		function showScheduleEvents () {
@@ -30,6 +30,11 @@
 		function setupEvents () {
 			collections.eventsCollection.on('update', updateEvents);
 			collections.eventsCollection.on('change', updateEvents);
+		}
+
+		function setupHolidays() {
+			collections.holidaysCollection.on('update', showWeek);
+			collections.holidaysCollection.on('change', showWeek);
 		}
 
 		function updateEvents () {
@@ -47,7 +52,6 @@
 
 		function showWeek (direction) {
 			mainView.showWeek(direction);
-
 		}
 
 		function setupWeekMode (_mode) {
@@ -60,10 +64,6 @@
 
 		function checkAvailableCells () {
 			mainView.checkAvailableCells();
-		}
-
-		function showScheduleConfirm (message, callbackYes, yesOptions) {
-			mainView.showConfirm(message, callbackYes, yesOptions);
 		}
 
 		function hideAll () {
