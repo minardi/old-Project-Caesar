@@ -1,51 +1,76 @@
 (function (This) {
     This.CollectionView = Backbone.View.extend({
         tagName: 'div',
-
         className: 'resource',
-
         template: templates.resourceCollectionTpl,
+        itemViews: [],
 
         events: {
             'click .create': 'create',
             'change .resourceSorting': 'sorting',
-            'click .pageEl': 'changePage'
+            'click .pageEl': 'changePage',
+            'keyup .searchField': 'startSearch'
         },
     
         initialize: function () {
-            this.pageSize = 15;
-            this.pageIndex = 0;
             this.collection = collections.resouresCollection;
+            this.pageSize = 5;
+            this.pageIndex = 0;
             this.listenTo(this.collection, 'add', this.render);
-            this.listenTo(this.collection, 'destroy', this.render);
+            this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
         },
     
         render: function () {
-            var pageCount = Math.ceil(this.collection.length / this.pageSize),
-                startPosition = this.pageIndex * this.pageSize,
-                endPosition = startPosition + this.pageSize,
-                currentModel,
-                i;
+            this.pageCount = Math.ceil(this.collection.length / this.pageSize);
+            this.$el.empty();
+            this.$el.html(this.template());
 
-            this.$el.html(this.template({
-                pageCount: pageCount
-            }));
-
-            for(i = startPosition; i < endPosition; i ++){
-                currentModel = this.collection.models[i];
-                if(currentModel) {
-                    this.renderOne(currentModel);
-                }
-            }
-
-            this.$(".pagination li").eq(this.pageIndex).addClass('active');
+            this.renderGrid();
 
             return this;
         },
 
+        renderGrid: function () {
+            var tpl = templates.paginationTpl,
+                currentModel,
+                i;
+
+            this.pageCount = Math.ceil(this.collection.length / this.pageSize);
+            this.startPosition = this.pageIndex * this.pageSize;
+            this.endPosition = this.startPosition + this.pageSize;
+
+            _.each(this.itemViews, function (view) {
+                view.remove();
+            });
+
+            for(i = this.startPosition; i < this.endPosition; i ++){
+                currentModel = this.collection.models[i];
+                if(currentModel) {
+                    this.renderOne(currentModel);
+                }else {
+                    break;
+                }
+            }
+
+            this.$('nav').html(tpl({
+                pageCount: this.pageCount
+            }));
+
+            this.$(".pagination li").eq(this.pageIndex).addClass('active');
+        },
+
         renderOne: function (model) {
             var view = new App.Resources.ResourcesModelHomepageView({model: model});
+            this.itemViews.push(view);
             this.$('.resource-list').append(view.render().el);
+        },
+
+        renderAfterDestroy: function () {
+            if(!this.collection.at(this.startPosition)){
+             this.pageIndex = this.pageIndex -1;
+             }
+
+            this.renderGrid();
         },
 
         create: function () {
@@ -73,19 +98,36 @@
                     return resource.get('type');
                 };
                 this.collection.sort();
-                this.render();
             } else {
                 this.collection.comparator = function(resource) {
                     return resource.get('name');
                 };
                 this.collection.sort();
-                this.render();
             }
+
+            this.renderGrid();
         },
 
         changePage: function (e) {
             this.pageIndex = e.currentTarget.value - 1;
-            this.render();
+            this.$(".pagination li").removeClass('active');
+            this.renderGrid();
+        },
+
+        startSearch: function () {
+            var searchRequest = this.$('.searchField').val(),
+                filteredArray;
+            if (searchRequest !== '') {
+                filteredArray = collections.resouresCollection.filter(function (model) {
+                    return model.get('name').toLowerCase().indexOf(searchRequest.toLowerCase()) >= 0;
+                });
+                this.collection = new App.Resources.ResourcesCollection(filteredArray);
+            } else {
+                this.collection = collections.resouresCollection;
+                this.pageIndex = 0;
+            }
+
+            this.renderGrid();
         }
     });
 })(App.Resources);
