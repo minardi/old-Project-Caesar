@@ -133,12 +133,13 @@
 				cloneWeekItem = weekItem.clone(),
 				dayCollection = cloneWeekItem.get('days'),
 				clodeDayCollection = {},
+				saturdayDayNumber = 6,
 				i;
 
 			_.each(dayCollection, function (day, dayNumber) {
 				for (i = 0; i < daysNum; i++) {
 					dayNumber ++;
-					if (dayNumber < 6) {
+					if (dayNumber < saturdayDayNumber) {
 						this.addTimelinesToDay(day, dayNumber, clodeDayCollection);
 						
 					}
