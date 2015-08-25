@@ -11,6 +11,7 @@
 			showScheduleEvents();
 			setupEvents();
 			setupHolidays();
+			setupSchedule();
 		}
 		
 		function setupMediator () {
@@ -41,6 +42,10 @@
 			collections.eventsCollection.on('change', updateEvents);
 		}
 
+		function setupSchedule () {
+			collections.scheduleCollection.on('change', updateConflicts);
+		}
+
 		function setupHolidays() {
 			collections.holidaysCollection.on('update', showWeek);
 			collections.holidaysCollection.on('change', showWeek);
@@ -53,6 +58,10 @@
 		function showSchedule () {
 		 	hideAll();
 		 	mainView.show();
+		}
+
+		function updateConflicts () {
+			mainView.updateConflicts();
 		}
 
 		function setupSelectedEvent (event) {

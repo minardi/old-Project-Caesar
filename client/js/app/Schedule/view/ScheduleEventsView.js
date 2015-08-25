@@ -15,7 +15,8 @@
 				'download': 'download',
 				'weekMode': 'weekMode',
 				'clone': 'clone',
-				'scroll': 'scroll'
+				'scroll': 'scroll',
+				'conflict': 'conflict'
 			};
 			this.$el.find('.' + modules[moduleName]).html(element);
 		},

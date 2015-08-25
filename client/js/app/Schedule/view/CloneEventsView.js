@@ -7,7 +7,7 @@
 			'click .weeks': 'clonetoWeeks',
 			'click .days': 'clonetoDays',
 			'click .endDays': 'clonetoEndOfDays',
-
+			'click .endWeeks': 'clonetoEndOfWeeks',
 		},
 
 		render: function () {
@@ -190,6 +190,44 @@
 					}, this);
 				}, this)
 			}, this);
+		},
+
+		clonetoEndOfWeeks: function () {
+			var weekItem = this.generateWeekItem(),
+				daysNumInWeek = 7,
+				weekItemToClone,
+				currentDate,
+				event,
+				finish,
+				resources;
+
+			_.each(weekItem.get('days'), function (day, dayNumber) {
+				_.each(day, function (events, timeline) {
+					_.each(events, function (id) {
+						event = collections.eventsCollection.findWhere({'id': id});
+						resources = this.getGroupsWithFinishDate(event);
+				
+						currentDate = new Date(weekItem.get('startDate'));
+						currentDate.setDate(currentDate.getDate() + (dayNumber - 1));
+
+						_.each(resources, function (finishDate, resourceId) {
+							finish = new Date(finishDate);
+							currentDate.setDate(currentDate.getDate() + daysNumInWeek);
+
+							while (currentDate <= finish) {
+								weekItemToClone = This.createWeekItem({
+											'startDate': This.getFisrtDayOfWeek(currentDate),
+											'dayNumber': currentDate.getDay(),
+											'timeline': timeline,
+											'eventId': id
+									});
+								this.checkResourcesConflicts(weekItemToClone);
+								currentDate.setDate(currentDate.getDate() + daysNumInWeek);
+							};
+						}, this);
+					}, this);
+				}, this);
+			},this);
 		},
 
 		getGroupsWithFinishDate: function (event) {

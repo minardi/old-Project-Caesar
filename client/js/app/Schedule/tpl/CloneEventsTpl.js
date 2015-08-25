@@ -5,4 +5,5 @@ templates.cloneEventsTpl = _.template([
 '  		<button type="button" class="weeks btn btn-primary">Weeks</button>',
 '   	<button type="button" class="days btn btn-primary">Days</button>',
 '   	<button type="button" class="endDays btn btn-primary">End of group (Days)</button>',
+'   	<button type="button" class="endWeeks btn btn-primary">End of group (Weeks)</button>',
 '	</div>'].join(''));
