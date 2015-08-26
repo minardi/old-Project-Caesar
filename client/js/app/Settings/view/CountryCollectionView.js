@@ -38,10 +38,6 @@
             }
             this.collection.create({countryName: $inputCountry.val()});
             $inputCountry.val('');
-            cs.mediator.publish('CreateCountry', this);
-            if (App.Holidays.CollectionView) {
-                cs.mediator.publish('CountryCreated', 'all'); //publish to HolidaysCollectionView
-            }
         }
     });
 })(App.Settings);

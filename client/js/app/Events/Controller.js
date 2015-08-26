@@ -9,6 +9,7 @@
         },
 
         initialize: function () {
+            this.collection = collections.eventsCollection;
             this.collectionView = new This.EventCollectionView();
             this.createEditView = This.CreateEditView;
             this.el = $('#main');

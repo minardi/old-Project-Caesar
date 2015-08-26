@@ -7,7 +7,8 @@
             },
 
             initialize: function () {
-                this.collectionView = new This.CollectionView({collection: collections.holidaysCollection});
+                this.collection = collections.holidaysCollection;
+                this.collectionView = new This.CollectionView({collection: this.collection});
                 this.createEditView = This.CreateEditView;
                 this.el = $('#main');
                 this.mediator = cs.mediator;

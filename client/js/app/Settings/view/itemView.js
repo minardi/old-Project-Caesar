@@ -35,12 +35,8 @@
         },
 
         delete: function () {
-            if (this.model.get('countryName')) {
-                cs.mediator.publish('DeleteCountry', this.model.id);
-            }
             this.model.destroy();
             cs.mediator.publish('Notice', 'Item was succesfully deleted');
-            cs.mediator.publish('UpdateCountry', this);
         },
 
         edit: function () {
