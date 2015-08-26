@@ -107,18 +107,17 @@
 		},
 
 		checkAvailableCells: function (_event) {
-			var selectedEvent = (_event)? _event: this.selectedEvent,
+			var weekItem = collections.scheduleCollection.findWhere({'weekNumber': this.currentWeekNumber}),
+				selectedEvent = (_event)? _event: this.selectedEvent,
 				resources,
 				conflictView,
-				weekItem,
 				conflicts,
 				event,
 				$cell;
 				
 			this.$el.find('.conflictCell').remove();
 
-			if (selectedEvent) {
-				weekItem = collections.scheduleCollection.findWhere({'weekNumber': this.currentWeekNumber});
+			if (selectedEvent && weekItem) {
 				resources = selectedEvent.get('resources');
 
 				_.each(weekItem.get('days'), function (timelines, dayNumber) {
@@ -165,19 +164,22 @@
 				$elements;
 
 			this.$el.find('.extendedConflictCell').remove();
-			_.each(weekItem.get('days'), function (timelines, dayNumber) {
-				_.each(timelines, function (eventsId, timeline) {
+			if (weekItem) {
+				_.each(weekItem.get('days'), function (timelines, dayNumber) {
+					_.each(timelines, function (eventsId, timeline) {
 
-					if (This.isConflicts(eventsId)) {
-						conflictView = new This.ExtendedConflictView();
-						conflictView.setEvents(eventsId);
-						$elements = this.$el.find('tr[timeline="' + timeline + '"]');
-						$elements = $elements.find('td[day="' + dayNumber + '"]');
+						if (This.isConflicts(eventsId)) {
+							conflictView = new This.ExtendedConflictView();
+							conflictView.setEvents(eventsId);
+							$elements = this.$el.find('tr[timeline="' + timeline + '"]');
+							$elements = $elements.find('td[day="' + dayNumber + '"]');
 
-						$elements.append(conflictView.render().el);
-					}
+							$elements.append(conflictView.render().el);
+						}
+					}, this);
 				}, this);
-			}, this);
+			};
+		
 		}
  	});
 })(App.Schedule);

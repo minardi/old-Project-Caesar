@@ -4,13 +4,38 @@
 		$table: '',
 
 		events: {
-			'click .weeks': 'clonetoWeeks',
-			'click .days': 'clonetoDays',
-			'click .endDays': 'clonetoEndOfDays',
-			'click .endWeeks': 'clonetoEndOfWeeks',
+			'click input[type="radio"]': 'setCloneParam',
+			'click .weeks': 'chooseWeekClone',
+			'click .days': 'chooseDaysClone',
 		},
 
-		render: function () {
+		setCloneParam: function (event) {
+			this.cloneParam = $(event.currentTarget).attr('param');
+		},	
+
+		chooseWeekClone: function () {
+			var cloneOptions = {
+				'days': this.clonetoWeeks,
+				'end': this.clonetoEndOfWeeks
+			};
+
+			if (cloneOptions[this.cloneParam]) {
+				cloneOptions[this.cloneParam].call(this);
+			};
+		},
+
+		chooseDaysClone: function () {
+			var cloneOptions = {
+				'days': this.clonetoDays,
+				'end': this.clonetoEndOfDays
+			};
+
+			if (cloneOptions[this.cloneParam]) {
+				cloneOptions[this.cloneParam].call(this);
+			};
+		},
+
+ 		render: function () {
 			this.$el.html(this.template());
 			return this;
 		},
