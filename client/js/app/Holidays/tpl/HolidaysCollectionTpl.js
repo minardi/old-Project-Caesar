@@ -23,5 +23,7 @@ templates.holidaysCollectionTpl = _.template([
         '</div>',
         '<table class="table holidays-list">',
         '</table>',
-    '</div>'
+    '</div>',
+    '<nav>',
+    '</nav>'
 ].join(''));

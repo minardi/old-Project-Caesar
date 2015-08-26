@@ -34,16 +34,6 @@
 
         show: function () {
             this.$el.removeClass('hidden');
-        },
-
-        getModelById: function (id, callback) {
-            var model = this.collection.get(id);
-            if (model) {
-                callback(model);
-            } else {
-                cs.mediator.publish('Show404');
-            }
         }
-
     });
 })(App.Accounts);
