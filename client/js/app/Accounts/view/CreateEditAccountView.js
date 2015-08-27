@@ -7,7 +7,8 @@
 			'click .cancel': 'cancel',
             'click .save': 'saveAccount',
             'keydown': 'closeOnEscape',
-            'keypress':	'updateOnEnter'
+            'keypress':	'updateOnEnter',
+            'click .generate-pass': 'generatePassword'
         },
 
         initialize: function () {
@@ -122,6 +123,11 @@
             if (e.keyCode === ESC) {
                this.cancel();
             }
+        },
+        
+        generatePassword: function () {
+            var generatedPassword = Generator.generatePassword();
+            $('.password-input').val(generatedPassword);
         }
     });
 })(App.Accounts);
