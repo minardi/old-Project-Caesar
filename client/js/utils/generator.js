@@ -1,7 +1,7 @@
 var Generator = (function () {
-var strLettersArray = ['qwertyuiopasdfghjklzxcvbnm'].join().split(''),
-    strNumbersArray = ['0123456789'].join().split(''),
-    strSymbolsArray = ['!@#$%^&*()_+-={}[]:;|?<>/"\'~'].join().split('');
+var strLettersArray = 'qwertyuiopasdfghjklzxcvbnm'.split(''),
+    strNumbersArray = '0123456789'.split(''),
+    strSymbolsArray = '!@#$%^&*()_+-={}[]:;|?<>/"\'~'.split('');
 
 	function getRandom(min, max) {
 		var range = max - min + 1;
