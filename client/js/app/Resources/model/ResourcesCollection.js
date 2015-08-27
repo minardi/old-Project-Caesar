@@ -4,7 +4,7 @@
         url: '/resources',
 
         comparator: function (resource) {
-            return resource.get('typeId');
+            return resource.get('name');
         },
 
         filterForSearch : function (searchRequest) {

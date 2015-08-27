@@ -49,67 +49,46 @@ var BaseView = Backbone.View.extend({
         this.renderGrid();
     },
 
-    renderAfterDestroy: function () {
-        this.startSearch();
-        if(!this.collection.at(this.startPosition)){
-            this.pageIndex = this.pageIndex -1;
-        }
-
-        this.renderGrid();
-    },
-
     show: function () {
         this.$el.removeClass('hidden');
     },
 
     sortByName: function () {
-        if (this.nameFlag === 'AZ') {
-            this.collection.comparator = function (a, b) {
-                return a.get('name').toLowerCase() < b.get('name').toLowerCase() ? -1: 1;
-            };
+        var flag = 'nameFlag',
+            sortingAttribute = 'name';
 
-            this.nameFlag = 'ZA';
-        } else {
-            this.collection.comparator = function (a, b) {
-                return a.get('name').toLowerCase() > b.get('name').toLowerCase() ? -1: 1;
-            };
-            this.nameFlag = 'AZ';
-        }
-
-        this.collection.sort();
+        this.sortFunction(flag, sortingAttribute);
         this.renderGrid();
     },
 
     sortByType: function () {
-        if (this.typeFlag === 'AZ') {
-            this.collection.comparator = function (a, b) {
-                return a.get('type') < b.get('type') ? -1: 1;
-            };
+        var flag = 'typeFlag',
+            sortingAttribute = 'type';
 
-            this.typeFlag = 'ZA';
-        } else {
-            this.collection.comparator = function (a, b) {
-                return a.get('type') > b.get('type') ? -1: 1;
-            };
-            this.typeFlag = 'AZ';
-        }
-
-        this.collection.sort();
+        this.sortFunction(flag, sortingAttribute);
         this.renderGrid();
     },
 
-    sortFunction: function (direction, field) {
-        if (direction === 'AZ') {
+    sortFunction: function (flag, field) {
+        if (this[flag] === 'ASC') {
             this.collection.comparator = function (a, b) {
-                return a.get(field) < b.get(field) ? -1: 1;
+                var firstValue = a.get(field).toLowerCase(),
+                    secondValue = b.get(field).toLowerCase();
+
+                return firstValue < secondValue ? -1 : 1;
             };
 
-            direction = 'ZA';
+            this[flag] = 'DESC';
         } else {
             this.collection.comparator = function (a, b) {
-                return a.get(field) > b.get(field) ? -1: 1;
+                var firstValue = a.get(field).toLowerCase(),
+                    secondValue = b.get(field).toLowerCase();
+
+                return firstValue > secondValue ? -1 : 1;
             };
-            direction = 'AZ';
+            this[flag] = 'ASC';
         }
+
+        this.collection.sort();
     }
 });
