@@ -7,6 +7,7 @@
 			'click input[type="radio"]': 'setCloneParam',
 			'click .weeks': 'chooseWeekClone',
 			'click .days': 'chooseDaysClone',
+			'click .copySelected': 'collectSelectedEvents'
 		},
 
 		setCloneParam: function (event) {
@@ -22,6 +23,10 @@
 			if (cloneOptions[this.cloneParam]) {
 				cloneOptions[this.cloneParam].call(this);
 			};
+		},
+
+		collectSelectedEvents: function () {
+			this.weekItem = this.generateWeekItem();
 		},
 
 		chooseDaysClone: function () {
@@ -138,17 +143,21 @@
 
 		cloneToSelectedDay: function (event) {
 			var dayNumber = $(event.currentTarget).attr('attribute'),
-				weekItem = this.generateWeekItem(),
-				cloneWeekItem = weekItem.clone(),
+				cloneWeekItem, 
 				cloneDays = {};
 
-			_.each(weekItem.get('days'), function (day) {
-				this.addTimelinesToDay(day, dayNumber, cloneDays);
-			}, this);
-			
-			cloneWeekItem.set('days', cloneDays);
-			
-			this.checkResourcesConflicts(cloneWeekItem);
+			if (this.weekItem) {
+				cloneWeekItem = this.weekItem.clone();
+
+				_.each(this.weekItem.get('days'), function (day) {
+					this.addTimelinesToDay(day, dayNumber, cloneDays);
+				}, this);
+				
+				cloneWeekItem.set('days', cloneDays);
+				
+				this.checkResourcesConflicts(cloneWeekItem);
+			};
+
 			return false;
 		},
 

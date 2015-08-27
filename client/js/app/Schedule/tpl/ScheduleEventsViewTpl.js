@@ -8,6 +8,7 @@ templates.scheduleEventsTpl = _.template([
 '	<div class="row">',
 '		<div class="col-md-4">',
 '			<div class = "scheduleEvents"></div>',
+'			<div class = "conflict"></div>',
 '		</div>',
 '		<div class="col-md-8">',
 '			<div class = "Myschedule"></div>',
@@ -23,11 +24,3 @@ templates.scheduleEventsTpl = _.template([
 '			<div class = "clone"></div>',
 '		</div>',
 '	</div>'].join(''));
-
-
-// '	<div class = "eventsAndDownload">',
-//
-// '		<div class = "weekMode"></div>',
-// '		<div class = "clone"></div>',
-// '		<div class = "scroll"></div>',
-// '		<div class = "conflict"></div>',

@@ -1,6 +1,7 @@
 (function (This) {
-	This.ExtendedConflictView = This.ConflictView.extend({
+	This.ExtendedConflictView = Backbone.View.extend({
 		className: 'extendedConflictCell',
+		$frag: null,
 
 		setEvents: function (_events) {
 			this.eventsId = _events;

@@ -22,6 +22,7 @@
 			this.chooseWeek();
 			this.checkHolidays();
 			this.checkConglictsInCells();
+			this.checkWeekends();
 		},
 
 		chooseWeek: function () {
@@ -80,12 +81,16 @@
 			}, this);
 		},
 
+		checkWeekends: function () {
+			this.$el.find('td[day="6"]').addClass('weekend');
+			this.$el.find('td[day="0"]').addClass('weekend');
+		},
+
 		renderSelectedEvent: function (event) {
 			var $target = $(event.currentTarget),
-				accept = $target.find('.conflictCell, .holidayCell'),
+				accept = $target.find('.holidayCell'),
 				dayNumber,
 				timeline;
-
 
 			if (this.selectedEvent && !accept.length) {
 					dayNumber = $target.attr('day'),
@@ -110,12 +115,11 @@
 			var weekItem = collections.scheduleCollection.findWhere({'weekNumber': this.currentWeekNumber}),
 				selectedEvent = (_event)? _event: this.selectedEvent,
 				resources,
-				conflictView,
 				conflicts,
 				event,
 				$cell;
 				
-			this.$el.find('.conflictCell').remove();
+			this.$el.find('.danger').removeClass('danger');
 
 			if (selectedEvent && weekItem) {
 				resources = selectedEvent.get('resources');
@@ -130,15 +134,7 @@
 								$cell = this.$el.find('tr[timeline="' + timeline + '"]');
 								$cell = $cell.find('td[day="' + dayNumber + '"]');
 
-								if ($cell.children('.conflictCell').length === 0) {
-									conflictView =  new This.ConflictView();
-
-									$cell.append(conflictView.render().el);
-
-									if (this.isOneChild($cell, selectedEvent.get('id'))) {
-										$cell.find('.conflictCell').hide();
-									};
-								};
+								$cell.addClass('danger');
 							};
 						}, this);
 					}, this);

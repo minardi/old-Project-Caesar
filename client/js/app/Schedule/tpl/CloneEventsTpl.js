@@ -19,6 +19,11 @@ templates.cloneEventsTpl = _.template([
 '   			<button type="button" class="days btn btn-primary">Days</button>',
 '			</div>',
 '		</div>',
+'	</div>',
+'	<div class="row">',
+'		<div class="col-md-12">',
+'  			<button type="button" class="copySelected btn btn-primary">CopySelected</button>',
+'		</div>',
 '	</div>'
 ].join(''));
 

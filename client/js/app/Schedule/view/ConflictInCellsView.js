@@ -1,6 +1,7 @@
 (function (This) {
 	This.ConflictsInCellView = Backbone.View.extend({
-				
+		template: templates.conflictsInCellsViewTpl,
+
 		checkConflicts: function () {
 			var conflictDate;
 
@@ -23,16 +24,20 @@
 		},
 
 		showConflicts: function () {
+			this.conflicts = '';
 			_.each(this.dateCollection, function (date) {
-				this.$el.append('<br>' + date);
+				this.conflicts = this.conflicts + date + '<br>';
 			}, this);
 		},
 
 		render: function () {
-			this.$el.html('Conflicts are found on:');
 			this.checkConflicts();
 			this.showConflicts();
-			
+
+			if (!_.isEmpty(this.dateCollection)) {
+				this.$el.html(this.template({'value': this.conflicts}));
+			};
+
 			return this;
 		}
 	})

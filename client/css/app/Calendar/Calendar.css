@@ -5,8 +5,89 @@
 
 .scheduleEvents {
 	width: 300px;
-	height: 450px;
+	max-height: 350px;
 	overflow: auto;
+}
+
+.pager {
+    margin: 0; 
+    padding: 4px;
+}
+.myPanel {
+  	border: 1px solid transparent;
+  	border-radius: 4px;
+  	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+}
+
+.weekend {
+	background-color: #FFDACC;
+}
+
+.myPanel-body {
+  padding: 0px;
+}
+.myPanel-heading {
+  border-bottom: 1px solid transparent;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.myPanel-primary {
+  border-color: #337ab7;
+}
+.myPanel-primary > .myPanel-heading {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #337ab7;
+}
+.myPanel-primary > .myPanel-heading + .myPanel-collapse > .myPanel-body {
+  border-top-color: #337ab7;
+}
+.myPanel-primary > .myPanel-heading .badge {
+  color: #337ab7;
+  background-color: #fff;
+}
+.myPanel-primary > .myPanel-footer + .myPanel-collapse > .myPanel-body {
+  border-bottom-color: #337ab7;
+}
+
+.myPanel-holiday {
+  border-color: #faebcc;
+}
+.myPanel-holiday > .myPanel-heading {
+  color: #FFEDCC;
+  background-color: #AA8139;
+  border-color: #faebcc;
+}
+.myPanel-holiday > .myPanel-heading + .myPanel-collapse > .myPanel-body {
+  border-top-color: #faebcc;
+}
+.myPanel-holiday > .myPanel-heading .badge {
+  color: #AA8139;
+  background-color: #FFEDCC;
+}
+.myPanel-holiday > .myPanel-footer + .myPanel-collapse > .myPanel-body {
+  border-bottom-color: #faebcc;
+}
+
+.myPanel-danger {
+  border-color: #ebccd1;
+}
+.myPanel-danger > .myPanel-heading {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+.myPanel-danger > .myPanel-heading + .myPanel-collapse > .myPanel-body {
+  border-top-color: #ebccd1;
+}
+.myPanel-danger > .myPanel-heading .badge {
+  color: #f2dede;
+  background-color: #a94442;
+}
+.myPanel-danger > .myPanel-footer + .myPanel-collapse > .myPanel-body {
+  border-bottom-color: #ebccd1;
 }
 
 .SheduleEventsLi {
@@ -24,30 +105,21 @@
 }
 
 
-.eventsAndDownload, .weekMode, .scroll, .conflict {
+.eventsAndDownload, .weekMode, .scroll {
 	float: left;
 	width: 250px;
 	margin: 10px;
+}
+
+.conflict {
+	width: 300px;
+	float: left;
 }
 
 .SheduleAndPager {
 	float: left;
 	width: 800px;
 	padding-left: 5%;
-}
-
-.pager {
-    margin: 0; 
-    padding: 4px;
-}
-
-.table {
-	margin-bottom: 0px
-}
-
-.table tr {
-	height: auto;
-	width: auto;
 }
 
 .cell {
@@ -64,7 +136,12 @@
 	height: 30px;
 	font-size: 12px;
 	font-style: italic;	
+}
 
+.danger {
+	background-color: #f2dede;
+	border: 2px;
+	border-color: #FA0A5A;
 }
 
 .conflictCell, .extendedConflictCell{
@@ -76,19 +153,6 @@
 	min-height: 20px;
 }
 
-.holidayCell {
-	background-color: #CACAFF;
-	font-size: 10px;
-	font-style: italic;
-	height: auto;
-	width: 100%;
-}
-
-.calendarCellDiv {
-	border: 1px solid #7A7A7A !important;
-	background-color: #E7FCFE;
-	width: 100%;
-}
 
 .table-bordered tr>td:first-child {
     width:20px;
@@ -98,12 +162,10 @@
 	background-color: #E8E8FF;
 }
 
-
-
 .resourceSorting, .weeksNumber {
 	width: 100px;
 }
 
-.preViewScroll {
-    overflow: auto;
+.chooseDay, .chooseTimeline, .chooseWeek {
+	cursor: pointer;
 }
