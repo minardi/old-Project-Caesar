@@ -4,7 +4,17 @@
         url: '/resources',
 
         comparator: function (resource) {
-            return resource.get('typeId');
+            return resource.get('name');
+        },
+
+        filterForSearch : function (searchRequest) {
+            var filteredArray;
+
+            filteredArray = this.filter(function (model) {
+                return model.get('name').toLowerCase().indexOf(searchRequest.toLowerCase()) >= 0;
+            });
+
+            return new This.ResourcesCollection(filteredArray);
         }
     });
 })(App.Resources);

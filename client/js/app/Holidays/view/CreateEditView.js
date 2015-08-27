@@ -45,18 +45,15 @@
 						name : this.$('#name').val(),
 						locationCountry: Number(this.$('#selectCountry').val()),
 						date: this.$("#date").val()
-				};        
-				this.model.once('sync', function () {
-					if (isNewModel) {
-						cs.mediator.publish('HolidaySaved', this.model); //publish to HolidaysCollectionView
-					} 
-					cs.mediator.publish( //publish to Messenger's Controller
-						'Notice',
-						isNewModel? 'You succesfully added a new holiday': 'Information succesfully changed'
-					);
-				}, this);
+				};
+
+                cs.mediator.publish( //publish to Messenger's Controller
+                    'Notice',
+                    isNewModel ? 'You succesfully added a new holiday' : 'Information succesfully changed'
+                );
 				
-				this.model.save(attributes); 
+				this.model.save(attributes);
+                collections.holidaysCollection.add(this.model);
 
                 this.cancel();
 
@@ -133,6 +130,6 @@
             if (e.keyCode === ESC) {
                 this.cancel();
             }
-        },
+        }
     });
 })(App.Holidays);

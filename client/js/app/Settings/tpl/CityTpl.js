@@ -10,7 +10,7 @@ templates.cityTpl = _.template([
                     '<%})%>',
                 '</select>',
             '</div>',
-            '<ul class="cities list-group">',
+            '<ul id="citiesScroll" class="cities list-group">',
             '</ul>',
             '<div>',
                 '<input class="new-city form-control" type="text"  placeholder="Select a country at first">',

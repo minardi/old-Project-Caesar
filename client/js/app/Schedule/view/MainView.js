@@ -31,7 +31,7 @@
 			_.each(this.views, function (view, viewName) {
 				this.fullView.appendView(viewName, view.render().el);
 			}, this);
-
+			
 			this.views['schedule'].renderEvents();
 			this.$el.append(this.fullView.render().el);
 
@@ -106,6 +106,7 @@
 		updateConflicts: function () {
 			this.views['conflict'].remove();
 			this.fullView.appendView('conflict',  this.views['conflict'].render().el);
+			this.views['schedule'].checkConglictsInCells();
 		}
 	})
 })(App.Schedule);

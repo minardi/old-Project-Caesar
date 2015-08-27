@@ -40,7 +40,12 @@ _.extend(Backbone.Controller.prototype, {
         },
 
         editViewById: function (id) {
-            this.collectionView.getModelById(id, _.bind(this.editView, this));
+            var model = this.collection.get(id);
+            if (model) {
+                this.editView(model);
+            } else {
+                cs.mediator.publish('Show404');
+            }
         },
 
         editView: function (model) {
@@ -53,8 +58,8 @@ _.extend(Backbone.Controller.prototype, {
 
         viewClosed: function () {
             this.crudView && this.crudView.remove();
-            //this.mediator.publish('RouteToEvents');
         },
+
         hideAll: function () {
             this.el.children().addClass('hidden');
         }

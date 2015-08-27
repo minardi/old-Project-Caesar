@@ -61,7 +61,7 @@
                 attributes;
 			
             if(this.$('.type').val() === '0') {
-				dateStart = this.$('#dateStart').val(),
+				dateStart = this.$('#dateStart').val();
 				dateFinish = this.$('#dateFinish').val();
 			}				
 
@@ -117,7 +117,7 @@
 		changeClassAndCancel: function () {
 			$('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');
 			setTimeout(function() {
-			    cs.mediator.publish('ResourcesViewClosed'); //publish to Controller
+			    cs.mediator.publish('ResourcesViewClosed'); //publish to Controller and router
 			}, 400); 
 		},
 

@@ -4,13 +4,43 @@
 		$table: '',
 
 		events: {
-			'click .weeks': 'clonetoWeeks',
-			'click .days': 'clonetoDays',
-			'click .endDays': 'clonetoEndOfDays',
-			'click .endWeeks': 'clonetoEndOfWeeks',
+			'click input[type="radio"]': 'setCloneParam',
+			'click .weeks': 'chooseWeekClone',
+			'click .days': 'chooseDaysClone',
+			'click .copySelected': 'collectSelectedEvents'
 		},
 
-		render: function () {
+		setCloneParam: function (event) {
+			this.cloneParam = $(event.currentTarget).attr('param');
+		},	
+
+		chooseWeekClone: function () {
+			var cloneOptions = {
+				'days': this.clonetoWeeks,
+				'end': this.clonetoEndOfWeeks
+			};
+
+			if (cloneOptions[this.cloneParam]) {
+				cloneOptions[this.cloneParam].call(this);
+			};
+		},
+
+		collectSelectedEvents: function () {
+			this.weekItem = this.generateWeekItem();
+		},
+
+		chooseDaysClone: function () {
+			var cloneOptions = {
+				'days': this.clonetoDays,
+				'end': this.clonetoEndOfDays
+			};
+
+			if (cloneOptions[this.cloneParam]) {
+				cloneOptions[this.cloneParam].call(this);
+			};
+		},
+
+ 		render: function () {
 			this.$el.html(this.template());
 			return this;
 		},
@@ -113,17 +143,21 @@
 
 		cloneToSelectedDay: function (event) {
 			var dayNumber = $(event.currentTarget).attr('attribute'),
-				weekItem = this.generateWeekItem(),
-				cloneWeekItem = weekItem.clone(),
+				cloneWeekItem, 
 				cloneDays = {};
 
-			_.each(weekItem.get('days'), function (day) {
-				this.addTimelinesToDay(day, dayNumber, cloneDays);
-			}, this);
-			
-			cloneWeekItem.set('days', cloneDays);
-			
-			this.checkResourcesConflicts(cloneWeekItem);
+			if (this.weekItem) {
+				cloneWeekItem = this.weekItem.clone();
+
+				_.each(this.weekItem.get('days'), function (day) {
+					this.addTimelinesToDay(day, dayNumber, cloneDays);
+				}, this);
+				
+				cloneWeekItem.set('days', cloneDays);
+				
+				this.checkResourcesConflicts(cloneWeekItem);
+			};
+
 			return false;
 		},
 
@@ -133,12 +167,13 @@
 				cloneWeekItem = weekItem.clone(),
 				dayCollection = cloneWeekItem.get('days'),
 				clodeDayCollection = {},
+				saturdayDayNumber = 6,
 				i;
 
 			_.each(dayCollection, function (day, dayNumber) {
 				for (i = 0; i < daysNum; i++) {
 					dayNumber ++;
-					if (dayNumber < 6) {
+					if (dayNumber < saturdayDayNumber) {
 						this.addTimelinesToDay(day, dayNumber, clodeDayCollection);
 						
 					}

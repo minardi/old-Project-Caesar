@@ -14,4 +14,8 @@ templates.calendarRowTpl = _.template([
 '		</td>',
 '		<td class="calendarCell" day= "<%= day = day + 1 %>" timeline = "<%= timeline %>">',
 '		</td>',
+'		<td class="calendarCell" day= "<%= day = day + 1 %>" timeline = "<%= timeline %>">',
+'		</td>',
+'		<td class="calendarCell" day= "<%= day = 0 %>" timeline = "<%= timeline %>">',
+'		</td>',
 '	</tr>'].join(''));

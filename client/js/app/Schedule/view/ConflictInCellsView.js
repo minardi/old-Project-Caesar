@@ -1,48 +1,43 @@
 (function (This) {
 	This.ConflictsInCellView = Backbone.View.extend({
-				
+		template: templates.conflictsInCellsViewTpl,
+
 		checkConflicts: function () {
 			var conflictDate;
+
+			this.dateCollection = [];
 
 			collections.scheduleCollection.each(function (week) {
 				_.each(week.get('days'), function (timelines, dayNumber) {
 					_.each(timelines, function (eventsId, timeline) {		
-						if (this.isConflicts(eventsId)) {
+						if (This.isConflicts(eventsId)) {
 							conflictDate = new Date(week.get('startDate'));
 							conflictDate.setDate(conflictDate.getDate() + (dayNumber - 1));
 					
-							this.$el.append('<br>' + conflictDate.toDateString());
+							this.dateCollection.push(conflictDate.toDateString());
 						}
 					}, this);
 				}, this);
 			}, this);
+
+			this.dateCollection = _.uniq(this.dateCollection);
 		},
 
-		isConflicts: function (eventsId) {
-			var conflicts = [],
-				isConflict = false,
-				resources,
-				event;
-
-			_.each(eventsId, function (id) {
-				event = collections.eventsCollection.findWhere({'id': id});
-				resources = event.get('resources');
-
-				conflicts = _.intersection(resources, conflicts);
-				if (!_.isEmpty(conflicts)) {
-					isConflict = true;
-				};
-				conflicts.push(resources);
-				conflicts = _.flatten(conflicts);
+		showConflicts: function () {
+			this.conflicts = '';
+			_.each(this.dateCollection, function (date) {
+				this.conflicts = this.conflicts + date + '<br>';
 			}, this);
-
-			return isConflict;
 		},
 
 		render: function () {
-			this.$el.html('Conflicts are foind on:');
 			this.checkConflicts();
-			
+			this.showConflicts();
+
+			if (!_.isEmpty(this.dateCollection)) {
+				this.$el.html(this.template({'value': this.conflicts}));
+			};
+
 			return this;
 		}
 	})

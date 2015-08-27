@@ -12,9 +12,11 @@
         initialize: function () {
             this.collection = collections.countriesCollection;
             this.listenTo(this.collection, 'add', this.renderOne);
+			cs.mediator.subscribe('UpdateCountries', this.updateCollection, {}, this);
         },
 
         render: function () {
+			this.count = 0;
             this.$el.html(this.template);
             this.collection.each(function (model) {
                 this.renderOne(model);
@@ -27,9 +29,19 @@
             var countryView = new App.Settings.ItemView({model: model});
             this.$('.countries').append(countryView.render().el);
             this.$('.destroy').addClass('country');
-            return this;
+			this.count++;
+			this.showScroll();
+            
+			return this;
         },
 
+        showScroll: function () {
+			if(this.count >= 7) {
+				this.$('#countyScroll').addClass('showScroll');
+			} else {
+				this.$('#countyScroll').removeClass('showScroll');
+			}
+		},
         createNewCountry: function (e) {
             var ENTER = 13,
                 $inputCountry = this.$('.new-country');
@@ -38,10 +50,10 @@
             }
             this.collection.create({countryName: $inputCountry.val()});
             $inputCountry.val('');
-            cs.mediator.publish('CreateCountry', this);
-            if (App.Holidays.CollectionView) {
-                cs.mediator.publish('CountryCreated', 'all'); //publish to HolidaysCollectionView
-            }
+        },
+		
+		updateCollection: function (){
+            this.render();  
         }
     });
 })(App.Settings);
