@@ -1,5 +1,6 @@
 'use strict';
 templates.accountTpl = _.template([
+'   <td><%= fullName %></td>',
 '   <td><%= login %></td>',
 '   <td><%= role %></td>',
 '   <td><%= locationCity %></td>',

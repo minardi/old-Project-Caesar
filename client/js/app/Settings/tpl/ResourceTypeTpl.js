@@ -3,7 +3,7 @@ templates.resourceTypeTpl = _.template([
             '<div class="panel-heading">',
                 '<p>Resources Types</p>',
             '</div>',
-            '<ul class="resource-type list-group">',
+            '<ul id="resourceScroll" class="resource-type list-group">',
             '</ul>',
             '<div>',
                 '<input class="new-type form-control" type="text"  placeholder="Type">',

@@ -23,8 +23,10 @@
         },
 
         render: function () {
+			var user = User.get();
             this.$el.empty().append(this.template({
-                counties: collections.countriesCollection.toJSON()
+                counties: collections.countriesCollection.toJSON(),
+				role:  user.role
             }));
             this.renderGrid();
 

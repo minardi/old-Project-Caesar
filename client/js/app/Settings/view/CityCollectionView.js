@@ -15,9 +15,11 @@
             cs.mediator.subscribe('CreateCountry', this.updateCollection, {}, this);
             cs.mediator.subscribe('DeleteCountry', this.deleteCollection, {}, this);
             cs.mediator.subscribe('UpdateCountry', this.updateCollection, {}, this);
+			this.count = 0;
         },
 
         render: function () {
+			this.count = 0;
             this.$el.html(this.template({
                 locationCountry: collections.countriesCollection.toJSON()
             }));
@@ -31,8 +33,19 @@
         renderOne: function (model) {
             var cityView = new App.Settings.ItemView({model: model});
             this.$('.cities').append(cityView.render().el);
-            return this;
+			this.count++;
+			this.showScroll();
+            
+			return this;
         },
+		
+		showScroll: function () {
+			if(this.count >= 7) {
+				this.$('#citiesScroll').addClass('showScroll');
+			} else {
+				this.$('#citiesScroll').removeClass('showScroll');
+			}
+		},
 
         selectCountry: function () {          
             var selectedCountry =  this.$('#selectCountry option:selected').text(),

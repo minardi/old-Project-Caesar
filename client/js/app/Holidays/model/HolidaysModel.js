@@ -30,6 +30,18 @@
 				}
 		},
 		
+		skippedByLocation: function () {
+			var country = this.get('locationCountry'),
+			    location = User.get(),
+			    skip = true;
+			    
+			if(location.locationCountry !== country) {
+					skip = false;
+			}
+			
+			return skip;
+		},
+		
         validation: {
             name: [
                 {

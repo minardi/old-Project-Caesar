@@ -7,6 +7,7 @@
 
         events:{
             'click .destroy': 'confirmDelete',
+			'click .editSetings': 'edit',
             'dblclick': 'edit',
             'keypress .edit-type':	'updateOnEnter',
             'keydown .edit-type': 'revertOnEscape',
@@ -37,6 +38,10 @@
         delete: function () {
             this.model.destroy();
             cs.mediator.publish('Notice', 'Item was succesfully deleted');
+			cs.mediator.publish('UpdateCountry', this);
+			cs.mediator.publish('UpdateRecourse', this);
+			cs.mediator.publish('UpdateEvents', this);
+			cs.mediator.publish('UpdateCountries', this);
         },
 
         edit: function () {
