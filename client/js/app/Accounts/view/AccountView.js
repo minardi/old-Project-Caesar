@@ -10,15 +10,10 @@
         },
 
          initialize: function () {
-            this.defaultModelJSON = this.model.toJSON();
             this.model.on('change', function() {
+                console.log('from change');
                 this.render();
             },this);
-
-
-             this.model.on('error', function () {
-                    this.model.set(this.defaultModelJSON);
-            }, this);
         },
  
         render: function () {

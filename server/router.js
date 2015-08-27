@@ -54,9 +54,11 @@ router.post('/', function (req, res) {
             console.log('Invalid login');
             res.render('index.jade', { error: 'Invalid login or password'});
         } else {
-                var id = setRandomId();
+                var id = setRandomId(),
+                    maxAge = 3600000;
+                    
                 globalMan[id] = account;
-                res.cookie('clientId', id, { maxAge: 3600000 });
+                res.cookie('clientId', id, { maxAge: maxAge });
                 res.sendFile('home.html', { root: staticRoute });       
         }   
     });

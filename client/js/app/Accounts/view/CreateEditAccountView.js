@@ -5,7 +5,7 @@
 
         events: {
 			'click .cancel': 'cancel',
-            'click .save': 'saveAccount',
+            'click .save': 'submit',
             'keydown': 'closeOnEscape',
             'keypress':	'updateOnEnter'
         },
@@ -35,55 +35,94 @@
 
         setAttributes: function () {
             var attributes = {},
+                $city = this.$('#locationCity'),
                 locationCity,
                 countryId,
                 $inputs;
 
-            $inputs = this.$('.accountForm :input');                  
+            $inputs = this.$('.accountForm :input');
+
             $inputs.each(function() {
               attributes[this.name] = $(this).val();
             });
+
             this.model.set(attributes);
             locationCity = collections.citiesCollection.get(this.model.get('locationCity'));
-            countryId = locationCity.get('location');
-            this.model.set('locationCountry', countryId);
+            if (locationCity !== undefined) {
+                countryId = locationCity.get('location');
+                this.model.set('locationCountry', countryId);
+            } else {
+                cs.mediator.publish('Hint', "Select city", $city);
+            }
+            return attributes;
+        },
+
+        submit: function () { 
+            var isNewModel = this.model.isNew();
+            this.login = this.$('#InputLogin');
+
+            if (!isNewModel && this.login.val() !== this.model.get('login')) {
+                this.checkLogin(); 
+            } else {
+                this.saveAccount();
+            }
+        },
+
+        checkLogin: function () {
+            if (!this.isLoginTaken(this.login.val())) {
+                this.saveAccount();
+            } else {
+                this.showErrorMessage();
+            }
+        },
+
+        showErrorMessage: function () {
+             cs.mediator.publish('Hint','Sorry, login already exists!', this.login);
         },
 
         saveAccount: function () {
             var isNewModel = this.model.isNew(),
                 closeView = this.cancel.bind(this),
-                $login = this.$('#InputLogin'),
+                showError = this.showErrorMessage.bind(this),
                 model = this.model;
 
             this.setAttributes();
             if (!this.preValidate()) {
-                    this.model.save({}, {
-                        success: function() {
+                this.model.save({}, {
+                    success: function(model, response) {
+                        if (response) {
                             collections.accountsCollection.add(model);   
                             cs.mediator.publish( 'Notice',
                                 isNewModel? 'You succesfully added a new account': 'Information succesfully changed');
-                            closeView();
-                        },
-
-                        error: function (model, err) {
-                            cs.mediator.publish('Hint', err.responseText, $login);
-                        },
+                            closeView();     
+                        } else {
+                            showError();
+                        }
+                    },
                         wait: true
                 });
            }
         },
- 
-        preValidate: function () {
+
+        isLoginTaken: function (value) {
+            var msg = '',
+                accounts = collections.accountsCollection.toJSON(),
+                logins = [],
+                result;
+
+            accounts.forEach(function (element) {
+                logins.push(element['login']);
+            });
+                        
+            result = _.contains(logins, value); 
+            return result;
+        },
+
+        preValidate: function (attributes) {
             var attrName,
                 validationResult;
 
-                validationResult = this.model.preValidate({
-                    fullName: this.model.get('fullName'),
-                    login: this.model.get('login'),
-                    password: this.model.get('password'),
-                    locationCity: this.model.get('locationCity')
-
-                });
+                validationResult = this.model.preValidate(attributes);
 
                 if (validationResult) {
                     for (attrName in validationResult) {

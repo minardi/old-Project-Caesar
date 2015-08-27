@@ -22,7 +22,7 @@ templates.createAccountTpl = _.template([
 					'</div>',
 					'<div class="form-group">',
 						'<label for="locationCity">Select City</label>',
-						'<select class="form-control listbox" name="locationCity">',
+						'<select class="form-control listbox" name="locationCity" id="locationCity">',
 							'<% if (city) { %>',
 								'<option selected value="<%= city.id %>">',
 									'<%= city.get("name") %>',

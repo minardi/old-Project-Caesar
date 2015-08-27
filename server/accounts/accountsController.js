@@ -28,20 +28,14 @@ function AccountsController (req, res) {
 			if (!result) {
 				db.create(dbName, account.toJSON(), responde);
 			} else {
-				res.status(201).send('Sorry, login already exists!');
+				res.status(200).send(false);
 			}
 		});
 	}	
 
 	function update () {
 		var account = new Account(req.body);
-		db.IsUniqueLogin( req.body.login , function (err, result) {
-			if (!result) {
-				db.update(dbName, account.toJSON(), id, responde);
-			} else {
-				res.status(201).send('Sorry, login already exists!');
-			}
-		});
+		db.update(dbName, account.toJSON(), id, responde);
 	}
 
 	function del () {
