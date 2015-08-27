@@ -14,5 +14,11 @@ templates.accountCollectionTpl = _.template([
             '</div>',
         '</div>',
         '<table class="table account-list">',
+            '<tr>',
+                '<th class="name-header">Name</th>',
+                '<th class="login-header">Login</th>',
+                '<th class="location-header">Location</th>',
+                '<th class="role-header">Role</th>',
+            '</tr>',
         '</table>',
     '</div>'].join(''));

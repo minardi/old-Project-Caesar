@@ -2,7 +2,11 @@
 (function (This) {
     This.AccountsCollection = Backbone.Collection.extend({
         model: This.Account,
-        url: '/accounts'
+        url: '/accounts',
+        
+        comparator: function (model) {
+            return model.get('fullName');
+        }
         	
     });
 

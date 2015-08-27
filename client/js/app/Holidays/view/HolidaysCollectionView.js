@@ -16,9 +16,10 @@
         initialize: function () {
             this.collection = collections.holidaysCollection;
             this.originCollection = collections.holidaysCollection;
-            this.pageSize = 15;
+            this.pageSize = 10;
             this.pageIndex = 0;
             this.listenTo(this.collection, 'add', this.renderGrid);
+            this.listenTo(this.collection, 'destroy', this.renderGrid);
             this.listenTo(collections.countriesCollection, 'all', this.render);
         },
 

@@ -20,10 +20,10 @@
         initialize: function () {
             this.collection = collections.eventsCollection;
             this.originCollection = collections.eventsCollection;
-            this.pageSize = 15;
+            this.pageSize = 10;
             this.pageIndex = 0;
-            this.nameFlag = 'AZ';
-            this.typeFlag = 'AZ';
+            this.nameFlag = 'DESC';
+            this.typeFlag = 'ASC';
             this.listenTo(this.collection, 'add', this.renderGrid);
             this.listenTo(this.collection, 'destroy', this.renderGrid);
 			$('body').on('keydown', this.closeOnEscape.bind(this));

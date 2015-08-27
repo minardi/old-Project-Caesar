@@ -15,12 +15,15 @@
         },
     
         initialize: function () {
+
             this.collection = collections.resouresCollection;
             this.originCollection = collections.resouresCollection;
-            this.pageSize = 15;
+            this.pageSize = 10;
             this.pageIndex = 0;
+            this.nameFlag = 'DESC';
+            this.typeFlag = 'ASC';
             this.listenTo(this.collection, 'add', this.render);
-            this.listenTo(this.collection, 'destroy', this.renderGrid);  //need to change to this.renderAfterDestroy
+            this.listenTo(this.collection, 'destroy', this.renderGrid);
         },
     
         render: function () {

@@ -29,7 +29,7 @@
 				fullName: this.model.get('fullName'),
                 login: this.model.get('login'),
                 role: this.model.get('role'),
-                locationCity: cityName,
+                locationCity: cityName
              }));
 
             return this;

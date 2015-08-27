@@ -4,6 +4,10 @@
         model: This.Event,
         url: '/events',
 
+        comparator: function (model) {
+            return model.get('name');
+        },
+
         filterForSearch : function (searchRequest) {
             var filteredArray;
 
