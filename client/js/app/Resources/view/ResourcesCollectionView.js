@@ -23,7 +23,7 @@
             this.nameFlag = 'DESC';
             this.typeFlag = 'ASC';
             this.listenTo(this.collection, 'add', this.render);
-            this.listenTo(this.collection, 'destroy', this.renderGrid);
+            this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
         },
     
         render: function () {

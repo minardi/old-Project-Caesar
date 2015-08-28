@@ -10,7 +10,10 @@
             'click .create': 'create',
             'click .countryFilter': 'filterHandler',
             'click .pageEl': 'changePage',
-            'keyup .searchField': 'startSearch'
+            'keyup .searchField': 'startSearch',
+            'click .name-header': 'sortByName',
+            'click .location-header': 'sortByLocation',
+            'click .date-header': 'sortByDate'
         },
 
         initialize: function () {
@@ -19,7 +22,7 @@
             this.pageSize = 10;
             this.pageIndex = 0;
             this.listenTo(this.collection, 'add', this.renderGrid);
-            this.listenTo(this.collection, 'destroy', this.renderGrid);
+            this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
             this.listenTo(collections.countriesCollection, 'all', this.render);
         },
 
@@ -53,9 +56,26 @@
                 this.renderGrid();
             } else {
                 this.collection = this.originCollection.filterByCountry(filter);
+
                 this.pageIndex = 0;
                 this.renderGrid();
             }
+        },
+
+        sortByLocation: function () {
+            var flag = 'locationFlag',
+                sortingAttribute = 'locationCountry';
+
+            this.sortFunction(flag, sortingAttribute);
+            this.renderGrid();
+        },
+
+        sortByDate: function () {
+            var flag = 'dateFlag',
+                sortingAttribute = 'date';
+
+            this.sortFunction(flag, sortingAttribute);
+            this.renderGrid();
         }
     });
 })(App.Holidays);

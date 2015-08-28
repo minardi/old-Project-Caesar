@@ -25,7 +25,7 @@
             this.nameFlag = 'DESC';
             this.typeFlag = 'ASC';
             this.listenTo(this.collection, 'add', this.renderGrid);
-            this.listenTo(this.collection, 'destroy', this.renderGrid);
+            this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
 			$('body').on('keydown', this.closeOnEscape.bind(this));
         },
 

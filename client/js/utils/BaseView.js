@@ -30,6 +30,11 @@ var BaseView = Backbone.View.extend({
         this.$(".pagination li").eq(this.pageIndex).addClass('active');
     },
 
+    renderAfterDestroy: function (model) {
+        this.collection.remove(model);
+        this.renderGrid();
+    },
+
     startSearch: function (e) {
         var searchRequest = $(e.target).val();
 
@@ -72,8 +77,8 @@ var BaseView = Backbone.View.extend({
     sortFunction: function (flag, field) {
         if (this[flag] === 'ASC') {
             this.collection.comparator = function (a, b) {
-                var firstValue = a.get(field).toLowerCase(),
-                    secondValue = b.get(field).toLowerCase();
+                var firstValue = a.get(field),
+                    secondValue = b.get(field);
 
                 return firstValue < secondValue ? -1 : 1;
             };
@@ -81,8 +86,8 @@ var BaseView = Backbone.View.extend({
             this[flag] = 'DESC';
         } else {
             this.collection.comparator = function (a, b) {
-                var firstValue = a.get(field).toLowerCase(),
-                    secondValue = b.get(field).toLowerCase();
+                var firstValue = a.get(field),
+                    secondValue = b.get(field);
 
                 return firstValue > secondValue ? -1 : 1;
             };
