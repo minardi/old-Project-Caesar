@@ -1,7 +1,7 @@
 templates.holidaysModelHomepageTpl = _.template([
 '   <td><%= name %></td>',
-'   <td><%= locationCountry %></td>',
 '   <td><%= date %></td>',
+'   <td><%= locationCountry %></td>',
 '   <td class="col-lg-1">',
 '       <% if(role === "Admin"){%>',
 '           <i class="glyphicon glyphicon-edit customGlyphBtn"></i>',
