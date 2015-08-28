@@ -54,7 +54,9 @@
         },
 
         save: function () {
-            var isNewModel = this.model.isNew(),
+            this.$nameValue = this.$('.name').val();
+            var $typeValue = this.$('.type').val()? Number(this.$('.type').val()): '', 
+                isNewModel = this.model.isNew(),
 			    dateStart = '2015.01.01',
 				dateFinish = '2015.01.01',
                 user = User.get(),
@@ -66,8 +68,8 @@
 			}				
 
             attributes = {
-                name : this.$('.name').val(),
-                type: Number(this.$('.type').val()),
+                name: this.$nameValue,
+                type: $typeValue,
                 locationCountry: user.locationCountry,
                 locationCity: user.locationCity,
 				dateStart: dateStart,
@@ -88,27 +90,45 @@
             }
         },
 
-        preValidate: function (atributes) {
+        preValidate: function (attributes) {
             var attrName,
-                validationResult,
-                errors;
+                validationResult;
 
-                errors = this.model.preValidate(atributes);
+            validationResult = this.validateName() || this.model.preValidate(attributes);
 
-                if (errors) {
-                    for (attrName in errors) {
-                        cs.mediator.publish(   //publish to Messenger's Controller
-                            'Hint',
-                            errors[attrName],
-                            this.$('[name=' + attrName + ']')
-                        ); 
-                    }
+            if (validationResult) {
+                for (attrName in validationResult) {
+                    cs.mediator.publish(   //publish to Messenger's Controller
+                        'Hint',
+                        validationResult[attrName],
+                        this.$('[name=' + attrName + ']')
+                    ); 
                 }
-                validationResult = errors;
+            }
 
             return validationResult;
         },
-		
+
+        validateName: function () {
+            var errorMsg = {name: 'This name is already taken'},
+                result = this.isNameTaken(this.$nameValue)? errorMsg: undefined;
+
+            return result;
+        },
+
+        isNameTaken: function (value) {
+            var resources = collections.resouresCollection.toJSON(),
+                resourcesNames = [],
+                result;
+
+            resources.forEach(function (element) {
+                resourcesNames.push(element['name']);
+            });
+                        
+            result = _.contains(resourcesNames, value);
+            return result;
+        },
+        
 		cancel: function () {
             this.undoChanges();
             this.changeClassAndCancel();

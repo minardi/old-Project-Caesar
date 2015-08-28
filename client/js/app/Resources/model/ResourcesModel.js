@@ -18,14 +18,14 @@
             type: [
                 {
                     required: true,
-                    msg: 'You forgot to choose a type'
+                    msg: 'Select type'
                 }
             ],
 			
             name: [
                 {
-                    maxLength: 18,
-                    msg: 'Max length is 18 symbols'
+                    maxLength: 20,
+                    msg: 'Max length is 20 symbols'
                 },
                 {
                     minLength: 2,
@@ -34,18 +34,22 @@
                 {
                     required: true,
                     msg: 'Field cannot be empty'
+                },
+                {
+                    pattern: 'resourceNameRegEx',
+                    msg: 'Allowed symbols: .-/'
                 }
             ],
 			
 			dateStart: function(attrs) {
 				if(!attrs.match(/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/)) {
-				  return 'Something wrong with this date'
+				  return 'This date isn’t correct';
 				}
 		    },	
 			
 			dateFinish: function(attrs) {		
 				if(!attrs.match(/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/)) {
-				  return 'Something wrong with this date'
+				  return 'This date isn’t correct';
 				}
 			}	
         }

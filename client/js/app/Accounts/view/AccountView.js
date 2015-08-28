@@ -11,7 +11,6 @@
 
          initialize: function () {
             this.model.on('change', function() {
-                console.log('from change');
                 this.render();
             },this);
         },

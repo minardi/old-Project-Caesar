@@ -15,8 +15,8 @@
         validation: {
             name: [
                 {
-                    maxLength: 18,
-                    msg: 'Max length is 18 symbols'
+                    maxLength: 35,
+                    msg: 'Max length is 35 symbols'
                 },
                 {
                     minLength: 2,
@@ -25,12 +25,16 @@
                 {
                     required: true,
                     msg: 'Field cannot be empty'
+                },
+                {
+                    pattern: 'eventNameRegEx',
+                    msg: 'Allowed symbols: .-/+'
                 }
             ],
             type: [
                 {
                     required: true,
-                    msg: 'You forgot to choose a type'
+                    msg: 'Select type'
                 }
             ]
         }

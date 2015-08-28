@@ -28,8 +28,7 @@
         },
 
         render: function () {
-            var eventTypes = collections.eventTypes.toJSON(),
-			    _this = this;
+            var eventTypes = collections.eventTypes.toJSON();
 
             this.$el.append(this.template({
                 name: this.model.get('name'),
@@ -59,17 +58,20 @@
         },
 
         save: function () {
-			var isNewModel = this.model.isNew(),
+			var $typeValue = this.$('.type').val()? Number(this.$('.type').val()): '',
+                $nameValue = this.$('.name').val(), 
+                isNewModel = this.model.isNew(),
                 user = User.get(),
                 attributes;
-                
+
                 attributes = {
-                    name : this.$('.name').val(),
-                    type: Number(this.$('.type').val()),
+                    name: $nameValue,
+                    type: $typeValue,
 					locationCountry: user.locationCountry,
 					locationCity: user.locationCity,
                     resources: getIdResourcesArray()
                 };
+
             if (!this.preValidate(attributes)) {
                 this.model.save(attributes);
                 collections.eventsCollection.add(this.model);
@@ -98,20 +100,20 @@
             var attrName,
                 validationResult;
 
-                validationResult = this.model.preValidate(attributes);
+            validationResult = this.model.preValidate(attributes);
 
-                if (validationResult) {
-                    for (attrName in validationResult) {
-                        cs.mediator.publish(  
-                            'Hint',
-                            validationResult[attrName],
-                            this.$('[name=' + attrName + ']')
-                        );
-                    }
+            if (validationResult) {
+                for (attrName in validationResult) {
+                    cs.mediator.publish(  
+                        'Hint',
+                        validationResult[attrName],
+                        this.$('[name=' + attrName + ']')
+                    );
                 }
+            }
             return validationResult;
         },
-		
+
 		cancel: function () {
             if(this.model.isNew()){
                 this.model.destroy();

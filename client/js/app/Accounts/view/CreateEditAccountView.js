@@ -106,8 +106,7 @@
         },
 
         isLoginTaken: function (value) {
-            var msg = '',
-                accounts = collections.accountsCollection.toJSON(),
+            var accounts = collections.accountsCollection.toJSON(),
                 logins = [],
                 result;
 
