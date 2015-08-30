@@ -36,15 +36,6 @@
 
             return this;
         },
-        
-        findFirstWeek: function () {
-            $('tr').each(function () {
-                var $td = $(this).find('td').eq(0); 
-                if ($td.html() === '') {
-                    $(this).addClass('start');
-                }                        
-            }, this);
-        },
     
         renderPreview: function (e) {
             var startDate = $(e.target).parent().attr('class').split(' ')[1],

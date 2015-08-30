@@ -8,7 +8,8 @@
             'click .save': 'submit',
             'keydown': 'closeOnEscape',
             'keypress':	'updateOnEnter',
-            'click .generate-pass': 'generatePassword'
+            'click .generate-pass': 'generatePassword',
+            'change #InputFullName': 'generateLogin'
         },
 
         initialize: function () {
@@ -20,7 +21,7 @@
         },
 
         render: function () {
-            var locationCity =  collections.citiesCollection.toJSON();
+            var locationCity = collections.citiesCollection.toJSON();
 
             this.$el.append(this.template({
                 fullName: this.model.get('fullName'),
@@ -164,8 +165,30 @@
         },
         
         generatePassword: function () {
-            var generatedPassword = Generator.generatePassword();
+            var generatedPassword = Generator.getPass();
             $('.password-input').val(generatedPassword);
+        },
+        
+        generateLogin: function () {
+            var name = $('#InputFullName').val().split(' ')[0],
+                lastName = $('#InputFullName').val().split(' ')[1] || '',
+                generatedLogin = Generator.generateLogin(name, lastName),
+                uniqueLogin = this.checkForUnique(generatedLogin);
+            
+            $('#InputLogin').val(uniqueLogin);
+        },
+        
+        checkForUnique: function (_login) {
+            var accountsCollection = collections.accountsCollection.toJSON(),
+                login = _login;
+            
+            _.each(accountsCollection, function (account) {
+               if (login === account.login) {
+                   login = Generator.uniqualization(login);
+               }
+            });
+            
+            return login;
         }
     });
 })(App.Accounts);

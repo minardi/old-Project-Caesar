@@ -1,101 +1,97 @@
 var Generator = (function () {
-var strLettersArray = 'qwertyuiopasdfghjklzxcvbnm'.split(''),
-    strNumbersArray = '0123456789'.split(''),
-    strSymbolsArray = '!@#$%^&*()_+-={}[]:;|?<>/"\'~'.split('');
-
-	function getRandom(min, max) {
-		var range = max - min + 1;
-		return Math.floor(Math.random() * range) + min;
-	}
-
-	function getRandomOfVariants(arrayVariants) {
-		arrayVariants = arrayVariants ? arrayVariants : [];
-		return arrayVariants.length > 0 ? arrayVariants[getRandom(0, arrayVariants.length - 1)] : null;
-	}
-
-	function generate() {
-		var symbols = 2,
-			numbers = 2,
-			letters = 2,
-			lettersUpper = 2,
-			totalLength = symbols + numbers + letters + lettersUpper,
-			result = '',
-			objGeneratedCounter = {
-				letters: 0,
-				lettersUpper: 0,
-				numbers: 0,
-				symbols: 0
-			},
-			objVariantsSource = {
-				letters: true,
-				lettersUpper: true,
-				numbers: true,
-				symbols: true
-			},
-            arrayVariantsSource = [],
-            typeChar = '',
-            resultChar = '',
-            typesHandlers = {};
-
-		for (var i = 0; i < totalLength; i++) {
-
-			if (objVariantsSource['letters'] && objGeneratedCounter.letters == letters) {
-				objVariantsSource['letters'] = false;
-			}
-
-			if (objVariantsSource['lettersUpper'] && objGeneratedCounter.lettersUpper == lettersUpper) {
-				objVariantsSource['lettersUpper'] = false;
-			}
-
-			if (objVariantsSource['numbers'] && objGeneratedCounter.numbers == numbers) {
-				objVariantsSource['numbers'] = false;
-			}
-
-			if (objVariantsSource['symbols'] && objGeneratedCounter.symbols == symbols) {
-				objVariantsSource['symbols'] = false;
-			}
-
-			arrayVariantsSource = [];
-			for (var key in objVariantsSource) {
-
-				if (objVariantsSource[key]) {
-					arrayVariantsSource[arrayVariantsSource.length] = key;
-				}
-			}
-
-			typeChar = getRandomOfVariants(arrayVariantsSource);
-			resultChar = '';
-			
-			typesHandlers = {
-				'letters': function () {
-					resultChar = strLettersArray[getRandom(0, strLettersArray.length - 1)];
-					objGeneratedCounter.letters++;
-				},
-				'lettersUpper': function () {
-					resultChar = strLettersArray[getRandom(0, strLettersArray.length - 1)].toUpperCase();
-					objGeneratedCounter.lettersUpper++;        
-				},
-				'numbers': function () {
-					resultChar = strNumbersArray[getRandom(0, strNumbersArray.length - 1)];
-					objGeneratedCounter.numbers++;
-				},
-				'symbols': function () {
-					resultChar = strSymbolsArray[getRandom(0, strSymbolsArray.length - 1)];
-					objGeneratedCounter.symbols++;
-				}
-			};
-
-			typesHandlers[typeChar]();
-
-			result += resultChar;
-		}
-
-			return result;
-	}
-
-	return {
-		generatePassword: function () {
-			return generate();
-		}
-	};
+    var charsCollection = {
+            'letters': 'qwertyuiopasdfghjklzxcvbnm',
+            'lettersUpper': 'qwertyuiopasdfghjklzxcvbnm'.toUpperCase(),
+            'numbers': '0123456789',
+            'symbols': '!@#$%^&*()_+-={}[]:;|?<>/"\'~'
+        },
+        nuberOfChars = 2,
+        numberOfSorting = 30;
+    
+    //Password generation
+    //returns random char from passed string
+    function getRandomChar (string) {
+        var stringLength = string.length,
+            randomCharNum = Math.floor(Math.random()*stringLength);
+        
+        return string[randomCharNum];
+    }
+    
+    //returns string with random chars for password
+    function setPasswordChars () {
+        var password = '';
+        
+        for (var key in charsCollection) {
+            for (var i = 0; i < nuberOfChars; i++) {
+                password += getRandomChar(charsCollection[key]);
+            }
+        }
+        
+        return password;
+    }
+    
+    //randomize passwords chars, returns ready password
+    function randomizePassword () {
+        var password = setPasswordChars().split('');
+        
+        for (var i = 0; i < numberOfSorting; i++) {
+            password.sort(function () {
+                return Math.round(Math.random());
+            }); 
+        }
+        
+        return password.join('');
+    }
+    
+    //Login generation
+    //generate login by name and lastname
+    function generateLogin (_name, _lastName) {
+        var nameFirstLetter = _name.substr(0,1),
+            lastnemeLetters = _lastName.substr(0, 5),
+            result = nameFirstLetter + lastnemeLetters;
+        
+        result = result.toLowerCase();
+        result = checkLoginLength(result);
+        
+        return result;
+    }
+    
+    //add additional symbols if login shorter than 6 chars
+    function checkLoginLength (login) {
+        var result = '',
+            additionalLetters = 'ita';
+        
+        if (login.length === 6) {
+            result = login;    
+        } else {
+            login += additionalLetters;
+            result = login.substr(0, 6);
+        }
+        
+        return result;
+    }
+    
+    // replace last char in passed string to next char in alpabet
+    function uniqualization (_login) {
+        var login = _login,
+            loginLastCharIndex = login.length - 1,
+            lastChar = login.charCodeAt(loginLastCharIndex) + 1,
+            newChar = String.fromCharCode(lastChar);
+        
+        login = login.substring(0, loginLastCharIndex) + newChar;
+        
+        return login;
+    }
+    
+    return {
+        'getPass': function () {
+            return randomizePassword();
+        },
+        'generateLogin': function (name, lastName) {
+            return generateLogin(name, lastName);
+        },
+        'uniqualization': function (login) {
+            return uniqualization(login);
+        }
+    };
 })();
