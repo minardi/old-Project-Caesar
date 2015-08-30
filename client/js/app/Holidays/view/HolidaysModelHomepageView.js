@@ -7,7 +7,9 @@
         events: {
             'click .glyphicon-edit': 'openEdit',
             'click .glyphicon-trash': 'confirmDelete',
-            'click .isActive': 'isActive'
+            'click .isActive': 'isActive',
+            'mouseover .showHollidaysDisableCity': 'showTooltip',
+            'mouseout .showHollidaysDisableCity': 'hideTooltip'
         },
 
         initialize: function () {
@@ -52,6 +54,7 @@
     
         render: function () {
             var locationCountry = collections.countriesCollection.get(this.model.get('locationCountry')),
+			    citiesCollection = collections.citiesCollection,
                 countryName = locationCountry.get('countryName');
 				skip = this.model.skipped();
 
@@ -59,15 +62,30 @@
                 name: this.model.get('name'),
                 locationCountry: countryName,
                 date: this.model.get('date'),
-				role: this.user.role
+				role: this.user.role,
+				city: this.model.get('isActive'),
+				locationCities: citiesCollection
             }));
 			
-			if(!skip.skip) {
+			if(this.user.role === 'Admin') {
+			    if(this.model.get('isActive').length > 0) {
+					this.$('.isActive').removeClass('glyphicon-thumbs-up').addClass('glyphicon-thumbs-down');
+				    this.$el.addClass("warning");
+				}
+			} else if (!skip.skip) {
 				this.$('.isActive').removeClass('glyphicon-thumbs-up').addClass('glyphicon-thumbs-down');
 				this.$el.addClass("warning");
 			}
 			
             return this;
-        }
+        },
+		
+		showTooltip: function () {
+			this.$('.holidayTooltip').addClass('displayH');
+		},
+		
+		hideTooltip: function () {
+			this.$('.holidayTooltip').removeClass('displayH');
+		}
     });
 })(App.Holidays);

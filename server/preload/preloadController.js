@@ -39,8 +39,35 @@ function PreloadController (req, res) {
                 sendResponse();
             });
     }
+	
+	function checkRole () {
+		var byCity = [ 'resouresCollection',
+				       'eventsCollection'
+		    ],
+			byCountry = [ 'holidaysCollection'];
+		
+		if(globalMan[req.cookies.clientId].role !== "Admin") {
+			collections.accountsCollection = [];
+
+			function selsectByLocation (arr, location) {
+				_.each(arr, function (item) {
+					var contributorCollection = [];
+					 _.each(collections[item], function (data) {
+						 if(data[location] == globalMan[req.cookies.clientId][location]) {
+							contributorCollection.push(data);
+						 } 
+					})
+					collections[item] = contributorCollection;
+			    })
+			}
+			selsectByLocation(byCity, "locationCity");
+			selsectByLocation(byCountry, "locationCountry");
+		}
+		
+	}
     
     function sendResponse () {
+		checkRole();
         res.send(collections);    
     }   
     

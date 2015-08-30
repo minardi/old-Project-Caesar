@@ -46,7 +46,7 @@ templates.menuTpl = _.template([
 		'<ul class="nav navbar-nav navbar-right">',
             '<li role="presentation" class="menuItem changePadding">',
 		        '<span class="glyphicon glyphicon-user"></span><br>',
-		        '<%= name.fullName %>',
+		        '<%= name.name + " " + name.lastName %>',
 		    '</li>',
 		    '<li role="presentation" class="menu-item ">',
 		        '<span class="glyphicon glyphicon-off"></span>',

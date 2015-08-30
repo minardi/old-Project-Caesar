@@ -2,7 +2,8 @@ function AccountsModel (newAttributes) {
 	var _ = require('../../client/js/lib/underscore.js'),
 		attributes = {
 			id: '',
-			fullName: '',
+			name: '',
+			lastName: '',
 			login: '',
 			password: '',
 			locationCity: '',

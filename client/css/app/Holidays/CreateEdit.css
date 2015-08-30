@@ -1,3 +1,11 @@
 .holidayScroll {
     overflow: auto;
 }
+
+.holidayTooltip  {
+    display: none;
+}
+
+.displayH {
+    display: block;
+}

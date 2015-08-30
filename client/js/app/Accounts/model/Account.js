@@ -3,7 +3,8 @@
 (function (This) {
     This.Account = Backbone.Model.extend({
         defaults: {
-            fullName: '',
+            name: '',
+            lastName: '',
             login: '',
             password: '',
             locationCity: '',
@@ -14,7 +15,18 @@
         urlRoot: '/accounts',
 
         validation: {
-            fullName: [
+            name: [
+                {
+                    required: true,
+                    msg: 'Field cannot be empty'
+                }, {
+                    minLength: 2,
+                    msg: 'Min length is 2 symbols'
+                }, {
+                    maxLength: 60,
+                    msg: 'Max length is 60 symbols'
+                }],
+			lastName: [
                 {
                     required: true,
                     msg: 'Field cannot be empty'

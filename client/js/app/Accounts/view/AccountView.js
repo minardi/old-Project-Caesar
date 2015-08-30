@@ -20,7 +20,8 @@
                 cityName = locationCity.get('name');
 
             this.$el.html(this.template({
-				fullName: this.model.get('fullName'),
+				name: this.model.get('name'),
+				lastName: this.model.get('lastName'),
                 login: this.model.get('login'),
                 role: this.model.get('role'),
                 locationCity: cityName

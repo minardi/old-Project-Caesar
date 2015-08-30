@@ -22,8 +22,7 @@ templates.eventCollectionTpl = _.template([
 			'</tr>',
 		'</table>',
 	'</div>',
-	'<nav>',
-	'</nav>',
+	'<div class="col-md-1"></div>',
 	'<div class="panel panel-default col-md-3 toshow hidden">',
 	    '<i class="glyphicon glyphicon-remove fullEventClose"></i>',
 	    '<div class="panel-heading">',
@@ -36,4 +35,6 @@ templates.eventCollectionTpl = _.template([
 		'<table class="table fullEvent">',
 	    '</table>',
 	'</div>',
+	'<nav>',
+	'</nav>'
 ].join(''));

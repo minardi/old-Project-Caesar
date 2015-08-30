@@ -24,7 +24,8 @@
             var locationCity = collections.citiesCollection.toJSON();
 
             this.$el.append(this.template({
-                fullName: this.model.get('fullName'),
+                name: this.model.get('name'),
+                lastName: this.model.get('lastName'),
                 login: this.model.get('login'),
                 password: this.model.get('password'),
                 city: collections.citiesCollection.get(this.model.get('locationCity')),
