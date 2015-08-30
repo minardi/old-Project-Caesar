@@ -23,16 +23,11 @@
                 startDate = _startDate,
                 year = startDate.getFullYear(),
                 month = startDate.getMonth(),
-                date = new Date(year, month),
-                monthName = '';
+                date = new Date(year, month);
 
-            this.monthNames.forEach(function (mName, num) {
-                if (num === month) {
-                    monthName = mName;
-                }
-            });
-
-            this.$el.append(this.template({date: date, mon: month, monthName: monthName}));
+            this.$el.append(this.template({date: date, mon: month, monthNames: this.monthNames}));
+            this.$el.append(this.template({date: date, mon: month + 1, monthNames: this.monthNames}));
+            this.$el.append(this.template({date: date, mon: month + 2, monthNames: this.monthNames}));
 
             return this;
         },
