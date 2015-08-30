@@ -9,7 +9,8 @@
             'keydown': 'closeOnEscape',
             'keypress':	'updateOnEnter',
             'click .generate-pass': 'generatePassword',
-            'change #InputFullName': 'generateLogin'
+            'change #InputName': 'generateLogin',
+            'change #InputlastName': 'generateLogin'
         },
 
         initialize: function () {
@@ -171,8 +172,8 @@
         },
         
         generateLogin: function () {
-            var name = $('#InputFullName').val().split(' ')[0],
-                lastName = $('#InputFullName').val().split(' ')[1] || '',
+            var name = $('#InputName').val(),
+                lastName = $('#InputlastName').val().replace('-', '').replace(' ', ''),
                 generatedLogin = Generator.generateLogin(name, lastName),
                 uniqueLogin = this.checkForUnique(generatedLogin);
             

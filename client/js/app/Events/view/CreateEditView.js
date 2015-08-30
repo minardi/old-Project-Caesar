@@ -9,7 +9,8 @@
             'click .cancel': 'cancel',
             'click .resource': 'removeResource',
             'keydown': 'closeOnEscape',
-            'keypress': 'updateOnEnter'
+            'keypress': 'updateOnEnter',
+            'change .editType': 'renameEvent'
         },
 
         initialize: function () {
@@ -25,6 +26,7 @@
 			$('body').one('keydown', this.closeOnEscape.bind(this));
 
             cs.mediator.subscribe('resourceAddedToEvent', this.addResourceIdToEvent, null, this);
+            cs.mediator.subscribe('resourceAddedToEvent', this.generateEventName, null, this);
         },
 
         render: function () {
@@ -158,6 +160,29 @@
             if (e.keyCode === ESC) {
                 this.cancel();
             }
+        },
+        
+        generateEventName: function (_resource) {
+            var resource = _resource.toJSON();
+            if (resource.type === 0) {
+                $('.name').val(resource.name);
+            }
+        },
+        
+        renameEvent: function () {
+            var name = $('.name').val(),
+                typeId = Number($('.editType').val()),
+                result = '';
+            
+            if (typeId === 3) {
+                _.each(collections.eventTypes.toJSON(), function (type) {
+                    if (type.id === typeId) {
+                        result = name + ' + ' + type.name;    
+                    }
+                });
+            }
+            
+            $('.name').val(result);
         }
     });
 })(App.Events);
