@@ -16,7 +16,6 @@
 
         selectResource: function () {
             cs.mediator.publish('resourceAddedToEvent', this.model);
-            this.remove();
         }
 
     });

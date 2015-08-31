@@ -15,6 +15,12 @@
             });
 
             return new This.ResourcesCollection(filteredArray);
+        },
+
+        filterByType: function (filter) {
+            var filteredArray = this.where({type: Number(filter)});
+
+            return new This.ResourcesCollection(filteredArray);
         }
     });
 })(App.Resources);

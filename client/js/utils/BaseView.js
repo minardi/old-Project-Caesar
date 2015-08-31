@@ -14,6 +14,12 @@ var BaseView = Backbone.View.extend({
             view.remove();
         });
 
+        if(!this.collection.models[this.startPosition]){
+            this.pageIndex -= 1;
+            this.startPosition = this.pageIndex * this.pageSize;
+            this.endPosition = this.startPosition + this.pageSize;
+        }
+
         for(i = this.startPosition; i < this.endPosition; i ++){
             currentModel = this.collection.models[i];
             if(currentModel) {
