@@ -40,7 +40,6 @@ templates.editEventTpl = _.template([
 						'</ul>',
 					'</div>',
 					'<div class="col-md-6 resources-list">',
-						'<h4>Resources free</h4>',
 					'</div>',
 				'</div>',
 			'</div>',
