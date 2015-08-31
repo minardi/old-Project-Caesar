@@ -30,10 +30,6 @@
             
         function renderCalendar () {            
             $('.schedule-preview').append(monthView.render(startDate).el);
-//            startDate.setMonth(startDate.getMonth() + 1);
-//            $('.schedule-preview').append(monthView.render(startDate).el);
-//            startDate.setMonth(startDate.getMonth() + 1);
-//            $('.schedule-preview').append(monthView.render(startDate).el);
         }
         
         function setUpMediator () {

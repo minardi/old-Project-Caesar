@@ -21,7 +21,14 @@
         },
         
         navigateShowWeek: function (week) {
-            this.navigate('Schedule/Preview/week/' + week.id);
+            var weekId = week.id;
+            
+            if (weekId !== undefined) {
+                this.navigate('Schedule/Preview/week/' + weekId);    
+            } else {
+                this.navigate('Schedule/Preview/week/empty');
+            }
+            
         },
         
         navigateShowCalendar: function () {
