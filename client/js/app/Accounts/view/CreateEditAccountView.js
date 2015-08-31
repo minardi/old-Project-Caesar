@@ -38,26 +38,28 @@
 
         setAttributes: function () {
             var attributes = {},
-                $city = this.$('#locationCity'),
-                locationCity,
-                countryId,
                 $inputs;
-
+                
             $inputs = this.$('.accountForm :input');
 
             $inputs.each(function() {
               attributes[this.name] = $(this).val();
             });
+            this.setCountry(attributes);
+            return attributes;
+        },
 
+        setCountry: function (attributes) {
+            var locationCity,
+                countryId,
+                $city = this.$('#locationCity');
+                
             this.model.set(attributes);
             locationCity = collections.citiesCollection.get(this.model.get('locationCity'));
             if (locationCity !== undefined) {
                 countryId = locationCity.get('location');
-                this.model.set('locationCountry', countryId);
-            } else {
-                cs.mediator.publish('Hint', "Select city", $city);
+                attributes['locationCountry'] = countryId;
             }
-            return attributes;
         },
 
         submit: function () { 
@@ -87,10 +89,10 @@
             var isNewModel = this.model.isNew(),
                 closeView = this.cancel.bind(this),
                 showError = this.showErrorMessage.bind(this),
+                attributes = this.setAttributes(),
                 model = this.model;
 
-            this.setAttributes();
-            if (!this.preValidate()) {
+            if (!this.preValidate(attributes)) {
                 this.model.save({}, {
                     success: function(model, response) {
                         if (response) {
@@ -120,11 +122,11 @@
             return result;
         },
 
-        preValidate: function () {
+        preValidate: function (attributes) {
             var attrName,
                 validationResult;
 
-                validationResult = this.model.preValidate();
+                validationResult = this.model.preValidate(attributes);
 
                 if (validationResult) {
                     for (attrName in validationResult) {

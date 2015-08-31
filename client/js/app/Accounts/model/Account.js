@@ -25,6 +25,9 @@
                 }, {
                     maxLength: 20,
                     msg: 'Max length is 20 symbols'
+                },{
+                    pattern: 'fullNameRegEx',
+                    msg: 'Only letters and dash "-"'
                 }],
             lastName: [
                 {
@@ -36,31 +39,29 @@
                 }, {
                     maxLength: 20,
                     msg: 'Max length is 20 symbols'
+                },{
+                    pattern: 'fullNameRegEx',
+                    msg: 'Only letters and dash "-"'
                 }],
             password: [
                 {
                     required: true,
                     msg: 'Field cannot be empty'
                 }, {
-                    minLength: 2,
-                    msg: 'Min length is 2 symbols'
-                }, {
-                    maxLength: 18,
-                    msg: 'Max length is 18 symbols'
-                }
-            ],
+                    length: 8,
+                    msg: 'Length should be 8 symbols'
+                }],
             login: [
                 {
                     required: true,
                     msg: 'Field cannot be empty'
                 }, {
-                    minLength: 2,
-                    msg: 'Min length is 2 symbols'
-                }, {
-                    maxLength: 18,
-                    msg: 'Max length is 18 symbols'
-                }
-            ],
+                    length: 6,
+                    msg: 'Length should be 6 symbols'
+                },{
+                    pattern: 'lettersOnly',
+                    msg: 'Only letters'
+                }],
             locationCity: function (value) {
                 if(value === null) {
                     return 'Select city';

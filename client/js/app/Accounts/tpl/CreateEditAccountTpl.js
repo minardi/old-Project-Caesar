@@ -17,7 +17,7 @@ templates.createAccountTpl = _.template([
 						'<input type="text" class="form-control" value="<%= lastName %>" name="lastName" id="InputlastName" placeholder="Enter lastName">',
 					'</div>',
 					'<div class="form-group" class="col-xs-4">',
-						'<label for="InputLogin">Enter Login</label>',
+						'<label for="InputLogin">Here’s your generated login:</label>',
 						'<input type="text" class="form-control" value="<%= login %>" name="login" id="InputLogin" placeholder="Enter Login">',
 					'</div>',
 					'<div class="form-group" class="col-xs-4">',
