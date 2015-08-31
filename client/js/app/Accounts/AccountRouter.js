@@ -31,7 +31,7 @@
         },
 
         navigateEditAccount: function (account) {
-            this.navigate('Accounts/' + account.id + '/edit');
+            this.navigate('Accounts/' + account.get('login') + '/edit');
         },
 
         navigateEditAccountById: function (id) {
