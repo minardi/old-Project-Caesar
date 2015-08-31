@@ -2,7 +2,7 @@
         This.Controller = function () {
         App.SchedulePreview.weeks = setUpWeeksCollection();
             
-        var startDate = new Date(App.SchedulePreview.weeks[0].startDate),    //weeks collection
+        var startDate = new Date(),
             monthView = new App.MonthView();
         
         start();
