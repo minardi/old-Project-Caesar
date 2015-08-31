@@ -18,7 +18,7 @@
 		render: function () {
 		    this.$el.append(this.template);
             
-            cs.subRouters['SchedulePreview'] = new App.SchedulePreview.Router();  //change this later
+            cs.subRouters['SchedulePreview'] = new App.SchedulePreview.Router();
             
 			return this;
 		},

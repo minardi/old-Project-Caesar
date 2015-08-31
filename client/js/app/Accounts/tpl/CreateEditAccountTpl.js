@@ -23,7 +23,7 @@ templates.createAccountTpl = _.template([
 					'<div class="form-group" class="col-xs-4">',
 						'<label for="InputPassword">Enter Password</label>',
                         '<div class="input-group">',
-                            '<input type="text" class="form-control password-input" value="<%= password %>" name="password" id="InputPassword" placeholder="Enter Password">',
+                            '<input type="text" class="form-control password-input" value="<%= password %>" name="password" id="InputPassword" placeholder="Genarate password" readonly>',
                             '<span class="input-group-btn">',
                                 '<button class="btn btn-default generate-pass" type="button">Generate</button>',
                             '</span>',

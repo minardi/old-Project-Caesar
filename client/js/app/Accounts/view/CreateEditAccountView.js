@@ -9,8 +9,7 @@
             'keydown': 'closeOnEscape',
             'keypress': 'updateOnEnter',
             'click .generate-pass': 'generatePassword',
-            'change #InputName': 'generateLogin',
-            'change #InputlastName': 'generateLogin'
+            'keyup': 'generateLogin'
         },
 
         initialize: function () {

@@ -41,7 +41,8 @@
 				$elements = $elements.find('td[day="' + dayNumber + '"]');
 					_.each(timelines, function (eventId) {
 						event = collections.eventsCollection.findWhere({id: Number(eventId)});
-						if (event) {
+
+						if (event && event.get('locationCountry') === User.get().locationCountry && event.get('locationCity') === User.get().locationCity) {
 							$elements.append(this.createCell(event, dayNumber, key, this.$el))
 						};
 					}, this);
@@ -65,7 +66,7 @@
 			this.$el.find('.holidayCell').remove();
 
 			collections.holidaysCollection.each(function (holiday) {
-				if (holiday.skipped().skip) {
+				if (holiday.skippedByLocation()) {
 					date = new Date(holiday.get('date'));
 				
 					if (date.getWeekNumber() === this.currentWeekNumber) {
@@ -107,7 +108,7 @@
 			var weekItem = This.createWeekItem({'dayNumber': dayNumber, 
 												'timeline': timeline, 
 												'eventId': eventId, 
-												'startDate': this.startDate});
+												'startDate': This.getFisrtDayOfWeek(this.startDate)});
 			collections.scheduleCollection.addEvent(weekItem);
 		},
 
