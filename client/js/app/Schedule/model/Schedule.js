@@ -13,8 +13,9 @@
 			if (!rightWeek) {
 				this.push(week);
 				rightWeek = this.findWhere({weekNumber: week.get('weekNumber')});
-
+				
 			} else {
+
 				days = rightWeek.get('days');
 
 				_.each(week.get('days'), function (day, dayNumber) {
@@ -30,14 +31,13 @@
 							}, this);
 					}, this);
 				}, this);
-
 			};
 
 			attributes = {
 				startDate: String(rightWeek.get('startDate')),
 				days: rightWeek.get('days')
 			};
-			
+		
 			rightWeek.save(attributes, {wait: true});
 		
 		},
