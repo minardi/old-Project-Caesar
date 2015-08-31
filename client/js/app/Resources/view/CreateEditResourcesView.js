@@ -4,7 +4,7 @@
         template: templates.editResourceTpl,
 
         events: {
-			'click .save': 'save',
+			'click .save': 'submit',
             'click .cancel': 'cancel',
 			'keydown': 'closeOnEscape',
             'keypress': 'updateOnEnter',
@@ -53,8 +53,26 @@
             return this;
         },
 
-        save: function () {
+        submit: function () { 
+            var isNewModel = this.model.isNew();
             this.$nameValue = this.$('.name').val();
+
+            if(!isNewModel && this.$nameValue === this.model.get('name')) {
+                this.save();
+            } else {
+                this.checkResourceName(this.$nameValue);
+            }
+        },
+
+        checkResourceName: function (value) {
+            if (!this.isNameTaken(value)) {
+                this.save();
+            } else {
+                cs.mediator.publish('Hint','This name is already taken', this.$('.name'));
+            }
+        },
+
+        save: function () {
             var $typeValue = this.$('.type').val()? Number(this.$('.type').val()): '', 
                 isNewModel = this.model.isNew(),
 			    dateStart = '2015.01.01',
@@ -94,7 +112,7 @@
             var attrName,
                 validationResult;
 
-            validationResult = this.validateName() || this.model.preValidate(attributes);
+            validationResult = this.model.preValidate(attributes);
 
             if (validationResult) {
                 for (attrName in validationResult) {
@@ -107,13 +125,6 @@
             }
 
             return validationResult;
-        },
-
-        validateName: function () {
-            var errorMsg = {name: 'This name is already taken'},
-                result = this.isNameTaken(this.$nameValue)? errorMsg: undefined;
-
-            return result;
         },
 
         isNameTaken: function (value) {

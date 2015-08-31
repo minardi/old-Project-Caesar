@@ -50,6 +50,7 @@
             }
             this.collection.create({countryName: $inputCountry.val()});
             $inputCountry.val('');
+            cs.mediator.publish('CreateCountry', this);
         },
 		
 		updateCollection: function (){

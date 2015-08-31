@@ -20,13 +20,13 @@
                     required: true,
                     msg: 'Field cannot be empty'
                 }, {
-                    minLength: 2,
-                    msg: 'Min length is 2 symbols'
+                    minLength: 3,
+                    msg: 'Min length is 3 symbols'
                 }, {
-                    maxLength: 60,
-                    msg: 'Max length is 60 symbols'
+                    maxLength: 20,
+                    msg: 'Max length is 20 symbols'
                 }],
-			lastName: [
+            lastName: [
                 {
                     required: true,
                     msg: 'Field cannot be empty'
@@ -34,8 +34,8 @@
                     minLength: 2,
                     msg: 'Min length is 2 symbols'
                 }, {
-                    maxLength: 60,
-                    msg: 'Max length is 60 symbols'
+                    maxLength: 20,
+                    msg: 'Max length is 20 symbols'
                 }],
             password: [
                 {
@@ -66,7 +66,6 @@
                     return 'Select city';
                 }
             }
-
         }
     });
 })(App.Accounts);

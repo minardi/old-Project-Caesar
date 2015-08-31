@@ -58,7 +58,7 @@
             return valueSelected;
         },
 
-        updateCollection: function (){
+        updateCollection: function () {
             this.render();  
         },
 

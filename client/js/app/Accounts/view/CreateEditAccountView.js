@@ -1,13 +1,13 @@
 (function (This) {
     This.CreateEditAccountView = Backbone.View.extend({
-		className: 'modal fade in accountsScroll',
+        className: 'modal fade in accountsScroll',
         template: templates.createAccountTpl,
 
         events: {
-			'click .cancel': 'cancel',
+            'click .cancel': 'cancel',
             'click .save': 'submit',
             'keydown': 'closeOnEscape',
-            'keypress':	'updateOnEnter',
+            'keypress': 'updateOnEnter',
             'click .generate-pass': 'generatePassword',
             'change #InputName': 'generateLogin',
             'change #InputlastName': 'generateLogin'
@@ -18,7 +18,7 @@
             Backbone.Validation.bind(this);
 
             $('body').one('keypress', this.updateOnEnter.bind(this));
-			$('body').one('keydown', this.closeOnEscape.bind(this));
+            $('body').one('keydown', this.closeOnEscape.bind(this));
         },
 
         render: function () {
@@ -33,7 +33,7 @@
                 locationCity: locationCity,
                 role: this.model.get('role')
             }));
-		
+        
             return this;
         },
 
@@ -66,14 +66,14 @@
             this.login = this.$('#InputLogin');
 
             if (!isNewModel && this.login.val() !== this.model.get('login')) {
-                this.checkLogin(); 
+                this.checkLogin(this.login); 
             } else {
                 this.saveAccount();
             }
         },
 
-        checkLogin: function () {
-            if (!this.isLoginTaken(this.login.val())) {
+        checkLogin: function (login) {
+            if (!this.isLoginTaken(login.val())) {
                 this.saveAccount();
             } else {
                 this.showErrorMessage();
@@ -81,7 +81,7 @@
         },
 
         showErrorMessage: function () {
-             cs.mediator.publish('Hint','Sorry, login already exists!', this.login);
+            cs.mediator.publish('Hint','Sorry, login already exists!', this.login);
         },
 
         saveAccount: function () {
@@ -121,11 +121,11 @@
             return result;
         },
 
-        preValidate: function (attributes) {
+        preValidate: function () {
             var attrName,
                 validationResult;
 
-                validationResult = this.model.preValidate(attributes);
+                validationResult = this.model.preValidate();
 
                 if (validationResult) {
                     for (attrName in validationResult) {
@@ -140,16 +140,16 @@
         },
   
         cancel: function () {
-			$('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');
-			setTimeout(function() {
-			    cs.mediator.publish('CreateAccountViewClosed');
-			}, 400); 
+            $('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');
+            setTimeout(function() {
+                cs.mediator.publish('CreateAccountViewClosed');
+            }, 400); 
         },
 
         show: function () {
             this.$el.removeClass('hidden');
         },
-		
+        
         hide: function () {
             this.$el.addClass('hidden');
         },
