@@ -12,6 +12,16 @@
                 this.createEditView = This.CreateEditAccountView;
                 this.el = $('#main');
                 this.mediator = cs.mediator;
+            },
+
+            editViewById: function (login) {
+
+                var model = this.collection.findWhere({'login': login});
+                if (model) {
+                    this.editView(model);
+                } else {
+                    cs.mediator.publish('Show404');
             }
+        },
         });
 })(App.Accounts);

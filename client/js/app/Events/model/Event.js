@@ -2,12 +2,14 @@
 
 (function (This) {
     This.Event = Backbone.Model.extend({
-        defaults: {
-            name: '',
-            type: '',
-            locationCity:'',
-            locationCountry: '',
-            resources: []
+        defaults: function () {
+            return {
+                name: '',
+                type: '',
+                locationCity: '',
+                locationCountry: '',
+                resources: []
+            }
         },
 
         urlRoot: '/events',
