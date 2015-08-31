@@ -186,6 +186,7 @@
 
 		clonetoEndOfDays: function () {
 			var weekItem = this.generateWeekItem(),
+				weeksCollection = new This.Schedule(),
 				weekItemToClone,
 				currentDate,
 				saturdayDayNumber = 6,
@@ -217,20 +218,23 @@
 																'timeline': timeline,
 																'eventId': id
 									});
-								
-									this.checkResourcesConflicts(weekItemToClone);
+									weeksCollection.push(weekItemToClone);
 								};
 							};
 						}, this);
 					}, this);
 				}, this)
 			}, this);
+
+			this.unionWeeks(weeksCollection);
 		},
 
 		clonetoEndOfWeeks: function () {
 			var weekItem = this.generateWeekItem(),
+				weekNumber = weekItem.get('weekNumber'),
 				daysNumInWeek = 7,
 				weekItemToClone,
+				weeksCollection = new This.Schedule(),
 				currentDate,
 				event,
 				finish,
@@ -256,13 +260,39 @@
 											'timeline': timeline,
 											'eventId': id
 									});
-								this.checkResourcesConflicts(weekItemToClone);
+								weeksCollection.push(weekItemToClone);
 								currentDate.setDate(currentDate.getDate() + daysNumInWeek);
 							};
 						}, this);
 					}, this);
 				}, this);
 			},this);
+
+			this.unionWeeks(weeksCollection);
+		},
+
+		unionWeeks: function (weeksCollection) {
+			var weeksNumbers = _.uniq(weeksCollection.pluck('weekNumber')),
+				weeks,
+				weekToClone,
+				daysToClone = {};
+
+			_.each(weeksNumbers, function (weekNumber) {
+				weeks = weeksCollection.where({'weekNumber': weekNumber});
+				weekToClone = weeksCollection.findWhere({'weekNumber': weekNumber});
+
+				_.each(weeks, function (week) {
+
+					_.each(week.get('days'), function (day, dayNumber) {
+						this.addTimelinesToDay(day, dayNumber, daysToClone);
+					}, this);
+				}, this);
+
+				weekToClone.set('days', daysToClone);
+				this.checkResourcesConflicts(weekToClone);
+
+				daysToClone = {};
+			}, this);
 		},
 
 		getGroupsWithFinishDate: function (event) {
@@ -376,7 +406,6 @@
 				collections.scheduleCollection.addEvent(weekItemToClone);
 			}
 			
-
 			this.solveConflict();
 		},
 

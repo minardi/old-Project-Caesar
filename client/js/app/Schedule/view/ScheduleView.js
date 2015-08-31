@@ -107,7 +107,7 @@
 			var weekItem = This.createWeekItem({'dayNumber': dayNumber, 
 												'timeline': timeline, 
 												'eventId': eventId, 
-												'startDate': this.startDate});
+												'startDate': This.getFisrtDayOfWeek(this.startDate)});
 			collections.scheduleCollection.addEvent(weekItem);
 		},
 

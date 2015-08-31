@@ -35,11 +35,25 @@
 				day = {},
 				week = new This.Week();
 
-			dayTimeline[options.timeline] = [options.eventId];
-			dayTimeline[options.timeline] = _.flatten(dayTimeline[options.timeline]);
-			
-			day[options.dayNumber] = dayTimeline;
-			week.set({
+			if (options.dayNumber) {
+				if (options.timeline) {
+					if (options.eventId) {
+						dayTimeline[options.timeline] = [options.eventId];
+						dayTimeline[options.timeline] = _.flatten(dayTimeline[options.timeline]);		
+					} else {
+						dayTimeline[options.timeline] = [];
+					};
+				
+				} else {
+					dayTimeline = {};
+				};
+
+				day[options.dayNumber] = dayTimeline;	
+			} else {
+				day = {};
+			};
+
+ 			week.set({
 				'startDate': options.startDate,
 				'days': day
 			});
