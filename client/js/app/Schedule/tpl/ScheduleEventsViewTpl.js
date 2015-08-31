@@ -19,6 +19,7 @@ templates.scheduleEventsTpl = _.template([
 '			<div class = "download"></div>',
 '		</div>',
 '		<div class="col-md-4">',
+'			<div class = "weekMode"></div>',
 '		</div>',
 '		<div class="col-md-4">',
 '			<div class = "clone"></div>',
