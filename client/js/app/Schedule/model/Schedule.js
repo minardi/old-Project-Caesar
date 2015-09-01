@@ -5,6 +5,7 @@
 
 		addEvent: function (week) {
 			var rightWeek = this.findWhere({weekNumber: week.get('weekNumber')}),
+				startDate = This.getFisrtDayOfWeek(week.get('startDate')),
 				attributes = {},
 				days;
 
@@ -31,7 +32,7 @@
 			};
 
 			attributes = {
-				'startDate': String(rightWeek.get('startDate')),
+				'startDate': String(startDate),
 				'days': rightWeek.get('days')
 			};
 		
