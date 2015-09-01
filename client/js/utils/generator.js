@@ -78,7 +78,13 @@ var Generator = (function () {
             lastChar = login.charCodeAt(loginLastCharIndex) + 1,
             newChar = String.fromCharCode(lastChar);
         
-        login = login.substring(0, loginLastCharIndex) + newChar;
+        if (newChar !== '{') {
+            login = login.substring(0, loginLastCharIndex) + newChar;    
+        } else {
+            login = login.substring(0, loginLastCharIndex) + Math.floor((Math.random() * 9) + 1);
+        }
+        
+        //login = login.substring(0, loginLastCharIndex) + newChar;
         
         return login;
     }

@@ -58,9 +58,6 @@
                 }, {
                     length: 6,
                     msg: 'Length should be 6 symbols'
-                },{
-                    pattern: 'lettersOnly',
-                    msg: 'Only letters'
                 }],
             locationCity: function (value) {
                 if(value === null) {
