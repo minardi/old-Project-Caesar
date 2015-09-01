@@ -1,7 +1,7 @@
 function DataBase () {
 	var ObjectID = require('mongodb').ObjectID,
 		MongoClient = require('mongodb').MongoClient,
-		url = 'mongodb://localhost:27017/caesar',
+		url = 'mongodb://127.0.0.1/caesar',
 		async = require('async');
 
 	this.fetch = function (collectionName, cb) {

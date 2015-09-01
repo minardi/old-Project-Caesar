@@ -8,7 +8,7 @@
 
         events: {
             'click .create': 'add',
-            'click .name-header': 'sortByFullName',
+            'click .name-header': 'sortByName',
             'click .login-header': 'sortByLogin',
             'click .location-header': 'sortByLocation'
         },
@@ -52,23 +52,18 @@
             cs.mediator.publish('CreateAccount');
         },
 
-        sortByFullName: function () {
-            var flag = 'nameFlag',
-                sortingAttribute = 'fullName';
-
-            this.sortFunction(flag, sortingAttribute);
-            this.renderGrid();
-        },
-
         sortByLogin: function () {
             var flag = 'loginFlag',
-                sortingAttribute = 'login';
+                sortingAttribute = 'login',
+                $el = $('.login-header');
 
-            this.sortFunction(flag, sortingAttribute);
+            this.sortFunction(flag, sortingAttribute, $el);
             this.renderGrid();
         },
 
         sortByLocation: function () {
+            var $el = this.$('.location-header');
+
             if (this.locationFlag === 'ASC') {
                 this.collection.comparator = function (a, b) {
                     var firstValue = a.get('locationCity'),
@@ -80,13 +75,15 @@
                     } else if (firstValue > secondValue) {
                         result = 1;
                     }else {
-                        return a.get('fullName').toLowerCase() < b.get('fullName').toLowerCase() ? -1 : 1;
+                        return a.get('name').toLowerCase() < b.get('name').toLowerCase() ? -1 : 1;
                     }
 
                     return result;
                 };
 
                 this.locationFlag  = 'DESC';
+                this.$('.sort-flag').removeClass('glyphicon-triangle-top').removeClass('glyphicon-triangle-bottom');
+                $el.find('.sort-flag').addClass('glyphicon-triangle-bottom');
             } else {
                 this.collection.comparator = function (a, b) {
                     var firstValue = a.get('locationCity'),
@@ -98,16 +95,18 @@
                     } else if (firstValue < secondValue) {
                         result = 1;
                     }else {
-                        return a.get('fullName').toLowerCase() < b.get('fullName').toLowerCase() ? -1 : 1;
+                        return a.get('name').toLowerCase() < b.get('name').toLowerCase() ? -1 : 1;
                     }
 
                     return result;
                 };
 
                 this.locationFlag  = 'ASC';
+                this.$('.sort-flag').removeClass('glyphicon-triangle-top').removeClass('glyphicon-triangle-bottom');
+                $el.find('.sort-flag').addClass('glyphicon-triangle-top');
             }
 
-            this.collection.sort();
+            this.collection.sort({silent: true});
             this.renderGrid();
         }
     });

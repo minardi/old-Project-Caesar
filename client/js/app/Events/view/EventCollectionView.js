@@ -6,15 +6,15 @@
         tpl: templates.eventCollectionTpl,
         itemViews: [],
 
-        //methods: renderGrid, startSearch, changePage, show, renderAfterDestroy - are in BaseView
+        //methods: renderGrid, startSearch, changePage, show, renderAfterDestroy, sortByName, sortByType - are in BaseView
 		events: {
             'click .add': 'add',
-            'click .name-header': 'sortByName',
-            'click .type-header': 'sortByType',
+            'click .name-header': 'sortByName',   //in BaseView
+            'click .type-header': 'sortByType',   //in BaseView
 			'click .fullEventClose': 'fullEveClose',
 			'keydown': 'closeOnEscape',
-            'click .pageEl': 'changePage',
-            'keyup .searchField': 'startSearch'
+            'click .pageEl': 'changePage',        //in BaseView
+            'keyup .searchField': 'startSearch'   //in BaseView
         },
 
         initialize: function () {

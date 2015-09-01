@@ -64,23 +64,25 @@ var BaseView = Backbone.View.extend({
         this.$el.removeClass('hidden');
     },
 
-    sortByName: function () {
+    sortByName: function (e) {
         var flag = 'nameFlag',
-            sortingAttribute = 'name';
-
-        this.sortFunction(flag, sortingAttribute);
+            sortingAttribute = 'name',
+            $el = this.$('.name-header');
+        this.sortFunction(flag, sortingAttribute, $el);
         this.renderGrid();
+        e.preventDefault();
     },
 
     sortByType: function () {
         var flag = 'typeFlag',
-            sortingAttribute = 'type';
+            sortingAttribute = 'type',
+            $el = this.$('.type-header');
 
-        this.sortFunction(flag, sortingAttribute);
+        this.sortFunction(flag, sortingAttribute, $el);
         this.renderGrid();
     },
 
-    sortFunction: function (flag, field) {
+    sortFunction: function (flag, field, $el) {
         if (this[flag] === 'ASC') {
             this.collection.comparator = function (a, b) {
                 var firstValue = a.get(field),
@@ -90,6 +92,8 @@ var BaseView = Backbone.View.extend({
             };
 
             this[flag] = 'DESC';
+            this.$('.sort-flag').removeClass('glyphicon-triangle-top').removeClass('glyphicon-triangle-bottom');
+            $el.find('.sort-flag').addClass('glyphicon-triangle-bottom');
         } else {
             this.collection.comparator = function (a, b) {
                 var firstValue = a.get(field),
@@ -98,8 +102,10 @@ var BaseView = Backbone.View.extend({
                 return firstValue > secondValue ? -1 : 1;
             };
             this[flag] = 'ASC';
+            this.$('.sort-flag').removeClass('glyphicon-triangle-top').removeClass('glyphicon-triangle-bottom');
+            $el.find('.sort-flag').addClass('glyphicon-triangle-top');
         }
 
-        this.collection.sort();
+        this.collection.sort({silent: true});
     }
 });

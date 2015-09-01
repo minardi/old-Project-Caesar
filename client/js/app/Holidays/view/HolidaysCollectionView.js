@@ -65,17 +65,19 @@
 
         sortByLocation: function () {
             var flag = 'locationFlag',
-                sortingAttribute = 'locationCountry';
+                sortingAttribute = 'locationCountry',
+                $el = this.$('.location-header');
 
-            this.sortFunction(flag, sortingAttribute);
+            this.sortFunction(flag, sortingAttribute, $el);
             this.renderGrid();
         },
 
         sortByDate: function () {
             var flag = 'dateFlag',
-                sortingAttribute = 'date';
+                sortingAttribute = 'date',
+                $el = this.$('.date-header');
 
-            this.sortFunction(flag, sortingAttribute);
+            this.sortFunction(flag, sortingAttribute, $el);
             this.renderGrid();
         }
     });
