@@ -100,3 +100,7 @@
 .modal-schedule tr td {
     font-size: 1.3em;
 }
+
+.preViewScroll {
+    overflow: auto;
+}

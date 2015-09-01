@@ -24,6 +24,7 @@
             this.typeFlag = 'ASC';
             this.listenTo(this.collection, 'add', this.render);
             this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
+			this.listenTo(collections.resouresCollection, 'all', this.render);
         },
     
         render: function () {

@@ -6,7 +6,8 @@
         template: templates.countryTpl,
 
         events: {
-            'keypress .new-country': 'createNewCountry'
+            'keypress .new-country': 'createNewCountry',
+            'click .addCountySettings': 'saveCity'
         },
 
         initialize: function () {
@@ -36,10 +37,15 @@
         },
 
         showScroll: function () {
-			if(this.count >= 7) {
-				this.$('#countyScroll').addClass('showScroll');
+			var docHeight = $(document).height(),
+			    boxHeight = docHeight - 274 + 'px',
+			    divHeight = 224 + (45 * this.count);
+			
+			if(divHeight >= (docHeight - 50)) {
+			    this.$('#countyScroll').addClass('showScroll');
+				this.$('.showScroll').css('height', boxHeight)
 			} else {
-				this.$('#countyScroll').removeClass('showScroll');
+				this.$('#citiesScroll').removeClass('showScroll');
 			}
 		},
         createNewCountry: function (e) {
@@ -55,6 +61,17 @@
 		
 		updateCollection: function (){
             this.render();  
-        }
+        },
+		
+		saveCity: function () {
+			var inputCity = this.$('.new-country');
+			
+			if(inputCity.val() != '') {
+				this.collection.create({
+					name: inputCity.val()
+			    });
+			}
+			inputCity.val('');
+		}
     });
 })(App.Settings);

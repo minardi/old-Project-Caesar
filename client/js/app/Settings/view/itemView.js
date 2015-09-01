@@ -31,7 +31,10 @@
                     'All cities will be deleted in "'  + this.model.get('countryName') + '". Delete in any case?',
                     this.delete.bind(this)); 
             } else {
-                this.delete();
+				cs.mediator.publish('Confirm', 
+                    ' "'  + this.model.get('name') + '" will be deleted',
+                this.delete.bind(this));
+               // this.delete();
             }
         },
 

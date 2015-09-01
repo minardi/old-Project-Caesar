@@ -6,7 +6,8 @@
         template: templates.cityTpl,
 
         events: {
-            'keypress .new-city': 'createNewCity'
+            'keypress .new-city': 'createNewCity',
+            'click .addSettings': 'saveCity'
         },
 
         initialize: function () {
@@ -40,8 +41,13 @@
         },
 		
 		showScroll: function () {
-			if(this.count >= 7) {
-				this.$('#citiesScroll').addClass('showScroll');
+			var docHeight = $(document).height(),
+		        boxHeight = docHeight - 274 + 'px',
+			    currentBoxHeight = 224 + (45 * this.count);
+			
+			if(currentBoxHeight >= (docHeight - 50)) {
+			    this.$('#citiesScroll').addClass('showScroll');
+				this.$('.showScroll').css('height', boxHeight)
 			} else {
 				this.$('#citiesScroll').removeClass('showScroll');
 			}
@@ -84,6 +90,19 @@
                 
             });
             $inputCity.val('');
-        }
+        },
+		
+		saveCity: function () {
+			var inputCity = this.$('.new-city');
+			
+			if(inputCity.val() != '') {
+				this.collection.create({
+					name: inputCity.val(),
+					location: this.selectCountry(),
+                });
+			}
+			
+			inputCity.val('');
+		}
     });
 })(App.Settings);

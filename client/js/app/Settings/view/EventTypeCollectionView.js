@@ -6,7 +6,8 @@
         tpl: templates.eventTypeTpl,
 
         events: {
-            'keypress .new-type': 'createNewType'
+            'keypress .new-type': 'createNewType',
+            'click .addEventSettings': 'saveCity'
         },
 
         initialize: function () {
@@ -35,8 +36,13 @@
         },
 		
 		showScroll: function () {
-			if(this.count >= 7) {
-				this.$('#eventsScroll').addClass('showScroll');
+			var docHeight = $(document).height(),
+			    boxHeight = docHeight - 226 + 'px',
+			    divHeight = 140 + 84 + (45 * this.count);
+			
+			if(divHeight >= docHeight) {
+			    this.$('#eventsScroll').addClass('showScroll');
+				this.$('.showScroll').css('height', boxHeight)
 			} else {
 				this.$('#eventsScroll').removeClass('showScroll');
 			}
@@ -54,7 +60,19 @@
 		
 		updateCollection: function (){
             this.render();  
-        }
+        },
+		
+		saveCity: function () {
+			var inputCity = this.$('.new-type');
+			
+			if(inputCity.val() != '') {
+				this.collection.create({
+					name: inputCity.val()
+                });
+			}
+			
+			inputCity.val('');
+		}
         
     });
 })(App.Settings);

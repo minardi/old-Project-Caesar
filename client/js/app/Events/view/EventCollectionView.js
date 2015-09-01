@@ -26,6 +26,7 @@
             this.typeFlag = 'ASC';
             this.listenTo(this.collection, 'add', this.renderGrid);
             this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
+			this.listenTo(collections.eventsCollection, 'all', this.render);
 			$('body').on('keydown', this.closeOnEscape.bind(this));
         },
 

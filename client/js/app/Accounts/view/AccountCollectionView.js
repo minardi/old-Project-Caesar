@@ -19,6 +19,7 @@
             this.locationFlag = 'ASC';
             this.collection = collections.accountsCollection;
             this.listenTo(this.collection, 'add', this.renderGrid);
+			this.listenTo(collections.accountsCollection, 'all', this.render);
         },
 
         render: function () {

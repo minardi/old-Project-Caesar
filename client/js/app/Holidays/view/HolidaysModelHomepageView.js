@@ -55,7 +55,8 @@
         render: function () {
             var locationCountry = collections.countriesCollection.get(this.model.get('locationCountry')),
 			    citiesCollection = collections.citiesCollection,
-                countryName = locationCountry.get('countryName');
+                countryName = locationCountry.get('countryName'),
+				roleAdmina = $('#role').text(),
 				skip = this.model.skipped();
 
             this.$el.html(this.template({
@@ -67,7 +68,7 @@
 				locationCities: citiesCollection
             }));
 			
-			if(this.user.role === 'Admin') {
+			if(roleAdmina === 'Admin') {
 			    if(this.model.get('isActive').length > 0) {
 					this.$('.isActive').removeClass('glyphicon-thumbs-up').addClass('glyphicon-thumbs-down');
 				    this.$el.addClass("warning");

@@ -4,6 +4,7 @@
         tagName: 'div',
         className: 'col-sm-10 col-sm-offset-1',
         tpl: templates.menuTpl,
+		flag: '/preload',
 
         events: {
             'click .resources': 'showResources',
@@ -12,7 +13,8 @@
             'click .settings': 'showSettings',
             'click .contributors': 'showContributors',
             'click .holidays': 'showHolidays',
-            'click .accounts': 'showAccounts'
+            'click .accounts': 'showAccounts',
+			'click .myChek': 'changeRole'
         },
 
         render: function () {
@@ -64,6 +66,22 @@
             cs.mediator.publish('MenuClicked', '/Holidays'); //publish to global router
             this.$('.menu-item').removeClass('active');
             this.$('.holidays').addClass('active');
-        }
+        },
+		
+		changeRole: function () {
+			var load = new DataLoaderChange();
+			
+			if(this.flag === '/load') {
+				this.flag = '/preload';
+				this.$('.changeRole').removeClass('active');
+				this.$('#role').text('Coordinator');
+			} else {
+				this.flag = '/load';
+                this.$('.changeRole').addClass('active');
+				this.$('#role').text('Admin');
+			}
+			
+		    load.loadCollections(main, this.flag);
+		}
     }); 
 })(App.Menu);

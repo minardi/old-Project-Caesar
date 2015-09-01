@@ -24,6 +24,7 @@
             this.listenTo(this.collection, 'add', this.renderGrid);
             this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
             this.listenTo(collections.countriesCollection, 'all', this.render);
+			this.listenTo(collections.holidaysCollection, 'all', this.render);
         },
 
         render: function () {

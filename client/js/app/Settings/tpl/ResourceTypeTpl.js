@@ -5,8 +5,11 @@ templates.resourceTypeTpl = _.template([
             '</div>',
             '<ul id="resourceScroll" class="resource-type list-group">',
             '</ul>',
-            '<div>',
+            '<div class="input-group">',
                 '<input class="new-type form-control" type="text"  placeholder="Type">',
+				'<span class="input-group-btn">',
+					'<button class="btn btn-default addResSettings" type="button">Add</button>',
+				'</span>',
             '</div>',
         '</div>'
 ].join(''));

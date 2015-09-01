@@ -40,16 +40,18 @@
             }));
 			
 
-                this.$("#datetimepickerStart").datetimepicker({
-                    locale: 'ru',
-                    format: 'YYYY.MM.DD'
-                });
-				
-				this.$("#datetimepickerFinish").datetimepicker({
-                    locale: 'ru',
-                    format: 'YYYY.MM.DD'
-                });
-				
+			this.$("#datetimepickerStart").datetimepicker({
+				locale: 'ru',
+				format: 'YYYY.MM.DD'
+			});
+			
+			this.$("#datetimepickerFinish").datetimepicker({
+				locale: 'ru',
+				format: 'YYYY.MM.DD'
+			});
+			
+			this.$("[name='resourseCheckbox']").bootstrapSwitch();
+			
             return this;
         },
 

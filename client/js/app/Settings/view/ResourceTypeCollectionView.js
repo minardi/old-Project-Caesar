@@ -6,7 +6,8 @@
         tpl: templates.resourceTypeTpl,
 
         events: {
-            'keypress .new-type': 'createNewType'
+            'keypress .new-type': 'createNewType',
+            'click .addResSettings': 'saveCity'
         },
 
         initialize: function () {
@@ -36,8 +37,13 @@
         },
 		
 		showScroll: function () {
-			if(this.count >= 7) {
-				this.$('#resourceScroll').addClass('showScroll');
+			var docHeight = $(document).height(),
+			     boxHeight = docHeight - 226 + 'px',
+			     divHeight = 224 + (45 * this.count);
+			
+			if(divHeight >= docHeight) {
+			    this.$('#resourceScroll').addClass('showScroll');
+				this.$('.showScroll').css('height', boxHeight)
 			} else {
 				this.$('#resourceScroll').removeClass('showScroll');
 			}
@@ -55,6 +61,16 @@
 
             this.collection.create({name: this.$('.new-type').val()});
             this.$('.new-type').val('');
-        }
+        },
+		
+		saveCity: function () {
+			var inputCity = this.$('.new-type');
+			
+			if(inputCity.val() != '') {
+				this.collection.create({name: inputCity.val()});
+			}
+			
+			inputCity.val('');
+		}
     });
 })(App.Settings);

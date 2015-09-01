@@ -38,6 +38,10 @@ router.all('/preload', function(req, res, next) {
     var preloadController = new require('./preload/preloadController')(req, res);
 });
 
+router.all('/load', function(req, res, next) {     
+    var load = new require('./load/loadController')(req, res);
+});
+
 router.get('/name', function(req, res, next) {
 	var json = JSON.stringify(globalMan[req.cookies.clientId]);
 	

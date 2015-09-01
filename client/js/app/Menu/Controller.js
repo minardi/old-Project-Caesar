@@ -17,11 +17,13 @@
 		var logo = document.getElementById("logo");
 		logo.addEventListener('click', function () {	 
 			$('#logo').addClass('flip');
+			cs.mediator.publish('MenuClicked', '/Events'); //publish to global router
+			$('.menu-item').removeClass('active');
+			$('.events').addClass('active');
+			
 			setTimeout(function () {
 			    $('#logo').removeClass('flip');
 			} ,1100)
-
-			// $('#logo').removeClass('bounceIn');
 		},false);
     }
 })(App.Menu);
