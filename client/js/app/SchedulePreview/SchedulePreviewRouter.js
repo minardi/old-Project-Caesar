@@ -28,7 +28,6 @@
             } else {
                 this.navigate('Schedule/Preview/week/empty');
             }
-            
         },
         
         navigateShowCalendar: function () {

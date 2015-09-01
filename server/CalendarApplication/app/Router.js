@@ -20,7 +20,13 @@
         },
         
         navigateShowWeek: function (week) {
-            this.navigate('week/' + week.id);
+            var weekId = week.id;
+            
+            if (weekId !== undefined) {
+                this.navigate('week/' + week.id);    
+            } else {
+                this.navigate('week/empty');
+            }
         },
         
         navigateShowCalendar: function () {

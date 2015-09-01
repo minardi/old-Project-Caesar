@@ -1,19 +1,14 @@
 (function (This) {
     This.Controller = function () {
-        var startDate = new Date(collections.weeks.toJSON()[0].startDate),
+        var startDate = new Date(),
             monthView = new App.MonthView(),
             $main = $('#main');
         
         start();
         
-        function start () {
-            $('#main').append(monthView.render(startDate).el);
-            startDate.setMonth(startDate.getMonth() + 1);
-            $('#main').append(monthView.render(startDate).el);
-            startDate.setMonth(startDate.getMonth() + 1);
-            $('#main').append(monthView.render(startDate).el);
-            
+        function start () {    
             setUpMediator();
+            renderCalendar();
         }
         
         function setUpMediator () {
@@ -22,6 +17,10 @@
             App.mediator.subscribe('ShowWeekById', showWeekById, {}, this);
             App.mediator.subscribe('ShowSchedule', showSchedule, {}, this);
             App.mediator.subscribe('ShowScheduleById', showScheduleById, {}, this);
+        }
+        
+        function renderCalendar () {
+            $('#main').append(monthView.render(startDate).el);
         }
         
         function showCalendar () {

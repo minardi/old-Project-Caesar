@@ -26,24 +26,11 @@
                 date = new Date(year, month),
                 monthName = '';
 
-            this.monthNames.forEach(function (mName, num) {
-                if (num === month) {
-                    monthName = mName;
-                }
-            });
-
-            this.$el.append(this.template({date: date, mon: month, monthName: monthName}));
+            this.$el.append(this.template({date: date, mon: month, monthNames: this.monthNames}));
+            this.$el.append(this.template({date: date, mon: month + 1, monthNames: this.monthNames}));
+            this.$el.append(this.template({date: date, mon: month + 2, monthNames: this.monthNames}));
 
             return this;
-        },
-        
-        findFirstWeek: function () {
-            $('tr').each(function () {
-                var $td = $(this).find('td').eq(0); 
-                if ($td.html() === '') {
-                    $(this).addClass('start');
-                }                        
-            }, this);
         },
     
         renderPreview: function (e) {
