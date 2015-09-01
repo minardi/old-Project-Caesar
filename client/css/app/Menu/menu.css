@@ -147,3 +147,13 @@
         display:block !important;
     }
 }
+
+#navbar .exitMenu {
+    padding: 0;
+    border: 0;
+}
+
+#navbar .exitLink {
+    margin: 5px 0 0 0;
+    padding-bottom: 6px;
+}

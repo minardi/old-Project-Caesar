@@ -41,5 +41,33 @@
                 "lastName": "Лебедянский"
             }
         ]
+    },
+	{
+        "id": 1,
+        "name": "Team",
+        "itaName": "QC",             
+        "courseDirection": "Qc",
+        "students": [
+        	{
+                "id": 8,
+                "firstName": "Алена",
+                "lastName": "Крутинь"
+            },
+        	{
+                "id": 9,
+                "firstName": "Катерина",
+                "lastName": "Бекеш"
+            },
+        	{
+                "id": 10,
+                "firstName": "Михаил",
+                "lastName": "Макаренко"
+            },
+        	{
+                "id": 11,
+                "firstName": "Сергей",
+                "lastName": "Тсова"
+            }
+        ]
     }
 ]
