@@ -37,7 +37,8 @@
 
 			if (options.dayNumber) {
 				if (options.timeline) {
-					if (options.eventId) {
+
+					if (options.eventId !== undefined) {
 						dayTimeline[options.timeline] = [options.eventId];
 						dayTimeline[options.timeline] = _.flatten(dayTimeline[options.timeline]);		
 					} else {
@@ -90,5 +91,15 @@
 			}, this);
 
 		return isConflict;
+	};
+
+	This.DateNormalize = function (dayNumber) {
+		var normal = String(dayNumber);
+
+		if (dayNumber < 10) {
+			normal = '0' + dayNumber;
+		};
+
+		return normal
 	};
 })(App.Schedule);

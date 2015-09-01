@@ -422,32 +422,17 @@
 		},
 
 		solveConflict: function () {
-			var	eventName,
-				date,
-				dayNumber,
-				timeline,
-				eventId,
-				message;
-
 			if (!_.isEmpty(this.conflicts)) {
-				dayNumber = Number(Object.keys(this.conflicts[0].get('days')));
-
-				date = this.conflicts[0].get('startDate');
-				date.setDate(date.getDate() + (dayNumber - 1));
-				timeline = Object.keys(this.conflicts[0].get('days')[dayNumber]);
-
-				eventId = Number(Object.keys(this.conflicts[0].get('days')[dayNumber][timeline]));
-
-				eventName = collections.eventsCollection.findWhere({'id': eventId});
-				eventName = eventName.get('name');
-
-				message = 'Resources conflicts found: ' + date.toDateString() + This.daysName[dayNumber] + ' at  ' + timeline + ' : ' + eventName;
 		
-				this.showConfirm(message, this.deleteConflictEvent, 
+				this.showConfirm(this.deleteConflictEvent, 
 														{
 															'conflictWeekItem': this.conflicts[0].clone(),
 															'weekItemtoCopy': this.noConflicts[0].clone()
-														}, this.solveConflict.bind(this));
+														}, this.solveConflict.bind(this),
+														{
+															'newWeek': this.noConflicts[0].clone(),
+															'oldWeek': this.conflicts[0].clone()
+														});
 
 				this.conflicts.shift();
 				this.noConflicts.shift();
