@@ -10,6 +10,7 @@
             'Settings*path': 'settings',
             'Accounts*path': 'account',
             'Holidays*path': 'holidays',
+            'UserSetting*path': 'userSetting',
             '*action': 'errorPage'
         },
 
@@ -36,6 +37,10 @@
 
         calendar: function () {
             cs.subRouters['Schedule'] || (cs.subRouters['Schedule'] = new App.Schedule.Router());
+        },
+        
+        userSetting: function () {
+            cs.subRouters['UserSetting'] || (cs.subRouters['UserSetting'] = new App.UserSetting.Router());
         },
 
         settings: function () {

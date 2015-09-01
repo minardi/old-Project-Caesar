@@ -7,7 +7,7 @@ var App = {},
     ESC = 27,
     ENTER = 13;
 
-setUp(App, ['Events', 'Resources', 'About', 'Menu', 'Messenger', 'Schedule', 'ErrorPage', 'Settings', 'Accounts', 'Holidays', 'SchedulePreview']);
+setUp(App, ['Events', 'Resources', 'About', 'Menu', 'Messenger', 'Schedule', 'ErrorPage', 'Settings', 'Accounts', 'Holidays', 'SchedulePreview', 'UserSetting']);
 setUp(cs, ['mediator', 'subRouters', 'router', 'menu', 'messenger', 'notFound']);
 
 setUp(collections, ['resouresCollection',
