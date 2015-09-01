@@ -5,7 +5,7 @@ function AccountsController (req, res) {
 		actions = {
 			'GET': get,
 			'POST': (globalMan[req.cookies.clientId].role === "Admin") ? create : get,
-			'PUT': (globalMan[req.cookies.clientId].role === "Admin") ? update : get,
+			'PUT': update,
 			'DELETE': (globalMan[req.cookies.clientId].role === "Admin") ? del : get
 		},
 		dbName = 'accounts',

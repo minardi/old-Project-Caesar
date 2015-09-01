@@ -14,7 +14,8 @@
             'click .contributors': 'showContributors',
             'click .holidays': 'showHolidays',
             'click .accounts': 'showAccounts',
-			'click .myChek': 'changeRole'
+			'click .myChek': 'changeRole',
+            'click .userSetting': 'showUserSetting'
         },
 
         render: function () {
@@ -68,6 +69,12 @@
             this.$('.holidays').addClass('active');
         },
 		
+        showUserSetting: function () {
+            cs.mediator.publish('MenuClicked', '/UserSetting');
+            this.$('.menu-item').removeClass('active');
+            this.$('.userSetting').addClass('active');
+        },
+        
 		changeRole: function () {
 			var load = new DataLoaderChange();
 			
