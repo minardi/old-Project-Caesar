@@ -178,7 +178,9 @@
                 generatedLogin = Generator.generateLogin(name, lastName),
                 uniqueLogin = this.checkForUnique(generatedLogin);
             
-            $('#InputLogin').val(uniqueLogin);
+            if ($('#InputName').is(':focus') || $('#InputlastName').is(':focus')) {
+                $('#InputLogin').val(uniqueLogin);    
+            }
         },
         
         checkForUnique: function (_login) {
