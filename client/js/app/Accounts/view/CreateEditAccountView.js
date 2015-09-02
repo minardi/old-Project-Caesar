@@ -23,7 +23,7 @@
         render: function () {
             var locationCity = collections.citiesCollection.toJSON();
 
-            this.$el.append(this.template({
+            this.$el.empty().append(this.template({
                 name: this.model.get('name'),
                 lastName: this.model.get('lastName'),
                 login: this.model.get('login'),

@@ -102,4 +102,23 @@
 
 		return normal
 	};
+
+	This.getWeekItemByDate = function (date) {
+		var dateToString,
+			weekDate,
+			weekItem;
+
+		if (typeof(date) === 'object') {
+			dateToString = date.toDateString();
+		};
+
+		collections.scheduleCollection.each(function (week) {
+			weekDate = week.get('startDate').toDateString();
+			if (dateToString === weekDate) {
+				weekItem = week;
+			};
+		}, this);
+
+		return weekItem;
+	};
 })(App.Schedule);

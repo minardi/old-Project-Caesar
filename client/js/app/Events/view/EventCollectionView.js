@@ -26,7 +26,7 @@
             this.typeFlag = 'ASC';
             this.listenTo(this.collection, 'add', this.renderGrid);
             this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
-			this.listenTo(collections.eventsCollection, 'all', this.render);
+			this.listenTo(collections.eventsCollection, 'add', this.renderGrid);
 			$('body').on('keydown', this.closeOnEscape.bind(this));
         },
 
@@ -34,7 +34,6 @@
             this.pageCount = Math.ceil(this.collection.length / this.pageSize);
             this.$el.empty();
             this.$el.html(this.tpl());
-
             this.renderGrid();
 
             return this;

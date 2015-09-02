@@ -41,7 +41,9 @@
 			if (this.eventsId) {
 				_.each(this.eventsId, function (id) {
 					event = collections.eventsCollection.findWhere({'id': id});
-					resources.push(event.get('resources'));
+					if (event) {
+						resources.push(event.get('resources'));
+					};
 				}, this);
 				
 				for (i = 0; i < this.eventsId.length - 1; i++) {

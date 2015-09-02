@@ -23,16 +23,14 @@
             this.typeFlag = 'ASC';
             this.listenTo(this.collection, 'add', this.render);
             this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
-			this.listenTo(collections.resouresCollection, 'all', this.render);
+            this.listenTo(collections.resouresCollection, 'add', this.render);
         },
     
         render: function () {
             this.pageCount = Math.ceil(this.collection.length / this.pageSize);
             this.$el.empty();
             this.$el.html(this.template());
-
             this.renderGrid();
-
             return this;
         },
 

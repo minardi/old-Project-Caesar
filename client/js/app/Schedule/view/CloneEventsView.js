@@ -7,12 +7,21 @@
 			'click input[type="radio"]': 'setCloneParam',
 			'click .weeks': 'chooseWeekClone',
 			'click .days': 'chooseDaysClone',
-			'click .copySelected': 'collectSelectedEvents'
+			'click .copySelected': 'collectSelectedEvents',
+		},
+
+		initialize: function () {
+			this.isAsk = true;
 		},
 
 		setCloneParam: function (event) {
 			this.cloneParam = $(event.currentTarget).attr('param');
-		},	
+		},
+
+		setAskValue: function (isAsk, action) {
+			this.isAsk = isAsk;
+			this.action = action;
+		},
 
 		chooseWeekClone: function () {
 			var cloneOptions = {
@@ -23,6 +32,8 @@
 			if (cloneOptions[this.cloneParam]) {
 				cloneOptions[this.cloneParam].call(this);
 			};
+
+			this.isAsk = true;
 		},
 
 		collectSelectedEvents: function () {
@@ -38,6 +49,8 @@
 			if (cloneOptions[this.cloneParam]) {
 				cloneOptions[this.cloneParam].call(this);
 			};
+
+			this.isAsk = true;
 		},
 
  		render: function () {
@@ -366,7 +379,7 @@
 											event = collections.eventsCollection.findWhere({'id': eventId});
 											actualEvent = collections.eventsCollection.findWhere({'id': actualEventId});
 
-											if (!(_.isEmpty(_.intersection(event.get('resources'), actualEvent.get('resources'))))) 
+											if (actualEvent && !(_.isEmpty(_.intersection(event.get('resources'), actualEvent.get('resources'))))) 
 											{
 												this.conflicts.push(This.createWeekItem({
 													'startDate': actualWeek.get('startDate'),
@@ -422,34 +435,38 @@
 		},
 
 		solveConflict: function () {
-			if (!_.isEmpty(this.conflicts)) {
-		
-				this.showConfirm(this.deleteConflictEvent, 
-														{
-															'conflictWeekItem': this.conflicts[0].clone(),
-															'weekItemtoCopy': this.noConflicts[0].clone()
-														}, this.solveConflict.bind(this),
-														{
-															'newWeek': this.noConflicts[0].clone(),
-															'oldWeek': this.conflicts[0].clone()
-														});
+			var options = {};
 
+			if (!_.isEmpty(this.conflicts)) {
+				options = {
+							'oldWeek': this.conflicts[0].clone(),
+							'newWeek': this.noConflicts[0].clone()
+						};
+
+				if (this.isAsk) {
+					this.showConfirm(this.deleteConflictEvent, this.solveConflict.bind(this), options);
+				} else {
+					if (this.action === 'newWeek') {
+						this.deleteConflictEvent(options);
+					};
+				}
+			
 				this.conflicts.shift();
 				this.noConflicts.shift();
 			};
 
 		},
 
-		showConfirm: function (message, Yescallback, options, callback) {
+		showConfirm: function (Yescallback, callback, options) {
 			var confirmView = new This.ScheduleConfirmView();
-            confirmView.set(message, Yescallback, options, callback);
+            confirmView.set(Yescallback, callback, options);
 
             $('#confirm').html(confirmView.render().el);
 		},
 
 		deleteConflictEvent: function (options) {
-			collections.scheduleCollection.deleteEvent(options.conflictWeekItem);
-			collections.scheduleCollection.addEvent(options.weekItemtoCopy);
+			collections.scheduleCollection.deleteEvent(options.oldWeek);
+			collections.scheduleCollection.addEvent(options.newWeek);
 
 			cs.mediator.publish('EventsCloned');
 		}

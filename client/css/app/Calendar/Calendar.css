@@ -167,3 +167,8 @@
 .chooseDay, .chooseTimeline, .chooseWeek {
 	cursor: pointer;
 }
+
+.myRow {
+	padding-top: 10px;
+	padding-left: 20px;
+}

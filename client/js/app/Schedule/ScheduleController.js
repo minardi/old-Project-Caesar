@@ -23,6 +23,7 @@
 			cs.mediator.subscribe('EventDeleted', checkAvailableCells);
 			cs.mediator.subscribe('EventsCloned', showWeek);
 			cs.mediator.subscribe('ShowPreView', showPreView);
+			cs.mediator.subscribe('NotToAskResponse', setAskValue);
 		}
 
 		function showScheduleEvents () {
@@ -37,6 +38,10 @@
 			el.append(preView.render().el);
 		}
 		
+		function setAskValue (isAsk, priority) {
+		 	mainView.setAskValue(isAsk, priority);
+		}
+
 		function setupEvents () {
 			collections.eventsCollection.on('update', updateEvents);
 			collections.eventsCollection.on('change', updateEvents);

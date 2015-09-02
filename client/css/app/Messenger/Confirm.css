@@ -1,5 +1,5 @@
 @media (min-width: 768px){
-    .modal-dialog {
+    .confirm-dialog {
         width: 600px;
         margin: 120px auto;
     }

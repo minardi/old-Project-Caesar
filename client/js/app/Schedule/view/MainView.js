@@ -27,6 +27,10 @@
 			this.views['clone'].setTableEl(this.$table);
 		},
 
+		setAskValue: function (isAsk, priority) {
+			this.views['clone'].setAskValue(isAsk, priority);
+		},
+
 		render: function () {
 			_.each(this.views, function (view, viewName) {
 				this.fullView.appendView(viewName, view.render().el);
@@ -101,6 +105,9 @@
 
 			this.views['conflict'].remove();
 			this.fullView.appendView('conflict',  this.views['conflict'].render().el);
+
+			this.views['clone'].setTableEl(this.$table);
+			this.views['clone'].delegateEvents();
 		}, 
 
 		updateConflicts: function () {

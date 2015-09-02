@@ -24,6 +24,8 @@
 				$fragment.append(this.template({'day': 1, 'timeline': value}));
 			}, this);
 
+			this.startDate = This.getFisrtDayOfWeek(this.startDate);
+
 			this.$el.attr('startDate', This.getFisrtDayOfWeek(this.startDate));
 			this.$el.html($fragment);
 		},
