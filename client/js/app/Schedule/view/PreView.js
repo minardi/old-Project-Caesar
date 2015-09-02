@@ -24,8 +24,9 @@
 		},
 		
 		save: function () {
-			var a = this.$('.editName').val();
-			console.log(a);
+			$('<form action="/download" method="get"></form>')
+            .appendTo('body').submit().remove();
+                        
 			this.cancel()
 		},
 		

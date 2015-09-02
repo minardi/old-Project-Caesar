@@ -9,27 +9,14 @@
         
         function start () {
             setUpMediator();
-            //renderCalendar();
-            setTimeout(function () {
-                renderCalendar();    
-            }, 0);
         }
             
         function setUpWeeksCollection () {
             var currentMonth = new Date().getMonth(),
                 weeksCollection = [];
-            _.each(collections.scheduleCollection.toJSON(), function (week) {
-                var month = new Date(week.startDate).getMonth();
-                if (month === currentMonth || month === currentMonth + 1 || month === currentMonth + 2) {
-                    weeksCollection.push(week);
-                }
-            });
-            
+
+            weeksCollection = collections.scheduleCollection.toJSON();
             return weeksCollection;
-        }
-            
-        function renderCalendar () {            
-            $('.schedule-preview').append(monthView.render(startDate).el);
         }
         
         function setUpMediator () {
@@ -38,6 +25,11 @@
             cs.mediator.subscribe('ShowWeekById', showWeekById, {}, this);
             cs.mediator.subscribe('ShowSchedule', showSchedule, {}, this);
             cs.mediator.subscribe('ShowScheduleById', showScheduleById, {}, this);
+            cs.mediator.subscribe('RenderCalendar', renderCalendar, {}, this);            
+        }
+            
+        function renderCalendar () {
+            $('div.schedule-preview').html(monthView.render(startDate).el);
         }
         
         function showCalendar () {

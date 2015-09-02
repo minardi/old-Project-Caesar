@@ -5,7 +5,7 @@ var WeekPreView = Backbone.View.extend({
     template: templates.weekPreviewTpl,
     
     events: {
-        'click td': 'renderWeek'    
+        'click td.resource': 'renderWeek'    
     },
     
     render: function (weekId) {
@@ -21,7 +21,7 @@ var WeekPreView = Backbone.View.extend({
     },
     
     renderWeek: function (e) {
-        var resourceId = e.target.className,
+        var resourceId = e.target.classList[0],
             weekId = this.currentWeekId;
         
         cs.mediator.publish('ShowSchedule', resourceId, weekId);
