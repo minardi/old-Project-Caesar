@@ -7,10 +7,13 @@
 
         events: {
             'keypress .new-type': 'createNewType',
-            'click .addEventSettings': 'saveCity'
+            'click .addEventSettings': 'saveCity',
+            'input .new-type' : 'focus'
         },
 
         initialize: function () {
+            this.model = new This.EventType();
+            Backbone.Validation.bind(this);
             this.collection = collections.eventTypes;
             this.listenTo(this.collection, 'add', this.renderOne);
 			cs.mediator.subscribe('UpdateEvents', this.updateCollection, {}, this);
@@ -38,41 +41,86 @@
 		showScroll: function () {
 			var docHeight = $(document).height(),
 			    boxHeight = docHeight - 226 + 'px',
-			    divHeight = 140 + 84 + (45 * this.count);
+			    divHeight = 140 + 84 + (45 * this.count),
+                $eventsScroll = this.$('#eventsScroll');
 			
 			if(divHeight >= docHeight) {
-			    this.$('#eventsScroll').addClass('showScroll');
+			    $eventsScroll.addClass('showScroll');
 				this.$('.showScroll').css('height', boxHeight)
 			} else {
-				this.$('#eventsScroll').removeClass('showScroll');
+				$eventsScroll.removeClass('showScroll');
 			}
 		},
 
+        save: function () {
+            var ENTER = 13,
+                attributes = {
+                    name: this.$eventType.val().trim()
+                };
+
+            if (!this.preValidate(attributes)) {
+                this.collection.create(attributes);
+                this.$eventType.val('');
+            }
+        },
+
         createNewType: function (e) {
-            var ENTER = 13;
-            if(e.which !== ENTER || !this.$('.new-type').val().trim()){
+            this.$eventType = this.$('.new-type');
+            if(e.which !== ENTER || !this.$eventType.val().trim()){
                 return;
             }
-
-            this.collection.create({name: this.$('.new-type').val()});
-            this.$('.new-type').val('');
+            this.save();
         },
 		
 		updateCollection: function (){
             this.render();  
         },
+
+        focus: function () {
+            this.$eventType.focus();
+        },
 		
 		saveCity: function () {
-			var inputCity = this.$('.new-type');
-			
-			if(inputCity.val() !== '') {
-				this.collection.create({
-					name: inputCity.val()
-                });
-			}
-			
-			inputCity.val('');
-		}
-        
+            this.save();
+		},
+
+        preValidate: function (attributes) {
+            var attrName,
+                validationResult;
+
+            validationResult = this.validateName() || this.model.preValidate(attributes);
+
+            if (validationResult) {
+                for (attrName in validationResult) {
+                    cs.mediator.publish(   //publish to Messenger's Controller
+                        'Hint',
+                        validationResult[attrName],
+                        this.$('[name=' + attrName + ']')
+                    ); 
+                }
+            }
+
+            return validationResult;
+        },
+
+        isNameTaken: function (value) {
+            var eventsType = collections.eventTypes.toJSON(),
+                eventsTypeNames = [],
+                result;
+
+            eventsType.forEach(function (element) {
+                eventsTypeNames.push(element['name']);
+            });
+                        
+            result = _.contains(eventsTypeNames, value);
+            return result;
+        },
+
+        validateName: function () {
+            var errorMsg = {name: 'This name is already taken'},
+                result = this.isNameTaken(this.$eventType.val())? errorMsg: undefined;
+
+            return result;
+        }
     });
 })(App.Settings);

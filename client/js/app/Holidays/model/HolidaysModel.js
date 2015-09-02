@@ -44,10 +44,32 @@
 		
         validation: {
             name: [
-                {
+            	{
                     required: true,
-                    msg: 'You forgot to choose a type'
+                    msg: 'Field cannot be empty'
+                },{
+                	minLength: 5,
+                    msg: 'Min length is 5 symbols'
+                }, {
+                    maxLength: 30,
+                    msg: 'Max length is 30 symbols'
+                },{
+                    pattern: 'lettersNumbersRegEx',
+                    msg: 'Latin letters, numbers, space and dash "-"'
                 }
-		    ]}		
+		    ],
+		    locationCountry: [
+		    	{
+		    		required: true,
+                	msg: 'Field cannot be empty'
+		    	}
+		    ],
+		    date: [
+		    	{
+		    		required: true,
+                	msg: 'Field cannot be empty'
+		    	}
+		    ]
+		}		
     });
 })(App.Holidays);

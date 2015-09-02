@@ -25,8 +25,8 @@
         render: function () {
            this.$el.empty();
            this.$el.html(this.template);
-            this.renderGrid();
-            return this;
+           this.renderGrid();
+           return this;
         },
 
         renderGrid: function () {

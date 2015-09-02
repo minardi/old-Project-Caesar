@@ -34,7 +34,6 @@
 				cs.mediator.publish('Confirm', 
                     ' "'  + this.model.get('name') + '" will be deleted',
                 this.delete.bind(this));
-               // this.delete();
             }
         },
 
@@ -57,9 +56,9 @@
 
         save: function () {
             var value =  this.$('.edit-type').val().trim();
-            this.model.has('name')? 
-                this.model.save({ name: value}): this.saveCountry(value);
-            this.$el.removeClass('editing');
+                this.model.has('name')? 
+                    this.model.save({ name: value}): this.saveCountry(value);
+                this.$el.removeClass('editing');
         },
 
         saveCountry: function (value) {
@@ -72,6 +71,7 @@
                 this.save();
             }
         },
+
         revertOnEscape: function (e) {
             if (e.which === ESC) {
                 this.$el.removeClass('editing');

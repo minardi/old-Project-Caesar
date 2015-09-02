@@ -37,7 +37,7 @@ templates.createAccountTpl = _.template([
 									'<%= city.get("name") %>',
 								'</option>',
 							'<% } else {%>',
-								'<option value="" default disabled selected>select city</option>',
+								'<option value="" default disabled selected>Select city</option>',
 							'<% }%>',                            
 							'<% _.each(locationCity, function (city) {%>',
 								'<option value="<%= city.id %>">',

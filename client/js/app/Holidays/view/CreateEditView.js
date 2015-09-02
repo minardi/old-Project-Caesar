@@ -20,8 +20,7 @@
 
         render: function () {
             var locationCountry = collections.countriesCollection.toJSON(),
-                countryName = collections.countriesCollection.get(this.model.get('locationCountry')),
-				_this = this;
+                countryName = collections.countriesCollection.get(this.model.get('locationCountry'));
 				
             this.$el.append(this.template({
                 name: this.model.get('name'),
@@ -39,77 +38,43 @@
         },
 
         save: function () {
-			if (!this.preValidate()) {
-				var isNewModel = this.model.isNew(),
-					attributes = {
-						name : this.$('#name').val(),
-						locationCountry: Number(this.$('#selectCountry').val()),
-						date: this.$("#date").val()
-				};
+			var isNewModel = this.model.isNew(),
+                $locationValue = this.$('#selectCountry').val()? Number(this.$('#selectCountry').val()): '',
+				attributes;
 
+            attributes = {
+				name : this.$('#name').val(),
+				locationCountry: $locationValue,
+				date: this.$("#date").val()
+			};
+
+            if (!this.preValidate(attributes)) {
+                this.model.save(attributes);
+                collections.holidaysCollection.add(this.model);
                 cs.mediator.publish( //publish to Messenger's Controller
                     'Notice',
                     isNewModel ? 'You succesfully added a new holiday' : 'Information succesfully changed'
                 );
-				
-				this.model.save(attributes);
-                collections.holidaysCollection.add(this.model);
-
                 this.cancel();
-
 				$('#hollidaysModal').modal('hide');
-
 			}
         },
 		
-		preValidate: function (e) {
-              var holidayName = $('.holidayName'),
-                  holidayDate =  $('.holidayDate'),
-                  validationResult,
-                  errors = {},
+		preValidate: function (attributes) {
+            var attrName,
+                validationResult;
 
-                errors = this.model.preValidate({
-                    name: this.$('.holidayName').val(),
-                    date: this.$('.holidayDate').val()
-                });
-				
-                holidayName.parent().removeClass('has-error');
-                holidayDate.parent().removeClass('has-error');
+            validationResult = this.model.preValidate(attributes);
 
-                $('.tooltip-arrow').removeClass('myTooltip');
-                $('.tooltip-inner').removeClass('myTooltipInner');
-
-                remove ();
-
-                function remove () {
-                    holidayName.tooltip('destroy');
-                    holidayDate.tooltip('destroy');
+            if (validationResult) {
+                for (attrName in validationResult) {
+                    cs.mediator.publish(  
+                        'Hint',
+                        validationResult[attrName],
+                        this.$('[name=' + attrName + ']')
+                    );
                 }
-
-                function toolTip (place) {
-                    var  formGroup = place.parents('.form-group');
-
-                    place.tooltip({
-                        trigger: 'manual',
-                        placement: 'top',
-                        title: 'Field cannot be empty'
-                    }).tooltip('show');
-					
-                    setTimeout(remove, 5000);
-                }
-
-                if(errors) {
-                    if (errors.name) {
-                        holidayName.parent().addClass('has-error');
-                        toolTip(holidayName);
-                    }
-                    if (errors.type) {
-                        holidayDate.parent().addClass('has-error');
-                        toolTip(holidayDate);
-                    }
-                }
-                validationResult = errors;
-
+            }
             return validationResult;
         },
 		

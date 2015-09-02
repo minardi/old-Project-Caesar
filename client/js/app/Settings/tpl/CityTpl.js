@@ -13,7 +13,7 @@ templates.cityTpl = _.template([
             '<ul id="citiesScroll" class="cities list-group">',
             '</ul>',
             '<div class="input-group">',
-                '<input class="new-city form-control" type="text"  placeholder="Select a country at first">',
+                '<input name="name" class="new-city form-control" type="text"  placeholder="Select a country at first">',
 				'<span class="input-group-btn">',
 					'<button class="btn btn-default addSettings" type="button">Add</button>',
 				'</span>',
