@@ -18,6 +18,11 @@
 			return this.$el;
 		},
 
+		isAvaliableEvent: function (event) {
+
+			return (event && event.get('locationCountry') === User.get().locationCountry && event.get('locationCity') === User.get().locationCity);
+		},
+
 		renderEvents: function () {
 			this.chooseWeek();
 			this.checkHolidays();
@@ -26,8 +31,8 @@
 		},
 
 		chooseWeek: function () {
-			var rightWeek = collections.scheduleCollection.findWhere({weekNumber: this.currentWeekNumber});
-			
+			var rightWeek = This.getWeekItemByDate(this.startDate);
+
 			if (rightWeek) {
 				_.each(rightWeek.get('days'), this.showDay, this)
 			};
@@ -40,9 +45,9 @@
 				$elements = this.$el.find('tr[timeline="' + key + '"]');
 				$elements = $elements.find('td[day="' + dayNumber + '"]');
 					_.each(timelines, function (eventId) {
-						event = collections.eventsCollection.findWhere({id: Number(eventId)});
+						event = collections.eventsCollection.get(Number(eventId));
 
-						if (event && event.get('locationCountry') === User.get().locationCountry && event.get('locationCity') === User.get().locationCity) {
+						if (this.isAvaliableEvent(event)) {
 							$elements.append(this.createCell(event, dayNumber, key, this.$el))
 						};
 					}, this);
@@ -113,7 +118,7 @@
 		},
 
 		checkAvailableCells: function (_event) {
-			var weekItem = collections.scheduleCollection.findWhere({'weekNumber': this.currentWeekNumber}),
+			var weekItem = This.getWeekItemByDate(this.startDate),
 				selectedEvent = (_event)? _event: this.selectedEvent,
 				resources,
 				conflicts,
@@ -128,15 +133,18 @@
 				_.each(weekItem.get('days'), function (timelines, dayNumber) {
 					_.each(timelines, function (eventsId, timeline) {
 						_.each(eventsId, function (id) {
-							event = collections.eventsCollection.findWhere({'id': id});
-							conflicts = _.intersection(event.get('resources'), resources);
+							event = collections.eventsCollection.get(id);
 
-							if (!_.isEmpty(conflicts)) {
-								$cell = this.$el.find('tr[timeline="' + timeline + '"]');
-								$cell = $cell.find('td[day="' + dayNumber + '"]');
+							if (this.isAvaliableEvent(event)) {
+								conflicts = _.intersection(event.get('resources'), resources);
 
-								$cell.addClass('danger');
-							};
+								if (!_.isEmpty(conflicts)) {
+									$cell = this.$el.find('tr[timeline="' + timeline + '"]');
+									$cell = $cell.find('td[day="' + dayNumber + '"]');
+
+									$cell.addClass('danger');
+								};
+							}
 						}, this);
 					}, this);
 				}, this);
@@ -156,7 +164,7 @@
 		},
 
 		checkConglictsInCells: function () {
-			var weekItem = collections.scheduleCollection.findWhere({'weekNumber': this.currentWeekNumber}),
+			var weekItem = This.getWeekItemByDate(this.startDate),
 				conflictView,
 				$elements;
 
@@ -167,6 +175,7 @@
 
 						if (This.isConflicts(eventsId)) {
 							conflictView = new This.ExtendedConflictView();
+
 							conflictView.setEvents(eventsId);
 							$elements = this.$el.find('tr[timeline="' + timeline + '"]');
 							$elements = $elements.find('td[day="' + dayNumber + '"]');

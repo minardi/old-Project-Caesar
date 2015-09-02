@@ -108,7 +108,6 @@
 
 			this.views['clone'].setTableEl(this.$table);
 			this.views['clone'].delegateEvents();
-			debugger;
 		}, 
 
 		updateConflicts: function () {

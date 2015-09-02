@@ -1,7 +1,7 @@
 templates.sheduleCellTpl = _.template([
 '	<div class="myPanel myPanel-primary">',
 '   	<div class="myPanel-heading">',
-'			event',
+'			<%= title%>',
 '			<button class="close">',
 '   	 		<span>&times;</span>',
 '			</button>',

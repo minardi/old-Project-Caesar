@@ -379,7 +379,7 @@
 											event = collections.eventsCollection.findWhere({'id': eventId});
 											actualEvent = collections.eventsCollection.findWhere({'id': actualEventId});
 
-											if (!(_.isEmpty(_.intersection(event.get('resources'), actualEvent.get('resources'))))) 
+											if (actualEvent && !(_.isEmpty(_.intersection(event.get('resources'), actualEvent.get('resources'))))) 
 											{
 												this.conflicts.push(This.createWeekItem({
 													'startDate': actualWeek.get('startDate'),
@@ -458,7 +458,6 @@
 		},
 
 		showConfirm: function (Yescallback, callback, options) {
-
 			var confirmView = new This.ScheduleConfirmView();
             confirmView.set(Yescallback, callback, options);
 

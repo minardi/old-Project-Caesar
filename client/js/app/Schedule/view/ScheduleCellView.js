@@ -12,10 +12,24 @@
 		},
 
 		render: function () {
+			var title = this.getEventTitle();
+
 			this.$el.attr('resources', this.model.get('resources'));
 			this.$el.attr('event', this.model.get('id'));
-			this.$el.html(this.template({'value': this.model.get('name')}));
+			this.$el.html(this.template({'title': title, 'value': this.model.get('name')}));
 			return this;
+		},
+
+		getEventTitle: function () {
+			var title = '',
+				eventTypeId = this.model.get('type'),
+				eventType = collections.eventTypes.get(eventTypeId);
+
+			if (eventType) {
+				title = eventType.get('name');
+			};
+
+			return title;
 		},
 
 		setTimeline: function (_timeline) {
