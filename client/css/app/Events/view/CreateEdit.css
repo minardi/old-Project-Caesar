@@ -33,3 +33,6 @@
 .eventsScroll {
     overflow: auto;
 }
+.btn {
+    padding: 6px 8px;
+}

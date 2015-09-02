@@ -26,12 +26,8 @@
             var newModel = this.setAttributes();
             
             this.model.save(newModel, {
-                success: function(model, response) {
-                    if (response) {
-                        collections.accountsCollection.add(model);       
-                    } else {
-                        showError();
-                    }
+                success: function() {
+                    collections.accountsCollection.fetch();
                 },
                 wait: true
             });

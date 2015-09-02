@@ -1,5 +1,5 @@
 (function (This) {
-    This.CollectionView = BaseView.extend({
+    This.CollectionView = App.BaseView.extend({
         tagName: 'div',
         className: 'holiday',
         template: templates.holidaysCollectionTpl,

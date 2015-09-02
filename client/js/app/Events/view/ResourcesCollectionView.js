@@ -1,6 +1,6 @@
 'use strict';
 (function (This) {
-    This.ResourcesCollectionView = BaseView.extend({
+    This.ResourcesCollectionView = App.BaseView.extend({
         tagName: 'div',
         tpl: templates.resourseCollectionTpl,
         itemViews: [],
