@@ -1,4 +1,4 @@
-var BaseView = Backbone.View.extend({
+App.BaseView = Backbone.View.extend({
     originCollection: '',
 
     renderGrid: function () {

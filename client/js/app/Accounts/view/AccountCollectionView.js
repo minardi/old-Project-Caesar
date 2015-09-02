@@ -1,6 +1,6 @@
 'use strict';
 (function (This) {
-    This.AccountCollectionView = BaseView.extend({
+    This.AccountCollectionView = App.BaseView.extend({
 		template: templates.accountCollectionTpl,
         className: 'accounts',
         tagName: 'div',

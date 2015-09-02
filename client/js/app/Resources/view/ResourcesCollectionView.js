@@ -1,5 +1,5 @@
 (function (This) {
-    This.CollectionView = BaseView.extend({
+    This.CollectionView = App.BaseView.extend({
         tagName: 'div',
         className: 'resource',
         template: templates.resourceCollectionTpl,
@@ -15,7 +15,6 @@
         },
     
         initialize: function () {
-
             this.collection = collections.resouresCollection;
             this.originCollection = collections.resouresCollection;
             this.pageSize = 10;

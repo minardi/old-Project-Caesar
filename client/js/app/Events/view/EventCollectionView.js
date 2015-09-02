@@ -1,6 +1,6 @@
 'use strict';
 (function (This) {
-    This.EventCollectionView = BaseView.extend({
+    This.EventCollectionView = App.BaseView.extend({
         tagName: 'div',
         className: 'events',
         tpl: templates.eventCollectionTpl,
