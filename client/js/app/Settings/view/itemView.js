@@ -56,23 +56,20 @@
         },
 
         save: function () {
-            var value = this.$('.edit-type').val().trim();
-
-            if (value) {
-                this.model.save({ name: value });
-            } else {
-                this.delete();
-            }
-
+            var value =  this.$('.edit-type').val().trim();
+            this.model.has('name')? 
+                this.model.save({ name: value}): this.saveCountry(value);
             this.$el.removeClass('editing');
+        },
+
+        saveCountry: function (value) {
+            this.model.save({ countryName: value});
+            cs.mediator.publish('UpdateCountry', this);
         },
 
         updateOnEnter: function (e) {
             if (e.keyCode === ENTER) {
                 this.save();
-            }
-            if(this.model.get('countryName')){
-                cs.mediator.publish('UpdateCountry', this);
             }
         },
         revertOnEscape: function (e) {

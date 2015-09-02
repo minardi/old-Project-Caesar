@@ -38,14 +38,15 @@
 		
 		showScroll: function () {
 			var docHeight = $(document).height(),
-			     boxHeight = docHeight - 226 + 'px',
-			     divHeight = 224 + (45 * this.count);
+			    boxHeight = docHeight - 226 + 'px',
+			    divHeight = 224 + (45 * this.count),
+                $resourceScroll = this.$('#resourceScroll');
 			
-			if(divHeight >= docHeight) {
-			    this.$('#resourceScroll').addClass('showScroll');
+			if (divHeight >= docHeight) {
+			    $resourceScroll.addClass('showScroll');
 				this.$('.showScroll').css('height', boxHeight)
 			} else {
-				this.$('#resourceScroll').removeClass('showScroll');
+				$resourceScroll.removeClass('showScroll');
 			}
 		},
 		

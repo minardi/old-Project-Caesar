@@ -48,6 +48,7 @@
 				this.$('#citiesScroll').removeClass('showScroll');
 			}
 		},
+
         createNewCountry: function (e) {
             var ENTER = 13,
                 $inputCountry = this.$('.new-country');
