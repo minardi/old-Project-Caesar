@@ -10,7 +10,7 @@ templates.createAccountTpl = _.template([
 				'<div class="accountForm">',
 					'<div class="form-group" class="col-xs-4">',
 						'<label for="InputName">Enter Name</label>',
-						'<input type="text" class="form-control" value="<%= name %>" name="name" id="InputName" placeholder="Enter Name">',
+						'<input type="text" class="form-control" value="<%= name %>" name="name" id="InputName" placeholder="Enter Name" autofocus>',
 					'</div>',
 					'<div class="form-group" class="col-xs-4">',
 						'<label for="InputLastName">Enter LastName</label>',
