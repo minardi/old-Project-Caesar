@@ -62,51 +62,11 @@
         },
 
         sortByLocation: function () {
-            var $el = this.$('.location-header');
+            var flag = 'locationFlag',
+                sortingAttribute = 'location',
+                $el = this.$('.location-header');
 
-            if (this.locationFlag === 'ASC') {
-                this.collection.comparator = function (a, b) {
-                    var firstValue = a.get('locationCity'),
-                        secondValue = b.get('locationCity'),
-                        result;
-
-                    if (firstValue < secondValue) {
-                        result = -1;
-                    } else if (firstValue > secondValue) {
-                        result = 1;
-                    }else {
-                        return a.get('name').toLowerCase() < b.get('name').toLowerCase() ? -1 : 1;
-                    }
-
-                    return result;
-                };
-
-                this.locationFlag  = 'DESC';
-                this.$('.sort-flag').removeClass('glyphicon-triangle-top').removeClass('glyphicon-triangle-bottom');
-                $el.find('.sort-flag').addClass('glyphicon-triangle-bottom');
-            } else {
-                this.collection.comparator = function (a, b) {
-                    var firstValue = a.get('locationCity'),
-                        secondValue = b.get('locationCity'),
-                        result;
-
-                    if (firstValue > secondValue) {
-                        result = -1;
-                    } else if (firstValue < secondValue) {
-                        result = 1;
-                    }else {
-                        return a.get('name').toLowerCase() < b.get('name').toLowerCase() ? -1 : 1;
-                    }
-
-                    return result;
-                };
-
-                this.locationFlag  = 'ASC';
-                this.$('.sort-flag').removeClass('glyphicon-triangle-top').removeClass('glyphicon-triangle-bottom');
-                $el.find('.sort-flag').addClass('glyphicon-triangle-top');
-            }
-
-            this.collection.sort({silent: true});
+            this.sortFunction(flag, sortingAttribute, $el);
             this.renderGrid();
         }
     });
