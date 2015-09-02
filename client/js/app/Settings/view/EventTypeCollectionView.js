@@ -65,7 +65,7 @@
 		saveCity: function () {
 			var inputCity = this.$('.new-type');
 			
-			if(inputCity.val() != '') {
+			if(inputCity.val() !== '') {
 				this.collection.create({
 					name: inputCity.val()
                 });

@@ -4,9 +4,9 @@ function AccountsController (req, res) {
 		db = new require('../db/db')(),
 		actions = {
 			'GET': get,
-			'POST': (globalMan[req.cookies.clientId].role === "Admin") ? create : get,
+			'POST': checkRole(create),
 			'PUT': update,
-			'DELETE': (globalMan[req.cookies.clientId].role === "Admin") ? del : get
+			'DELETE': checkRole(del)
 		},
 		dbName = 'accounts',
 		id = req.params.id;
@@ -40,10 +40,16 @@ function AccountsController (req, res) {
 
 	function del () {
 		db.remove(dbName, id, responde);
-	};
+	}
 
 	function responde (err, dbQuery) {	
 		res.send(accountsView.returnAccount(dbQuery, req));
+	}
+
+	function checkRole (method) {
+		var cookie = globalMan[req.cookies.clientId];
+
+		return (cookie !== undefined && cookie.role === "Admin")? method: get;
 	}
 
 	return this;

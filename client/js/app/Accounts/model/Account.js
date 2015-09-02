@@ -2,14 +2,16 @@
 
 (function (This) {
     This.Account = Backbone.Model.extend({
-        defaults: {
-            name: '',
-            lastName: '',
-            login: '',
-            password: '',
-            locationCity: '',
-            locationCountry: '',
-            role: ''
+        defaults: function () {
+            return {
+                name: '',
+                lastName: '',
+                login: '',
+                password: '',
+                locationCity: '',
+                locationCountry: '',
+                role: ''
+            }
         },
 
         urlRoot: '/accounts',

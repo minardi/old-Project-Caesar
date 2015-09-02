@@ -85,15 +85,15 @@
             cs.mediator.publish('Hint','Sorry, login already exists!', this.login);
         },
 
+
         saveAccount: function () {
             var isNewModel = this.model.isNew(),
                 closeView = this.cancel.bind(this),
                 showError = this.showErrorMessage.bind(this),
-                attributes = this.setAttributes(),
-                model = this.model;
+                attributes = this.setAttributes();
 
             if (!this.preValidate(attributes)) {
-                this.model.save({}, {
+                this.model.save(attributes, {
                     success: function(model, response) {
                         if (response) {
                             collections.accountsCollection.add(model);   

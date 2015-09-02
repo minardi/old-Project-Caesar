@@ -54,19 +54,21 @@
         },
 
         createNewType: function (e) {
-            var ENTER = 13;
-            if(e.which !== ENTER || !this.$('.new-type').val().trim()){
+            var ENTER = 13,
+                $typeValue = this.$('.new-type');
+
+            if(e.which !== ENTER || !$typeValue.val().trim()){
                 return;
             }
 
-            this.collection.create({name: this.$('.new-type').val()});
-            this.$('.new-type').val('');
+            this.collection.create({name: $typeValue.val()});
+            $typeValue.val('');
         },
 		
 		saveCity: function () {
 			var inputCity = this.$('.new-type');
 			
-			if(inputCity.val() != '') {
+			if(inputCity.val() !== '') {
 				this.collection.create({name: inputCity.val()});
 			}
 			

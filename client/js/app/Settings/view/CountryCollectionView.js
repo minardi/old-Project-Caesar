@@ -55,8 +55,9 @@
                 return;
             }
             this.collection.create({countryName: $inputCountry.val()});
-            $inputCountry.val('');
             cs.mediator.publish('CreateCountry', this);
+            $inputCountry.val('');
+            
         },
 		
 		updateCollection: function (){
@@ -66,11 +67,12 @@
 		saveCity: function () {
 			var inputCity = this.$('.new-country');
 			
-			if(inputCity.val() != '') {
+			if(inputCity.val() !== '') {
 				this.collection.create({
-					name: inputCity.val()
+					countryName: inputCity.val()
 			    });
 			}
+            cs.mediator.publish('CreateCountry', this);
 			inputCity.val('');
 		}
     });
