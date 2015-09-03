@@ -1,14 +1,13 @@
 'use strict';
 (function (This) {
-    This.CityCollectionView = Backbone.View.extend({
+    This.CityCollectionView = This.CollectionView.extend({
         tagName: 'div',
         className: 'col-md-3',
         template: templates.cityTpl,
 
         events: {
-            'keypress .new-city': 'createNewCity',
-            'click .addSettings': 'saveCity',
-            'input .new-city' : 'focus'
+            'keypress .new-city': 'createNew',
+            'click .addSettings': 'save'
         },
 
         initialize: function () {
@@ -16,9 +15,7 @@
             Backbone.Validation.bind(this);
             this.collection = collections.citiesCollection;
             this.listenTo(this.collection, 'add', this.renderOne);
-            cs.mediator.subscribe('CreateCountry', this.updateCollection, {}, this);
-            cs.mediator.subscribe('DeleteCountry', this.deleteCollection, {}, this);
-            cs.mediator.subscribe('UpdateCountry', this.updateCollection, {}, this);
+            this.listenTo(collections.countriesCollection, 'all', this.render);
 			this.count = 0;
         },
 
@@ -42,112 +39,46 @@
             
 			return this;
         },
-		
-		showScroll: function () {
-			var docHeight = $(document).height(),
-		        boxHeight = docHeight - 274 + 'px',
-			    currentBoxHeight = 224 + (45 * this.count),
-                $citiesScroll = this.$('#citiesScroll');
-			
-			if(currentBoxHeight >= (docHeight - 50)) {
-			    $citiesScroll.addClass('showScroll');
-				this.$('.showScroll').css('height', boxHeight)
-			} else {
-				$citiesScroll.removeClass('showScroll');
-			}
-		},
 
-        selectCountry: function () {          
-            var selectedCountry =  this.$('#selectCountry option:selected').text(),
-                valueSelected;
-            collections.countriesCollection.toJSON().forEach(function (item) {
-                if(item['countryName'] === selectedCountry){
-                    valueSelected = item['id'];
-                }
-            });
-            return valueSelected;
-        },
-
-        updateCollection: function () {
-            this.render();  
-        },
-
-        deleteCollection: function (deletedId) {        
-            _.each(_.clone(collections.citiesCollection.toJSON()), function(item) {
-                if(item['location'] === deletedId){
-                var modelCity = collections.citiesCollection.get(item);
-                    modelCity.destroy();
-                }
-            });
-           this.render();
-        },
-
-        save: function () {
+        createNew: function (e) {
             var ENTER = 13,
-                attributes = {
-                    name: this.$inputCity.val().trim(),
-                    location: this.selectCountry()
-                };
+                $inputCity = this.$('.new-city');
 
-            if (!this.preValidate(attributes)) {
-                this.collection.create(attributes);
-                this.$inputCity.val('');
-            }
-        }, 
-
-        createNewCity: function (e) {
-            this.$inputCity = this.$('.new-city');
-            if (e.which !== ENTER || !this.$inputCity.val().trim()) {
+            if(e.which !== ENTER || !$inputCity.val().trim()){
                 return;
             }
-            this.save();
-        },
 
-        focus: function () {
-            this.$inputCity.focus();
-        }, 
-
-		saveCity: function () {
-            this.save();
-		},
-
-        preValidate: function (attributes) {
-            var attrName,
-                validationResult;
-
-            validationResult = this.validateName() || this.model.preValidate(attributes);
-
-            if (validationResult) {
-                for (attrName in validationResult) {
-                    cs.mediator.publish(   //publish to Messenger's Controller
-                        'Hint',
-                        validationResult[attrName],
-                        this.$('[name=' + attrName + ']')
-                    ); 
-                }
-            }
-
-            return validationResult;
-        },
-
-        isNameTaken: function (value) {
-            var cities = collections.citiesCollection.toJSON(),
-                citiesNames = [],
-                result;
-
-            cities.forEach(function (element) {
-                citiesNames.push(element['name']);
+            this.collection.create({
+                name: $inputCity.val(),
+                location: this.$('#selectCountry').val()
             });
-                        
-            result = _.contains(citiesNames, value);
-            return result;
+            $inputCity.val('');
         },
 
-        validateName: function () {
-            var errorMsg = {name: 'This name is already taken'},
-                result = this.isNameTaken(this.$inputCity.val())? errorMsg: undefined;
+        showScroll: function () {
+            var docHeight = $(document).height(),
+                boxHeight = docHeight - 250 + 'px',
+                currentBoxHeight = 224 + (45 * this.count);
 
-            return result;
-        }
+            if(currentBoxHeight >= (docHeight - 50)) {
+                this.$('#citiesScroll').addClass('showScroll');
+                this.$('.showScroll').css('height', boxHeight)
+            } else {
+                this.$('#citiesScroll').removeClass('showScroll');
+            }
+        },
+		
+		save: function () {
+			var inputCity = this.$('.new-city');
+			
+			if(inputCity.val() != '') {
+				this.collection.create({
+					name: inputCity.val(),
+					location: this.$('#selectCountry').val()
+                });
+			}
+			
+			inputCity.val('');
+		}
     });
 })(App.Settings);

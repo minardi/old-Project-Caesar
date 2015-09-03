@@ -1,19 +1,18 @@
 'use strict';
 (function (This) {
-    This.ResourceTypeCollectionView = Backbone.View.extend({
+    This.ResourceTypeCollectionView = This.CollectionView.extend({
         tagName: 'div',
         className: 'col-md-3',
         tpl: templates.resourceTypeTpl,
 
         events: {
-            'keypress .new-type': 'createNewType',
-            'click .addResSettings': 'saveCity'
+            'keypress .new-type': 'createNew',
+            'click .addResSettings': 'save'
         },
 
         initialize: function () {
             this.collection = collections.resourceTypes;
             this.listenTo(this.collection, 'add', this.renderOne);
-			cs.mediator.subscribe('UpdateRecourse', this.updateCollection, {}, this);
 			this.count = 0;
         },
 
@@ -35,45 +34,19 @@
 
             return this;
         },
-		
+
 		showScroll: function () {
 			var docHeight = $(document).height(),
 			    boxHeight = docHeight - 226 + 'px',
 			    divHeight = 224 + (45 * this.count),
                 $resourceScroll = this.$('#resourceScroll');
-			
+
 			if (divHeight >= docHeight) {
 			    $resourceScroll.addClass('showScroll');
 				this.$('.showScroll').css('height', boxHeight)
 			} else {
 				$resourceScroll.removeClass('showScroll');
 			}
-		},
-		
-		updateCollection: function (){
-            this.render();  
-        },
-
-        createNewType: function (e) {
-            var ENTER = 13,
-                $typeValue = this.$('.new-type');
-
-            if(e.which !== ENTER || !$typeValue.val().trim()){
-                return;
-            }
-
-            this.collection.create({name: $typeValue.val()});
-            $typeValue.val('');
-        },
-		
-		saveCity: function () {
-			var inputCity = this.$('.new-type');
-			
-			if(inputCity.val() !== '') {
-				this.collection.create({name: inputCity.val()});
-			}
-			
-			inputCity.val('');
 		}
     });
 })(App.Settings);

@@ -7,6 +7,7 @@
             	countryName: ''
             }
         },
+
         validation: {
         	countryName: [
         		{
@@ -23,6 +24,7 @@
                     msg: 'Latin letters, space and dash "-"'
                 }
         	]
+
         }
     });
 })(App.Settings);
