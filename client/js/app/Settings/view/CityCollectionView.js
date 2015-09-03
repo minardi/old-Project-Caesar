@@ -16,6 +16,7 @@
             Backbone.Validation.bind(this);
             this.collection = collections.citiesCollection;
             this.listenTo(this.collection, 'add', this.renderOne);
+            this.listenTo(this.collection, 'destroy', this.render);
             this.listenTo(collections.countriesCollection, 'all', this.render);
             cs.mediator.subscribe('DeleteCountry', this.deleteCollection, {}, this);
             this.count = 0;

@@ -16,6 +16,7 @@
             Backbone.Validation.bind(this);
             this.collection = collections.countriesCollection;
             this.listenTo(this.collection, 'add', this.renderOne);
+            this.listenTo(this.collection, 'destroy', this.render);
         },
 
         render: function () {
