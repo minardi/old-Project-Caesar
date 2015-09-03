@@ -5,11 +5,11 @@
         className: 'list-group-item',
         tpl: templates.itemTpl,
 
-        events:{
+        events: {
             'click .destroy': 'confirmDelete',
-			'click .editSetings': 'edit',
+            'click .editSetings': 'edit',
             'dblclick': 'edit',
-            'keypress .edit-type':	'updateOnEnter',
+            'keypress .edit-type': 'updateOnEnter',
             'keydown .edit-type': 'revertOnEscape',
             'blur .edit-type': 'save'
         },
@@ -26,28 +26,13 @@
         },
 
         confirmDelete: function () {
-            if (this.model.get('countryName')) {
-                cs.mediator.publish('Confirm', 
-                    'All cities will be deleted in "'  + this.model.get('countryName') + '". Delete in any case?',
-                    this.delete.bind(this)); 
-            } else {
-				cs.mediator.publish('Confirm', 
-                    ' "'  + this.model.get('name') + '" will be deleted',
-                this.delete.bind(this));
-               // this.delete();
-            }
+            var message = 'Are you sure to delete "' + this.model.get('name') + '"?';
+            cs.mediator.publish('Confirm', message, this.delete.bind(this));
         },
 
         delete: function () {
-            if (this.model.get('countryName')) {
-                cs.mediator.publish('DeleteCountry', this.model.id);
-            }
             this.model.destroy();
             cs.mediator.publish('Notice', 'Item was succesfully deleted');
-			cs.mediator.publish('UpdateCountry', this);
-			cs.mediator.publish('UpdateRecourse', this);
-			cs.mediator.publish('UpdateEvents', this);
-			cs.mediator.publish('UpdateCountries', this);
         },
 
         edit: function () {
@@ -56,15 +41,14 @@
         },
 
         save: function () {
-            var value =  this.$('.edit-type').val().trim();
-            this.model.has('name')? 
-                this.model.save({ name: value}): this.saveCountry(value);
-            this.$el.removeClass('editing');
-        },
+            var value = this.$('.edit-type').val().trim();
 
-        saveCountry: function (value) {
-            this.model.save({ countryName: value});
-            cs.mediator.publish('UpdateCountry', this);
+            if(value) {
+                this.model.save({name: value});
+            } else {
+                this.confirmDelete();
+            }
+            this.$el.removeClass('editing');
         },
 
         updateOnEnter: function (e) {

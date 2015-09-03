@@ -3,7 +3,7 @@
 (function (This) {
     This.Country = Backbone.Model.extend({
         defaults: {
-            countryName: ''
+            name: ''
         }
     });
 })(App.Settings);
