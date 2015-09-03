@@ -13,7 +13,8 @@
             'keyup .searchField': 'startSearch',
             'click .name-header': 'sortByName',
             'click .location-header': 'sortByLocation',
-            'click .date-header': 'sortByDate'
+            'click .date-header': 'sortByDate',
+			'keypress': 'updateOnEnter'
         },
 
         initialize: function () {
@@ -25,6 +26,7 @@
             this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
             this.listenTo(collections.countriesCollection, 'all', this.render);
 			this.listenTo(collections.holidaysCollection, 'all', this.render);
+			$('body').one('keypress', this.updateOnEnter.bind(this));
         },
 
         render: function () {
@@ -79,6 +81,12 @@
 
             this.sortFunction(flag, sortingAttribute, $el);
             this.renderGrid();
+        },
+		
+		updateOnEnter: function (e) {
+            if (e.keyCode === ENTER) {
+                e.preventDefault();
+            }
         }
     });
 })(App.Holidays);

@@ -14,7 +14,8 @@
 			'click .fullEventClose': 'fullEveClose',
 			'keydown': 'closeOnEscape',
             'click .pageEl': 'changePage',        //in BaseView
-            'keyup .searchField': 'startSearch'   //in BaseView
+            'keyup .searchField': 'startSearch',   //in BaseView
+			'keypress': 'updateOnEnter'
         },
 
         initialize: function () {
@@ -28,6 +29,7 @@
             this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
 			this.listenTo(collections.eventsCollection, 'add', this.renderGrid);
 			$('body').on('keydown', this.closeOnEscape.bind(this));
+			$('body').one('keypress', this.updateOnEnter.bind(this));
         },
 
         render: function () {
@@ -60,6 +62,12 @@
 			$('.toshow').addClass('hidden');
 			$('.toshowfirst').switchClass('col-md-8', 'col-md-12', 1000);
 			$('.shortInfo').removeClass('warning');
-		}
+		},
+		
+		updateOnEnter: function (e) {
+            if (e.keyCode === ENTER) {
+                e.preventDefault();
+            }
+        }
     });
 })(App.Events);
