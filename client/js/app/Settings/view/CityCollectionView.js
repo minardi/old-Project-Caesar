@@ -20,7 +20,7 @@
         },
 
         render: function () {
-			this.count = 0;
+            this.count = 0;
             this.$el.html(this.template({
                 locationCountry: collections.countriesCollection.toJSON()
             }));
@@ -34,9 +34,8 @@
         renderOne: function (model) {
             var cityView = new App.Settings.ItemView({model: model});
             this.$('.cities').append(cityView.render().el);
-			this.count++;
-			this.showScroll();
-            
+            this.count++;
+            this.showScroll();
 			return this;
         },
 
