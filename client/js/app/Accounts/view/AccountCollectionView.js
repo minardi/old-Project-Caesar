@@ -10,7 +10,8 @@
             'click .create': 'add',
             'click .name-header': 'sortByName',
             'click .login-header': 'sortByLogin',
-            'click .location-header': 'sortByLocation'
+            'click .location-header': 'sortByLocation',
+			'keypress': 'updateOnEnter'
         },
 
         initialize: function () {
@@ -20,6 +21,7 @@
             this.collection = collections.accountsCollection;
             this.listenTo(this.collection, 'add', this.renderGrid);
 			this.listenTo(collections.accountsCollection, 'all', this.render);
+			$('body').one('keypress', this.updateOnEnter.bind(this));
         },
 
         render: function () {
@@ -68,6 +70,12 @@
 
             this.sortFunction(flag, sortingAttribute, $el);
             this.renderGrid();
+        },
+		
+		updateOnEnter: function (e) {
+            if (e.keyCode === ENTER) {
+                e.preventDefault();
+            }
         }
     });
 })(App.Accounts);
