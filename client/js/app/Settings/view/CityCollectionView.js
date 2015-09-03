@@ -38,7 +38,6 @@
             this.$('.cities').append(cityView.render().el);
             this.count++;
             this.showScroll();
-            
             return this;
         },
 

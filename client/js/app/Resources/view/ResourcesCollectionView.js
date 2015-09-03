@@ -11,7 +11,8 @@
             'click .pageEl': 'changePage',
             'click .name-header': 'sortByName',
             'click .type-header': 'sortByType',
-            'keyup .searchField': 'startSearch'
+            'keyup .searchField': 'startSearch',
+			'keypress': 'updateOnEnter'
         },
     
         initialize: function () {
@@ -24,6 +25,7 @@
             this.listenTo(this.collection, 'add', this.render);
             this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
             this.listenTo(collections.resouresCollection, 'add', this.render);
+			$('body').one('keypress', this.updateOnEnter.bind(this));
         },
     
         render: function () {
@@ -60,6 +62,12 @@
             }
 
             this.renderGrid();
+        },
+		
+		updateOnEnter: function (e) {
+            if (e.keyCode === ENTER) {
+                e.preventDefault();
+            }
         }
     });
 })(App.Resources);
