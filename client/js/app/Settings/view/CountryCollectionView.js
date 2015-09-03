@@ -7,11 +7,12 @@
 
         events: {
             'keypress .new-country': 'createNew',
-            'click .addCountySettings': 'save'
+            'click .addCountySettings': 'save',
+            'input .new-country' : 'focus'
         },
 
         initialize: function () {
-            this.model = new This.City();
+            this.model = new This.Country();
             Backbone.Validation.bind(this);
             this.collection = collections.countriesCollection;
             this.listenTo(this.collection, 'add', this.renderOne);
@@ -50,6 +51,10 @@
 			}
 		},
 
+        focus: function () {
+            this.$('.new-country').focus();
+        },
+
         createNew: function (e) {
             var ENTER = 13,
                 $inputCountry = this.$('.new-country');
@@ -57,21 +62,42 @@
             if(e.which !== ENTER || !$inputCountry.val().trim()){
                 return;
             }
-            this.collection.create({countryName: $inputCountry.val()});
-            $inputCountry.val('');
-            
+           this.save();
         },
 		
 		save: function () {
-			var $input = this.$('.new-country');
-			
-			if($input.val() !== '') {
-				this.collection.create({
-					countryName: $input.val()
-			    });
-			}
+			var $input = this.$('.new-country'),
+                attributes = { 
+                    countryName: firstToUpperCase($input.val().trim())
+                }; 
 
-            $input.val('');
-		}
+            if (!this.preValidate(attributes)) {
+                this.collection.create(attributes);
+                $input.val('');
+            }
+		},
+
+        preValidate: function (attributes) {
+            var attrName,
+                validationResult;
+
+            validationResult = this.validateName(attributes.countryName) || this.model.preValidate(attributes);
+
+            if (validationResult) {
+                for (attrName in validationResult) {
+                    cs.mediator.publish(  
+                        'Hint',
+                        validationResult[attrName],
+                        this.$('.new-country')
+                    );
+                }
+            }
+
+            return validationResult;
+        },
+
+        validateName: function (value) {
+            return validateNameField(value, collections.countriesCollection.toJSON());
+        }
     });
 })(App.Settings);

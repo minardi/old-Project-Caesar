@@ -17,6 +17,7 @@
         initialize: function () {
             this.listenTo(this.model, 'destroy', this.remove);
             this.listenTo(this.model, 'change', this.render);
+            this.defaultModelJSON = this.model.toJSON();
         },
 
         render: function () {
@@ -26,11 +27,14 @@
         },
 
         confirmDelete: function () {
-            var message = 'Are you sure to delete "' + this.model.get('name') + '"?';
+            var message = 'Are you sure you want to delete "' + this.model.get('name') + '"?';
             cs.mediator.publish('Confirm', message, this.delete.bind(this));
         },
 
         delete: function () {
+            if (this.model.get('countryName')) {
+                cs.mediator.publish('DeleteCountry', this.model.id);
+            }
             this.model.destroy();
             cs.mediator.publish('Notice', 'Item was succesfully deleted');
         },

@@ -7,7 +7,8 @@
 
         events: {
             'keypress .new-city': 'createNew',
-            'click .addSettings': 'save'
+            'click .addSettings': 'save',
+            'input .new-city' : 'focus'
         },
 
         initialize: function () {
@@ -16,7 +17,8 @@
             this.collection = collections.citiesCollection;
             this.listenTo(this.collection, 'add', this.renderOne);
             this.listenTo(collections.countriesCollection, 'all', this.render);
-			this.count = 0;
+            cs.mediator.subscribe('DeleteCountry', this.deleteCollection, {}, this);
+            this.count = 0;
         },
 
         render: function () {
@@ -36,7 +38,17 @@
             this.$('.cities').append(cityView.render().el);
             this.count++;
             this.showScroll();
-			return this;
+            return this;
+        },
+
+        deleteCollection: function (deletedId) {        
+            _.each(_.clone(collections.citiesCollection.toJSON()), function(item) {
+                if(item['location'] === deletedId) {
+                var modelCity = collections.citiesCollection.get(item);
+                    modelCity.destroy();
+                }
+            });
+           this.render();
         },
 
         showScroll: function () {
@@ -55,39 +67,39 @@
         createNew: function (e) {
             var ENTER = 13,
                 $inputCity = this.$('.new-city');
-
-            if(e.which !== ENTER || !$inputCity.val().trim()){
+                
+            if (e.which !== ENTER || !$inputCity.val().trim()) {
                 return;
             }
-
             this.save();
         },
-		
-		save: function () {
-            var attributes;
 
-            this.$inputCity = this.$('.new-city');
+        focus: function () {
+            this.$('.new-city').focus();
+        },
 
-            attributes = {
-                    name: this.$inputCity.val().trim(),
-                    location: this.$('#selectCountry').val()
+        save: function () {
+            var $inputCity = this.$('.new-city'),
+                attributes = {
+                    name: firstToUpperCase($inputCity.val().trim()),
+                    location: Number(this.$('#selectCountry').val())
                 };
 
             if (!this.preValidate(attributes)) {
                 this.collection.create(attributes);
-                this.$inputCity.val('');
+                $inputCity.val('');
             }
-		},
+        },
 
         preValidate: function (attributes) {
             var attrName,
                 validationResult;
 
-            validationResult = this.validateName() || this.model.preValidate(attributes);
+            validationResult = this.validateName(attributes.name) || this.model.preValidate(attributes);
 
             if (validationResult) {
                 for (attrName in validationResult) {
-                    cs.mediator.publish(   //publish to Messenger's Controller
+                    cs.mediator.publish(  
                         'Hint',
                         validationResult[attrName],
                         this.$('[name=' + attrName + ']')
@@ -98,24 +110,8 @@
             return validationResult;
         },
 
-        isNameTaken: function (value) {
-            var cities = collections.citiesCollection.toJSON(),
-                citiesNames = [],
-                result;
-
-            cities.forEach(function (element) {
-                citiesNames.push(element['name']);
-            });
-
-            result = _.contains(citiesNames, value);
-            return result;
-        },
-
-        validateName: function () {
-            var errorMsg = {name: 'This name is already taken'},
-                result = this.isNameTaken(this.$inputCity.val())? errorMsg: undefined;
-
-            return result;
+        validateName: function (value) {
+            return validateNameField(value, collections.citiesCollection.toJSON());
         }
     });
 })(App.Settings);

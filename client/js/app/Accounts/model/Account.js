@@ -29,7 +29,7 @@
                     msg: 'Max length is 20 symbols'
                 },{
                     pattern: 'fullNameRegEx',
-                    msg: 'Only letters and dash "-"'
+                    msg: 'Latin letters, space and dash "-"'
                 }],
             lastName: [
                 {
@@ -43,7 +43,7 @@
                     msg: 'Max length is 20 symbols'
                 },{
                     pattern: 'fullNameRegEx',
-                    msg: 'Only letters and dash "-"'
+                    msg: 'Latin letters, space and dash "-"'
                 }],
             password: [
                 {
