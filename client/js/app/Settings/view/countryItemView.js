@@ -28,15 +28,12 @@
         },
 
         confirmDelete: function () {
-            var message = 'Are you sure to delete "' + this.model.get('countryName') + '"?';
-
+            var message = 'All cities will be deleted in "'  + this.model.get('countryName') + '". Delete in any case?';
             cs.mediator.publish('Confirm', message, this.delete.bind(this));   //this.delete in ItemView
-
         },
 
         save: function () {
             var value =  this.$('.edit-type').val().trim();
-
             this.model.save({ countryName: value});
             this.$el.removeClass('editing');
         }

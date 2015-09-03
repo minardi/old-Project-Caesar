@@ -67,7 +67,7 @@
         },
 
         checkResourceName: function (value) {
-            if (!this.isNameTaken(value)) {
+            if (!isNameTaken(value, collections.resouresCollection.toJSON())) {
                 this.save();
             } else {
                 cs.mediator.publish('Hint','This name is already taken', this.$('.name'));
@@ -127,19 +127,6 @@
             }
 
             return validationResult;
-        },
-
-        isNameTaken: function (value) {
-            var resources = collections.resouresCollection.toJSON(),
-                resourcesNames = [],
-                result;
-
-            resources.forEach(function (element) {
-                resourcesNames.push(element['name']);
-            });
-                        
-            result = _.contains(resourcesNames, value);
-            return result;
         },
         
 		cancel: function () {

@@ -7,10 +7,13 @@
 
         events: {
             'keypress .new-type': 'createNew',
-            'click .addResSettings': 'save'
+            'click .addResSettings': 'save',
+            'input .new-type' : 'focus'
         },
 
         initialize: function () {
+            this.model = new This.ResourceType();
+            Backbone.Validation.bind(this);
             this.collection = collections.resourceTypes;
             this.listenTo(this.collection, 'add', this.renderOne);
 			this.count = 0;
@@ -35,6 +38,10 @@
             return this;
         },
 
+        focus: function () {
+            this.$('.new-type').focus();
+        },
+
 		showScroll: function () {
 			var docHeight = $(document).height(),
 			    boxHeight = docHeight - 226 + 'px',
@@ -47,6 +54,51 @@
 			} else {
 				$resourceScroll.removeClass('showScroll');
 			}
-		}
+		},
+
+        createNew: function (e) {
+            var ENTER = 13,
+                $input = this.$('.new-type');
+                
+            if (e.which !== ENTER || !$input.val().trim()) {
+                return;
+            }
+            this.save();
+        },
+
+        save: function () {
+            var $input = this.$('.new-type'),
+                attributes = {
+                    name: $input.val().trim()
+                };
+
+            if (!this.preValidate(attributes)) {
+                this.collection.create(attributes);
+                $input.val('');
+            }
+        },
+
+        preValidate: function (attributes) {
+            var attrName,
+                validationResult;
+
+            validationResult = this.validateName(attributes.name) || this.model.preValidate(attributes);
+
+            if (validationResult) {
+                for (attrName in validationResult) {
+                    cs.mediator.publish(  
+                        'Hint',
+                        validationResult[attrName],
+                        this.$('[name=' + attrName + ']')
+                    );
+                }
+            }
+
+            return validationResult;
+        },
+
+        validateName: function (value) {
+            return validateTypesField(value, collections.resourceTypes.toJSON());
+        }
     });
 })(App.Settings);
