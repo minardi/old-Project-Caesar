@@ -67,6 +67,11 @@
                 "id": 11,
                 "firstName": "Сергей",
                 "lastName": "Тсова"
+            },
+        	{
+                "id": 12,
+                "firstName": "Артур",
+                "lastName": "Чесноков"
             }
         ]
     }

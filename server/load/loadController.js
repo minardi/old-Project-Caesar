@@ -3,9 +3,6 @@ function LoadController (req, res) {
         queue = require("queue-async"),
         _ = require('underscore-node'),
         collections = {
-            'resouresCollection': [],
-            'eventsCollection': [],
-            'scheduleCollection': [],
             'eventTypes': [],
             'resourceTypes': [],
             'holidaysCollection': [],
@@ -22,9 +19,6 @@ function LoadController (req, res) {
     
     function prepareCollections () {
         queue()
-            .defer(db.fetch, 'resources')
-            .defer(db.fetch, 'events')
-            .defer(db.fetch, 'weeks')
             .defer(db.fetch, 'eventTypes')
             .defer(db.fetch, 'resourceTypes')
             .defer(db.fetch, 'holidays')

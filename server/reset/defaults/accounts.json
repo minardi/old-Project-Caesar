@@ -14,7 +14,7 @@
 		"name": "Isaac",
 		"lastName": "Newton",
 		"login": "Isaac",
-		"password": "qqq",
+		"password": "qqqqqq",
 		"locationCountry": 0,
 		"locationCity": 2,
 		"role": "Coordinator"
@@ -22,9 +22,9 @@
 	{
 		"id": 2,
 		"name": "Alex",
-		"lastName": "L",
+		"lastName": "Ltb",
 		"login": "Alex",
-		"password": "qqq",
+		"password": "qqqqqq",
 		"locationCountry": 0,
 		"locationCity": 2,
 		"role": "Coordinator"
@@ -32,9 +32,9 @@
 	{
 		"id": 3,
 		"name": "Dima",
-		"lastName": "D",
+		"lastName": "DG",
 		"login": "Dima",
-		"password": "qqq",
+		"password": "qqqqqq",
 		"locationCountry": 0,
 		"locationCity": 2,
 		"role": "Coordinator"
