@@ -73,9 +73,9 @@
         },
 
         deleteCollection: function (deletedId) {        
-            _.each(_.clone(collections.citiesCollection.toJSON()), function(item) {
+            _.each(_.clone(this.collection.toJSON()), function(item) {
                 if(item['location'] === deletedId){
-                var modelCity = collections.citiesCollection.get(item);
+                    var modelCity = collections.citiesCollection.get(item);
                     modelCity.destroy();
                 }
             });
@@ -84,27 +84,27 @@
 
         save: function () {
             var ENTER = 13,
+                $inputCity = this.$('.new-city'),
                 attributes = {
-                    name: this.$inputCity.val().trim(),
+                    name: $inputCity.val().trim(),
                     location: this.selectCountry()
                 };
 
             if (!this.preValidate(attributes)) {
                 this.collection.create(attributes);
-                this.$inputCity.val('');
+                $inputCity .val('');
             }
         }, 
 
         createNewCity: function (e) {
-            this.$inputCity = this.$('.new-city');
-            if (e.which !== ENTER || !this.$inputCity.val().trim()) {
+            if (e.which !== ENTER || !this.$('.new-city').val().trim()) {
                 return;
             }
             this.save();
         },
 
         focus: function () {
-            this.$inputCity.focus();
+            this.$('.new-city').focus();
         }, 
 
 		saveCity: function () {
@@ -119,7 +119,7 @@
 
             if (validationResult) {
                 for (attrName in validationResult) {
-                    cs.mediator.publish(   //publish to Messenger's Controller
+                    cs.mediator.publish(
                         'Hint',
                         validationResult[attrName],
                         this.$('[name=' + attrName + ']')
@@ -130,22 +130,10 @@
             return validationResult;
         },
 
-        isNameTaken: function (value) {
-            var cities = collections.citiesCollection.toJSON(),
-                citiesNames = [],
-                result;
-
-            cities.forEach(function (element) {
-                citiesNames.push(element['name']);
-            });
-                        
-            result = _.contains(citiesNames, value);
-            return result;
-        },
-
         validateName: function () {
             var errorMsg = {name: 'This name is already taken'},
-                result = this.isNameTaken(this.$inputCity.val())? errorMsg: undefined;
+                result = isNameTaken(this.$('.new-city').val(), this.collection.toJSON())?
+                    errorMsg: undefined;
 
             return result;
         }

@@ -4,6 +4,18 @@ function setUp (parent, modules) {
     });
 };
 
+function isNameTaken (value, collection) {
+    var arrayNames = [],
+        result;
+
+    collection.forEach(function (element) {
+        arrayNames.push(element['name']);
+    });
+                        
+    result = _.contains(arrayNames, value);
+    return result;
+}
+
 
 Date.prototype.getWeekNumber = function(){
     var d = new Date(+this);
