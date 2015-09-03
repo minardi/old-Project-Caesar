@@ -11,7 +11,7 @@
         },
 
         initialize: function () {
-            this.model = new This.EventType();
+            this.model = this.model || new This.EventType();
             Backbone.Validation.bind(this);
             this.collection = collections.eventTypes;
             this.listenTo(this.collection, 'add', this.renderOne);
@@ -23,6 +23,8 @@
             this.collection.each(function (model) {
                 this.renderOne(model);
             }, this);
+
+            this.$eventType = this.$('.new-type');
 
             return this;
         },
@@ -48,7 +50,68 @@
 			} else {
 				$eventsScroll.removeClass('showScroll');
 			}
-		}
+		},
+
+        save: function () {
+            var attributes = {
+                    name: this.$eventType.val().trim()
+                };
+
+            if (!this.preValidate(attributes)) {
+                this.collection.create(attributes);
+                this.$eventType.val('');
+            }
+        },
+
+        createNew: function (e) {
+            var ENTER = 13,
+                $typeValue = this.$('.new-type');
+
+            if(e.which !== ENTER || !$typeValue.val().trim()){
+                return;
+            }
+
+            this.save();
+        },
+
+        preValidate: function (attributes) {
+            var attrName,
+                validationResult;
+
+            validationResult = this.validateName() || this.model.preValidate(attributes);
+
+            if (validationResult) {
+                for (attrName in validationResult) {
+                    cs.mediator.publish(   //publish to Messenger's Controller
+                        'Hint',
+                        validationResult[attrName],
+                        this.$('[name=' + attrName + ']')
+                    );
+                }
+            }
+
+            return validationResult;
+        },
+
+        isNameTaken: function (value) {
+            var eventsType = collections.eventTypes.toJSON(),
+                eventsTypeNames = [],
+                result;
+
+            eventsType.forEach(function (element) {
+                eventsTypeNames.push(element['name']);
+            });
+
+            result = _.contains(eventsTypeNames, value);
+            return result;
+        },
+
+        validateName: function () {
+            var errorMsg = {name: 'This name is already taken'},
+                result = this.isNameTaken(this.$eventType.val())? errorMsg: undefined;
+
+            return result;
+        }
 
     });
 })(App.Settings);

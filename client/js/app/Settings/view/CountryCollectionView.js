@@ -11,6 +11,8 @@
         },
 
         initialize: function () {
+            this.model = new This.City();
+            Backbone.Validation.bind(this);
             this.collection = collections.countriesCollection;
             this.listenTo(this.collection, 'add', this.renderOne);
         },

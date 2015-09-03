@@ -10,8 +10,7 @@
                 return;
             }
 
-            this.collection.create({name: $typeValue.val()});
-            $typeValue.val('');
+            this.save();
         },
 
         save: function () {
