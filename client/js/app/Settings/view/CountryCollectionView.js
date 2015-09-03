@@ -1,19 +1,18 @@
 'use strict';
 (function (This) {
-    This.CountryCollectionView = Backbone.View.extend({
+    This.CountryCollectionView = This.CollectionView.extend({
         tagName: 'div',
         className: 'col-md-3',
         template: templates.countryTpl,
 
         events: {
-            'keypress .new-country': 'createNewCountry',
-            'click .addCountySettings': 'saveCity'
+            'keypress .new-country': 'createNew',
+            'click .addCountySettings': 'save'
         },
 
         initialize: function () {
             this.collection = collections.countriesCollection;
             this.listenTo(this.collection, 'add', this.renderOne);
-			cs.mediator.subscribe('UpdateCountries', this.updateCollection, {}, this);
         },
 
         render: function () {
@@ -27,7 +26,7 @@
         },
 
         renderOne: function (model) {
-            var countryView = new App.Settings.ItemView({model: model});
+            var countryView = new App.Settings.CountryItemView({model: model});
             this.$('.countries').append(countryView.render().el);
             this.$('.destroy').addClass('country');
 			this.count++;
@@ -38,43 +37,39 @@
 
         showScroll: function () {
 			var docHeight = $(document).height(),
-			    boxHeight = docHeight - 274 + 'px',
+			    boxHeight = docHeight - 226 + 'px',
 			    divHeight = 224 + (45 * this.count);
 			
 			if(divHeight >= (docHeight - 50)) {
 			    this.$('#countyScroll').addClass('showScroll');
 				this.$('.showScroll').css('height', boxHeight)
 			} else {
-				this.$('#citiesScroll').removeClass('showScroll');
+				this.$('#countyScroll').removeClass('showScroll');
 			}
 		},
 
-        createNewCountry: function (e) {
+        createNew: function (e) {
             var ENTER = 13,
                 $inputCountry = this.$('.new-country');
+
             if(e.which !== ENTER || !$inputCountry.val().trim()){
                 return;
             }
             this.collection.create({countryName: $inputCountry.val()});
-            cs.mediator.publish('CreateCountry', this);
             $inputCountry.val('');
             
         },
 		
-		updateCollection: function (){
-            this.render();  
-        },
-		
-		saveCity: function () {
-			var inputCity = this.$('.new-country');
+		save: function () {
+			var $input = this.$('.new-country');
 			
-			if(inputCity.val() !== '') {
+			if($input.val() !== '') {
 				this.collection.create({
-					countryName: inputCity.val()
+					countryName: $input.val()
 			    });
 			}
-            cs.mediator.publish('CreateCountry', this);
-			inputCity.val('');
+
+            $input.val('');
 		}
     });
 })(App.Settings);
