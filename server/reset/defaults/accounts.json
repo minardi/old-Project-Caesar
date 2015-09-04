@@ -14,29 +14,29 @@
 		"name": "Isaac",
 		"lastName": "Newton",
 		"login": "Isaac",
-		"password": "qqqqqq",
+		"password": "qqq",
 		"locationCountry": 0,
 		"locationCity": 2,
 		"role": "Coordinator"
 	},
 	{
 		"id": 2,
-		"name": "Alex",
-		"lastName": "Ltb",
-		"login": "Alex",
-		"password": "qqqqqq",
+		"name": "Blaise",
+		"lastName": "Pascal",
+		"login": "Blaise",
+		"password": "qqq",
 		"locationCountry": 0,
-		"locationCity": 2,
+		"locationCity": 3,
 		"role": "Coordinator"
 	},
 	{
 		"id": 3,
-		"name": "Dima",
-		"lastName": "DG",
-		"login": "Dima",
-		"password": "qqqqqq",
+		"name": "Alfred",
+		"lastName": "Nobel",
+		"login": "Alfred",
+		"password": "qqq",
 		"locationCountry": 0,
-		"locationCity": 2,
+		"locationCity": 1,
 		"role": "Coordinator"
 	}
 	
