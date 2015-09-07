@@ -9,7 +9,8 @@
             'keydown': 'closeOnEscape',
             'keypress': 'updateOnEnter',
             'click .generate-pass': 'generatePassword',
-            'keyup': 'generateLogin'
+            'keyup': 'generateLogin',
+            'change #InputLogin': 'returnName'
         },
 
         initialize: function () {
@@ -205,6 +206,18 @@
             });
             
             return login;
+        },
+        
+        returnName: function () {
+            var $login = $('#InputLogin'),
+                login = $login.val();
+            
+            if (login !== '') {
+                this.prevLogin = login;
+                $('.returnLogin').on('click', function () {
+                    $login.val(login);
+                });
+            }
         }
     });
 })(App.Accounts);

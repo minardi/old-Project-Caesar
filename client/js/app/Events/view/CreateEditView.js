@@ -9,7 +9,8 @@
             'click .cancel': 'cancel',
             'click .resource': 'removeResource',
             'keydown': 'closeOnEscape',
-            'keypress': 'updateOnEnter'
+            'keypress': 'updateOnEnter',
+            'change .editName': 'returnName'
         },
 
         initialize: function () {
@@ -181,6 +182,18 @@
                     }
                 }
             });
+        },
+        
+        returnName: function () {
+            var $name = $('.name'),
+                name = $name.val();
+            
+            if (name !== '') {
+                this.prevName = name;
+                $('.returnName').on('click', function () {
+                    $name.val(name);
+                });
+            }
         }
     });
 })(App.Events);
