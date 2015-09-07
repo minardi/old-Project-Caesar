@@ -13,7 +13,7 @@ templates.accountCollectionTpl = _.template([
                 '</div>',
             '</div>',
         '</div>',
-        '<table class="table account-list">',
+        '<table class="table account-list" onmousedown="return false">',
             '<tr>',
                 '<th class="name-header">Name<i class="sort-flag glyphicon glyphicon glyphicon-sort glyphicon-triangle-bottom"></th>',
                 '<th class="login-header">Login<i class="sort-flag glyphicon glyphicon glyphicon-sort"></th>',

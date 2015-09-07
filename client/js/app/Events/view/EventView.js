@@ -7,6 +7,7 @@
 		
 		events: {
             'click .edit': 'edit',
+            'dblclick': 'edit',
             'click .dell': 'confirmDelete',
             'click .fullInfo': 'showFullInfo'
         },

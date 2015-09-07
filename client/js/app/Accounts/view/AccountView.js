@@ -6,6 +6,7 @@
 
         events: {
             'click .glyphicon-edit': 'edit',
+            'dblclick': 'edit',
             'click .glyphicon-trash': 'confirmDelete'
         },
 
