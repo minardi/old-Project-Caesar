@@ -10,7 +10,7 @@
             'click .resource': 'removeResource',
             'keydown': 'closeOnEscape',
             'keypress': 'updateOnEnter',
-            'change .editName': 'addReturnNameBtn'
+            'change .editName': 'returnName'
         },
 
         initialize: function () {
@@ -184,7 +184,7 @@
             });
         },
         
-        addReturnNameBtn: function () {
+        returnName: function () {
             var $name = $('.name'),
                 name = $name.val();
             
