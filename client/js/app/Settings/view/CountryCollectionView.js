@@ -68,8 +68,9 @@
 		
 		save: function () {
 			var $input = this.$('.new-country'),
+                properValue = firstToUpperCase($input.val().trim().toLowerCase()),
                 attributes = { 
-                    countryName: firstToUpperCase($input.val().trim())
+                    countryName: properValue
                 }; 
 
             if (!this.preValidate(attributes)) {

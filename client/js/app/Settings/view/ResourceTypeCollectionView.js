@@ -69,8 +69,9 @@
 
         save: function () {
             var $input = this.$('.new-type'),
+                properValue = $input.val().trim().toLowerCase(),
                 attributes = {
-                    name: $input.val().trim()
+                    name: properValue
                 };
 
             if (!this.preValidate(attributes)) {
@@ -99,7 +100,7 @@
         },
 
         validateName: function (value) {
-            return validateTypesField(value, collections.resourceTypes.toJSON());
+            return validateNameField(value, collections.resourceTypes.toJSON());
         }
     });
 })(App.Settings);

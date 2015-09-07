@@ -56,8 +56,9 @@
 
         save: function () {
             var $typeValue = this.$('.new-type'),
+                properValue = $typeValue.val().trim().toLowerCase(),
                 attributes = {
-                    name: $typeValue.val().trim()
+                    name: properValue
                 };
 
             if (!this.preValidate(attributes)) {
@@ -101,7 +102,7 @@
         },
 
         validateName: function (value) {
-            return validateTypesField(value, collections.eventTypes.toJSON());
+            return validateNameField(value, collections.eventTypes.toJSON());
         }
 
     });

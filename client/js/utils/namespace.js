@@ -21,15 +21,8 @@ function firstToUpperCase(str) {
 }
 
 function validateNameField (value, collection) {
-    var errorMsg = {name: 'This name is already taken'},
-        properValue = firstToUpperCase(value.trim().toLowerCase());
-
-    return this.isNameTaken(properValue, collection)? errorMsg: undefined;
-}
-
-function validateTypesField (value, collection) {
     var errorMsg = {name: 'This name is already taken'};
-        return this.isNameTaken(value, collection)? errorMsg: undefined;
+    return this.isNameTaken(value, collection)? errorMsg: undefined;
 }
 
 Date.prototype.getWeekNumber = function(){

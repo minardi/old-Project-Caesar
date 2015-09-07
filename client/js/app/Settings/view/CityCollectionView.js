@@ -81,8 +81,9 @@
 
         save: function () {
             var $inputCity = this.$('.new-city'),
+                properValue = firstToUpperCase($inputCity.val().trim().toLowerCase()),
                 attributes = {
-                    name: firstToUpperCase($inputCity.val().trim()),
+                    name: properValue,
                     location: Number(this.$('#selectCountry').val())
                 };
 
