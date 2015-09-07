@@ -75,7 +75,8 @@
         },
 
         save: function () {
-            var $typeValue = this.$('.type').val()? Number(this.$('.type').val()): '', 
+            var $typeValue = this.$('.type').val()? Number(this.$('.type').val()): '',
+                $nameValue = this.$('.name').val(),
                 isNewModel = this.model.isNew(),
 			    dateStart = '2015.01.01',
 				dateFinish = '2015.01.01',
@@ -88,7 +89,7 @@
 			}				
 
             attributes = {
-                name: this.$nameValue,
+                name: $nameValue,
                 type: $typeValue,
                 locationCountry: user.locationCountry,
                 locationCity: user.locationCity,
