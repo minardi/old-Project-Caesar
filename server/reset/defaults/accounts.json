@@ -21,22 +21,22 @@
 	},
 	{
 		"id": 2,
-		"name": "Alex",
-		"lastName": "L",
-		"login": "Alex",
+		"name": "Blaise",
+		"lastName": "Pascal",
+		"login": "Blaise",
 		"password": "qqq",
 		"locationCountry": 0,
-		"locationCity": 2,
+		"locationCity": 3,
 		"role": "Coordinator"
 	},
 	{
 		"id": 3,
-		"name": "Dima",
-		"lastName": "D",
-		"login": "Dima",
+		"name": "Alfred",
+		"lastName": "Nobel",
+		"login": "Alfred",
 		"password": "qqq",
 		"locationCountry": 0,
-		"locationCity": 2,
+		"locationCity": 1,
 		"role": "Coordinator"
 	}
 	

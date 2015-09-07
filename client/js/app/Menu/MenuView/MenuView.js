@@ -82,10 +82,20 @@
 				this.flag = '/preload';
 				this.$('.changeRole').removeClass('active');
 				this.$('#role').text('Coordinator');
+				$('.forAdmin').css('display', 'block');
+				$('.onlyAdmin').css('display', 'none');
+     			cs.mediator.publish('MenuClicked', '/Events'); //publish to global router
+				this.$('.menu-item').removeClass('active');
+                this.$('.events').addClass('active');
 			} else {
 				this.flag = '/load';
                 this.$('.changeRole').addClass('active');
 				this.$('#role').text('Admin');
+				$('.forAdmin').css('display', 'none');
+				$('.onlyAdmin').css('display', 'block');
+				cs.mediator.publish('MenuClicked', '/Settings'); //publish to global router
+				this.$('.menu-item').removeClass('active');
+                this.$('.settings').addClass('active');
 			}
 			
 		    load.loadCollections(main, this.flag);

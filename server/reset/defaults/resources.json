@@ -59,5 +59,25 @@
 		"dateStart": "2015.08.01",
 		"dateFinish": "2015.08.01",
 		"useInSchedule": true
-	}	
+	},
+	{
+		"id": 6,
+		"name": "Mister teacher for Ivano-Frankivsk",
+		"type": 2,
+		"locationCity": 3,
+		"locationCountry": 0,
+		"dateStart": "2015.08.01",
+		"dateFinish": "2015.08.01",
+		"useInSchedule": true
+	},
+	{
+		"id": 6,
+		"name": "777 for Kyiv",
+		"type": 1,
+		"locationCity": 1,
+		"locationCountry": 0,
+		"dateStart": "2015.08.01",
+		"dateFinish": "2015.08.01",
+		"useInSchedule": true
+	}
 ]

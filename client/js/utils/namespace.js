@@ -4,6 +4,33 @@ function setUp (parent, modules) {
     });
 };
 
+function isNameTaken (value, collection) {
+    var arrayNames = [],
+        result;
+
+    collection.forEach(function (element) {
+        arrayNames.push(element['name'] || element['countryName']);
+    });
+                        
+    result = _.contains(arrayNames, value);
+    return result;
+}
+
+function firstToUpperCase(str) {
+    return str.substr(0, 1).toUpperCase() + str.substr(1);
+}
+
+function validateNameField (value, collection) {
+    var errorMsg = {name: 'This name is already taken'},
+        properValue = firstToUpperCase(value.trim().toLowerCase());
+
+    return this.isNameTaken(properValue, collection)? errorMsg: undefined;
+}
+
+function validateTypesField (value, collection) {
+    var errorMsg = {name: 'This name is already taken'};
+        return this.isNameTaken(value, collection)? errorMsg: undefined;
+}
 
 Date.prototype.getWeekNumber = function(){
     var d = new Date(+this);

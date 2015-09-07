@@ -24,7 +24,8 @@
                 year = startDate.getFullYear(),
                 month = startDate.getMonth(),
                 date = new Date(year, month);
-
+            
+            this.getFirsWeekStart();
             this.$el.append(this.template({date: date, mon: month, monthNames: this.monthNames}));
             this.$el.append(this.template({date: date, mon: month + 1, monthNames: this.monthNames}));
             this.$el.append(this.template({date: date, mon: month + 2, monthNames: this.monthNames}));
@@ -51,6 +52,13 @@
             });
             
             return previewWeek;
+        },
+        
+        getFirsWeekStart: function () {
+            var date = new Date();
+            date.setDate(1);
+            date.setHours(-1);
+            templates.start = date.getDate();
         }
     });
 })(App);

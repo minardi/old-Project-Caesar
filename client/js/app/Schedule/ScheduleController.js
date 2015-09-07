@@ -36,6 +36,7 @@
 			preView && preView.remove();
 	        preView = new This.PreView();
 			el.append(preView.render().el);
+            cs.mediator.publish('RenderCalendar'); //publish to Schedule Preview Controller
 		}
 		
 		function setAskValue (isAsk, priority) {

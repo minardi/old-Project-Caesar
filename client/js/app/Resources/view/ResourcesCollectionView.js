@@ -11,7 +11,8 @@
             'click .pageEl': 'changePage',
             'click .name-header': 'sortByName',
             'click .type-header': 'sortByType',
-            'keyup .searchField': 'startSearch'
+            'keyup .searchField': 'startSearch',
+			'keypress': 'updateOnEnter'
         },
     
         initialize: function () {
@@ -23,16 +24,15 @@
             this.typeFlag = 'ASC';
             this.listenTo(this.collection, 'add', this.render);
             this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
-			this.listenTo(collections.resouresCollection, 'all', this.render);
+            this.listenTo(collections.resouresCollection, 'add', this.render);
+			$('body').one('keypress', this.updateOnEnter.bind(this));
         },
     
         render: function () {
             this.pageCount = Math.ceil(this.collection.length / this.pageSize);
             this.$el.empty();
             this.$el.html(this.template());
-
             this.renderGrid();
-
             return this;
         },
 
@@ -62,6 +62,12 @@
             }
 
             this.renderGrid();
+        },
+		
+		updateOnEnter: function (e) {
+            if (e.keyCode === ENTER) {
+                e.preventDefault();
+            }
         }
     });
 })(App.Resources);

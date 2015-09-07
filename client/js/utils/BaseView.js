@@ -14,7 +14,7 @@ App.BaseView = Backbone.View.extend({
             view.remove();
         });
 
-        if(!this.collection.models[this.startPosition]){
+        if(this.collection.length && !this.collection.models[this.startPosition]){
             this.pageIndex -= 1;
             this.startPosition = this.pageIndex * this.pageSize;
             this.endPosition = this.startPosition + this.pageSize;
@@ -86,9 +86,18 @@ App.BaseView = Backbone.View.extend({
         if (this[flag] === 'ASC') {
             this.collection.comparator = function (a, b) {
                 var firstValue = a.get(field),
-                    secondValue = b.get(field);
+                    secondValue = b.get(field),
+                    result;
 
-                return firstValue < secondValue ? -1 : 1;
+                if (firstValue < secondValue) {
+                    result = -1;
+                } else if (firstValue > secondValue) {
+                    result = 1;
+                }else {
+                    return a.get('name').toLowerCase() < b.get('name').toLowerCase() ? -1 : 1;
+                }
+
+                return result;
             };
 
             this[flag] = 'DESC';
@@ -97,10 +106,20 @@ App.BaseView = Backbone.View.extend({
         } else {
             this.collection.comparator = function (a, b) {
                 var firstValue = a.get(field),
-                    secondValue = b.get(field);
+                    secondValue = b.get(field),
+                    result;
 
-                return firstValue > secondValue ? -1 : 1;
+                if (firstValue > secondValue) {
+                    result = -1;
+                } else if (firstValue < secondValue) {
+                    result = 1;
+                }else {
+                    return a.get('name').toLowerCase() < b.get('name').toLowerCase() ? -1 : 1;
+                }
+
+                return result;
             };
+
             this[flag] = 'ASC';
             this.$('.sort-flag').removeClass('glyphicon-triangle-top').removeClass('glyphicon-triangle-bottom');
             $el.find('.sort-flag').addClass('glyphicon-triangle-top');

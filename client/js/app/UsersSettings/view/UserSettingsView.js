@@ -27,10 +27,11 @@
             
             this.model.save(newModel, {
                 success: function() {
-                    collections.accountsCollection.fetch();
+                    cs.mediator.publish( 'Notice', 'You succesfully change account');
                 },
                 wait: true
             });
+
         },
         
         setAttributes: function () {

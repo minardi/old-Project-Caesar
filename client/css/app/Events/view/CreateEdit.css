@@ -36,3 +36,18 @@
 .btn {
     padding: 6px 8px;
 }
+
+
+@media (min-width: 768px) {
+    .myAnimateClass {
+        width: 600px;
+        margin: 20px auto;
+    }
+}
+
+.resource {
+    cursor: pointer;
+}
+ul.resource-field.list-group {
+    padding-top: 34px;
+}

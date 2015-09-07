@@ -1,19 +1,22 @@
 'use strict';
 (function (This) {
-    This.ResourceTypeCollectionView = Backbone.View.extend({
+    This.ResourceTypeCollectionView = This.CollectionView.extend({
         tagName: 'div',
         className: 'col-md-3',
         tpl: templates.resourceTypeTpl,
 
         events: {
-            'keypress .new-type': 'createNewType',
-            'click .addResSettings': 'saveCity'
+            'keypress .new-type': 'createNew',
+            'click .addResSettings': 'save',
+            'input .new-type' : 'focus'
         },
 
         initialize: function () {
+            this.model = new This.ResourceType();
+            Backbone.Validation.bind(this);
             this.collection = collections.resourceTypes;
             this.listenTo(this.collection, 'add', this.renderOne);
-			cs.mediator.subscribe('UpdateRecourse', this.updateCollection, {}, this);
+            this.listenTo(this.collection, 'destroy', this.render);
 			this.count = 0;
         },
 
@@ -35,13 +38,17 @@
 
             return this;
         },
-		
+
+        focus: function () {
+            this.$('.new-type').focus();
+        },
+
 		showScroll: function () {
 			var docHeight = $(document).height(),
 			    boxHeight = docHeight - 226 + 'px',
 			    divHeight = 224 + (45 * this.count),
                 $resourceScroll = this.$('#resourceScroll');
-			
+
 			if (divHeight >= docHeight) {
 			    $resourceScroll.addClass('showScroll');
 				this.$('.showScroll').css('height', boxHeight)
@@ -49,31 +56,50 @@
 				$resourceScroll.removeClass('showScroll');
 			}
 		},
-		
-		updateCollection: function (){
-            this.render();  
-        },
 
-        createNewType: function (e) {
+        createNew: function (e) {
             var ENTER = 13,
-                $typeValue = this.$('.new-type');
-
-            if(e.which !== ENTER || !$typeValue.val().trim()){
+                $input = this.$('.new-type');
+                
+            if (e.which !== ENTER || !$input.val().trim()) {
                 return;
             }
-
-            this.collection.create({name: $typeValue.val()});
-            $typeValue.val('');
+            this.save();
         },
-		
-		saveCity: function () {
-			var inputCity = this.$('.new-type');
-			
-			if(inputCity.val() !== '') {
-				this.collection.create({name: inputCity.val()});
-			}
-			
-			inputCity.val('');
-		}
+
+        save: function () {
+            var $input = this.$('.new-type'),
+                attributes = {
+                    name: $input.val().trim()
+                };
+
+            if (!this.preValidate(attributes)) {
+                this.collection.create(attributes);
+                $input.val('');
+            }
+        },
+
+        preValidate: function (attributes) {
+            var attrName,
+                validationResult;
+
+            validationResult = this.validateName(attributes.name) || this.model.preValidate(attributes);
+
+            if (validationResult) {
+                for (attrName in validationResult) {
+                    cs.mediator.publish(  
+                        'Hint',
+                        validationResult[attrName],
+                        this.$('[name=' + attrName + ']')
+                    );
+                }
+            }
+
+            return validationResult;
+        },
+
+        validateName: function (value) {
+            return validateTypesField(value, collections.resourceTypes.toJSON());
+        }
     });
 })(App.Settings);

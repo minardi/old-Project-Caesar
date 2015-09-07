@@ -23,7 +23,7 @@
         render: function () {
             var locationCity = collections.citiesCollection.toJSON();
 
-            this.$el.append(this.template({
+            this.$el.empty().append(this.template({
                 name: this.model.get('name'),
                 lastName: this.model.get('lastName'),
                 login: this.model.get('login'),
@@ -36,7 +36,7 @@
             return this;
         },
 
-        setAttributes: function () {
+        getAttributes: function () {
             var attributes = {},
                 $inputs;
                 
@@ -52,9 +52,9 @@
         setCountry: function (attributes) {
             var locationCity,
                 countryId,
-                $city = this.$('#locationCity');
+                $city = this.$('#locationCity').val();
                 
-            this.model.set(attributes);
+            this.model.set('locationCity', $city);
             locationCity = collections.citiesCollection.get(this.model.get('locationCity'));
             if (locationCity !== undefined) {
                 countryId = locationCity.get('location');
@@ -88,9 +88,9 @@
 
         saveAccount: function () {
             var isNewModel = this.model.isNew(),
-                closeView = this.cancel.bind(this),
+                closeView = this.changeClassAndCansel.bind(this),
                 showError = this.showErrorMessage.bind(this),
-                attributes = this.setAttributes();
+                attributes = this.getAttributes();
 
             if (!this.preValidate(attributes)) {
                 this.model.save(attributes, {
@@ -141,10 +141,21 @@
         },
   
         cancel: function () {
+            this.undoChanges();
+            this.changeClassAndCansel();
+            
+        },
+
+        changeClassAndCansel: function () {
             $('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');
             setTimeout(function() {
                 cs.mediator.publish('CreateAccountViewClosed');
             }, 400); 
+        },
+
+        undoChanges: function () {
+            this.model.off('change', this.preValidate);
+            this.model.previousAttributes();
         },
 
         show: function () {

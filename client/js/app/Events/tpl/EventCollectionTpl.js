@@ -17,12 +17,10 @@ templates.eventCollectionTpl = _.template([
 		'</div>',
 		'<table class="table event-list list-group">',
 			'<tr>',
-				'<th class="name-header"><span>Name</span><i class="sort-flag glyphicon glyphicon-triangle-bottom"></i></th>',
-				'<th class="type-header"><span>Type</span><i class="sort-flag glyphicon"></i></th>',
+				'<th class="name-header"><span>Name</span><i class="sort-flag glyphicon glyphicon glyphicon-sort glyphicon-triangle-bottom"></i></th>',
+				'<th class="type-header"><span>Type</span><i class="sort-flag glyphicon glyphicon glyphicon-sort"></i></th>',
 			'</tr>',
 		'</table>',
-		'<nav>',
-		'</nav>',
 	'</div>',
 	'<div class="col-md-1"></div>',
 	'<div class="panel panel-default col-md-3 toshow hidden">',
@@ -36,5 +34,7 @@ templates.eventCollectionTpl = _.template([
 		'</div>',
 		'<table class="table fullEvent">',
 	    '</table>',
-	'</div>'
+	'</div>',
+	'<nav class="col-md-12">',
+	'</nav>'
 ].join(''));

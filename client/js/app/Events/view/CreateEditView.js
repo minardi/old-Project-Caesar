@@ -9,8 +9,7 @@
             'click .cancel': 'cancel',
             'click .resource': 'removeResource',
             'keydown': 'closeOnEscape',
-            'keypress': 'updateOnEnter',
-            'change .editType': 'renameEvent'
+            'keypress': 'updateOnEnter'
         },
 
         initialize: function () {
@@ -133,6 +132,7 @@
 
         removeResource: function (e) {
             var resource = e.target;
+            this.removeEventName(resource.getAttribute('idValue'));
             this.resourcesCollectionView.renderRemoved(parseInt(resource.getAttribute('idValue')));
             resource.remove();
             this.resourceSorting();
@@ -169,20 +169,18 @@
             }
         },
         
-        renameEvent: function () {
-            var name = $('.name').val(),
-                typeId = Number($('.editType').val()),
-                result = '';
+        removeEventName: function (_id) {
+            var id = Number(_id);
             
-            if (typeId === 3) {
-                _.each(collections.eventTypes.toJSON(), function (type) {
-                    if (type.id === typeId) {
-                        result = name + ' + ' + type.name;    
+            _.each(this.resourceCollection.toJSON(), function (resource) {
+                if (resource.id === id && resource.type === 0) {
+                    var eventName = $('.name').val();
+                    
+                    if (eventName === resource.name) {
+                        $('.name').val('');
                     }
-                });
-            }
-            
-            $('.name').val(result);
+                }
+            });
         }
     });
 })(App.Events);

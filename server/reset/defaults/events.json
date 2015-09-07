@@ -46,6 +46,22 @@
 		"locationCity": 2,
 		"locationCountry": 0,
 	  	"resources": [3, 4, 5]
+	},
+	{
+		"id": 6,
+		"name": "WEB UI 2nd Ukraine for Ivano-Frankivsk",
+		"type": 0,
+		"locationCity": 3,
+		"locationCountry": 0,
+	  	"resources": []
+	},
+	{
+		"id": 7,
+		"name": "Project Caesar for Kyiv",
+		"type": 0,
+		"locationCity": 1,
+		"locationCountry": 0,
+	  	"resources": []
 	}
 	
 ]
