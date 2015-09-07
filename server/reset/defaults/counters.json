@@ -1,11 +1,11 @@
 [
 	{
 		"_id": "eventsId",
-		"seq": 5
+		"seq": 7
 	},
 	{
 		"_id": "resourcesId",
-		"seq": 5
+		"seq": 6
 	},
 	{
 		"_id": "contributorsId",
@@ -13,7 +13,7 @@
 	},
 	{
 		"_id": "weeksId",
-		"seq": 1
+		"seq": 0
 	},
 	{
 		"_id": "accountsId",
@@ -25,11 +25,11 @@
 	},
 	{
 		"_id": "resourceTypesId",
-		"seq": 2
+		"seq": 3
 	},
 	{
 		"_id": "holidaysId",
-		"seq": 21
+		"seq": 20
 	},
 	{
 		"_id": "citiesId",
@@ -37,6 +37,6 @@
 	},
 	{
 		"_id": "countriesId",
-		"seq": 2
+		"seq": 1
 	}
 ]

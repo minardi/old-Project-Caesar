@@ -13,7 +13,6 @@
 	},
 	{
 		"id": 3,
-		"name": "expert",
-		"useInSchedule": true
+		"name": "expert"
 	}		
 ]

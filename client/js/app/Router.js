@@ -11,7 +11,7 @@
             'Accounts*path': 'account',
             'Holidays*path': 'holidays',
             'UserSetting*path': 'userSetting',
-            '*action': 'errorPage'
+            '*path': 'errorPage'
         },
 
         initialize: function () {
@@ -68,7 +68,7 @@
         },
 
         errorPage: function () {
-            var errorPage = errorPage || new App.ErrorPage.Controller();
+            cs.mediator.publish('Show404');
         }
     });
 })(App);
