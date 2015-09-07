@@ -31,7 +31,7 @@ templates.editHolidayTpl = _.template([
 				'<div class="form-group" class="col-xs-4">',
 					'<label>Choose a date</label>',
 						'<div class="input-group" id="datetimepicker">',
-						'<input type="text" class="form-control date holidayDate" name = "date" id = "date" value="<%= date %>">',
+						'<input type="text" class="form-control date holidayDate input-group-addon" name = "date" id = "date" value="<%= date %>">',
 						'<span class="input-group-addon">',
 							'<span class="glyphicon glyphicon-calendar"></span>',
 						'</span>',

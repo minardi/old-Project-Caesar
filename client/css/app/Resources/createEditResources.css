@@ -17,3 +17,7 @@
 .resourseScroll {
     overflow: auto;
 }
+
+.holidayDate {
+    background-color: white;
+}
