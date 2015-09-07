@@ -6,6 +6,7 @@
     
         events: {
             'click .glyphicon-edit': 'openEdit',
+            'dblclick': 'openEdit',
             'click .glyphicon-trash': 'confirmDelete'
         },
 
@@ -33,7 +34,8 @@
                 resourceTypeName = resourceType.get('name');
             this.$el.html(this.template({
                 name: this.model.get('name'),
-                type: resourceTypeName
+                type: resourceTypeName,
+                useInSchedule: this.model.get('useInSchedule')
             }));
             return this;
         }

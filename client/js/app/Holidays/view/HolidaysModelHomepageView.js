@@ -6,6 +6,7 @@
     
         events: {
             'click .glyphicon-edit': 'openEdit',
+            'dblclick': 'openEdit',
             'click .glyphicon-trash': 'confirmDelete',
             'click .isActive': 'isActive',
             'mouseover .showHollidaysDisableCity': 'showTooltip',

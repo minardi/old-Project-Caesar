@@ -15,7 +15,7 @@ templates.eventCollectionTpl = _.template([
 				'</div>',
 			'</div>',
 		'</div>',
-		'<table class="table event-list list-group">',
+		'<table class="table event-list list-group" onmousedown="return false">',
 			'<tr>',
 				'<th class="name-header"><span>Name</span><i class="sort-flag glyphicon glyphicon glyphicon-sort glyphicon-triangle-bottom"></i></th>',
 				'<th class="type-header"><span>Type</span><i class="sort-flag glyphicon glyphicon glyphicon-sort"></i></th>',

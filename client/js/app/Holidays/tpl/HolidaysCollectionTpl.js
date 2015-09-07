@@ -25,7 +25,7 @@ templates.holidaysCollectionTpl = _.template([
                 '</div>',
             '</div>',
         '</div>',
-        '<table class="table holidays-list">',
+        '<table class="table holidays-list" onmousedown="return false">',
             '<th class="name-header">Name<i class="sort-flag glyphicon glyphicon-sort glyphicon-triangle-bottom"></i></th>',
             '<th class="date-header">Date<i class="sort-flag glyphicon glyphicon-sort"></i></th>',
             '<th class="location-header">Location<i class="sort-flag glyphicon glyphicon-sort"></i></th>',

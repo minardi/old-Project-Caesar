@@ -2,7 +2,7 @@
 (function (This){
     This.ResourceView = Backbone.View.extend({
         tagName: 'li',
-        className: 'list-group-item',
+        className: 'list-group-item resource',
 
         events: {
             'click': 'selectResource'
