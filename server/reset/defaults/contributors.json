@@ -44,9 +44,9 @@
     },
 	{
         "id": 1,
-        "name": "TeamQC",
+        "name": "Team QC",
         "itaName": "QC",             
-        "courseDirection": "Qc",
+        "courseDirection": "QC",
         "students": [
         	{
                 "id": 8,

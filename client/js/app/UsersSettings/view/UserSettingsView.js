@@ -1,14 +1,21 @@
 (function (This) {
     This.UserSettingsView = Backbone.View.extend({
+		className: 'modal fade in eventsScroll',
         template: templates.userSettingsTpl,
         
         events: {
             'click #save': 'submit',
-            'click .generate-pass': 'generatePassword'
+			'click .cancel': 'cancel',
+            'click .generate-pass': 'generatePassword',
+			'keydown': 'closeOnEscape',
+			'keypress': 'updateOnEnter'
         },
         
         initialize: function () {
             this.model = new App.Accounts.Account(User.get());
+			cs.mediator.subscribe('ReturnRout', this.returnRoute, null, this);
+			$('body').one('keydown', this.closeOnEscape.bind(this));	
+            $('body').one('keypress', this.updateOnEnter.bind(this));
         },
         
         render: function () {
@@ -31,7 +38,8 @@
                 },
                 wait: true
             });
-
+			
+			this.cancel();
         },
         
         setAttributes: function () {
@@ -55,5 +63,27 @@
             var generatedPassword = Generator.getPass();
             $('.password-input').val(generatedPassword);
         },
+		
+		returnRoute: function (route) {
+            this.mainroute = '/' + route;
+        },
+		
+		cancel: function () {
+            this.$el.addClass('hidden');
+			cs.mediator.publish('MenuClicked', this.mainroute);
+			$('.menu-item').removeClass('active');
+        },
+
+        updateOnEnter: function (e) {
+            if (e.keyCode === ENTER) {
+                this.submit();
+            }
+        },
+				
+		closeOnEscape: function (e) {
+            if (e.keyCode === ESC) {
+                this.cancel();
+            }
+        }
     });
 })(App.UserSetting);

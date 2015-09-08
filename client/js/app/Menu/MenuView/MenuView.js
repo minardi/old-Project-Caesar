@@ -70,7 +70,9 @@
         },
 		
         showUserSetting: function () {
+			var route = Backbone.history.fragment;
             cs.mediator.publish('MenuClicked', '/UserSetting');
+			cs.mediator.publish('ReturnRout', route);
             this.$('.menu-item').removeClass('active');
             this.$('.userSetting').addClass('active');
         },

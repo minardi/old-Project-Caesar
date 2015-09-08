@@ -11,12 +11,10 @@
         }
         
         function renderSettings () {
-            hideAll();
             $main.append(userSettingsView.render().el);
         }
         
         function showAll () {
-            hideAll();
             userSettingsView.show();
         }
         

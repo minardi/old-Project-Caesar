@@ -55,4 +55,6 @@
 .myFonts {
     font-family: 'Pacifico', cursive;
 	margin-left: 20px;
+	width: 130px;
+    margin-bottom: 14px;
 }

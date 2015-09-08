@@ -1,8 +1,10 @@
 templates.userSettingsTpl = _.template([
-	'<div class="userSettingsView col-lg-6 col-lg-offset-3">',
+    '<div class="modal-backdrop fade in"></div>',
+	'<div id="mymodal1" class="userSettingsView modal-dialog animated slideInDown">',
 		'<div class="modal-content">',
 			'<div class="modal-header">',
-				 '<h4 class="modal-title">Edit account</h4>',
+			    '<button type="button" class="close cancel"><span aria-hidden="true">&times;</span></button>',
+				'<h4 class="modal-title">Edit account</h4>',
 			'</div>',
 			'<div class="modal-body clearfix">',
 				'<div class="accountForm">',
