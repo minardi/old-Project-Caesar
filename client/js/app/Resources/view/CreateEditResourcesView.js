@@ -22,7 +22,9 @@
 
         render: function () {
             var resourceTypes = collections.resourceTypes.toJSON(),
+                isNewModel = this.model.isNew(),
 			    type = this.model.get('type'),
+                startDate = this.model.get('dateStart'),
 			    classForHide = 'hide';
 				
 				if(type === 0) {
@@ -31,9 +33,9 @@
 
             this.$el.append(this.template({
                 name: this.model.get('name'),
-                typeId: this.model.get('type'),
+                typeId: type,
                 resourceTypes: resourceTypes,
-				dateStart: this.model.get('dateStart'),
+				dateStart: startDate,
 				dateFinish: this.model.get('dateFinish'),
 				classForHide: classForHide,
                 useInSchedule: this.model.get('useInSchedule')
@@ -43,14 +45,14 @@
 			this.$("#datetimepickerStart").datetimepicker({
 				locale: 'en',
 				format: 'MM/DD/YYYY',
-                minDate: getToday()
+                minDate: isNewModel? getToday() : startDate
                 
 			});
 			
 			this.$("#datetimepickerFinish").datetimepicker({
 				locale: 'en',
 				format: 'MM/DD/YYYY',
-                minDate: getToday()
+                minDate: isNewModel? getToday() : startDate
 			});
 			
 			this.$("[name='resourseCheckbox']").bootstrapSwitch();

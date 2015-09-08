@@ -5,8 +5,8 @@
 		"type": 0,
 		"locationCity": 2,
 		"locationCountry": 0,
-		"dateStart": "2015.08.01",
-		"dateFinish": "2015.09.03",
+		"dateStart": "01/08/2015",
+		"dateFinish": "03/10/2015",
 		"useInSchedule": true
 	},
 	{
@@ -15,8 +15,8 @@
 		"type": 1,
 		"locationCity": 2,
 		"locationCountry": 0,
-		"dateStart": "2015.08.01",
-		"dateFinish": "2015.08.01",
+		"dateStart": "01/08/2015",
+		"dateFinish": "03/10/2015",
 		"useInSchedule": true
 	},
 	{
@@ -25,8 +25,8 @@
 		"type": 2,
 		"locationCity": 2,
 		"locationCountry": 0,
-		"dateStart": "2015.08.01",
-		"dateFinish": "2015.08.01",
+		"dateStart": "01/08/2015",
+		"dateFinish": "03/10/2015",
 		"useInSchedule": true
 	},
 	{
@@ -35,10 +35,9 @@
 		"type": 0,
 		"locationCity": 2,
 		"locationCountry": 0,
-		"dateStart": "2015.08.01",
-		"useInSchedule": true,
-		"dateFinish": "2015.10.15"
-
+		"dateStart": "01/08/2015",
+		"dateFinish": "03/10/2015",
+		"useInSchedule": true
 	},
 	{
 		"id": 4,
@@ -46,8 +45,8 @@
 		"type": 1,
 		"locationCity": 2,
 		"locationCountry": 0,
-		"dateStart": "2015.08.01",
-		"dateFinish": "2015.08.01",
+		"dateStart": "01/08/2015",
+		"dateFinish": "03/10/2015",
 		"useInSchedule": true
 	},
 	{
@@ -56,8 +55,8 @@
 		"type": 2,
 		"locationCity": 2,
 		"locationCountry": 0,
-		"dateStart": "2015.08.01",
-		"dateFinish": "2015.08.01",
+		"dateStart": "01/08/2015",
+		"dateFinish": "03/10/2015",
 		"useInSchedule": true
 	},
 	{
@@ -66,8 +65,8 @@
 		"type": 2,
 		"locationCity": 3,
 		"locationCountry": 0,
-		"dateStart": "2015.08.01",
-		"dateFinish": "2015.08.01",
+		"dateStart": "01/08/2015",
+		"dateFinish": "03/10/2015",
 		"useInSchedule": true
 	},
 	{
@@ -76,8 +75,8 @@
 		"type": 1,
 		"locationCity": 1,
 		"locationCountry": 0,
-		"dateStart": "2015.08.01",
-		"dateFinish": "2015.08.01",
+		"dateStart": "01/08/2015",
+		"dateFinish": "03/10/2015",
 		"useInSchedule": true
 	}
 ]
