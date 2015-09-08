@@ -8,7 +8,8 @@ function AccountsModel (newAttributes) {
 			password: '',
 			locationCity: '',
 			locationCountry: '',
-			role: ''
+			role: '',
+			avatar: ''
 		};
 	
 	setModel();

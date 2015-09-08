@@ -10,7 +10,8 @@
                 password: '',
                 locationCity: '',
                 locationCountry: '',
-                role: ''
+                role: '',
+                avatar: ''
             }
         },
 

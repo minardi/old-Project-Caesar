@@ -19,7 +19,7 @@ templates.resourceCollectionTpl = _.template([
             '<tr>',
                 '<th class="name-header">Name<i class="sort-flag glyphicon glyphicon-sort glyphicon-triangle-bottom"></i></th>',
                 '<th class="type-header">Type<i class="sort-flag glyphicon glyphicon-sort"></i></th>',
-                '<th class="type-header">Use in schedule</th>',
+                '<th>Use in schedule</th>',
             '</tr>',
         '</table>',
     '</div>',

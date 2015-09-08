@@ -8,14 +8,15 @@
 			'click .cancel': 'cancel',
             'click .generate-pass': 'generatePassword',
 			'keydown': 'closeOnEscape',
-			'keypress': 'updateOnEnter'
+			'keypress': 'updateOnEnter',
+            'change .user-avatar': 'getUserAvatar'
         },
         
         initialize: function () {
             this.model = new App.Accounts.Account(User.get());
 			cs.mediator.subscribe('ReturnRout', this.returnRoute, null, this);
-			$('body').one('keydown', this.closeOnEscape.bind(this));	
-            $('body').one('keypress', this.updateOnEnter.bind(this));
+			$('body').on('keydown', this.closeOnEscape.bind(this));
+            $('body').on('keypress', this.updateOnEnter.bind(this));
         },
         
         render: function () {
@@ -25,21 +26,23 @@
                 login: this.model.get('login'),
                 password: this.model.get('password')
             }));
+
+            this.$('.preview').attr('src', this.model.get('avatar'));
         
             return this;
         },
         
         submit: function () {
             var newModel = this.setAttributes();
-            
             this.model.save(newModel, {
                 success: function() {
                     cs.mediator.publish( 'Notice', 'You succesfully change account');
                 },
                 wait: true
             });
-			
+
 			this.cancel();
+            User.set(this.model.toJSON());
         },
         
         setAttributes: function () {
@@ -53,6 +56,23 @@
             });
 
             return attributes;
+        },
+
+        getUserAvatar: function (evt) {
+            var that = this,
+                reader,
+                file;
+
+            reader = new FileReader();
+            file = evt.target.files;
+
+            reader.onload = function () {
+                that.model.set({avatar: reader.result});
+                that.$('.preview').attr('src', reader.result);
+                User.set('avatar', reader.result);
+                that.model.set({'avatar': reader.result});
+            };
+            reader.readAsDataURL(file[0]);
         },
         
         show: function () {

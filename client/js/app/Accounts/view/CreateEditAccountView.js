@@ -10,7 +10,8 @@
             'keypress': 'updateOnEnter',
             'click .generate-pass': 'generatePassword',
             'keyup': 'generateLogin',
-            'change #InputLogin': 'returnName'
+            'change #InputLogin': 'returnName',
+            'change .user-avatar': 'getUserAvatar'
         },
 
         initialize: function () {
@@ -33,6 +34,8 @@
                 locationCity: locationCity,
                 role: this.model.get('role')
             }));
+
+            this.$('.preview').attr('src', this.model.get('avatar'));
         
             return this;
         },
@@ -48,6 +51,22 @@
             });
             this.setCountry(attributes);
             return attributes;
+        },
+
+        getUserAvatar: function (evt) {
+            var that = this,
+                reader,
+                file;
+
+            reader = new FileReader();
+            file = evt.target.files;
+
+            reader.onload = function () {
+                that.model.set({avatar: reader.result});
+                that.$('.preview').attr('src', reader.result);
+                that.model.set({'avatar': reader.result});
+            };
+            reader.readAsDataURL(file[0]);
         },
 
         setCountry: function (attributes) {
