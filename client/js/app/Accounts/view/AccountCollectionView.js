@@ -65,7 +65,7 @@
 
         sortByLocation: function () {
             var flag = 'locationFlag',
-                sortingAttribute = 'location',
+                sortingAttribute = 'locationCity',
                 $el = this.$('.location-header');
 
             this.sortFunction(flag, sortingAttribute, $el);

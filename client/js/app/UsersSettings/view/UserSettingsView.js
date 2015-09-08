@@ -4,7 +4,8 @@
         
         events: {
             'click #save': 'submit',
-            'click .generate-pass': 'generatePassword'
+            'click .generate-pass': 'generatePassword',
+            'change .user-avatar': 'getUserAvatar'
         },
         
         initialize: function () {
@@ -18,13 +19,14 @@
                 login: this.model.get('login'),
                 password: this.model.get('password')
             }));
+
+            this.$('.preview').attr('src', this.model.get('avatar'));
         
             return this;
         },
         
         submit: function () {
             var newModel = this.setAttributes();
-            
             this.model.save(newModel, {
                 success: function() {
                     cs.mediator.publish( 'Notice', 'You succesfully change account');
@@ -32,6 +34,7 @@
                 wait: true
             });
 
+            User.set(this.model.toJSON());
         },
         
         setAttributes: function () {
@@ -46,6 +49,23 @@
 
             return attributes;
         },
+
+        getUserAvatar: function (evt) {
+            var that = this,
+                reader,
+                file;
+
+            reader = new FileReader();
+            file = evt.target.files;
+
+            reader.onload = function () {
+                that.model.set({avatar: reader.result});
+                that.$('.preview').attr('src', reader.result);
+                User.set('avatar', reader.result);
+                that.model.set({'avatar': reader.result});
+            };
+            reader.readAsDataURL(file[0]);
+        },
         
         show: function () {
             this.$el.removeClass('hidden');
@@ -54,6 +74,6 @@
         generatePassword: function () {
             var generatedPassword = Generator.getPass();
             $('.password-input').val(generatedPassword);
-        },
+        }
     });
 })(App.UserSetting);

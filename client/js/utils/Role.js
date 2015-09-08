@@ -14,6 +14,9 @@ var User = (function() {
 return {
 	get: function () {
 		return role;
+	},
+	set: function (attr) {
+		role = attr;
 	}
 };
 })();

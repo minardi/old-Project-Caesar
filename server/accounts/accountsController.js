@@ -35,6 +35,7 @@ function AccountsController (req, res) {
 
 	function update () {
 		var account = new Account(req.body);
+		console.log(req.body);
 		db.update(dbName, account.toJSON(), id, responde);
 	}
 
