@@ -9,6 +9,7 @@
             'click .cancel': 'cancel',
             'click .resource': 'removeResource',
             'keydown': 'closeOnEscape',
+            'keydown': 'tabKeySwitch',
             'keypress': 'updateOnEnter',
             'change .editName': 'returnName'
         },
@@ -39,7 +40,9 @@
                 resourcesList: this.getResourcesInEvent()
             }));
             this.$('.resources-list').append(this.resourcesCollectionView.render().el);
-			
+            
+            this.setTabIndex();
+            
             return this;
         },
 
@@ -193,6 +196,21 @@
                 $('.returnName').on('click', function () {
                     $name.val(name);
                 });
+            }
+        },
+        
+        setTabIndex: function () {
+            this.$('.tabIndex').each(function (num, el) {
+                el.tabIndex = num + 1;
+            });    
+        },
+        
+        tabKeySwitch: function (e) {
+            if (e.keyCode === 9) {
+                if ($('.lastTabBtn').is(':focus')) {
+                    e.preventDefault();
+                    $('.name').focus();
+                }
             }
         }
     });
