@@ -41,13 +41,16 @@
 			
 
 			this.$("#datetimepickerStart").datetimepicker({
-				locale: 'ru',
-				format: 'YYYY.MM.DD'
+				locale: 'en',
+				format: 'MM/DD/YYYY',
+                minDate: getToday()
+                
 			});
 			
 			this.$("#datetimepickerFinish").datetimepicker({
-				locale: 'ru',
-				format: 'YYYY.MM.DD'
+				locale: 'en',
+				format: 'MM/DD/YYYY',
+                minDate: getToday()
 			});
 			
 			this.$("[name='resourseCheckbox']").bootstrapSwitch();
@@ -77,25 +80,21 @@
         save: function () {
             var $typeValue = this.$('.type').val()? Number(this.$('.type').val()): '',
                 $nameValue = this.$('.name').val(),
+			    $dateStart = this.$('#dateStart').val(),
+				$dateFinish = this.$('#dateFinish').val(),
+                $isChecked = this.$('input[type=checkbox]').is(":checked"),
                 isNewModel = this.model.isNew(),
-			    dateStart = '2015.01.01',
-				dateFinish = '2015.01.01',
                 user = User.get(),
-                attributes;
-			
-            if(this.$('.type').val() === '0') {
-				dateStart = this.$('#dateStart').val();
-				dateFinish = this.$('#dateFinish').val();
-			}				
+                attributes;				
 
             attributes = {
                 name: $nameValue,
                 type: $typeValue,
                 locationCountry: user.locationCountry,
                 locationCity: user.locationCity,
-				dateStart: dateStart,
-				dateFinish: dateFinish,
-                useInSchedule: this.$('input[type=checkbox]').is(":checked")
+				dateStart: $dateStart,
+				dateFinish: $dateFinish,
+                useInSchedule: $isChecked
             };
 
             if (!this.preValidate(attributes)) {

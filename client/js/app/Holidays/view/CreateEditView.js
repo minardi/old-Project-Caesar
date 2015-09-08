@@ -30,8 +30,9 @@
             }));
 
             this.$('#datetimepicker').datetimepicker({
-                locale: 'ru',
-                format: 'YYYY.MM.DD'
+                locale: 'en',
+                format: 'MM/DD/YYYY',
+                minDate: getToday()
             });
 			
             return this;

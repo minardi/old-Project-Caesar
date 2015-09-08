@@ -25,6 +25,17 @@ function validateNameField (value, collection) {
     return this.isNameTaken(value, collection)? errorMsg: undefined;
 }
 
+function getToday () {
+    var nowDate = new Date(),
+        today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
+    return today; 
+}
+
+function toDateObj (strDate) {
+    var dateParts = strDate.split('/');
+        return new Date(dateParts[2], (dateParts[0] - 1), dateParts[1]);
+}
+
 Date.prototype.getWeekNumber = function(){
     var d = new Date(+this);
     d.setHours(0,0,0);

@@ -21,7 +21,6 @@
                     msg: 'Select type'
                 }
             ],
-			
             name: [
                 {
                     maxLength: 20,
@@ -40,18 +39,26 @@
                     msg: 'Latin alphabet only. Allowed symbols: .-/'
                 }
             ],
-			
-			dateStart: function(attrs) {
-				if(!attrs.match(/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/)) {
-				  return 'This date isn’t correct';
-				}
-		    },	
-			
-			dateFinish: function(attrs) {		
-				if(!attrs.match(/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/)) {
-				  return 'This date isn’t correct';
-				}
-			}	
+			dateFinish: [
+                {
+                    required: true,
+                    msg: 'Field cannot be empty'
+                }
+            ],
+            dateStart: function (value) {
+                if (value !== '') { 
+                    var msg = '',
+                        dateStart = toDateObj(value),
+                        dateFinish = toDateObj($('#dateFinish').val());            
+                    if (dateFinish <= dateStart) {
+                        msg = '\'Start date\' should be earlier than \'End date\'';
+                        return msg;
+                    }
+                } else {
+                      msg = 'Field cannot be empty';
+                      return msg;
+                }
+            }
         }
     });
 })(App.Resources);
