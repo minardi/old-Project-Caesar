@@ -104,7 +104,7 @@
                     cs.mediator.publish(  
                         'Hint',
                         validationResult[attrName],
-                        this.$('[name=' + attrName + ']')
+                        this.$('.new-city')
                     );
                 }
             }

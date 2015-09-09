@@ -15,6 +15,7 @@
         },
 
         initialize: function () {
+            Backbone.Validation.bind(this);
             this.listenTo(this.model, 'destroy', this.remove);
             this.listenTo(this.model, 'change', this.render);
         },
@@ -33,9 +34,11 @@
         },
 
         save: function () {
-            var value =  this.$('.edit-type').val().trim();
-            this.model.save({ countryName: value});
-            this.$el.removeClass('editing');
+            var value = firstToUpperCase(this.$('.edit-type').val().trim().toLowerCase()),
+                attributes = {
+                    countryName: value
+                };
+            this.saveChangedAttr(attributes);
         }
     });
 })(App.Settings);
