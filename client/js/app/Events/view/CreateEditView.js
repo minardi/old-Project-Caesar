@@ -23,8 +23,8 @@
 
             Backbone.Validation.bind(this);
 
-            $('body').one('keypress', this.updateOnEnter.bind(this));
-			$('body').one('keydown', this.closeOnEscape.bind(this));
+            $('body').on('keypress', this.updateOnEnter.bind(this));
+			$('body').on('keydown', this.closeOnEscape.bind(this));
 
             cs.mediator.subscribe('resourceAddedToEvent', this.addResourceIdToEvent, null, this);
             cs.mediator.subscribe('resourceAddedToEvent', this.generateEventName, null, this);
@@ -133,7 +133,9 @@
 			setTimeout(function() {
 			   $('#main').css('position', 'static');
 			   cs.mediator.publish('CreateEditViewClosed');
-			}, 400); 
+			}, 400);
+
+            $('body').off();
 		},
 
         removeResource: function (e) {

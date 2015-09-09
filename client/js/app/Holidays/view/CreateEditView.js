@@ -14,8 +14,8 @@
             this.model = this.model || new This.HolidaysModel();
 			Backbone.Validation.bind(this);
 
-            $('body').one('keypress', this.updateOnEnter.bind(this));
-			$('body').one('keydown', this.closeOnEscape.bind(this));
+            $('body').on('keypress', this.updateOnEnter.bind(this));
+			$('body').on('keydown', this.closeOnEscape.bind(this));
         },
 
         render: function () {
@@ -88,7 +88,9 @@
 			setTimeout(function() {
 				$('#main').css('position', 'static');
 			    cs.mediator.publish('HolidaysViewClosed'); //publish to Controller
-			}, 400); 
+			}, 400);
+
+            $('body').off();
         },
 
         updateOnEnter: function (e) {

@@ -78,6 +78,8 @@
         
         show: function () {
             this.$el.removeClass('hidden');
+            $('body').on('keydown', this.closeOnEscape.bind(this));
+            $('body').on('keypress', this.updateOnEnter.bind(this));
         },
         
         generatePassword: function () {
@@ -94,6 +96,8 @@
 			cs.mediator.publish('MenuClicked', this.mainroute);
 			$('.menu-item').removeClass('active');
 			$('#main').css('position', 'static');
+
+            $('body').off();
         },
 
         updateOnEnter: function (e) {
