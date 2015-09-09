@@ -37,7 +37,8 @@
 
             this.$('.preview').attr('src', this.model.get('avatar'));
 			$('#main').css('position', 'fixed');
-        
+            this.setPreviousLogin();
+            
             return this;
         },
 
@@ -206,6 +207,18 @@
             $('.password-input').val(generatedPassword);
         },
         
+        setPreviousLogin: function () {
+            var $login = this.$('#InputLogin'),
+                login = this.$('#InputLogin').val();
+            
+            if (login !== '') {
+                this.prevLogin = login;
+                this.$('.returnLogin').on('click', function () {
+                    $login.val(login);
+                });
+            }
+        },
+        
         generateLogin: function () {
             var name = $('#InputName').val(),
                 lastName = $('#InputlastName').val().replace('-', '').replace(' ', ''),
@@ -232,11 +245,12 @@
         
         returnName: function () {
             var $login = $('#InputLogin'),
-                login = $login.val();
+                login = $login.val(),
+                $returnLogin = $('.returnLogin');
             
             if (login !== '') {
-                this.prevLogin = login;
-                $('.returnLogin').on('click', function () {
+                $returnLogin.off();
+                $returnLogin.on('click', function () {
                     $login.val(login);
                 });
             }
