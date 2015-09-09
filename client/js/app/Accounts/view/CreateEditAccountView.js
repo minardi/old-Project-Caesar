@@ -18,8 +18,8 @@
             this.model = this.model || new This.Account();
             Backbone.Validation.bind(this);
 
-            $('body').one('keypress', this.updateOnEnter.bind(this));
-            $('body').one('keydown', this.closeOnEscape.bind(this));
+            $('body').on('keypress', this.updateOnEnter.bind(this));
+            $('body').on('keydown', this.closeOnEscape.bind(this));
         },
 
         render: function () {
@@ -165,7 +165,7 @@
         cancel: function () {
             this.undoChanges();
             this.changeClassAndCansel();
-            
+            $('body').off();
         },
 
         changeClassAndCansel: function () {

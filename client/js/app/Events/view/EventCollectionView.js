@@ -28,7 +28,7 @@
             this.listenTo(this.collection, 'add', this.renderGrid);
             this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
 			this.listenTo(collections.eventsCollection, 'add', this.renderGrid);
-			$('body').on('keydown', this.closeOnEscape.bind(this));
+			$(document).on('keydown', this.closeOnEscape.bind(this));
 			$('body').one('keypress', this.updateOnEnter.bind(this));
         },
 

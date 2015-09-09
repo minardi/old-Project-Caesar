@@ -16,8 +16,8 @@
             this.defaultModelJSON = this.model.toJSON();
             Backbone.Validation.bind(this);
 			
-			$('body').one('keydown', this.closeOnEscape.bind(this));
-            $('body').one('keypress', this.updateOnEnter.bind(this));
+			$('body').on('keydown', this.closeOnEscape.bind(this));
+            $('body').on('keypress', this.updateOnEnter.bind(this));
         },
 
         render: function () {
@@ -135,6 +135,7 @@
 		cancel: function () {
             this.undoChanges();
             this.changeClassAndCancel();
+            $('body').off();
         },
 		
 		changeClassAndCancel: function () {
