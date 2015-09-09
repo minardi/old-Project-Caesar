@@ -169,22 +169,38 @@
         },
         
         generateEventName: function (_resource) {
-            var resource = _resource.toJSON();
+            var $name = $('.name'),
+                resource = _resource.toJSON();
+            
             if (resource.type === 0) {
-                $('.name').val(resource.name);
+                if ($name.val() === '') {
+                    $name.val(resource.name);    
+                } else {
+                    $name.val($name.val() + ', ' + resource.name);
+                }                
             }
         },
         
         removeEventName: function (_id) {
-            var id = Number(_id);
+            var $name = $('.name'),
+                id = Number(_id);
             
             _.each(this.resourceCollection.toJSON(), function (resource) {
                 if (resource.id === id && resource.type === 0) {
-                    var eventName = $('.name').val();
+                    var eventName = $name.val(),
+                        newName = '';
                     
-                    if (eventName === resource.name) {
-                        $('.name').val('');
+                    newName = eventName.replace(resource.name, '');
+                    
+                    if (newName[newName.length - 2] === ',') {
+                        newName = newName.substring(0, newName.length - 2);
                     }
+                    
+                    if (newName[0] === ',') {
+                        newName = newName.substring(2);
+                    }
+                    
+                    $name.val(newName);
                 }
             });
         },
