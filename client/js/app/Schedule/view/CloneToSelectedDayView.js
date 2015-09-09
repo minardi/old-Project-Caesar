@@ -1,5 +1,5 @@
 (function (This){
-	This.CloneEventsView = This.CloneToWeekDaysView.extend({
+	This.CloneToSelectedDayView = This.CloneToWeekDaysView.extend({
 		
 		events: {
 			'click input[type="radio"]': 'setCloneParam',

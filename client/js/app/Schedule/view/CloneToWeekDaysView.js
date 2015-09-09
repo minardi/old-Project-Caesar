@@ -23,33 +23,18 @@
 		},
 
 		chooseWeekClone: function () {
-			var cloneOptions = {
-				'days': this.clonetoWeeks,
-				'end': this.clonetoEndOfWeeks
-			};
-
-			if (cloneOptions[this.cloneParam]) {
-				cloneOptions[this.cloneParam].call(this);
-			};
-
+			this.clonetoWeeks();
 			this.isAsk = true;
-		},
-
-		collectSelectedEvents: function () {
-			this.weekItem = this.generateWeekItem();
 		},
 
 		chooseDaysClone: function () {
-			var cloneOptions = {
-				'days': this.clonetoDays,
-				'end': this.clonetoEndOfDays
-			};
-
-			if (cloneOptions[this.cloneParam]) {
-				cloneOptions[this.cloneParam].call(this);
-			};
-
+			this.clonetoDays();
 			this.isAsk = true;
+		},
+
+
+		collectSelectedEvents: function () {
+			this.weekItem = this.generateWeekItem();
 		},
 
  		render: function () {

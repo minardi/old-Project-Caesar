@@ -77,7 +77,7 @@
 		normalizeDirection: function (direction) {
 			var directionToSend;
 
-			if (direction) {
+			if (direction !== null) {
 				this.direction = direction;
 				directionToSend = direction;
 			} else {
