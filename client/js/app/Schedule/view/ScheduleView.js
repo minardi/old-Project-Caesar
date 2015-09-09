@@ -74,7 +74,8 @@
 				if (holiday.skippedByLocation()) {
 					date = new Date(holiday.get('date'));
 				
-					if (date.getWeekNumber() === this.currentWeekNumber) {
+					//if (date.getWeekNumber() === this.currentWeekNumber) {
+					if (This.isBelongToWeek(this.startDate, date)) {
 
 						$cells = this.$el.find('td[day="' + date.getDay() + '"]');
 						$cells.each(function (i, el) {			

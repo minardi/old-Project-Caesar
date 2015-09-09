@@ -36,6 +36,8 @@
 
 			if (!_.isEmpty(this.dateCollection)) {
 				this.$el.html(this.template({'value': this.conflicts}));
+			} else {
+				this.$el.html('');
 			};
 
 			return this;

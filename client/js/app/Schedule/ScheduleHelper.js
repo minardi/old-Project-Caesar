@@ -112,13 +112,35 @@
 			dateToString = date.toDateString();
 		};
 
-		collections.scheduleCollection.each(function (week) {
-			weekDate = week.get('startDate').toDateString();
-			if (dateToString === weekDate) {
-				weekItem = week;
+		if (collections.scheduleCollection) {
+			collections.scheduleCollection.each(function (week) {
+			
+				weekDate = week.get('startDate').toDateString();
+				if (dateToString === weekDate) {
+					weekItem = week;
 			};
 		}, this);
+		};
 
 		return weekItem;
+	};
+
+	This.isBelongToWeek = function (_startWeekDate, _dateToCheck) {
+		var startWeekDate = (typeof(_startWeekDate) === 'object') ? _startWeekDate: (new Date(_startWeekDate)),
+			finishWeekDate = new Date(startWeekDate),
+			dateToCheck = (typeof(_dateToCheck) === 'object') ? _dateToCheck: (new Date(_dateToCheck)),
+			isBelong = false;
+
+		finishWeekDate.setDate(startWeekDate.getDate() + 7);
+
+		dateToCheck.setHours(0, 0, 0, 0);
+		startWeekDate.setHours(0, 0, 0, 0);
+		finishWeekDate.setHours(0, 0, 0, 0);
+
+		if (dateToCheck >= startWeekDate && dateToCheck < finishWeekDate) {
+			isBelong = true;
+		};
+
+		return isBelong;
 	};
 })(App.Schedule);

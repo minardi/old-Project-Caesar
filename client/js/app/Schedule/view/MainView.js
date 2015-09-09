@@ -14,6 +14,7 @@
 			};
 
 			this.mode = 'allEvents';
+			this.direction = 0;
 		},
 
 		setupEl: function (_el) {
@@ -62,7 +63,7 @@
 
 		showWeek: function (direction) {
 			this.views['schedule'].remove();
-			this.views['schedule'].setDirection(direction);
+			this.views['schedule'].setDirection(this.normalizeDirection(direction));
 			this.fullView.appendView('schedule', this.views['schedule'].render().el);
 
 			this.views['schedule'].renderEvents();
@@ -73,6 +74,19 @@
 			this.setupTable();
 		},
 
+		normalizeDirection: function (direction) {
+			var directionToSend;
+
+			if (direction) {
+				this.direction = direction;
+				directionToSend = direction;
+			} else {
+				directionToSend = this.direction;
+			};
+
+			return directionToSend;
+		},
+		
 		setupWeekMode: function (_mode) {
 			this.mode = _mode;
 
@@ -92,6 +106,8 @@
 
 		checkAvailableCells: function () {
 			this.views['schedule'].checkAvailableCells();
+			this.views['conflict'].remove();
+			this.fullView.appendView('conflict',  this.views['conflict'].render().el);
 		},
 
 		updateEvents: function () {
