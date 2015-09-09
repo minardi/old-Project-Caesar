@@ -1,6 +1,32 @@
 (function (This){
-	This.CloneEventsView = This.CloneToWeekDaysView.extend({
+	This.CloneEventsView = This.CloneToSelectedDayView.extend({
 
+		chooseWeekClone: function () {
+			var cloneOptions = {
+				'days': this.clonetoWeeks,
+				'end': this.clonetoEndOfWeeks
+			};
+
+			if (cloneOptions[this.cloneParam]) {
+				cloneOptions[this.cloneParam].call(this);
+			};
+
+			this.isAsk = true;
+		},
+
+		chooseDaysClone: function () {
+			var cloneOptions = {
+				'days': this.clonetoDays,
+				'end': this.clonetoEndOfDays
+			};
+
+			if (cloneOptions[this.cloneParam]) {
+				cloneOptions[this.cloneParam].call(this);
+			};
+
+			this.isAsk = true;
+		},
+		
 		clonetoEndOfDays: function () {
 			var weekItem = this.generateWeekItem(),
 				weeksCollection = new This.Schedule(),

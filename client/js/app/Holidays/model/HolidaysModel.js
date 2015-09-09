@@ -10,7 +10,7 @@
         },
 
         urlRoot: '/holidays',
-		
+			
 		skipped: function () {
 			var location = User.get(),
 			    isActiveArr = this.get('isActive'),
