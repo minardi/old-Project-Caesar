@@ -11,7 +11,8 @@
             events: {
                 'mouseover': 'showInfo',
                 'mouseout': 'hideInfo',
-				'contextmenu': 'contextMenu'
+				'contextmenu': 'contextMenu',
+				'dblclick': 'fall'
             },
 
             initialize: function (options) {
@@ -34,6 +35,7 @@
 
                     $('.list-group-container').append(this.view.render(this.itaName).el);
                 }
+				this.$el.addClass('mycoursor');
             },
 
             hideInfo: function () {
@@ -44,7 +46,18 @@
 			
 			contextMenu: function (e) { 
                 e.preventDefault();
-            }
+            },
+			
+			fall: function () {
+				var _this = this;
+				this.$el.addClass('zoomOutDown');
+				function second_passed1() {
+				    _this.$el.removeClass('zoomOutDown').addClass('zoomInDown');
+			    }
+				var timeBack = Math.floor((Math.random() * 10000 / 2) + 1);
+			    setTimeout(second_passed1, timeBack);
+				
+			}
         }
     );
 })(App.About);

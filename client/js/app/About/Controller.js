@@ -29,6 +29,7 @@
 
 			$(".a4").show();
 			$(".a6").show();
+			$('.contributors-names-container').removeClass('zoomOutDown');
 			
 			function second_passed() {
 			    $('.a4').addClass('zoomOutUp');

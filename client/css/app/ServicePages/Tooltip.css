@@ -58,3 +58,7 @@
 	width: 130px;
     margin-bottom: 14px;
 }
+
+.mycoursor {
+   cursor: url(../../../../img/molot.png), auto;
+}
