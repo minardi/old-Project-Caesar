@@ -32,7 +32,7 @@ templates.createAccountTpl = _.template([
 									'<img class="preview" src="">',
 								'</div>',
 								'<div>',
-									'<button class="btn btn-default" onclick="this.nextSibling.click()">Select a file</button>',
+									'<button class="load-photo btn btn-default" onclick="this.nextSibling.click()">Select a file</button>',
 									'<input type="file" class="user-avatar" style="visibility: hidden"/>',
 								'</div>',
 							'</div>',
