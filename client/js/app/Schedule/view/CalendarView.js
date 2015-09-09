@@ -42,9 +42,8 @@
 			};
 
 			this.startDate = This.getFisrtDayOfWeek(date);
-			this.currentWeekNumber = this.startDate.getWeekNumber();
-		},
 
-		
+			this.currentWeekNumber = this.startDate.getWeekNumber();
+		}		
 	})
 })(App.Schedule);

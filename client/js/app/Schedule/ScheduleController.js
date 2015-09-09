@@ -75,6 +75,7 @@
 		}
 
 		function showWeek (direction) {
+			direction = (typeof(direction) === 'number')? direction: null;
 			mainView.showWeek(direction);
 		}
 
