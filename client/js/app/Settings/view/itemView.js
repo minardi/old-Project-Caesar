@@ -11,10 +11,12 @@
             'dblclick': 'edit',
             'keypress .edit-type': 'updateOnEnter',
             'keydown .edit-type': 'revertOnEscape',
-            'blur .edit-type': 'save'
+            'blur .edit-type': 'save',
+            'input .edit-type' : 'focus'
         },
 
         initialize: function () {
+            Backbone.Validation.bind(this);
             this.listenTo(this.model, 'destroy', this.remove);
             this.listenTo(this.model, 'change', this.render);
             this.defaultModelJSON = this.model.toJSON();
@@ -41,18 +43,34 @@
 
         edit: function () {
             this.$el.addClass('editing');
+            this.focus();
+        },
+
+        focus: function () {
             this.$('.edit-type').focus();
         },
 
         save: function () {
-            var value = this.$('.edit-type').val().trim();
+            var value = this.$('.edit-type').val().trim().toLowerCase(),
+                properValue = this.model.has('location')? firstToUpperCase(value): value,
+                attributes = {
+                    name: properValue
+                };
+            this.saveChangedAttr(attributes);
+        },
 
-            if(value) {
-                this.model.save({name: value});
-            } else {
-                this.confirmDelete();
+        saveChangedAttr: function (attributes) {
+            if (this.model.changedAttributes(attributes)) {
+                if (!this.preValidate(attributes)) {
+                    this.model.save(attributes);
+                    this.$el.removeClass('editing');
+                }
+            } else { 
+                this.model.previousAttributes();
+
+                this.$el.removeClass('editing');
+                this.render();
             }
-            this.$el.removeClass('editing');
         },
 
         updateOnEnter: function (e) {
@@ -62,10 +80,34 @@
         },
 
         revertOnEscape: function (e) {
+            var attr = this.model.has('name')? 'name': 'countryName';
             if (e.which === ESC) {
                 this.$el.removeClass('editing');
-                this.$('.edit-type').val(this.model.get('name'));
+                this.$('.edit-type').val(this.model.get(attr));
             }
+        },
+
+        preValidate: function (attributes) {
+            var validationResult,
+                attrName;
+
+            validationResult = this.validateName(attributes.name || attributes.countryName) || this.model.preValidate(attributes);
+
+            if (validationResult) {
+                for (attrName in validationResult) {
+                    cs.mediator.publish(  
+                        'Hint',
+                        validationResult[attrName],
+                        this.$('input')
+                    );
+                }
+            }
+
+            return validationResult;
+        },
+
+        validateName: function (value) {
+            return validateNameField(value, this.model.collection.toJSON());
         }
     });
 })(App.Settings);

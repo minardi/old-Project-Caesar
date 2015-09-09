@@ -19,20 +19,22 @@
         },
 
         render: function () {
-            var locationCountry = collections.countriesCollection.toJSON(),
+            var isNewModel = this.model.isNew(),
+                holidayDate = this.model.get('date'),
+                locationCountry = collections.countriesCollection.toJSON(),
                 countryName = collections.countriesCollection.get(this.model.get('locationCountry'));
 				
             this.$el.append(this.template({
                 name: this.model.get('name'),
                 locationCountry: locationCountry,
                 country: countryName,
-                date: this.model.get('date')
+                date: holidayDate
             }));
 
             this.$('#datetimepicker').datetimepicker({
                 locale: 'en',
                 format: 'MM/DD/YYYY',
-                minDate: getToday()
+                minDate: isNewModel? getToday() : holidayDate
             });
 			
             return this;
