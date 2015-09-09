@@ -56,6 +56,7 @@
 			});
 			
 			this.$("[name='resourseCheckbox']").bootstrapSwitch();
+			$('#main').css('position', 'fixed');
 			
             return this;
         },
@@ -139,6 +140,7 @@
 		changeClassAndCancel: function () {
 			$('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');
 			setTimeout(function() {
+				$('#main').css('position', 'static');
 			    cs.mediator.publish('ResourcesViewClosed'); //publish to Controller and router
 			}, 400); 
 		},

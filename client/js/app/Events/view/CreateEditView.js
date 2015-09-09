@@ -40,7 +40,8 @@
                 resourcesList: this.getResourcesInEvent()
             }));
             this.$('.resources-list').append(this.resourcesCollectionView.render().el);
-            
+            $('#main').css('position', 'fixed');
+			
             this.setTabIndex();
             
             return this;
@@ -130,6 +131,7 @@
 		changeClassAndCansel: function () {
 			$('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');
 			setTimeout(function() {
+			   $('#main').css('position', 'static');
 			   cs.mediator.publish('CreateEditViewClosed');
 			}, 400); 
 		},

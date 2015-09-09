@@ -37,6 +37,8 @@
                 minDate: isNewModel? getToday() : holidayDate
             });
 			
+			$('#main').css('position', 'fixed');
+			
             return this;
         },
 
@@ -84,6 +86,7 @@
 		cancel: function () {
             $('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');
 			setTimeout(function() {
+				$('#main').css('position', 'static');
 			    cs.mediator.publish('HolidaysViewClosed'); //publish to Controller
 			}, 400); 
         },

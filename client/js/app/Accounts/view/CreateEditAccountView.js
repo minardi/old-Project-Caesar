@@ -36,6 +36,7 @@
             }));
 
             this.$('.preview').attr('src', this.model.get('avatar'));
+			$('#main').css('position', 'fixed');
         
             return this;
         },
@@ -126,6 +127,7 @@
                     },
                         wait: true
                 });
+				$('#main').css('position', 'static');
            }
         },
 
@@ -168,6 +170,7 @@
 
         changeClassAndCansel: function () {
             $('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');
+			$('#main').css('position', 'static');
             setTimeout(function() {
                 cs.mediator.publish('CreateAccountViewClosed');
             }, 400); 
