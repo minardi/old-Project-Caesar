@@ -198,7 +198,9 @@
         
         returnLogin: function () {
             var $login = this.$('#InputLogin');
-            $login.val(this.prevLogin);
+            if (this.prevLogin !== '') {
+                $login.val(this.prevLogin);    
+            }
         },
         
         setPreviousLogin: function () {
