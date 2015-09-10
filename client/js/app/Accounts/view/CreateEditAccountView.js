@@ -112,6 +112,7 @@
             var isNewModel = this.model.isNew(),
                 closeView = this.changeClassAndCansel.bind(this),
                 showError = this.showErrorMessage.bind(this),
+                model = this.model,
                 attributes = this.getAttributes();
 
             if (!this.preValidate(attributes)) {
@@ -192,7 +193,7 @@
 
         updateOnEnter: function (e) {
             if (e.keyCode === ENTER) {
-                this.saveAccount();
+                this.submit();
             }
         },
 

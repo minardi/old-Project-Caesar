@@ -6,8 +6,8 @@
                 'name': '',
                 'locationCity': '',
                 'locationCountry': '',
-				'dateStart': '',
-				'dateFinish': '',
+				'dateStart': '01/01/2015',
+				'dateFinish': '01/02/2015',
                 'useInSchedule': true
             }
         },

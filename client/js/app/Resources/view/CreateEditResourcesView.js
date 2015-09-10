@@ -83,12 +83,17 @@
         save: function () {
             var $typeValue = this.$('.type').val()? Number(this.$('.type').val()): '',
                 $nameValue = this.$('.name').val(),
-			    $dateStart = this.$('#dateStart').val(),
-				$dateFinish = this.$('#dateFinish').val(),
+			    $dateStart = this.model.get('dateStart'),
+				$dateFinish = this.model.get('dateFinish'),
                 $isChecked = this.$('input[type=checkbox]').is(":checked"),
                 isNewModel = this.model.isNew(),
                 user = User.get(),
-                attributes;				
+                attributes;
+
+                if ($typeValue === 0) {
+                    $dateStart = this.$('#dateStart').val();
+                    $dateFinish = this.$('#dateFinish').val();
+                }				
 
             attributes = {
                 name: $nameValue,
@@ -159,7 +164,7 @@
 
         updateOnEnter: function (e) {
             if (e.keyCode === ENTER) {
-                this.save();
+                this.submit();
             }
         },
 		
