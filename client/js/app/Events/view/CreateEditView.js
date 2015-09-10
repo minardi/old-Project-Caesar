@@ -11,7 +11,8 @@
             'keydown': 'closeOnEscape',
             'keydown': 'tabKeySwitch',
             'keypress': 'updateOnEnter',
-            'change .editName': 'returnName'
+            'change .editName': 'setName',
+            'click .returnName': 'returnName'
         },
 
         initialize: function () {
@@ -206,15 +207,21 @@
             });
         },
         
-        returnName: function () {
+        setName: function () {
             var $name = $('.name'),
                 name = $name.val();
             
             if (name !== '') {
                 this.prevName = name;
-                $('.returnName').on('click', function () {
-                    $name.val(name);
-                });
+            }
+        },
+        
+        returnName: function () {
+            var $name = $('.name'),
+                name = $name.val();
+            
+            if (name !== '') {
+                $name.val(this.prevName);    
             }
         },
         
