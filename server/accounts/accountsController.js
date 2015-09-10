@@ -34,9 +34,19 @@ function AccountsController (req, res) {
 	}	
 
 	function update () {
-		var account = new Account(req.body);
+		var account = new Account(req.body),
+            cookie = globalMan[req.cookies.clientId];
 		console.log(req.body);
-		db.update(dbName, account.toJSON(), id, responde);
+        
+        if (cookie !== undefined && cookie.role === 'Admin') {
+            db.update(dbName, account.toJSON(), id, responde);
+        } else {
+            var updateData = {
+                    password: account.toJSON().password
+                };
+            db.update(dbName, updateData, id, responde);
+        }
+		
 	}
 
 	function del () {
