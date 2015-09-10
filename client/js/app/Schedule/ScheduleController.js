@@ -46,6 +46,35 @@
 		function setupEvents () {
 			collections.eventsCollection.on('update', updateEvents);
 			collections.eventsCollection.on('change', updateEvents);
+			collections.eventsCollection.on('remove', cascadeDeleteEvents);
+		}
+
+		function cascadeDeleteEvents (event) {
+			var eventId = event.get('id'),
+				weekItem,
+				days;
+
+			collections.scheduleCollection.each(function (week) {
+				days = week.get('days');
+				_.each(days, function (timelines, dayNumber) {
+					_.each(timelines, function (eventsId, timeline) {
+						_.each(eventsId, function (id) {
+							if (id === eventId) {
+								weekItem = This.createWeekItem({
+									'startDate': week.get('startDate'),
+									'dayNumber': dayNumber,
+									'timeline': timeline,
+									'eventId': id
+								});
+
+								collections.scheduleCollection.deleteEvent(weekItem);
+							};
+						});
+					}, this);
+				}, this);
+			});
+
+			updateEvents();
 		}
 
 		function setupSchedule () {
