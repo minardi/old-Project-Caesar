@@ -56,7 +56,7 @@
 			});
 			
 			this.$("[name='resourseCheckbox']").bootstrapSwitch();
-			$('#main').css('position', 'fixed');
+			$('body').css('overflow-y', 'hidden');
 			
             return this;
         },
@@ -141,7 +141,7 @@
 		changeClassAndCancel: function () {
 			$('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');
 			setTimeout(function() {
-				$('#main').css('position', 'static');
+				$('body').css('overflow-y', 'auto');
 			    cs.mediator.publish('ResourcesViewClosed'); //publish to Controller and router
 			}, 400); 
 		},

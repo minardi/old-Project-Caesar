@@ -19,7 +19,9 @@
 		    this.$el.append(this.template);
             
             cs.subRouters['SchedulePreview'] = new App.SchedulePreview.Router();
-            
+			
+            $('body').css('overflow-y', 'hidden');
+			
 			return this;
 		},
 		
@@ -34,6 +36,7 @@
             var _this = this;			
 			$('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');
 			setTimeout(function() {
+				$('body').css('overflow-y', 'auto');
 				_this.el.remove();
 		    	cs.mediator.publish('PreViewClose');
 			}, 400); 

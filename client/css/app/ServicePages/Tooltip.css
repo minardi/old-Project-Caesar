@@ -62,3 +62,7 @@
 .mycoursor {
    cursor: url(../../../../img/molot.png), auto;
 }
+
+.modal-backdrop {
+  /*  margin-right: 10px;  */   /*for active scroll bar */
+} 

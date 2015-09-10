@@ -36,7 +36,7 @@
             }));
 
             this.$('.preview').attr('src', this.model.get('avatar'));
-			$('#main').css('position', 'fixed');
+			$('body').css('overflow-y', 'hidden');
             this.setPreviousLogin();
             
             return this;
@@ -128,7 +128,7 @@
                     },
                         wait: true
                 });
-				$('#main').css('position', 'static');
+				$('body').css('overflow-y', 'auto');
            }
         },
 
@@ -171,7 +171,7 @@
 
         changeClassAndCansel: function () {
             $('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');
-			$('#main').css('position', 'static');
+			$('body').css('overflow-y', 'auto');
             setTimeout(function() {
                 cs.mediator.publish('CreateAccountViewClosed');
             }, 400); 

@@ -28,7 +28,7 @@
             }));
 
             this.$('.preview').attr('src', this.model.get('avatar'));
-            $('#main').css('position', 'fixed');
+            $('body').css('overflow-y', 'hidden');
 			
             return this;
         },
@@ -95,7 +95,7 @@
             this.$el.addClass('hidden');
 			cs.mediator.publish('MenuClicked', this.mainroute);
 			$('.menu-item').removeClass('active');
-			$('#main').css('position', 'static');
+			$('body').css('overflow-y', 'auto');
 
             $('body').off();
         },
