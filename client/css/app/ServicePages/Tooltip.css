@@ -65,4 +65,8 @@
 
 .modal-backdrop {
   /*  margin-right: 10px;  */   /*for active scroll bar */
-} 
+}
+
+.gameShow {
+    display: none;
+}  

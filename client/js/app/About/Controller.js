@@ -18,7 +18,7 @@
 			// первый аргумент - функция
 			function dragNdrop() {
 			  	var el = document.getElementById('testim');
-				console.log("el");
+		
                 sortable = Sortable.create(el, {animation: 150 });
 			}
 			setTimeout(dragNdrop, 1000);

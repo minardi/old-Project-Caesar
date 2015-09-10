@@ -4,8 +4,15 @@
     This.GroupCollectionView = Backbone.View.extend({
         tagName: 'div',
         className: 'About',
+		score: 0,
+		gamStart: false,
 
         template: templates.groupCollectionTpl,
+		
+		events: {
+			'dblclick .game': 'play',
+			'dblclick .mouseAdd ': 'playClick'
+		},
        
         initialize: function () {
             this.groupCollection = new This.GroupCollection(this.cleargroupList);
@@ -33,6 +40,52 @@
 
         show: function () {
             this.$el.removeClass('hidden');
-        }
+        },
+		
+		play: function () {
+			var _this = this,
+			    second = 15;
+				
+			this.score = 1;
+			this.gamStart = true;
+			this.$('.gameShow').css('display', 'block');
+			$('.mouseAdd').removeClass('mycoursor');
+			
+			$('.score').text('0');
+			
+			cs.mediator.publish('Play', false);
+			
+			tiktak();
+							
+			function tiktak () {
+			    if(second<=9){
+					second="0" + second;
+				}
+				
+			    $('#timer').text(second);
+			    
+				if(second == '00'){
+				    _this.gamStart = false;
+				    cs.mediator.publish('Play', true);
+					
+				    setTimeout(function () {
+						$('.gameShow').css('display', 'none');
+						$('.animated').removeClass('zoomInDown');
+						$('.mouseAdd').addClass('mycoursor');
+					}, 7000);
+					return false;
+			    }
+			  second--;
+			  setTimeout(tiktak, 1000);
+			}
+			
+		},
+		
+		playClick: function () {
+            if(this.gamStart) {
+				$('.score').text(this.score);
+			    this.score += 1;
+			}
+		}
     });
 })(App.About);
