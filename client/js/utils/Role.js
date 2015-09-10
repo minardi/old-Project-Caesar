@@ -1,6 +1,10 @@
 var User = (function() {
-	var role;
-	(function () {
+	var role,
+	    setRole = 'coordinator';
+		
+	start();
+	
+	function start () {
 	    $.ajax({
 	    type: "GET",
 	    dataType: "json",
@@ -9,14 +13,19 @@ var User = (function() {
 		    role = data;
           }
 	    });	
-	})();
+	};
 	
 return {
 	get: function () {
-		return role;
+		return _.clone(role);
 	},
+	
+	role: function () {
+	   return setRole;	
+	},
+	
 	set: function (attr) {
-		role = attr;
+		setRole = attr;
 	}
 };
 })();

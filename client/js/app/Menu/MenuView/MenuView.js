@@ -4,7 +4,6 @@
         tagName: 'div',
         className: 'col-sm-10 col-sm-offset-1',
         tpl: templates.menuTpl,
-		flag: '/preload',
 
         events: {
             'click .resources': 'showResources',
@@ -17,11 +16,25 @@
 			'click .myChek': 'changeRole',
             'click .userSetting': 'showUserSetting'
         },
+		
+		initialize: function () {
+			var urlR = /[a-zA-Z]+/,
+			    content = window.location.pathname;
+				
+			this.url = content.match(urlR) || ['Events'];
+		},
 
         render: function () {
 			var user = User.get();
 			
             this.$el.html(this.tpl({name : user}));
+			
+			if(this.url[0] === 'Settings' || this.url[0] === 'Accounts') {
+				User.set('admin');
+				var url = '.' + this.url[0].toLowerCase();
+	            this.styleChange('Admin', 'none', 'block', '.menu-item', url);	
+                this.$('.changeRole').addClass('active');
+			}
 
             return this;
         },
@@ -78,29 +91,29 @@
         },
         
 		changeRole: function () {
-			var load = new DataLoaderChange();
+                var role = User.role();
 			
-			if(this.flag === '/load') {
-				this.flag = '/preload';
-				this.$('.changeRole').removeClass('active');
-				this.$('#role').text('Coordinator');
-				$('.forAdmin').css('display', 'block');
-				$('.onlyAdmin').css('display', 'none');
-     			cs.mediator.publish('MenuClicked', '/Events'); //publish to global router
-				this.$('.menu-item').removeClass('active');
-                this.$('.events').addClass('active');
+			if(role === 'admin') {
+				User.set('coordinator');
+                this.styleChange('Coordinator', 'block', 'none', '.menu-item', '.events');				
+			    this.$('.changeRole').removeClass('active'); 
+			    cs.mediator.publish('MenuClicked', '/Events'); //publish to global router
 			} else {
-				this.flag = '/load';
+				User.set('admin'); 
+				this.styleChange('Admin', 'none', 'block', '.menu-item', '.settings');
                 this.$('.changeRole').addClass('active');
-				this.$('#role').text('Admin');
-				$('.forAdmin').css('display', 'none');
-				$('.onlyAdmin').css('display', 'block');
-				cs.mediator.publish('MenuClicked', '/Settings'); //publish to global router
-				this.$('.menu-item').removeClass('active');
-                this.$('.settings').addClass('active');
+			    cs.mediator.publish('MenuClicked', '/Settings'); //publish to global router
 			}
-			
-		    load.loadCollections(main, this.flag);
+		},
+		
+		styleChange: function(role, allSee, adminSee, remCl, adCl) {
+			this.$('.changeRole').removeClass('active');
+			this.$('#role').text(role);
+			this.$('.forAdmin').css('display', allSee);
+			this.$('.onlyAdmin').css('display', adminSee);
+			this.$(remCl).removeClass('active');
+            this.$(adCl).addClass('active');			
+				
 		}
     }); 
 })(App.Menu);

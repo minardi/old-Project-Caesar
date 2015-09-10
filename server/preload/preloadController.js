@@ -45,22 +45,39 @@ function PreloadController (req, res) {
 				       'eventsCollection'
 		    ],
 			byCountry = [ 'holidaysCollection'];
-		
-			collections.accountsCollection = [];
 
-			function selsectByLocation (arr, location) {
+			function selsectByLocation (arr, location, manlocation) {
 				_.each(arr, function (item) {
 					var contributorCollection = [];
 					 _.each(collections[item], function (data) {
-						 if(data[location] == globalMan[req.cookies.clientId][location]) {
+						 if(data[location] == manlocation) {
 							contributorCollection.push(data);
 						 } 
 					})
 					collections[item] = contributorCollection;
 			    })
 			}
-			selsectByLocation(byCity, "locationCity");
-			selsectByLocation(byCountry, "locationCountry");
+			
+			function findCountry (city) {
+				var country;
+				_.each(collections.citiesCollection, function (item) {
+					if(item.id === city) {
+						country = item.location;
+					}
+				})
+				
+				return country;
+			} 
+			
+			
+			var locNumber = globalMan[req.cookies.clientId]['locationCity'];
+			selsectByLocation(byCity, 'locationCity', locNumber);
+			
+			if(globalMan[req.cookies.clientId].role !== "Admin") {
+				var county = findCountry(locNumber);
+			    selsectByLocation(byCountry, 'locationCountry', county);
+				collections.accountsCollection = [];
+			}
 	}
     
     function sendResponse () {
