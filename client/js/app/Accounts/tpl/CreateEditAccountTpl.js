@@ -29,7 +29,7 @@ templates.createAccountTpl = _.template([
 								'<div class="img-preview">',
 									'<span class="glyphicon glyphicon-user">',
 									'</span>',
-									'<img class="preview" src="">',
+									'<img class="preview" src="<%= avatar %>">',
 								'</div>',
 								'<div>',
 									'<button class="load-photo btn btn-default" onclick="this.nextSibling.click()">Select a file</button>',

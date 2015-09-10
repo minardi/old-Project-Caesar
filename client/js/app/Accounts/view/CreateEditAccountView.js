@@ -11,13 +11,15 @@
             'click .generate-pass': 'generatePassword',
             'keyup': 'generateLogin',
             'change #InputLogin': 'returnName',
-            'change .user-avatar': 'getUserAvatar'
+            'change .user-avatar': 'getUserAvatar',
+            'click .returnLogin': 'returnLogin'
         },
 
         initialize: function () {
             this.model = this.model || new This.Account();
             Backbone.Validation.bind(this);
-
+            this.prevLogin = '';
+            
             $('body').on('keypress', this.updateOnEnter.bind(this));
             $('body').on('keydown', this.closeOnEscape.bind(this));
         },
@@ -32,10 +34,10 @@
                 password: this.model.get('password'),
                 city: collections.citiesCollection.get(this.model.get('locationCity')),
                 locationCity: locationCity,
-                role: this.model.get('role')
+                role: this.model.get('role'),
+                avatar: this.model.get('avatar')
             }));
 
-            this.$('.preview').attr('src', this.model.get('avatar'));
 			$('body').css('overflow-y', 'hidden');
             this.setPreviousLogin();
             
@@ -194,25 +196,29 @@
             $('.password-input').val(generatedPassword);
         },
         
+        returnLogin: function () {
+            var $login = this.$('#InputLogin');
+            $login.val(this.prevLogin);
+        },
+        
         setPreviousLogin: function () {
             var $login = this.$('#InputLogin'),
-                login = this.$('#InputLogin').val();
+                login = $login.val();
             
             if (login !== '') {
                 this.prevLogin = login;
-                this.$('.returnLogin').on('click', function () {
-                    $login.val(login);
-                });
             }
         },
         
         generateLogin: function () {
-            var name = $('#InputName').val(),
-                lastName = $('#InputlastName').val().replace('-', '').replace(' ', ''),
+            var $name = $('#InputName'),
+                $lastName = $('#InputlastName'),
+                name = $name.val(),
+                lastName = $lastName.val().replace('-', '').replace(' ', ''),
                 generatedLogin = Generator.generateLogin(name, lastName),
                 uniqueLogin = this.checkForUnique(generatedLogin);
             
-            if ($('#InputName').is(':focus') || $('#InputlastName').is(':focus')) {
+            if ($name.is(':focus') || $lastName.is(':focus')) {
                 $('#InputLogin').val(uniqueLogin);    
             }
         },
@@ -232,14 +238,10 @@
         
         returnName: function () {
             var $login = $('#InputLogin'),
-                login = $login.val(),
-                $returnLogin = $('.returnLogin');
+                login = $login.val();
             
             if (login !== '') {
-                $returnLogin.off();
-                $returnLogin.on('click', function () {
-                    $login.val(login);
-                });
+                this.prevLogin = login;
             }
         }
     });
