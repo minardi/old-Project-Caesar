@@ -4,7 +4,6 @@
 		"name": "IT Academy WEB UI courses New York",
 		"type": 0,
 		"locationCity": 2,
-		"locationCountry": 0,
 	  	"resources": [0, 1, 2]
 	},
 	{
@@ -12,7 +11,6 @@
 		"name": "Project Caesar New York",
 		"type": 1,
 		"locationCity": 2,
-		"locationCountry": 0,
 	  	"resources": [3, 4, 5]
 	},
 	{
@@ -20,7 +18,6 @@
 		"name": "Web Sockets practice New York",
 		"type": 2,
 		"locationCity": 2,
-		"locationCountry": 0,
 	  	"resources": [0, 1, 2]
 	},
 	{
@@ -28,7 +25,6 @@
 		"name": "WEB UI 2nd Demo Kensington",
 		"type": 3,
 		"locationCity": 2,
-		"locationCountry": 0,
 	  	"resources": [3, 4, 5]
 	},
 	{
@@ -36,7 +32,6 @@
 		"name": "Web Sockets practice Kensington",
 		"type": 0,
 		"locationCity": 2,
-		"locationCountry": 0,
 	  	"resources": [3, 4, 5]
 	},
 	{
@@ -44,7 +39,6 @@
 		"name": "WEB UI 2nd Ukraine",
 		"type": 0,
 		"locationCity": 2,
-		"locationCountry": 0,
 	  	"resources": [3, 4, 5]
 	},
 	{
@@ -52,7 +46,6 @@
 		"name": "WEB UI 2nd Ukraine for Ivano-Frankivsk",
 		"type": 0,
 		"locationCity": 3,
-		"locationCountry": 0,
 	  	"resources": []
 	},
 	{
@@ -60,7 +53,6 @@
 		"name": "Project Caesar for Kyiv",
 		"type": 0,
 		"locationCity": 1,
-		"locationCountry": 0,
 	  	"resources": []
 	}
 	

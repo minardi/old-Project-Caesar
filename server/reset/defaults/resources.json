@@ -4,7 +4,6 @@
 		"name": "DP 080 UI",
 		"type": 0,
 		"locationCity": 2,
-		"locationCountry": 0,
 		"dateStart": "01/08/2015",
 		"dateFinish": "03/10/2015",
 		"useInSchedule": true
@@ -14,7 +13,6 @@
 		"name": "703",
 		"type": 1,
 		"locationCity": 2,
-		"locationCountry": 0,
 		"dateStart": "01/08/2015",
 		"dateFinish": "03/10/2015",
 		"useInSchedule": true
@@ -24,7 +22,6 @@
 		"name": "Petin D.",
 		"type": 2,
 		"locationCity": 2,
-		"locationCountry": 0,
 		"dateStart": "01/08/2015",
 		"dateFinish": "03/10/2015",
 		"useInSchedule": true
@@ -34,7 +31,6 @@
 		"name": "DP 076 ATQC",
 		"type": 0,
 		"locationCity": 2,
-		"locationCountry": 0,
 		"dateStart": "01/08/2015",
 		"dateFinish": "03/10/2015",
 		"useInSchedule": true
@@ -44,7 +40,6 @@
 		"name": "714",
 		"type": 1,
 		"locationCity": 2,
-		"locationCountry": 0,
 		"dateStart": "01/08/2015",
 		"dateFinish": "03/10/2015",
 		"useInSchedule": true
@@ -54,7 +49,6 @@
 		"name": "Mister X",
 		"type": 2,
 		"locationCity": 2,
-		"locationCountry": 0,
 		"dateStart": "01/08/2015",
 		"dateFinish": "03/10/2015",
 		"useInSchedule": true
@@ -64,7 +58,6 @@
 		"name": "Mister teacher for Ivano-Frankivsk",
 		"type": 2,
 		"locationCity": 3,
-		"locationCountry": 0,
 		"dateStart": "01/08/2015",
 		"dateFinish": "03/10/2015",
 		"useInSchedule": true
@@ -74,7 +67,6 @@
 		"name": "777 for Kyiv",
 		"type": 1,
 		"locationCity": 1,
-		"locationCountry": 0,
 		"dateStart": "01/08/2015",
 		"dateFinish": "03/10/2015",
 		"useInSchedule": true

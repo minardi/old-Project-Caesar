@@ -73,7 +73,6 @@
                 attributes = {
                     name: $nameValue,
                     type: $typeValue,
-					locationCountry: user.locationCountry,
 					locationCity: user.locationCity,
                     resources: getIdResourcesArray()
                 };

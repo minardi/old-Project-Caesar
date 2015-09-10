@@ -7,7 +7,6 @@ function AccountsModel (newAttributes) {
 			login: '',
 			password: '',
 			locationCity: '',
-			locationCountry: '',
 			role: '',
 			avatar: ''
 		};

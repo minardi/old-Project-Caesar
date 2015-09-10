@@ -51,7 +51,7 @@
             $inputs.each(function() {
               attributes[this.name] = $(this).val();
             });
-            this.setCountry(attributes);
+
             return attributes;
         },
 
@@ -69,19 +69,6 @@
                 that.model.set({'avatar': reader.result});
             };
             reader.readAsDataURL(file[0]);
-        },
-
-        setCountry: function (attributes) {
-            var locationCity,
-                countryId,
-                $city = this.$('#locationCity').val();
-                
-            this.model.set('locationCity', $city);
-            locationCity = collections.citiesCollection.get(this.model.get('locationCity'));
-            if (locationCity !== undefined) {
-                countryId = locationCity.get('location');
-                attributes['locationCountry'] = countryId;
-            }
         },
 
         submit: function () { 
@@ -112,7 +99,6 @@
             var isNewModel = this.model.isNew(),
                 closeView = this.changeClassAndCansel.bind(this),
                 showError = this.showErrorMessage.bind(this),
-                model = this.model,
                 attributes = this.getAttributes();
 
             if (!this.preValidate(attributes)) {

@@ -98,7 +98,6 @@
             attributes = {
                 name: $nameValue,
                 type: $typeValue,
-                locationCountry: user.locationCountry,
                 locationCity: user.locationCity,
 				dateStart: $dateStart,
 				dateFinish: $dateFinish,

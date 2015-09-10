@@ -9,7 +9,6 @@
                 login: '',
                 password: '',
                 locationCity: '',
-                locationCountry: '',
                 role: '',
                 avatar: ''
             }

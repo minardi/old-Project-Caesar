@@ -5,7 +5,6 @@ exports.EventsModel = function (newAttributes) {
 			name: '',
 			type: '',
 			locationCity:'',
-			locationCountry: '',
 			resources: []
 		};
 	

@@ -7,7 +7,6 @@
                 name: '',
                 type: '',
                 locationCity: '',
-                locationCountry: '',
                 resources: []
             }
         },

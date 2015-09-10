@@ -5,7 +5,6 @@
                 'type': '',
                 'name': '',
                 'locationCity': '',
-                'locationCountry': '',
 				'dateStart': '01/01/2015',
 				'dateFinish': '01/02/2015',
                 'useInSchedule': true
