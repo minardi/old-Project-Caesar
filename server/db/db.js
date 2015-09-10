@@ -91,6 +91,17 @@ function DataBase () {
 		});
 	};
 
+	this.findUserByLogin = function (login, cb) {
+		MongoClient.connect(url, function(err, db) {
+			var collection = db.collection('accounts');
+
+			collection.findOne({login: login}, function (err, result) {
+				cb(err, result);
+				db.close();
+			});
+		});
+	};
+
 	this.IsUniqueLogin = function (login, cb) {
 		MongoClient.connect(url, function(err, db) {
 		 	var collection = db.collection('accounts');

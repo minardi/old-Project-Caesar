@@ -36,7 +36,7 @@ templates.userSettingsTpl = _.template([
 							'<div class="row">',
 								'<div class="img-preview">',
 									'<span class="glyphicon glyphicon-user"></span>',
-									'<img class="preview" src="">',
+									'<img class="preview" src="<%= avatar %>">',
 								'</div>',
 								'<div>',
 									'<button class="load-photo btn btn-default load-photo" onclick="this.nextSibling.click()">Select a file</button>',

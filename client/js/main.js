@@ -22,7 +22,7 @@ setUp(collections, ['resouresCollection',
                     ]);
 
 $(function () {
-    var dataLoader = new DataLoader(); 
+    var dataLoader = new DataLoader();
     dataLoader.loadCollections(main);
     
     function main () {

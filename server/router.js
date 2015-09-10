@@ -43,10 +43,18 @@ router.all('/load', function(req, res, next) {
 });
 
 router.get('/name', function(req, res, next) {
-	var json = JSON.stringify(globalMan[req.cookies.clientId]);
-	
-	res.writeHead(200, {"Content-Type": "application/json"});
-    res.end(json);
+    var user = globalMan[req.cookies.clientId],
+        db = new database();
+
+    db.findUserByLogin(user.login, function (err, account) {
+        if (!account) {
+            console.log('Invalid login');
+        } else {
+            res.writeHead(200, {"Content-Type": "application/json"});
+            res.end(JSON.stringify(account));
+        }
+    });
+
 });
 
 

@@ -24,10 +24,10 @@
                 name: this.model.get('name'),
                 lastName: this.model.get('lastName'),
                 login: this.model.get('login'),
-                password: this.model.get('password')
+                password: this.model.get('password'),
+                avatar: this.model.get('avatar')
             }));
 
-            this.$('.preview').attr('src', this.model.get('avatar'));
             $('body').css('overflow-y', 'hidden');
 			
             return this;
@@ -43,7 +43,7 @@
             });
 
 			this.cancel();
-            User.set(this.model.toJSON());
+            User.update();
         },
         
         setAttributes: function () {
@@ -53,7 +53,9 @@
             $inputs = this.$('.accountForm :input');
 
             $inputs.each(function() {
-              attributes[this.name] = $(this).val();
+                if (this.name) {
+                    attributes[this.name] = $(this).val();
+                }
             });
 
             return attributes;

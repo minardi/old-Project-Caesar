@@ -99,7 +99,6 @@
 
         saveAccount: function () {
             var isNewModel = this.model.isNew(),
-                closeView = this.changeClassAndCansel.bind(this),
                 showError = this.showErrorMessage.bind(this),
                 attributes = this.getAttributes();
 
@@ -110,7 +109,6 @@
                             collections.accountsCollection.add(model);   
                             cs.mediator.publish( 'Notice',
                                 isNewModel? 'You succesfully added a new account': 'Information succesfully changed');
-                            closeView();     
                         } else {
                             showError();
                         }
@@ -118,6 +116,7 @@
                         wait: true
                 });
 				$('body').css('overflow-y', 'auto');
+                this.cancel();
            }
         },
 
@@ -181,6 +180,7 @@
 
         updateOnEnter: function (e) {
             if (e.keyCode === ENTER) {
+                e.preventDefault();
                 this.submit();
             }
         },

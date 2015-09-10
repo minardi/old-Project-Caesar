@@ -26,6 +26,11 @@ return {
 	
 	set: function (attr) {
 		setRole = attr;
+	},
+
+	update: function () {
+		start();
 	}
+
 };
 })();
