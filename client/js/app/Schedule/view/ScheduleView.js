@@ -20,7 +20,7 @@
 
 		isAvaliableEvent: function (event) {
 
-			return (event && event.get('locationCountry') === User.get().locationCountry && event.get('locationCity') === User.get().locationCity);
+			return (event && event.get('locationCity') === User.get().locationCity);
 		},
 
 		renderEvents: function () {
@@ -125,7 +125,7 @@
 				conflicts,
 				event,
 				$cell;
-				
+			
 			this.$el.find('.danger').removeClass('danger');
 
 			if (selectedEvent && weekItem) {

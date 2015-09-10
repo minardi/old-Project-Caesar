@@ -123,6 +123,7 @@
 			this.fullView.appendView('conflict',  this.views['conflict'].render().el);
 
 			this.views['clone'].setTableEl(this.$table);
+
 			this.views['clone'].delegateEvents();
 		}, 
 

@@ -3,6 +3,43 @@
 		model: This.Week,
 		url: '/schedule',
 
+		initialize: function () {
+			collections.eventsCollection.on('remove', this.cascadeDeleteEvents);
+		},
+
+		cascadeDeleteEvents: function (event) {
+			var eventId = event.get('id'),
+				weekItem,
+				days;
+
+			if (!_.isEmpty(collections.scheduleCollection)) {
+				collections.scheduleCollection.each(function (week) {
+					if (week) {
+						days = week.get('days');
+						if (!_.isEmpty(days)) {
+							_.each(days, function (timelines, dayNumber) {
+								_.each(timelines, function (eventsId, timeline) {
+									_.each(eventsId, function (id) {
+										if (id === eventId) {
+											weekItem = This.createWeekItem({
+												'startDate': week.get('startDate'),
+												'dayNumber': dayNumber,
+												'timeline': timeline,
+												'eventId': id
+											});
+											collections.scheduleCollection.deleteEvent(weekItem);
+										};
+									});
+								}, this);
+							}, this);
+						};
+					};
+				});
+			};
+
+			cs.mediator.publish('EventDeletedFromCollection');
+		},
+
 		addEvent: function (week) {
 
 			var rightWeek = This.getWeekItemByDate(week.get('startDate')),
@@ -31,13 +68,7 @@
 					}, this);
 				}, this);
 			};
-
-			attributes = {
-				'startDate': String(startDate),
-				'days': rightWeek.get('days')
-			};
-		
-			rightWeek.save(attributes);
+			rightWeek.save();
 		
 		},
 
