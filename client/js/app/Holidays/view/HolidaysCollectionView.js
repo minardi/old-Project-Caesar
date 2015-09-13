@@ -3,6 +3,7 @@
         tagName: 'div',
         className: 'holiday',
         template: templates.holidaysCollectionTpl,
+		filterPressed: 'all',
         itemViews: [],
 
         //methods: renderGrid, startSearch, changePage, show, renderAfterDestroy - are in BaseView
@@ -22,7 +23,7 @@
             this.originCollection = collections.holidaysCollection;
             this.pageSize = 10;
             this.pageIndex = 0;
-            this.listenTo(this.collection, 'add', this.renderGrid);
+            this.listenTo(this.collection, 'add', this.addRender);
             this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
             this.listenTo(collections.countriesCollection, 'all', this.render);
 			this.listenTo(collections.holidaysCollection, 'all', this.render);
@@ -30,12 +31,21 @@
         },
 
         render: function () {
-			var user = User.get();
+			var locStor = localStorage.getItem("countryFilter"),
+			    user = User.get();
+				
             this.$el.empty().append(this.template({
                 counties: collections.countriesCollection.toJSON(),
 				role:  user.role
             }));
-            this.renderGrid();
+            if(!locStor){
+				this.$('.holliday' + this.filterPressed).addClass('active');
+			} else {
+				this.filterPressed = locStor;
+			    this.$('.holliday' + this.filterPressed).addClass('active');
+			}
+
+			this.addRender();
 
             return this;
         },
@@ -52,6 +62,10 @@
 
         filterHandler: function (e) {
             var filter = e.target.classList[0];
+			
+			localStorage.setItem("countryFilter", filter);
+			
+			this.filterPressed = filter;
 
             if (filter === 'all') {
                 this.collection = collections.holidaysCollection;
@@ -63,6 +77,9 @@
                 this.pageIndex = 0;
                 this.renderGrid();
             }
+			
+			$('.countryFilter').removeClass('active');
+			$(e.toElement).addClass('active');
         },
 
         sortByLocation: function () {
@@ -87,6 +104,22 @@
             if (e.keyCode === ENTER) {
                 e.preventDefault();
             }
-        }
+        },
+		
+		addRender: function () {
+			if (this.filterPressed === 'all') {
+				this.collection = collections.holidaysCollection;
+				this.pageIndex = 0;
+				this.renderGrid();
+			} else {
+				this.collection = this.originCollection.filterByCountry(this.filterPressed);
+
+				this.pageIndex = 0;
+				this.renderGrid();
+			}
+			
+			$('.countryFilter').removeClass('active');
+		    $('.holliday' + this.filterPressed).addClass('active');			
+		}
     });
 })(App.Holidays);
