@@ -106,7 +106,6 @@
 .eventsAndDownload, .weekMode, .scroll {
 	float: left;
 	width: 250px;
-	margin: 10px;
 }
 
 .conflict {
