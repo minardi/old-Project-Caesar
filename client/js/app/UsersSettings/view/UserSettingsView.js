@@ -98,7 +98,8 @@
 			cs.mediator.publish('MenuClicked', this.mainroute);
 			$('.menu-item').removeClass('active');
 			$('body').css('overflow-y', 'auto');
-
+            
+            cs.mediator.remove('ReturnRout');
             $('body').off();
         },
 
