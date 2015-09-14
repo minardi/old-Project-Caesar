@@ -1,0 +1,40 @@
+(function (This) {
+    This.EventsForEditView = App.BaseView.extend({
+        className: 'modal fade in',
+        tpl: templates.eventsForEditTpl,
+        itemViews: [],
+
+        events: {
+            'click .cancel': 'cancel'
+        },
+
+        initialize: function () {
+            this.pageSize = 10;
+            this.pageIndex = 0;
+            $('body').on('keydown', this.closeOnEscape.bind(this));
+        },
+
+        render: function () {
+            this.$el.append(this.tpl());
+            this.renderGrid();
+            return this;
+        },
+
+        renderOne: function (model) {
+            var itemView = new This.EventItemView({model: model});
+            this.$('.event-list').append(itemView.render().$el);
+            this.itemViews.push(itemView);
+        },
+
+        cancel: function () {
+            cs.mediator.publish('EventsForEditViewClosed'); //publish to Controller
+            $('body').off();
+        },
+
+        closeOnEscape: function (e) {
+            if (e.keyCode === ESC) {
+                this.cancel();
+            }
+        }
+    });
+})(App.Resources);

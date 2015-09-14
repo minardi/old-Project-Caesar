@@ -13,22 +13,7 @@
         initialize: function () {
             this.listenTo(this.model, 'change', this.render); 
         },
-    
-        openEdit: function () {
-            cs.mediator.publish('EditResource', this.model);
-        },
 
-        confirmDelete: function () {
-            var message = 'Are you sure to delete "' + this.model.get('name') + '" resource?';
-            cs.mediator.publish('Confirm', message, this.delete.bind(this));
-        },
-        
-        delete: function () {
-            this.model.destroy();
-            this.remove();
-            cs.mediator.publish('Notice', 'Resource was succesfully deleted'); //publish to Messenger's Controller
-        },
-    
         render: function () {
             var resourceType = collections.resourceTypes.get(this.model.get('type')),
                 resourceTypeName = resourceType.get('name');
@@ -38,6 +23,34 @@
                 useInSchedule: this.model.get('useInSchedule')
             }));
             return this;
+        },
+    
+        openEdit: function () {
+            cs.mediator.publish('EditResource', this.model);
+        },
+
+        confirmDelete: function () {
+            var message = 'Are you sure to delete "' + this.model.get('name') + '" resource?',
+                that = this,
+                filtered;
+
+            filtered = collections.eventsCollection.filter(function (event) {
+                return event.get('resources').indexOf(that.model.get('id')) !== -1;
+            });
+
+            if(!filtered.length){
+                cs.mediator.publish('Confirm', message, this.delete.bind(this));   //publish to Messenger controller
+            } else {
+                filtered = new App.Events.EventCollection(filtered);
+                cs.mediator.publish('ShowResourceUsage', filtered);   //publish to Events controller
+            }
+
+        },
+        
+        delete: function () {
+            this.model.destroy();
+            this.remove();
+            cs.mediator.publish('Notice', 'Resource was succesfully deleted'); //publish to Messenger's Controller
         }
     });
 })(App.Resources);

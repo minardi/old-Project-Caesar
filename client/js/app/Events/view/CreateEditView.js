@@ -135,6 +135,8 @@
 			   cs.mediator.publish('CreateEditViewClosed');
 			}, 400);
 
+            this.remove();
+
             $('body').off();
 		},
 
