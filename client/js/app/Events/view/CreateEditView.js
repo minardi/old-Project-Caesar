@@ -44,6 +44,7 @@
              $('body').css('overflow-y', 'hidden');
 			
             this.setTabIndex();
+            this.setUpPreviousName();
             
             return this;
         },
@@ -170,11 +171,25 @@
             }
         },
         
+        setUpPreviousName: function () {
+            var name = this.$('.name').val();
+            
+            if (name !== '') {
+                this.prevName = name;
+                this.isChanged = true;
+            }
+        },
+        
         generateEventName: function (_resource) {
             var $name = $('.name'),
                 resource = _resource.toJSON();
             
             if (resource.type === 0) {
+                if (this.isChanged) {
+                    $name.val('');
+                    this.isChanged = false;
+                }
+                
                 if ($name.val() === '') {
                     $name.val(resource.name);    
                 } else {
@@ -214,14 +229,16 @@
             if (name !== '') {
                 this.prevName = name;
             }
+            this.isChanged = true;
         },
         
         returnName: function () {
             var $name = $('.name'),
                 name = $name.val();
             
-            if (name !== '') {
-                $name.val(this.prevName);    
+            if (this.prevName !== '') {
+                $name.val(this.prevName);
+                this.isChanged = true;
             }
         },
         

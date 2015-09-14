@@ -15,7 +15,7 @@ templates.editEventTpl = _.template([
 				'<div class="form-group"  data-name="type">',
 					'<label>Type:</label>',
 					'<select size="1" class="type form-control listbox editType tabIndex" name="type">',
-						'<option></option>',
+						'<option disabled selected>Select type</option>',
 						'<%_.each(eventTypes, function (type) {%>',
 							'<% if (type.id === typeId) { %>',
 								'<option selected value="<%= type.id %>">',
