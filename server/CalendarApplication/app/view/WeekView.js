@@ -62,9 +62,11 @@
                     var time = timeline;
                     _.each(events, function (event) {
                         _.each(eventsWithResources, function (eventWithResource) {
-                            if (events == eventWithResource.id) {
-                                eventsForWeek[day][time] = events;
-                            }
+                            _.each(events, function (eventId) {
+                                if (eventId == eventWithResource.id) {
+                                    eventsForWeek[day][time] = eventId;
+                                }
+                            });
                         }, this);     
                     }, this);  
                 }, this);
