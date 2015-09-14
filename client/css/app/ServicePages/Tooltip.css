@@ -69,4 +69,7 @@
 
 .gameShow {
     display: none;
+	font-size: 18px;
+	font-weight: bolder;
+	margin-top: 11px;
 }  

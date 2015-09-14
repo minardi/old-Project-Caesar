@@ -20,6 +20,10 @@
 			cs.mediator.publish('MenuClicked', '/Events'); //publish to global router
 			$('.menu-item').removeClass('active');
 			$('.events').addClass('active');
+			$('.forAdmin').css('display', 'block');
+			$('.onlyAdmin').css('display', ' none ');
+			$('#role').text('Coordinator');
+			 User.set('coordinator');
 			
 			setTimeout(function () {
 			    $('#logo').removeClass('flip');

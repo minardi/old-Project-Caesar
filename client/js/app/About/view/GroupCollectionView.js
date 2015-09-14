@@ -69,10 +69,13 @@
 				    cs.mediator.publish('Play', true);
 					
 				    setTimeout(function () {
-						$('.gameShow').css('display', 'none');
+						$('.gameShow').css({'display': 'none', 'color': 'black'});
 						$('.animated').removeClass('zoomInDown');
 						$('.mouseAdd').addClass('mycoursor');
 					}, 7000);
+					
+					$('.gameShow').css('color', 'red');
+					
 					return false;
 			    }
 			  second--;
