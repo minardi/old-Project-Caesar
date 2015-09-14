@@ -121,10 +121,10 @@
         },
 
 		cancel: function () {
-            if(this.model.isNew()){
+            if (this.model.isNew()){
                 this.model.destroy();
             }
-			
+			cs.mediator.remove('resourceAddedToEvent');
 			this.changeClassAndCansel();
         },
 		
