@@ -13,7 +13,7 @@
 		},
 
 		download: function () {
-            $('<form action="/download" method="get"></form>')
+            $('<form action="/download" method="get"><input type="hiden" name="location" value="' + User.get().locationCity + '"></form>')
             .appendTo('body').submit().remove();
 		},
 
