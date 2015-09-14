@@ -65,7 +65,7 @@ var WeekPreView = Backbone.View.extend({
         
         _.each(resourcesCollection, function (resource) {
             _.each(resourcesId, function (id) {
-                if (id === resource.id) {
+                if (id === resource.id && resource.useInSchedule) {
                     weekResources.push(resource);
                 }
             });
