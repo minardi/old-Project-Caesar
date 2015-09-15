@@ -103,6 +103,7 @@
 				User.set('coordinator');
 				this.role = 'coordinator';
 				localStorage.setItem("manRole", this.role);
+				localStorage.setItem("countryFilter", 'all');
                 this.styleChange('Coordinator', 'block', 'none', '.menu-item', '.events');				
 			    this.$('.changeRole').removeClass('active'); 
 			    cs.mediator.publish('MenuClicked', '/Events'); //publish to global router

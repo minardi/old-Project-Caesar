@@ -25,6 +25,7 @@
 			$('#role').text('Coordinator');
 			User.set('coordinator');
 			localStorage.setItem("manRole", 'coordinator');
+			localStorage.setItem("countryFilter", 'all');
 			
 			setTimeout(function () {
 				$('#logo').removeClass('flip');
