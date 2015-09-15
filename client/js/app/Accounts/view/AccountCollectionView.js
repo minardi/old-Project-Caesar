@@ -19,6 +19,7 @@
             this.loginFlag = 'ASC';
             this.locationFlag = 'ASC';
             this.collection = collections.accountsCollection;
+            this.settingsCollection = collections.citiesCollection;
             this.listenTo(this.collection, 'add', this.renderGrid);
 			this.listenTo(collections.accountsCollection, 'all', this.render);
 			$('body').one('keypress', this.updateOnEnter.bind(this));
@@ -68,7 +69,7 @@
                 sortingAttribute = 'locationCity',
                 $el = this.$('.location-header');
 
-            this.sortFunction(flag, sortingAttribute, $el);
+            this.sortById(flag, sortingAttribute, $el);
             this.renderGrid();
         },
 		

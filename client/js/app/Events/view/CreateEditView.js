@@ -33,7 +33,6 @@
 
         render: function () {
             var eventTypes = collections.eventTypes.toJSON();
-
             this.$el.append(this.template({
                 name: this.model.get('name'),
                 typeId: this.model.get('type'),
@@ -84,7 +83,7 @@
 				
                 cs.mediator.publish( //publish to Messenger's Controller
                     'Notice',
-                    this.isNewModel? 'You succesfully added a new event': 'Information succesfully changed'
+                    isNewModel? 'You succesfully added a new event': 'Information succesfully changed'
                 );
 				$('.shortInfo').removeClass('warning');
 			    $('.toshow').addClass('hidden');
@@ -129,7 +128,7 @@
         },
 		
 		changeClassAndCansel: function () {
-			$('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');
+            $('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');
 			setTimeout(function() {
 			   $('body').css('overflow-y', 'auto');
 			   cs.mediator.publish('CreateEditViewClosed');

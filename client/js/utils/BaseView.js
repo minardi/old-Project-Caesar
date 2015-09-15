@@ -73,12 +73,54 @@ App.BaseView = Backbone.View.extend({
         e.preventDefault();
     },
 
-    sortByType: function () {
-        var flag = 'typeFlag',
-            sortingAttribute = 'type',
-            $el = this.$('.type-header');
+    sortById: function (flag, field, $el) {
+        var that = this;
 
-        this.sortFunction(flag, sortingAttribute, $el);
+        if (this[flag] === 'ASC') {
+            this.collection.comparator = function (a, b) {
+                var firstValue = that.settingsCollection.getNameById(a.get(field)),
+                    secondValue = that.settingsCollection.getNameById(b.get(field)),
+                    result;
+
+                if (firstValue < secondValue) {
+                    result = -1;
+                } else if (firstValue > secondValue) {
+                    result = 1;
+                } else {
+                    return a.get('name').toLowerCase() < b.get('name').toLowerCase() ? -1 : 1;
+                }
+
+                return result;
+            };
+
+            this[flag] = 'DESC';
+            this.$('.sort-flag').removeClass('glyphicon-triangle-top').removeClass('glyphicon-triangle-bottom');
+            $el.find('.sort-flag').addClass('glyphicon-triangle-bottom');
+        } else {
+            this.collection.comparator = function (a, b) {
+                var firstValue = that.settingsCollection.getNameById(a.get(field)),
+                    secondValue = that.settingsCollection.getNameById(b.get(field)),
+                    result;
+
+                if (firstValue > secondValue) {
+                    result = -1;
+                } else if (firstValue < secondValue) {
+                    result = 1;
+                }else {
+                    return a.get('name').toLowerCase() < b.get('name').toLowerCase() ? -1 : 1;
+                }
+
+                return result;
+            };
+
+            this[flag] = 'ASC';
+            this.$('.sort-flag').removeClass('glyphicon-triangle-top').removeClass('glyphicon-triangle-bottom');
+            $el.find('.sort-flag').addClass('glyphicon-triangle-top');
+        }
+
+        this.collection.sort({silent: true});
+
+
         this.renderGrid();
     },
 

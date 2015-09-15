@@ -8,7 +8,9 @@
             'click .cancel': 'cancel'
         },
 
-        initialize: function () {
+        initialize: function (options) {
+            this.resourceModel = options.model;
+            this.collection = collections.eventsCollection.filterByResource(this.resourceModel.get('id'));
             this.pageSize = 10;
             this.pageIndex = 0;
             $('body').on('keydown', this.closeOnEscape.bind(this));
@@ -24,6 +26,12 @@
             var itemView = new This.EventItemView({model: model});
             this.$('.event-list').append(itemView.render().$el);
             this.itemViews.push(itemView);
+        },
+
+        show: function () {
+            this.collection = collections.eventsCollection.filterByResource(this.resourceModel.get('id'));
+           // this.renderGrid();
+            this.$el.removeClass('hidden');
         },
 
         cancel: function () {

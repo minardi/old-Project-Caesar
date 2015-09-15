@@ -31,18 +31,12 @@
 
         confirmDelete: function () {
             var message = 'Are you sure to delete "' + this.model.get('name') + '" resource?',
-                that = this,
-                filtered;
-
-            filtered = collections.eventsCollection.filter(function (event) {
-                return event.get('resources').indexOf(that.model.get('id')) !== -1;
-            });
+                filtered = collections.eventsCollection.filterByResource(this.model.get('id'));
 
             if(!filtered.length){
                 cs.mediator.publish('Confirm', message, this.delete.bind(this));   //publish to Messenger controller
             } else {
-                filtered = new App.Events.EventCollection(filtered);
-                cs.mediator.publish('ShowResourceUsage', filtered);   //publish to Events controller
+                cs.mediator.publish('ShowResourceUsage', this.model);   //publish to Events controller
             }
 
         },
