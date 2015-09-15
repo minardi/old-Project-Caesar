@@ -10,7 +10,7 @@
 		events: {
             'click .add': 'add',
             'click .name-header': 'sortByName',   //in BaseView
-            'click .type-header': 'sortByType',   //in BaseView
+            'click .type-header': 'sortByType',
 			'click .fullEventClose': 'fullEveClose',
 			'keydown': 'closeOnEscape',
             'click .pageEl': 'changePage',        //in BaseView
@@ -21,6 +21,7 @@
         initialize: function () {
             this.collection = collections.eventsCollection;
             this.originCollection = collections.eventsCollection;
+            this.settingsCollection = collections.eventTypes;
             this.pageSize = 10;
             this.pageIndex = 0;
             this.nameFlag = 'DESC';
@@ -29,7 +30,6 @@
             this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
 			this.listenTo(collections.eventsCollection, 'add', this.renderGrid);
 			$(document).on('keydown', this.closeOnEscape.bind(this));
-			$('body').one('keypress', this.updateOnEnter.bind(this));
         },
 
         render: function () {
@@ -63,11 +63,14 @@
 			$('.toshowfirst').switchClass('col-md-8', 'col-md-12', 1000);
 			$('.shortInfo').removeClass('warning');
 		},
-		
-		updateOnEnter: function (e) {
-            if (e.keyCode === ENTER) {
-                e.preventDefault();
-            }
+
+        sortByType: function () {
+            var flag = 'typeFlag',
+                field = 'type',
+                $el = this.$('.type-header');
+
+            this.sortById(flag, field, $el);
+
         }
     });
 })(App.Events);

@@ -8,16 +8,17 @@
         //methods: renderGrid, startSearch, changePage, show, renderAfterDestroy, sortByName - are in the BaseView
         events: {
             'click .create': 'create',
-            'click .pageEl': 'changePage',
-            'click .name-header': 'sortByName',
+            'click .pageEl': 'changePage',          // in BaseView
+            'click .name-header': 'sortByName',     // in BaseView
             'click .type-header': 'sortByType',
-            'keyup .searchField': 'startSearch',
+            'keyup .searchField': 'startSearch',    // in BaseView
 			'keypress': 'updateOnEnter'
         },
     
         initialize: function () {
             this.collection = collections.resouresCollection;
             this.originCollection = collections.resouresCollection;
+            this.settingsCollection = collections.resourceTypes;
             this.pageSize = 10;
             this.pageIndex = 0;
             this.nameFlag = 'DESC';
@@ -44,6 +45,15 @@
 
         create: function () {
             cs.mediator.publish('CreateResource'); //publish to Controller
+        },
+
+        sortByType: function () {
+            var flag = 'typeFlag',
+                field = 'type',
+                $el = this.$('.type-header');
+
+            this.sortById(flag, field, $el);
+
         },
         
         sorting: function () {

@@ -1,4 +1,3 @@
-'use strict';
 templates.eventTpl = _.template([
     '<td class="fullInfo"><%= name %></td>',
 	'<td><%= type %></td> ',

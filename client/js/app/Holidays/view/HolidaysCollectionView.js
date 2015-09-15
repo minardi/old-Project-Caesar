@@ -21,6 +21,7 @@
         initialize: function () {
             this.collection = collections.holidaysCollection;
             this.originCollection = collections.holidaysCollection;
+            this.settingsCollection = collections.countriesCollection;
             this.pageSize = 10;
             this.pageIndex = 0;
             this.listenTo(this.collection, 'add', this.addRender);
@@ -120,7 +121,7 @@
                 sortingAttribute = 'locationCountry',
                 $el = this.$('.location-header');
 
-            this.sortFunction(flag, sortingAttribute, $el);
+            this.sortById(flag, sortingAttribute, $el);
             this.renderGrid();
         },
 

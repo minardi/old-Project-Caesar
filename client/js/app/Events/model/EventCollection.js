@@ -16,6 +16,16 @@
             });
 
             return new This.EventCollection(filteredArray);
+        },
+
+        filterByResource: function (resourceID) {
+            var filtered;
+
+            filtered = this.filter(function (event) {
+                return event.get('resources').indexOf(resourceID) !== -1;
+            });
+
+            return new This.EventCollection(filtered);
         }
     });
 
