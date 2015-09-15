@@ -60,6 +60,7 @@ function PreloadController (req, res) {
 			
 			function findCountry (city) {
 				var country;
+
 				_.each(collections.citiesCollection, function (item) {
 					if(item.id === city) {
 						country = item.location;

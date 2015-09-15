@@ -4,6 +4,7 @@
         tagName: 'div',
         className: 'col-sm-10 col-sm-offset-1',
         tpl: templates.menuTpl,
+		role: 'coordinator',
 
         events: {
             'click .resources': 'showResources',
@@ -25,12 +26,16 @@
 		},
 
         render: function () {
+			var manRole = localStorage.getItem("manRole");
+			
+			User.set(manRole);
+			
 			var user = User.get();
+	        this.role = manRole;
 			
             this.$el.html(this.tpl({name : user}));
 			
-			if(this.url[0] === 'Settings' || this.url[0] === 'Accounts') {
-				User.set('admin');
+			if(manRole === 'admin') {
 				var url = '.' + this.url[0].toLowerCase();
 	            this.styleChange('Admin', 'none', 'block', '.menu-item', url);	
                 this.$('.changeRole').addClass('active');
@@ -78,6 +83,7 @@
 
         showHolidays: function () {
             cs.mediator.publish('MenuClicked', '/Holidays'); //publish to global router
+			cs.mediator.publish('RenderHollidays'); //publish to holidaysCollection	
             this.$('.menu-item').removeClass('active');
             this.$('.holidays').addClass('active');
         },
@@ -91,15 +97,20 @@
         },
         
 		changeRole: function () {
-                var role = User.role();
-			
+			var role = User.role();	
+            		
 			if(role === 'admin') {
 				User.set('coordinator');
+				this.role = 'coordinator';
+				localStorage.setItem("manRole", this.role);
                 this.styleChange('Coordinator', 'block', 'none', '.menu-item', '.events');				
 			    this.$('.changeRole').removeClass('active'); 
 			    cs.mediator.publish('MenuClicked', '/Events'); //publish to global router
+			    
 			} else {
 				User.set('admin'); 
+				this.role = 'admin';
+				localStorage.setItem("manRole", this.role);
 				this.styleChange('Admin', 'none', 'block', '.menu-item', '.settings');
                 this.$('.changeRole').addClass('active');
 			    cs.mediator.publish('MenuClicked', '/Settings'); //publish to global router

@@ -57,7 +57,7 @@
             var locationCountry = collections.countriesCollection.get(this.model.get('locationCountry')),
 			    citiesCollection = collections.citiesCollection,
                 countryName = locationCountry.get('countryName'),
-				roleAdmina = $('#role').text(),
+				roleAdmina = localStorage.getItem("manRole"),
 				skip = this.model.skipped();
 
             this.$el.html(this.template({
@@ -69,7 +69,7 @@
 				locationCities: citiesCollection
             }));
 			
-			if(roleAdmina === 'Admin') {
+			if(roleAdmina === 'admin') {
 			    if(this.model.get('isActive').length > 0) {
 					this.$('.isActive').removeClass('glyphicon-thumbs-up').addClass('glyphicon-thumbs-down');
 				    this.$el.addClass("warning");
@@ -83,7 +83,11 @@
         },
 		
 		showTooltip: function () {
-			this.$('.holidayTooltip').addClass('displayH');
+			var manrole = localStorage.getItem("manRole");
+			if(manrole === 'admin'){
+				this.$('.holidayTooltip').addClass('displayH');
+			}
+			
 		},
 		
 		hideTooltip: function () {

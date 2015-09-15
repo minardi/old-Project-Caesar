@@ -9,3 +9,7 @@
 .displayH {
     display: block;
 }
+
+.buttonHide  {
+    display: none;
+}

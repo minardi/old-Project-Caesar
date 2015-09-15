@@ -14,8 +14,8 @@ templates.holidaysModelHomepageTpl = _.template([
 	'<%}%>',
     '<td class="col-lg-1">',
         '<% if(role === "Admin"){%>',
-            '<i class="glyphicon glyphicon-edit customGlyphBtn"></i>',
-            '<i class="glyphicon glyphicon-trash customGlyphBtn"></i>',
+            '<i class="glyphicon glyphicon-edit customGlyphBtn hollidaysHide"></i>',
+            '<i class="glyphicon glyphicon-trash customGlyphBtn hollidaysHide"></i>',
         '<%}%>',
         '<i class="glyphicon glyphicon-thumbs-up isActive customGlyphBtn"></i>',
 	'</td>'

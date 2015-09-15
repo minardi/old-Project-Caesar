@@ -34,8 +34,20 @@
 			var country = this.get('locationCountry'),
 			    location = User.get(),
 			    skip = true;
-			    
-			if(location.locationCountry !== country) {
+				
+			function findCountry (city) {
+				var country;
+				collections.citiesCollection.each(function (num) {
+					if(num.get('id') === city) {
+						country = num.get('location');
+					}
+				})
+				
+				return country;
+			}
+
+            var locationCountry = findCountry(location.locationCity)			
+			if(locationCountry !== country) {
 					skip = false;
 			}
 			

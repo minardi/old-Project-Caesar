@@ -14,20 +14,21 @@
             $menu.append(menuView.render().$el);
         }
 		
-		var logo = document.getElementById("logo");
-		logo.addEventListener('click', function () {	 
+		$('#logo').click(function () {	 
 			$('#logo').addClass('flip');
 			cs.mediator.publish('MenuClicked', '/Events'); //publish to global router
+			cs.mediator.publish('RenderHollidays'); //publish to holidaysCollection		
 			$('.menu-item').removeClass('active');
 			$('.events').addClass('active');
 			$('.forAdmin').css('display', 'block');
 			$('.onlyAdmin').css('display', ' none ');
 			$('#role').text('Coordinator');
-			 User.set('coordinator');
+			User.set('coordinator');
+			localStorage.setItem("manRole", 'coordinator');
 			
 			setTimeout(function () {
-			    $('#logo').removeClass('flip');
+				$('#logo').removeClass('flip');
 			} ,1100)
-		},false);
+		});
     }
 })(App.Menu);

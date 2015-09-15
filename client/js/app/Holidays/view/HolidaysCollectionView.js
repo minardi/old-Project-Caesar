@@ -28,16 +28,18 @@
             this.listenTo(collections.countriesCollection, 'all', this.render);
 			this.listenTo(collections.holidaysCollection, 'all', this.render);
 			$('body').one('keypress', this.updateOnEnter.bind(this));
+            cs.mediator.subscribe('RenderHollidays', this.renderAfterChangeRole, null, this);
         },
 
         render: function () {
 			var locStor = localStorage.getItem("countryFilter"),
-			    user = User.get();
-				
+			    user = User.get();			
+			
             this.$el.empty().append(this.template({
-                counties: collections.countriesCollection.toJSON(),
-				role:  user.role
+				counties: collections.countriesCollection.toJSON(),
+                role:  user.role
             }));
+			
             if(!locStor){
 				this.$('.holliday' + this.filterPressed).addClass('active');
 			} else {
@@ -46,14 +48,45 @@
 			}
 
 			this.addRender();
+			
+			var manRole = localStorage.getItem("manRole");
+			
+			this.$('.countryFilter').addClass('buttonHide');
+			this.$('.hollidaysHide').addClass('buttonHide');
+			
+			if(manRole === 'admin') {
+				this.$('.countryFilter').removeClass('buttonHide');
+				this.$('.hollidaysHide').removeClass('buttonHide');
+			} else {
+				this.$('.countryFilter').addClass('buttonHide');
+				this.$('.hollidaysHide').addClass('buttonHide');
+			} 
 
             return this;
         },
 
         renderOne: function (model) {
-            var view = new This.HolidaysModelHomepageView({model: model});
-            this.$('.holidays-list').append(view.render().el);
-            this.itemViews.push(view);
+			var manRole = localStorage.getItem("manRole");
+			var skip = model.skippedByLocation();
+			
+			if(manRole === 'admin') {
+				skip = true;
+			}
+			
+			if(skip){
+				var view = new This.HolidaysModelHomepageView({model: model});
+				this.$('.holidays-list').append(view.render().el);
+				this.itemViews.push(view);
+			}
+			
+			if(manRole === 'admin') {
+				$('.countryFilter').removeClass('buttonHide');
+				$('.hollidaysHide').removeClass('buttonHide');
+			} else {
+				$('.countryFilter').addClass('buttonHide');
+				$('.hollidaysHide').addClass('buttonHide');
+			} 
+           
         },
 
         create: function () {
@@ -120,6 +153,11 @@
 			
 			$('.countryFilter').removeClass('active');
 		    $('.holliday' + this.filterPressed).addClass('active');			
+		},
+		
+		renderAfterChangeRole: function  () {
+			this.render();
 		}
+		
     });
 })(App.Holidays);
