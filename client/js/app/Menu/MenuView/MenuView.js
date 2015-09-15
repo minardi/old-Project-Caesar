@@ -26,10 +26,9 @@
 		},
 
         render: function () {
-			var manRole = localStorage.getItem("manRole");
-			
+            var manRole = localStorage.getItem("manRole");
 			User.set(manRole);
-			
+
 			var user = User.get();
 	        this.role = manRole;
 			
@@ -37,7 +36,7 @@
 			
 			if(manRole === 'admin') {
 				var url = '.' + this.url[0].toLowerCase();
-	            this.styleChange('Admin', 'none', 'block', '.menu-item', url);	
+	            this.styleChange('Admin', 'none', 'block', '.menu-item', url);
                 this.$('.changeRole').addClass('active');
 			}
 

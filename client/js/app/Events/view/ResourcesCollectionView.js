@@ -13,7 +13,7 @@
         initialize: function (options) {
             this.collection = collections.resouresCollection.clone();
             this.eventModel = options.model;
-            this.usedResources = this.eventModel.get('resources'); // array of id resources in current event
+            this.usedResources = _.clone(this.eventModel.get('resources')); // array of id resources in current event
             cs.mediator.subscribe('resourceAddedToEvent', this.addToUsed, null,  this);
             this.pageSize = 5;
             this.pageIndex = 0;

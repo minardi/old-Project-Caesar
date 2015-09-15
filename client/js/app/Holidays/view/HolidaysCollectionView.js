@@ -24,7 +24,7 @@
             this.settingsCollection = collections.countriesCollection;
             this.pageSize = 10;
             this.pageIndex = 0;
-            this.listenTo(this.collection, 'add', this.addRender);
+            this.listenTo(this.collection, 'add', this.renderGrid);
             this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
             this.listenTo(collections.countriesCollection, 'all', this.render);
 			this.listenTo(collections.holidaysCollection, 'all', this.render);
@@ -34,6 +34,7 @@
 
         render: function () {
 			var locStor = localStorage.getItem("countryFilter"),
+                manRole = localStorage.getItem("manRole"),
 			    user = User.get();			
 			
             this.$el.empty().append(this.template({
@@ -48,9 +49,7 @@
 			    this.$('.holliday' + this.filterPressed).addClass('active');
 			}
 
-			this.addRender();
-			
-			var manRole = localStorage.getItem("manRole");
+            this.renderAfterChangeRole();
 			
 			this.$('.countryFilter').addClass('buttonHide');
 			this.$('.hollidaysHide').addClass('buttonHide');
@@ -69,16 +68,15 @@
         renderOne: function (model) {
 			var manRole = localStorage.getItem("manRole");
 			var skip = model.skippedByLocation();
-			
+
 			if(manRole === 'admin') {
 				skip = true;
 			}
-			
-			if(skip){
+
 				var view = new This.HolidaysModelHomepageView({model: model});
 				this.$('.holidays-list').append(view.render().el);
 				this.itemViews.push(view);
-			}
+
 			
 			if(manRole === 'admin') {
 				$('.countryFilter').removeClass('buttonHide');
@@ -140,24 +138,32 @@
             }
         },
 		
-		addRender: function () {
-			if (this.filterPressed === 'all') {
-				this.collection = collections.holidaysCollection;
-				this.pageIndex = 0;
-				this.renderGrid();
-			} else {
-				this.collection = this.originCollection.filterByCountry(this.filterPressed);
-
-				this.pageIndex = 0;
-				this.renderGrid();
-			}
-			
-			$('.countryFilter').removeClass('active');
-		    $('.holliday' + this.filterPressed).addClass('active');			
-		},
-		
 		renderAfterChangeRole: function  () {
-			this.render();
+            var manRole = localStorage.getItem("manRole"),
+                countryFilter = localStorage.getItem("countryFilter"),
+                locationCity = User.get().locationCity;
+
+                function findCountry (city) {
+                var country;
+                collections.citiesCollection.each(function (num) {
+                    if(num.get('id') === city) {
+                        country = num.get('location');
+                    }
+                });
+
+                return country;
+            }
+
+            if(manRole !== 'admin') {
+                this.collection = this.originCollection.filterByCountry(findCountry(locationCity));
+            } else {
+                if(countryFilter === 'all') {
+                    this.collection = this.originCollection;
+                } else {
+                    this.collection = this.originCollection.filterByCountry(countryFilter);
+                }
+            }
+			this.renderGrid();
 		}
 		
     });

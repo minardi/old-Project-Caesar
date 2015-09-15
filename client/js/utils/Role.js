@@ -10,10 +10,13 @@ var User = (function() {
 	    dataType: "json",
 	    url: "/name",
 	    success: function(data){
-		    role = data;
+			role = data;
+			if(role.role === 'Coordinator'){
+				localStorage.setItem('manRole', 'coordinator');
+			}
           }
 	    });	
-	};
+	}
 	
 return {
 	get: function () {

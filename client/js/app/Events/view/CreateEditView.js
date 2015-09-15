@@ -28,7 +28,7 @@
 			$('body').on('keydown', this.closeOnEscape.bind(this));
 
             cs.mediator.subscribe('resourceAddedToEvent', this.addResourceIdToEvent, null, this);
-            cs.mediator.subscribe('resourceAddedToEvent', this.generateEventName, null, this);
+            //cs.mediator.subscribe('resourceAddedToEvent', this.generateEventName, null, this);
         },
 
         render: function () {
