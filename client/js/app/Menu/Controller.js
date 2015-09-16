@@ -23,6 +23,8 @@
 			$('.forAdmin').css('display', 'block');
 			$('.onlyAdmin').css('display', ' none ');
 			$('#role').text('Coordinator');
+			$('.countryFilter').removeClass('active');
+			$('.hollidayall').addClass('active');
 			User.set('coordinator');
 			localStorage.setItem("manRole", 'coordinator');
 			localStorage.setItem("countryFilter", 'all');

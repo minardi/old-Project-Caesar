@@ -106,6 +106,8 @@
                 this.styleChange('Coordinator', 'block', 'none', '.menu-item', '.events');				
 			    this.$('.changeRole').removeClass('active'); 
 			    cs.mediator.publish('MenuClicked', '/Events'); //publish to global router
+				$('.countryFilter').removeClass('active');
+				$('.hollidayall').addClass('active');
 			    
 			} else {
 				User.set('admin'); 
