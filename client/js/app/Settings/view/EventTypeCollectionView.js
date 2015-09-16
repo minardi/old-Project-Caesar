@@ -104,6 +104,5 @@
         validateName: function (value) {
             return validateNameField(value, collections.eventTypes.toJSON());
         }
-
     });
 })(App.Settings);

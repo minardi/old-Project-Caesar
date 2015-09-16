@@ -26,6 +26,7 @@
             this.listenTo(this.collection, 'add', this.render);
             this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
             this.listenTo(collections.resouresCollection, 'add', this.render);
+            cs.mediator.subscribe('FindRelations', this.findRelations, {}, this);
 			$('body').one('keypress', this.updateOnEnter.bind(this));
         },
     
@@ -53,7 +54,12 @@
                 $el = this.$('.type-header');
 
             this.sortById(flag, field, $el);
+        },
 
+        subscribeListeners: function () {
+            this.listenTo(collections.citiesCollection, 'remove', this.deleteResources);
+            this.listenTo(collections.resourceTypes, 'remove', this.deleteResourcesByType);
+            this.listenTo(collections.countriesCollection, 'remove', this.deleteResources);
         },
         
         sorting: function () {
@@ -78,6 +84,39 @@
             if (e.keyCode === ENTER) {
                 e.preventDefault();
             }
+        },
+
+        findRelations: function (deletedModel) {
+            var properUrl = getUrl(deletedModel),
+                relations = [];
+            if (deletedModel.has('location')) {
+                    relations = collections.resouresCollection.where({'locationCity': deletedModel.id});
+                if (relations.length > 0) {
+                    hashToDelete.Resources = relations;
+                }
+            } else if (properUrl === '/resourceTypes') {
+                    relations = collections.resouresCollection.where({'type': deletedModel.id});
+                if (relations.length > 0) {
+                    hashToDelete.ResourceTypes = relations;
+                } 
+            } else if (deletedModel.has('countryName')) {
+                    relations = findRelationsByCountry(deletedModel, collections.resouresCollection);
+                if (relations.length > 0) {
+                   hashToDelete.Resources = relations; 
+                }
+            }
+        },
+
+         deleteResources: function () {
+            _.each(hashToDelete.Resources, function (item) {
+                item.destroy();
+            }, this);
+        },
+
+        deleteResourcesByType: function () {
+            _.each(hashToDelete.ResourceTypes, function (item) {
+                item.destroy();
+            }, this);
         }
     });
 })(App.Resources);

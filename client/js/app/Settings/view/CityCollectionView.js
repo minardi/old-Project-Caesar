@@ -18,7 +18,8 @@
             this.listenTo(this.collection, 'add', this.renderOne);
             this.listenTo(this.collection, 'destroy', this.render);
             this.listenTo(collections.countriesCollection, 'all', this.render);
-            cs.mediator.subscribe('DeleteCountry', this.deleteCollection, {}, this);
+            this.listenTo(collections.countriesCollection, 'remove', this.deleteCities);
+            cs.mediator.subscribe('FindRelations', this.findRelations, {}, this); 
             this.count = 0;
         },
 
@@ -40,16 +41,6 @@
             this.count++;
             this.showScroll();
             return this;
-        },
-
-        deleteCollection: function (deletedId) {        
-            _.each(_.clone(collections.citiesCollection.toJSON()), function(item) {
-                if(item['location'] === deletedId) {
-                var modelCity = collections.citiesCollection.get(item);
-                    modelCity.destroy();
-                }
-            });
-           this.render();
         },
 
         showScroll: function () {
@@ -114,6 +105,21 @@
 
         validateName: function (value) {
             return validateNameField(value, collections.citiesCollection.toJSON());
+        },
+
+        findRelations: function (deletedModel) {
+            if (deletedModel.has('countryName')) {
+                var relations = collections.citiesCollection.where({'location': deletedModel.id});
+                if (relations.length > 0) {
+                    hashToDelete.Cities = relations;
+                }
+            }
+        },
+
+        deleteCities: function () {
+            _.each(hashToDelete.Cities, function (item) {
+                item.destroy();
+            }, this);
         }
     });
 })(App.Settings);

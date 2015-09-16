@@ -28,11 +28,6 @@
             return this;
         },
 
-        confirmDelete: function () {
-            var message = 'All cities will be deleted in "'  + this.model.get('countryName') + '". Delete in any case?';
-            cs.mediator.publish('Confirm', message, this.delete.bind(this));   //this.delete in ItemView
-        },
-
         save: function () {
             var value = firstToUpperCase(this.$('.edit-type').val().trim().toLowerCase()),
                 attributes = {
