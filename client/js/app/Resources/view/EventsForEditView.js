@@ -30,7 +30,7 @@
 
         show: function () {
             this.collection = collections.eventsCollection.filterByResource(this.resourceModel.get('id'));
-           // this.renderGrid();
+            this.renderGrid();
             this.$el.removeClass('hidden');
         },
 
