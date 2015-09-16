@@ -13,7 +13,8 @@
             this.$el.append(this.template({
                     resources: eventsForWeek, 
                     week: week, 
-                    events: collections.eventsCollection.toJSON()   //events collection
+                    events: collections.eventsCollection.toJSON(),   //events collection
+                    resourcesCollection: collections.resouresCollection.toJSON()
                 }));
             
             return this;

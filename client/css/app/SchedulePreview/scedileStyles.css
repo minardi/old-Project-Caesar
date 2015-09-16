@@ -104,3 +104,13 @@
 .preViewScroll {
     overflow: auto;
 }
+
+.pv-event-name {
+    background-color: darkblue;
+    color: white;
+}
+
+.pv-event-resource {
+    background-color: cadetblue;
+    color: white;
+}
