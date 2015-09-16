@@ -17,9 +17,9 @@
 
         initialize: function () {
             this.model = this.model || new This.Event();
+            this.tabKeySwitcher = new TabKeySwitcher(this);
             this.resourceCollection = collections.resouresCollection;
-            this.resourceSorting();
-            
+            this.resourceSorting();            
             this.resourcesCollectionView = new App.Events.ResourcesCollectionView({ model: this.model });
 
             Backbone.Validation.bind(this);
@@ -40,9 +40,9 @@
                 resourcesList: this.getResourcesInEvent()
             }));
             this.$('.resources-list').append(this.resourcesCollectionView.render().el);
-             $('body').css('overflow-y', 'hidden');
+            $('body').css('overflow-y', 'hidden');
 			
-            this.setTabIndex();
+            this.tabKeySwitcher.setTabIndex();
             this.setUpPreviousName();
             
             return this;
@@ -243,19 +243,8 @@
             }
         },
         
-        setTabIndex: function () {
-            this.$('.tabIndex').each(function (num, el) {
-                el.tabIndex = num + 1;
-            });    
-        },
-        
         tabKeySwitch: function (e) {
-            if (e.keyCode === 9) {
-                if ($('.lastTabBtn').is(':focus')) {
-                    e.preventDefault();
-                    $('.name').focus();
-                }
-            }
+            this.tabKeySwitcher.switch(e);
         }
     });
 })(App.Events);

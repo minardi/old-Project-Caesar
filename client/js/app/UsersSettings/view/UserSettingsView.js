@@ -9,11 +9,13 @@
             'click .generate-pass': 'generatePassword',
 			'keydown': 'closeOnEscape',
 			'keypress': 'updateOnEnter',
-            'change .user-avatar': 'getUserAvatar'
+            'change .user-avatar': 'getUserAvatar',
+            'keydown': 'tabKeySwitch'
         },
         
         initialize: function () {
             this.model = new App.Accounts.Account(User.get());
+            this.tabKeySwitcher = new TabKeySwitcher(this);
 			cs.mediator.subscribe('ReturnRout', this.returnRoute, null, this);
 			$('body').on('keydown', this.closeOnEscape.bind(this));
             $('body').on('keypress', this.updateOnEnter.bind(this));
@@ -29,7 +31,8 @@
             }));
 
             $('body').css('overflow-y', 'hidden');
-			
+			this.tabKeySwitcher.setTabIndex();
+            
             return this;
         },
         
@@ -113,6 +116,10 @@
             if (e.keyCode === ESC) {
                 this.cancel();
             }
+        },
+        
+        tabKeySwitch: function (e) {
+            this.tabKeySwitcher.switch(e);
         }
     });
 })(App.UserSetting);

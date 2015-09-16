@@ -12,11 +12,13 @@
             'keyup': 'generateLogin',
             'change #InputLogin': 'returnName',
             'change .user-avatar': 'getUserAvatar',
-            'click .returnLogin': 'returnLogin'
+            'click .returnLogin': 'returnLogin',
+            'keydown': 'tabKeySwitch'
         },
 
         initialize: function () {
             this.model = this.model || new This.Account();
+            this.tabKeySwitcher = new TabKeySwitcher(this);
             Backbone.Validation.bind(this);
             this.prevLogin = '';
             
@@ -40,6 +42,7 @@
 
 			$('body').css('overflow-y', 'hidden');
             this.setPreviousLogin();
+            this.tabKeySwitcher.setTabIndex();
             
             return this;
         },
@@ -246,6 +249,10 @@
             if (login !== '') {
                 this.prevLogin = login;
             }
+        },
+        
+        tabKeySwitch: function (e) {
+            this.tabKeySwitcher.switch(e);
         }
     });
 })(App.Accounts);

@@ -7,11 +7,13 @@
 			'click .save': 'save',
             'click .cancel': 'cancel',
             'keypress': 'updateOnEnter',
-			'keydown': 'closeOnEscape'
+			'keydown': 'closeOnEscape',
+            'keydown': 'tabKeySwitch'
         },
 
         initialize: function () {
             this.model = this.model || new This.HolidaysModel();
+            this.tabKeySwitcher = new TabKeySwitcher(this);
 			Backbone.Validation.bind(this);
 
             $('body').on('keypress', this.updateOnEnter.bind(this));
@@ -37,8 +39,10 @@
                 minDate: isNewModel? getToday() : holidayDate
             });
 			
-			  $('body').css('overflow-y', 'hidden');
+            $('body').css('overflow-y', 'hidden');
 			
+            this.tabKeySwitcher.setTabIndex();
+            
             return this;
         },
 
@@ -103,6 +107,10 @@
             if (e.keyCode === ESC) {
                 this.cancel();
             }
+        },
+        
+        tabKeySwitch: function (e) {
+            this.tabKeySwitcher.switch(e);
         }
     });
 })(App.Holidays);

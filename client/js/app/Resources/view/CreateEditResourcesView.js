@@ -7,12 +7,14 @@
 			'click .save': 'submit',
             'click .cancel': 'cancel',
 			'keydown': 'closeOnEscape',
+            'keydown': 'tabKeySwitch',
             'keypress': 'updateOnEnter',
 			'click .chekType' : 'chekType'
         },
 
         initialize: function () {
-            this.model = this.model || new This.ResourcesModel(); 
+            this.model = this.model || new This.ResourcesModel();
+            this.tabKeySwitcher = new TabKeySwitcher(this);
             this.defaultModelJSON = this.model.toJSON();
             Backbone.Validation.bind(this);
 			
@@ -58,6 +60,8 @@
 			this.$("[name='resourseCheckbox']").bootstrapSwitch();
 			$('body').css('overflow-y', 'hidden');
 			
+            this.tabKeySwitcher.setTabIndex();
+            
             return this;
         },
 
@@ -174,6 +178,10 @@
 			} else {
 				$('.hideData').addClass('hide');
 			}
-		}
+		},
+        
+        tabKeySwitch: function (e) {
+            this.tabKeySwitcher.switch(e);
+        }
     });
 })(App.Resources);
