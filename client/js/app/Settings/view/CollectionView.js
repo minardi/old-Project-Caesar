@@ -21,6 +21,10 @@
             }
 
             input.val('');
-        }
+        },
+
+        subscribeListeners: function () {
+            this.listenTo(collections.countriesCollection, 'remove', this.deleteCities);
+        },
     });
 })(App.Settings);

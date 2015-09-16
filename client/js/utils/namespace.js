@@ -16,6 +16,57 @@ function isNameTaken (value, collection) {
     return result;
 }
 
+function emptyHash () {
+    if (!_.isEmpty(hashToDelete)) {
+        for (var prop in hashToDelete) {
+            if (hashToDelete.hasOwnProperty(prop)) {
+                delete hashToDelete[prop];
+            }
+        }
+    }
+}
+
+function getCitiesId (deletedModel) {
+    var relationsCities = collections.citiesCollection.where({'location': deletedModel.id}),
+        arrayId = [];
+    _.each(relationsCities, function (item) {
+        arrayId.push(item.id);
+    });
+    return arrayId;
+}
+
+function getUrl (deletedModel) {
+    var url = deletedModel.url();
+    return url.substring(0, url.length - 2);
+}
+
+function findRelationsByCountry (deletedModel, collection) {
+    var relations = [],
+        itemArray = [];
+        _.each(getCitiesId(deletedModel), function (id) {
+            relations = collection.where({'locationCity': id});
+                if (relations.length > 0) {
+                    _.each(relations, function (item) {
+                        itemArray.push(item);
+                    });
+                }
+        }); 
+    return itemArray;
+}
+
+function getValues () {
+    var relations = [],
+        key;
+    for (key in hashToDelete) {
+        if (key.length > 0) {
+            _.each(hashToDelete[key], function (item) {
+                relations.push(key + ':  ' + item.get('name'));
+            }); 
+        }
+    }
+    return relations;
+}
+
 function firstToUpperCase(str) {
     return str.substr(0, 1).toUpperCase() + str.substr(1);
 }

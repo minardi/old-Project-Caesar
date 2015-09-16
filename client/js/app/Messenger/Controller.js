@@ -5,11 +5,13 @@
         var noticeView = new This.NoticeView(),
             hintView = new This.HintView(),
             $confirm = $('#confirm'),
+            cascadeDelete,
             confirmView;
 
         cs.mediator.subscribe("Notice", showNotice);
         cs.mediator.subscribe("Hint", showHint);
         cs.mediator.subscribe("Confirm", showConfirm);
+        cs.mediator.subscribe("ConfirmCascadeDelete", showConfirmDelete);
 
         $('#messenger').html(noticeView.el);
 
@@ -28,6 +30,13 @@
             $confirm.html(confirmView.el);
             confirmView.set(message, callback);
             confirmView.render();
+        }
+
+        function showConfirmDelete(message, array, callback) {
+            cascadeDelete = new This.CascadeDeleteView();
+            $confirm.html(cascadeDelete.el);
+            cascadeDelete.set(message, array, callback);
+            cascadeDelete.render();
         }
 
         return this;

@@ -21,6 +21,7 @@
             this.collection = collections.accountsCollection;
             this.listenTo(this.collection, 'add', this.renderGrid);
 			this.listenTo(collections.accountsCollection, 'all', this.render);
+            cs.mediator.subscribe('FindRelations', this.findRelations, {}, this); 
 			$('body').one('keypress', this.updateOnEnter.bind(this));
         },
 
@@ -54,6 +55,11 @@
             cs.mediator.publish('CreateAccount');
         },
 
+        subscribeListeners: function () {
+            this.listenTo(collections.citiesCollection, 'remove', this.deleteAccounts);
+            this.listenTo(collections.countriesCollection, 'remove', this.deleteAccounts);
+        },
+
         sortByLogin: function () {
             var flag = 'loginFlag',
                 sortingAttribute = 'login',
@@ -76,6 +82,27 @@
             if (e.keyCode === ENTER) {
                 e.preventDefault();
             }
+        },
+
+        findRelations: function (deletedModel) {
+            var relations = [];
+              if (deletedModel.has('location')) {
+                    relations = collections.accountsCollection.where({'locationCity': deletedModel.id});
+                if (relations.length > 0) {
+                    hashToDelete.Accounts = relations;
+                }
+            } else if (deletedModel.has('countryName')) {
+                    relations = findRelationsByCountry(deletedModel, collections.accountsCollection);
+                if (relations.length > 0) {
+                    hashToDelete.Accounts = relations;
+                }
+            }
+        },
+
+        deleteAccounts: function () {
+            _.each(hashToDelete.Accounts, function (item) {
+                item.destroy();
+            }, this);
         }
     });
 })(App.Accounts);

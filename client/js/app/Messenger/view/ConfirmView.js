@@ -33,6 +33,7 @@
 
         close: function () {
             this.remove();
+            emptyHash();
         },
 
         checkKeyCommand: function (e) {

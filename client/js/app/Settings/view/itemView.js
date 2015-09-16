@@ -29,14 +29,24 @@
         },
 
         confirmDelete: function () {
-            var message = 'Are you sure you want to delete "' + this.model.get('name') + '"?';
-            cs.mediator.publish('Confirm', message, this.delete.bind(this));
+            cs.mediator.publish('FindRelations', this.model);
+            this.attr = this.model.has('name')? 'name': 'countryName';
+            var message = 'Are you sure you want to delete "' + this.model.get(this.attr) + '"?';
+  
+            cs.mediator.publish('Confirm', message, this.showWarning.bind(this));
+        },
+
+        showWarning: function () {
+            var message;
+            if (!_.isEmpty(hashToDelete)) {
+                message ='Are you REALLY sure you want to delete "' + this.model.get(this.attr) + '"? This item is related with:';
+                cs.mediator.publish('ConfirmCascadeDelete', message, getValues(),  this.delete.bind(this));
+            } else {
+                this.delete();
+            }
         },
 
         delete: function () {
-            if (this.model.get('countryName')) {
-                cs.mediator.publish('DeleteCountry', this.model.id);
-            }
             this.model.destroy();
             cs.mediator.publish('Notice', 'Item was succesfully deleted');
         },

@@ -3,6 +3,7 @@
 var App = {},
     cs = {},
     collections = {},
+    hashToDelete = {},
     templates = {},
     ESC = 27,
     ENTER = 13;

@@ -27,6 +27,7 @@
             this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
             this.listenTo(collections.countriesCollection, 'all', this.render);
 			this.listenTo(collections.holidaysCollection, 'all', this.render);
+            cs.mediator.subscribe('FindRelations', this.findRelations, {}, this);
 			$('body').one('keypress', this.updateOnEnter.bind(this));
         },
 
@@ -82,6 +83,10 @@
 			$(e.toElement).addClass('active');
         },
 
+        subscribeListeners: function () {
+            this.listenTo(collections.countriesCollection, 'remove', this.deleteHolidays);
+        },
+
         sortByLocation: function () {
             var flag = 'locationFlag',
                 sortingAttribute = 'locationCountry',
@@ -120,6 +125,21 @@
 			
 			$('.countryFilter').removeClass('active');
 		    $('.holliday' + this.filterPressed).addClass('active');			
-		}
+		},
+
+        findRelations: function (deletedModel) {
+            if (deletedModel.has('countryName')) {
+                var relations = collections.holidaysCollection.where({'locationCountry': deletedModel.id});
+                if (relations.length > 0) {
+                  hashToDelete.Holidays = relations;  
+                }
+            }
+        },
+
+        deleteHolidays: function () {
+            _.each(hashToDelete.Holidays, function (item) {
+                item.destroy();
+            }, this);
+        }
     });
 })(App.Holidays);
