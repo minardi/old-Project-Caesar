@@ -7,7 +7,6 @@
             'click .cancel': 'cancel',
             'click .save': 'save',
             'keydown': 'closeOnEscape',
-            'keypress': 'updateOnEnter',
             'click .generate-pass': 'generatePassword',
             'keyup': 'generateLogin',
             'change #InputLogin': 'returnName',
