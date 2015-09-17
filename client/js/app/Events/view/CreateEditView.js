@@ -20,6 +20,7 @@
             this.resourceCollection = collections.resouresCollection;
             this.resourceSorting();            
             this.resourcesCollectionView = new App.Events.ResourcesCollectionView({ model: this.model });
+            this.nameGenerator = new App.EventNameGenerator(this);
 
             Backbone.Validation.bind(this);
 
@@ -27,7 +28,7 @@
 			$('body').on('keydown', this.closeOnEscape.bind(this));
 
             cs.mediator.subscribe('resourceAddedToEvent', this.addResourceIdToEvent, null, this);
-            cs.mediator.subscribe('resourceAddedToEvent', this.generateEventName, null, this);
+            cs.mediator.subscribe('resourceAddedToEvent', this.nameGenerator.generateEventName, null, this);
         },
 
         render: function () {
@@ -42,7 +43,7 @@
             $('body').css('overflow-y', 'hidden');
 			
             this.setTabIndex();
-            this.setUpPreviousName();
+            this.nameGenerator.setUpPreviousName();
             
             return this;
         },
@@ -111,7 +112,7 @@
         
         removeResource: function (e) {
             var resource = e.target;
-            this.removeEventName(resource.getAttribute('idValue'));
+            this.nameGenerator.removeEventName(resource.getAttribute('idValue'));
             this.resourcesCollectionView.renderRemoved(parseInt(resource.getAttribute('idValue')));
             resource.remove();
             this.resourceSorting();
@@ -129,75 +130,12 @@
             Backbone.View.prototype.remove.call(this, arguments);
         },
         
-        setUpPreviousName: function () {
-            var name = this.$('.name').val();
-            
-            if (name !== '') {
-                this.prevName = name;
-                this.isChanged = true;
-            }
-        },
-        
-        generateEventName: function (_resource) {
-            var $name = $('.name'),
-                resource = _resource.toJSON();
-            
-            if (resource.type === 0) {
-                if (this.isChanged) {
-                    $name.val('');
-                    this.isChanged = false;
-                }
-                
-                if ($name.val() === '') {
-                    $name.val(resource.name);    
-                } else {
-                    $name.val($name.val() + ', ' + resource.name);
-                }                
-            }
-        },
-        
-        removeEventName: function (_id) {
-            var $name = $('.name'),
-                id = Number(_id);
-            
-            _.each(this.resourceCollection.toJSON(), function (resource) {
-                if (resource.id === id && resource.type === 0) {
-                    var eventName = $name.val(),
-                        newName = '';
-                    
-                    newName = eventName.replace(resource.name, '');
-                    
-                    if (newName[newName.length - 2] === ',') {
-                        newName = newName.substring(0, newName.length - 2);
-                    }
-                    
-                    if (newName[0] === ',') {
-                        newName = newName.substring(2);
-                    }
-                    
-                    $name.val(newName);
-                }
-            });
-        },
-        
         setName: function () {
-            var $name = $('.name'),
-                name = $name.val();
-            
-            if (name !== '') {
-                this.prevName = name;
-            }
-            this.isChanged = true;
+            this.nameGenerator.setName();
         },
         
         returnName: function () {
-            var $name = $('.name'),
-                name = $name.val();
-            
-            if (this.prevName !== '') {
-                $name.val(this.prevName);
-                this.isChanged = true;
-            }
+            this.nameGenerator.returnName();
         }
     });
 })(App.Events);
