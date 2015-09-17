@@ -21,24 +21,28 @@
         initialize: function () {
             this.collection = collections.holidaysCollection;
             this.originCollection = collections.holidaysCollection;
+            this.settingsCollection = collections.countriesCollection;
             this.pageSize = 10;
             this.pageIndex = 0;
-            this.listenTo(this.collection, 'add', this.addRender);
+            this.listenTo(this.collection, 'add', this.renderGrid);
             this.listenTo(this.collection, 'destroy', this.renderAfterDestroy);
             this.listenTo(collections.countriesCollection, 'all', this.render);
 			this.listenTo(collections.holidaysCollection, 'all', this.render);
             cs.mediator.subscribe('FindRelations', this.findRelations, {}, this);
 			$('body').one('keypress', this.updateOnEnter.bind(this));
+            cs.mediator.subscribe('RenderHollidays', this.renderAfterChangeRole, null, this);
         },
 
         render: function () {
 			var locStor = localStorage.getItem("countryFilter"),
-			    user = User.get();
-				
+                manRole = localStorage.getItem("manRole"),
+			    user = User.get();			
+			
             this.$el.empty().append(this.template({
-                counties: collections.countriesCollection.toJSON(),
-				role:  user.role
+				counties: collections.countriesCollection.toJSON(),
+                role:  user.role
             }));
+			
             if(!locStor){
 				this.$('.holliday' + this.filterPressed).addClass('active');
 			} else {
@@ -46,15 +50,43 @@
 			    this.$('.holliday' + this.filterPressed).addClass('active');
 			}
 
-			this.addRender();
+            this.renderAfterChangeRole();
+			
+			this.$('.countryFilter').addClass('buttonHide');
+			this.$('.hollidaysHide').addClass('buttonHide');
+			
+			if(manRole === 'admin') {
+				this.$('.countryFilter').removeClass('buttonHide');
+				this.$('.hollidaysHide').removeClass('buttonHide');
+			} else {
+				this.$('.countryFilter').addClass('buttonHide');
+				this.$('.hollidaysHide').addClass('buttonHide');
+			} 
 
             return this;
         },
 
         renderOne: function (model) {
-            var view = new This.HolidaysModelHomepageView({model: model});
-            this.$('.holidays-list').append(view.render().el);
-            this.itemViews.push(view);
+			var manRole = localStorage.getItem("manRole");
+			var skip = model.skippedByLocation();
+
+			if(manRole === 'admin') {
+				skip = true;
+			}
+
+				var view = new This.HolidaysModelHomepageView({model: model});
+				this.$('.holidays-list').append(view.render().el);
+				this.itemViews.push(view);
+
+			
+			if(manRole === 'admin') {
+				$('.countryFilter').removeClass('buttonHide');
+				$('.hollidaysHide').removeClass('buttonHide');
+			} else {
+				$('.countryFilter').addClass('buttonHide');
+				$('.hollidaysHide').addClass('buttonHide');
+			} 
+           
         },
 
         create: function () {
@@ -92,7 +124,7 @@
                 sortingAttribute = 'locationCountry',
                 $el = this.$('.location-header');
 
-            this.sortFunction(flag, sortingAttribute, $el);
+            this.sortById(flag, sortingAttribute, $el);
             this.renderGrid();
         },
 
@@ -111,20 +143,32 @@
             }
         },
 		
-		addRender: function () {
-			if (this.filterPressed === 'all') {
-				this.collection = collections.holidaysCollection;
-				this.pageIndex = 0;
-				this.renderGrid();
-			} else {
-				this.collection = this.originCollection.filterByCountry(this.filterPressed);
+		renderAfterChangeRole: function  () {
+            var manRole = localStorage.getItem("manRole"),
+                countryFilter = localStorage.getItem("countryFilter"),
+                locationCity = User.get().locationCity;
 
-				this.pageIndex = 0;
-				this.renderGrid();
-			}
-			
-			$('.countryFilter').removeClass('active');
-		    $('.holliday' + this.filterPressed).addClass('active');			
+                function findCountry (city) {
+                var country;
+                collections.citiesCollection.each(function (num) {
+                    if(num.get('id') === city) {
+                        country = num.get('location');
+                    }
+                });
+
+                return country;
+            }
+
+            if(manRole !== 'admin') {
+                this.collection = this.originCollection.filterByCountry(findCountry(locationCity));
+            } else {
+                if(countryFilter === 'all') {
+                    this.collection = this.originCollection;
+                } else {
+                    this.collection = this.originCollection.filterByCountry(countryFilter);
+                }
+            }
+			this.renderGrid();
 		},
 
         findRelations: function (deletedModel) {

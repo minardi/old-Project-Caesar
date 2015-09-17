@@ -82,7 +82,7 @@
 
         save: function () {
             var $typeValue = this.$('.type').val()? Number(this.$('.type').val()): '',
-                $nameValue = this.$('.name').val(),
+                $nameValue = this.$('.name').val().trim(),
 			    $dateStart = this.model.get('dateStart'),
 				$dateFinish = this.model.get('dateFinish'),
                 $isChecked = this.$('input[type=checkbox]').is(":checked"),
