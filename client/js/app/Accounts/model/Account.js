@@ -61,11 +61,11 @@
                     length: 6,
                     msg: 'Length should be 6 symbols'
                 }],
-            locationCity: function (value) {
-                if(value === null) {
-                    return 'Select city';
-                }
-            }
+            locationCity: [
+                {
+                    required: true,
+                    msg: 'Select city'
+                }]
         }
     });
 })(App.Accounts);

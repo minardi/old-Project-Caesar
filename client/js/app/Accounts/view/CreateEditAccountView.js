@@ -47,14 +47,25 @@
 
         getAttributes: function () {
             var attributes = {},
-                $inputs;
-                
-            $inputs = this.$('.accountForm :input');
+                $locationCity = this.$('#locationCity').val()? Number(this.$('#locationCity').val()): '',
+                $name = this.$('#InputName').val().trim(),
+                $lastName = this.$('#InputlastName').val().trim(),
+                $login = this.$('#InputLogin').val().trim()
+                $avatar = this.$('.user-avatar').val(),
+                $password = this.$('#InputPassword').val(),      
+                $role = this.$('#role').val();
 
-            $inputs.each(function() {
-              attributes[this.name] = $(this).val();
-            });
+            attributes = {
+                name: $name,
+                lastName: $lastName,
+                login: $login,
+                password: $password,
+                locationCity: $locationCity,
+                role: $role,
+                avatar: $avatar
 
+            };
+           
             return attributes;
         },
 
