@@ -1,11 +1,11 @@
 (function (This) {
-    This.CreateEditAccountView = Backbone.View.extend({
+    This.CreateEditAccountView = App.BaseModalView.extend({
         className: 'modal fade in accountsScroll',
         template: templates.createAccountTpl,
 
         events: {
             'click .cancel': 'cancel',
-            'click .save': 'submit',
+            'click .save': 'save',
             'keydown': 'closeOnEscape',
             'keypress': 'updateOnEnter',
             'click .generate-pass': 'generatePassword',
@@ -13,12 +13,11 @@
             'change #InputLogin': 'returnName',
             'change .user-avatar': 'getUserAvatar',
             'click .returnLogin': 'returnLogin',
-            'keydown': 'tabKeySwitch'
+            'keydown': 'switch'
         },
 
         initialize: function () {
             this.model = this.model || new This.Account();
-            this.tabKeySwitcher = new TabKeySwitcher(this);
             Backbone.Validation.bind(this);
             this.prevLogin = '';
             
@@ -42,7 +41,7 @@
 
 			$('body').css('overflow-y', 'hidden');
             this.setPreviousLogin();
-            this.tabKeySwitcher.setTabIndex();
+            this.setTabIndex();
             
             return this;
         },
@@ -76,7 +75,7 @@
             reader.readAsDataURL(file[0]);
         },
 
-        submit: function () { 
+        save: function () { 
             var isNewModel = this.model.isNew();
             this.login = this.$('#InputLogin');
 
@@ -136,37 +135,11 @@
             result = _.contains(logins, value); 
             return result;
         },
-
-        preValidate: function (attributes) {
-            var attrName,
-                validationResult;
-
-                validationResult = this.model.preValidate(attributes);
-
-                if (validationResult) {
-                    for (attrName in validationResult) {
-                        cs.mediator.publish(  
-                            'Hint',
-                            validationResult[attrName],
-                            this.$('[name=' + attrName + ']')
-                        );
-                    }
-                }
-            return validationResult;
-        },
   
         cancel: function () {
             this.undoChanges();
-            this.changeClassAndCansel();
+            this.changeClassAndCancel('CreateAccountViewClosed');
             $('body').off();
-        },
-
-        changeClassAndCansel: function () {
-            $('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');
-			$('body').css('overflow-y', 'auto');
-            setTimeout(function() {
-                cs.mediator.publish('CreateAccountViewClosed');
-            }, 400); 
         },
 
         undoChanges: function () {
@@ -180,19 +153,6 @@
         
         hide: function () {
             this.$el.addClass('hidden');
-        },
-
-        updateOnEnter: function (e) {
-            if (e.keyCode === ENTER) {
-                e.preventDefault();
-                this.submit();
-            }
-        },
-
-        closeOnEscape: function (e) {
-            if (e.keyCode === ESC) {
-               this.cancel();
-            }
         },
         
         generatePassword: function () {
@@ -249,10 +209,6 @@
             if (login !== '') {
                 this.prevLogin = login;
             }
-        },
-        
-        tabKeySwitch: function (e) {
-            this.tabKeySwitcher.switch(e);
         }
     });
 })(App.Accounts);

@@ -1,5 +1,5 @@
 (function (This) {
-    This.CreateEditView = Backbone.View.extend({
+    This.CreateEditView = App.BaseModalView.extend({
 		className: 'modal fade in holidayScroll',
         template: templates.editHolidayTpl,
 
@@ -8,12 +8,11 @@
             'click .cancel': 'cancel',
             'keypress': 'updateOnEnter',
 			'keydown': 'closeOnEscape',
-            'keydown': 'tabKeySwitch'
+            'keydown': 'switch'
         },
 
         initialize: function () {
             this.model = this.model || new This.HolidaysModel();
-            this.tabKeySwitcher = new TabKeySwitcher(this);
 			Backbone.Validation.bind(this);
 
             $('body').on('keypress', this.updateOnEnter.bind(this));
@@ -41,7 +40,7 @@
 			
             $('body').css('overflow-y', 'hidden');
 			
-            this.tabKeySwitcher.setTabIndex();
+            this.setTabIndex();
             
             return this;
         },
@@ -69,48 +68,9 @@
 			}
         },
 		
-		preValidate: function (attributes) {
-            var attrName,
-                validationResult;
-
-            validationResult = this.model.preValidate(attributes);
-
-            if (validationResult) {
-                for (attrName in validationResult) {
-                    cs.mediator.publish(  
-                        'Hint',
-                        validationResult[attrName],
-                        this.$('[name=' + attrName + ']')
-                    );
-                }
-            }
-            return validationResult;
-        },
-		
 		cancel: function () {
-            $('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');
-			setTimeout(function() {
-				  $('body').css('overflow-y', 'auto');
-			    cs.mediator.publish('HolidaysViewClosed'); //publish to Controller
-			}, 400);
-
+            this.changeClassAndCancel('HolidaysViewClosed');
             $('body').off();
-        },
-
-        updateOnEnter: function (e) {
-            if (e.keyCode === ENTER) {
-                this.save();
-            }
-        },
-		
-		closeOnEscape: function (e) {
-            if (e.keyCode === ESC) {
-                this.cancel();
-            }
-        },
-        
-        tabKeySwitch: function (e) {
-            this.tabKeySwitcher.switch(e);
         }
     });
 })(App.Holidays);

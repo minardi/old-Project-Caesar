@@ -1,24 +1,24 @@
 (function (This) {
-    This.UserSettingsView = Backbone.View.extend({
+    This.UserSettingsView = App.BaseModalView.extend({
 		className: 'modal fade in eventsScroll',
         template: templates.userSettingsTpl,
         
         events: {
-            'click #save': 'submit',
+            'click #save': 'save',
 			'click .cancel': 'cancel',
             'click .generate-pass': 'generatePassword',
 			'keydown': 'closeOnEscape',
 			'keypress': 'updateOnEnter',
             'change .user-avatar': 'getUserAvatar',
-            'keydown': 'tabKeySwitch'
+            'keydown': 'switch'
         },
         
         initialize: function () {
             this.model = new App.Accounts.Account(User.get());
-            this.tabKeySwitcher = new TabKeySwitcher(this);
 			cs.mediator.subscribe('ReturnRout', this.returnRoute, null, this);
-			$('body').on('keydown', this.closeOnEscape.bind(this));
+            
             $('body').on('keypress', this.updateOnEnter.bind(this));
+			$('body').on('keydown', this.closeOnEscape.bind(this));
         },
         
         render: function () {
@@ -31,12 +31,12 @@
             }));
 
             $('body').css('overflow-y', 'hidden');
-			this.tabKeySwitcher.setTabIndex();
+			this.setTabIndex();
             
             return this;
         },
         
-        submit: function () {
+        save: function () {
             var newModel = this.setAttributes();
             this.model.save(newModel, {
                 success: function() {
@@ -104,22 +104,6 @@
             
             cs.mediator.remove('ReturnRout');
             $('body').off();
-        },
-
-        updateOnEnter: function (e) {
-            if (e.keyCode === ENTER) {
-                this.submit();
-            }
-        },
-				
-		closeOnEscape: function (e) {
-            if (e.keyCode === ESC) {
-                this.cancel();
-            }
-        },
-        
-        tabKeySwitch: function (e) {
-            this.tabKeySwitcher.switch(e);
         }
     });
 })(App.UserSetting);

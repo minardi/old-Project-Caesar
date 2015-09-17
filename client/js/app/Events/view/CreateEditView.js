@@ -1,5 +1,5 @@
 (function (This) {
-    This.CreateEditView = Backbone.View.extend({
+    This.CreateEditView = App.BaseModalView.extend({
 		className: 'modal fade in eventsScroll',
         template: templates.editEventTpl,
         resourceItemTpl: templates.resourceItemTpl,
@@ -9,7 +9,7 @@
             'click .cancel': 'cancel',
             'click .resource': 'removeResource',
             'keydown': 'closeOnEscape',
-            'keydown': 'tabKeySwitch',
+            'keydown': 'switch',
             'keypress': 'updateOnEnter',
             'change .editName': 'setName',
             'click .returnName': 'returnName'
@@ -17,7 +17,6 @@
 
         initialize: function () {
             this.model = this.model || new This.Event();
-            this.tabKeySwitcher = new TabKeySwitcher(this);
             this.resourceCollection = collections.resouresCollection;
             this.resourceSorting();            
             this.resourcesCollectionView = new App.Events.ResourcesCollectionView({ model: this.model });
@@ -42,7 +41,7 @@
             this.$('.resources-list').append(this.resourcesCollectionView.render().el);
             $('body').css('overflow-y', 'hidden');
 			
-            this.tabKeySwitcher.setTabIndex();
+            this.setTabIndex();
             this.setUpPreviousName();
             
             return this;
@@ -90,7 +89,7 @@
 			    $('.toshow').addClass('hidden');
 				$('.toshowfirst').switchClass('col-md-8', 'col-md-12', 1000);
 	
-				this.changeClassAndCansel();
+				this.changeClassAndCancel('CreateEditViewClosed');
             }
             // return array of resources ID in current event
             function getIdResourcesArray () {
@@ -102,44 +101,14 @@
             }
         },
 
-        preValidate: function (attributes) {
-            var attrName,
-                validationResult;
-
-            validationResult = this.model.preValidate(attributes);
-
-            if (validationResult) {
-                for (attrName in validationResult) {
-                    cs.mediator.publish(  
-                        'Hint',
-                        validationResult[attrName],
-                        this.$('[name=' + attrName + ']')
-                    );
-                }
-            }
-            return validationResult;
-        },
-
 		cancel: function () {
             if (this.model.isNew()){
                 this.model.destroy();
             }
 			cs.mediator.remove('resourceAddedToEvent');
-			this.changeClassAndCansel();
+			this.changeClassAndCancel('CreateEditViewClosed');
         },
-		
-		changeClassAndCansel: function () {
-            $('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');
-			setTimeout(function() {
-			   $('body').css('overflow-y', 'auto');
-			   cs.mediator.publish('CreateEditViewClosed');
-			}, 400);
-
-            this.remove();
-
-            $('body').off();
-		},
-
+        
         removeResource: function (e) {
             var resource = e.target;
             this.removeEventName(resource.getAttribute('idValue'));
@@ -158,18 +127,6 @@
         remove: function () {
             this.resourcesCollectionView.remove();
             Backbone.View.prototype.remove.call(this, arguments);
-        },
-
-        updateOnEnter: function (e) {
-            if (e.keyCode === ENTER) {
-                this.save();
-            }
-        },
-				
-		closeOnEscape: function (e) {
-            if (e.keyCode === ESC) {
-                this.cancel();
-            }
         },
         
         setUpPreviousName: function () {
@@ -241,10 +198,6 @@
                 $name.val(this.prevName);
                 this.isChanged = true;
             }
-        },
-        
-        tabKeySwitch: function (e) {
-            this.tabKeySwitcher.switch(e);
         }
     });
 })(App.Events);

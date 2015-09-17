@@ -1,5 +1,5 @@
 (function (This) {
-    This.CreateEditView = Backbone.View.extend({
+    This.CreateEditView = App.BaseModalView.extend({
 		className: 'modal fade in resourseScroll',
         template: templates.editResourceTpl,
 
@@ -7,14 +7,13 @@
 			'click .save': 'submit',
             'click .cancel': 'cancel',
 			'keydown': 'closeOnEscape',
-            'keydown': 'tabKeySwitch',
+            'keydown': 'switch',
             'keypress': 'updateOnEnter',
 			'click .chekType' : 'chekType'
         },
 
         initialize: function () {
             this.model = this.model || new This.ResourcesModel();
-            this.tabKeySwitcher = new TabKeySwitcher(this);
             this.defaultModelJSON = this.model.toJSON();
             Backbone.Validation.bind(this);
 			
@@ -60,7 +59,7 @@
 			this.$("[name='resourseCheckbox']").bootstrapSwitch();
 			$('body').css('overflow-y', 'hidden');
 			
-            this.tabKeySwitcher.setTabIndex();
+            this.setTabIndex();
             
             return this;
         },
@@ -117,58 +116,19 @@
                     isNewModel? 'You succesfully added a new resource': 'Information succesfully changed'
                 );
 				
-				this.changeClassAndCancel();
+				this.changeClassAndCancel('ResourcesViewClosed');
             }
-        },
-
-        preValidate: function (attributes) {
-            var attrName,
-                validationResult;
-
-            validationResult = this.model.preValidate(attributes);
-
-            if (validationResult) {
-                for (attrName in validationResult) {
-                    cs.mediator.publish(   //publish to Messenger's Controller
-                        'Hint',
-                        validationResult[attrName],
-                        this.$('[name=' + attrName + ']')
-                    ); 
-                }
-            }
-
-            return validationResult;
         },
         
 		cancel: function () {
             this.undoChanges();
-            this.changeClassAndCancel();
+            this.changeClassAndCancel('ResourcesViewClosed');
             $('body').off();
         },
-		
-		changeClassAndCancel: function () {
-			$('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');
-			setTimeout(function() {
-				$('body').css('overflow-y', 'auto');
-			    cs.mediator.publish('ResourcesViewClosed'); //publish to Controller and router
-			}, 400); 
-		},
 
         undoChanges: function () {
             this.model.off('change', this.preValidate);
             this.model.set(this.defaultModelJSON);
-        },
-		
-		closeOnEscape: function (e) {
-            if (e.keyCode === ESC) {
-                this.changeClassAndCancel();
-            }
-        },
-
-        updateOnEnter: function (e) {
-            if (e.keyCode === ENTER) {
-                this.submit();
-            }
         },
 		
 		chekType: function () {
@@ -178,10 +138,6 @@
 			} else {
 				$('.hideData').addClass('hide');
 			}
-		},
-        
-        tabKeySwitch: function (e) {
-            this.tabKeySwitcher.switch(e);
-        }
+		}
     });
 })(App.Resources);
