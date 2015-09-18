@@ -1,7 +1,7 @@
 'use strict';
 (function (This) {
     This.CollectionView = Backbone.View.extend({
-
+        
         createNew: function (e) {
             var ENTER = 13,
                 $typeValue = this.$('.new-type');
@@ -9,18 +9,20 @@
             if(e.which !== ENTER || !$typeValue.val().trim()){
                 return;
             }
-
             this.save();
         },
 
         save: function () {
-            var input = this.$('.new-type');
+            var $typeValue = this.$('.new-type'),
+                properValue = $typeValue.val().trim().toLowerCase(),
+                attributes = {
+                    name: properValue
+                };
 
-            if(input.val() !== '') {
-                this.collection.create({name: input.val()});
+            if (!this.preValidate(attributes)) {
+                this.collection.create(attributes);
+                $typeValue.val('');
             }
-
-            input.val('');
         }
     });
 })(App.Settings);
