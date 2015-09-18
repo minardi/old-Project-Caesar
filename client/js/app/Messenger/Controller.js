@@ -5,6 +5,7 @@
         var noticeView = new This.NoticeView(),
             hintView = new This.HintView(),
             $confirm = $('#confirm'),
+            authenticationView,
             cascadeDelete,
             confirmView;
 
@@ -12,6 +13,7 @@
         cs.mediator.subscribe("Hint", showHint);
         cs.mediator.subscribe("Confirm", showConfirm);
         cs.mediator.subscribe("ConfirmCascadeDelete", showConfirmDelete);
+        cs.mediator.subscribe("RequireAuthentication", requireAuthentication);
 
         $('#messenger').html(noticeView.el);
 
@@ -37,6 +39,13 @@
             $confirm.html(cascadeDelete.el);
             cascadeDelete.set(message, array, callback);
             cascadeDelete.render();
+        }
+
+        function requireAuthentication(message, callback, errorMsg) {
+            authenticationView = new This.AuthenticationView();
+            $confirm.html(authenticationView.el);
+            authenticationView.set(message, callback, errorMsg);
+            authenticationView.render();
         }
 
         return this;

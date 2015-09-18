@@ -29,25 +29,51 @@
         },
 
         confirmDelete: function () {
-            cs.mediator.publish('FindRelations', this.model);
             this.attr = this.model.has('name')? 'name': 'countryName';
             var message = 'Are you sure you want to delete "' + this.model.get(this.attr) + '"?';
-  
-            cs.mediator.publish('Confirm', message, this.showWarning.bind(this));
+            cs.mediator.publish('Confirm', message, this.getAllRelations.bind(this));
         },
 
         showWarning: function () {
             var message;
             if (!_.isEmpty(hashToDelete)) {
                 message ='Are you REALLY sure you want to delete "' + this.model.get(this.attr) + '"? This item is related with:';
-                cs.mediator.publish('ConfirmCascadeDelete', message, getValues(),  this.delete.bind(this));
+                cs.mediator.publish('ConfirmCascadeDelete', message, getValues(),  this.requireAuthentication.bind(this));
             } else {
                 this.delete();
             }
         },
 
+        requireAuthentication: function () {
+            this.message = 'Enter your login and password for security reasons:';
+            cs.mediator.publish('RequireAuthentication', this.message, this.checkAuthenticationData.bind(this), null);
+        },
+
+        checkAuthenticationData: function (authData) {
+            var admin = User.get(),
+                errorMsg;
+                 if (admin.login === authData.login && admin.password === authData.password) {
+                    this.delete();
+                } else {
+                    errorMsg = 'Invalid login or password!';
+                    cs.mediator.publish('RequireAuthentication', this.message, this.checkAuthenticationData.bind(this), errorMsg);
+                }
+        },
+ 
+        deleteModels: function () {
+            for (var key in hashToDelete) {
+                 _.each(hashToDelete[key], function (item) {
+                    item.destroy();
+                }, this);
+            }
+        },
+
         delete: function () {
+            if (!_.isEmpty(hashToDelete)) { 
+                this.deleteModels();
+            }
             this.model.destroy();
+            emptyHash();
             cs.mediator.publish('Notice', 'Item was succesfully deleted');
         },
 

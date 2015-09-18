@@ -32,7 +32,7 @@
         },
 
         renderOne: function (model) {
-            var eventTypeView = new App.Settings.ItemView({model: model});
+            var eventTypeView = new App.Settings.EventItemView({model: model});
             this.$('.event-type').append(eventTypeView.render().el);
             this.count++;
             this.showScroll();

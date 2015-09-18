@@ -17,6 +17,7 @@
 
         initialize: function () {
             this.model = this.model || new This.Account();
+            this.collection = collections.accountsCollection;
             Backbone.Validation.bind(this);
             this.prevLogin = '';
             
@@ -97,7 +98,7 @@
         },
 
         checkLogin: function (login) {
-            if (!this.isLoginTaken(login.val())) {
+            if (!this.collection.isLoginTaken(login.val())) {
                 this.saveAccount();
             } else {
                 this.showErrorMessage();
@@ -131,19 +132,6 @@
                 });
 				$('body').css('overflow-y', 'auto');
            }
-        },
-
-        isLoginTaken: function (value) {
-            var accounts = collections.accountsCollection.toJSON(),
-                logins = [],
-                result;
-
-            accounts.forEach(function (element) {
-                logins.push(element['login']);
-            });
-                        
-            result = _.contains(logins, value); 
-            return result;
         },
   
         cancel: function () {
@@ -192,24 +180,11 @@
                 name = $name.val(),
                 lastName = $lastName.val().replace('-', '').replace(' ', ''),
                 generatedLogin = Generator.generateLogin(name, lastName),
-                uniqueLogin = this.checkForUnique(generatedLogin);
+                uniqueLogin = this.collection.checkForUnique(generatedLogin);
             
             if ($name.is(':focus') || $lastName.is(':focus')) {
                 $('#InputLogin').val(uniqueLogin);    
             }
-        },
-        
-        checkForUnique: function (_login) {
-            var accountsCollection = collections.accountsCollection.toJSON(),
-                login = _login;
-            
-            _.each(accountsCollection, function (account) {
-               if (login === account.login) {
-                   login = Generator.uniqualization(login);
-               }
-            });
-            
-            return login;
         },
         
         returnName: function () {
