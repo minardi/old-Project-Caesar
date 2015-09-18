@@ -17,7 +17,6 @@
         initialize: function () {
             cs.mediator.subscribe('MenuClicked', this.navigateMenuItem, null, this); //published from MenuView
             this.user = User.get();
-            this.subscribeCollectionViews();
         },
 		
         mainPage: function () {
@@ -70,25 +69,6 @@
 
         errorPage: function () {
             cs.mediator.publish('Show404');
-        },
-
-        subscribeCollectionViews: function () {
-            _.each(App, function (view, index) {
-                var propName = index.substring(0, index.length - 1),
-                    anotherPropName = 'CollectionView',
-                    itemView,
-                    key,
-                    app;
-                propName += anotherPropName;
-                app = App[index];
-                for (key in view) {
-                    if(key === propName || key === anotherPropName) {
-                        itemView = new app[key]();
-                        itemView.subscribeListeners();
-                    }
-                }
-            });
         }
-    
     });
 })(App);

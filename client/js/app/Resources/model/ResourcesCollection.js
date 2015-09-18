@@ -21,6 +21,11 @@
             var filteredArray = this.where({type: Number(filter)});
 
             return new This.ResourcesCollection(filteredArray);
+        },
+
+        getRelations: function (deletedModel) {
+            relations = this.where({'type': deletedModel.id});
+            return relations;
         }
     });
 })(App.Resources);

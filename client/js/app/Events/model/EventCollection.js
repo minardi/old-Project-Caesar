@@ -26,6 +26,11 @@
             });
 
             return new This.EventCollection(filtered);
+        },
+
+        getRelations: function (deletedModel) {
+            var relations = this.where({'type': deletedModel.id});
+            return relations;
         }
     });
 

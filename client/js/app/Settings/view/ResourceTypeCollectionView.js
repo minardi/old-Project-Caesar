@@ -31,7 +31,7 @@
         },
 
         renderOne: function (model) {
-            var resourceTypeView = new App.Settings.ItemView({model: model});
+            var resourceTypeView = new App.Settings.ResourceItemView({model: model});
             this.$('.resource-type').append(resourceTypeView.render().el);
 			this.count++;
 			this.showScroll();

@@ -19,12 +19,6 @@
                 .removeClass('hidden');
 
             return this;
-        },
-
-        delete: function () {
-            this.callback();
-            this.remove();
-            emptyHash();
-        },
+        }
     });
 })(App.Messenger);
