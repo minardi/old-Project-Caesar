@@ -57,29 +57,6 @@
 			}
 		},
 
-        createNew: function (e) {
-            var ENTER = 13,
-                $input = this.$('.new-type');
-                
-            if (e.which !== ENTER || !$input.val().trim()) {
-                return;
-            }
-            this.save();
-        },
-
-        save: function () {
-            var $input = this.$('.new-type'),
-                properValue = $input.val().trim().toLowerCase(),
-                attributes = {
-                    name: properValue
-                };
-
-            if (!this.preValidate(attributes)) {
-                this.collection.create(attributes);
-                $input.val('');
-            }
-        },
-
         preValidate: function (attributes) {
             var attrName,
                 validationResult;
