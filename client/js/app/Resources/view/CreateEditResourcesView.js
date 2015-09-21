@@ -4,18 +4,19 @@
         template: templates.editResourceTpl,
 
         events: {
-			'click .save': 'submit',
+			'click .save': 'save',
             'click .cancel': 'cancel',
 			'keydown': 'closeOnEscape',
             'keydown': 'switch',
             'keypress': 'updateOnEnter',
-			'click .chekType' : 'chekType'
+			'click .chekType' : 'chekType',
+            'input .form-control' : 'focus'
         },
 
         initialize: function () {
             this.model = this.model || new This.ResourcesModel();
             this.defaultModelJSON = this.model.toJSON();
-            Backbone.Validation.bind(this);
+            Backbone.Validation.bind(this, {invalid: this.validate});
 			
 			$('body').on('keydown', this.closeOnEscape.bind(this));
             $('body').on('keypress', this.updateOnEnter.bind(this));
@@ -64,26 +65,27 @@
             return this;
         },
 
-        submit: function () { 
+        save: function () { 
             var isNewModel = this.model.isNew();
             this.$nameValue = this.$('.name').val();
 
             if(!isNewModel && this.$nameValue === this.model.get('name')) {
-                this.save();
+                this.submit();
             } else {
                 this.checkResourceName(this.$nameValue);
             }
         },
 
+
         checkResourceName: function (value) {
             if (!isNameTaken(value, collections.resouresCollection.toJSON())) {
-                this.save();
+                this.submit();
             } else {
                 cs.mediator.publish('Hint','This name is already taken', this.$('.name'));
             }
         },
 
-        save: function () {
+        submit: function () {
             var $typeValue = this.$('.type').val()? Number(this.$('.type').val()): '',
                 $nameValue = this.$('.name').val().trim(),
 			    $dateStart = this.model.get('dateStart'),
@@ -107,15 +109,15 @@
                 useInSchedule: $isChecked
             };
 
-            if (!this.preValidate(attributes)) {
-                this.model.save(attributes);
+            //if (!this.preValidate(attributes)) {
+            this.model.save(attributes);
+            if(this.model.isValid()) {
                 collections.resouresCollection.add(this.model);
 				
                 cs.mediator.publish( //publish to Messenger's Controller
                     'Notice',
                     isNewModel? 'You succesfully added a new resource': 'Information succesfully changed'
                 );
-				
 				this.changeClassAndCancel('ResourcesViewClosed');
             }
         },

@@ -12,13 +12,14 @@
             'change #InputLogin': 'returnName',
             'change .user-avatar': 'getUserAvatar',
             'click .returnLogin': 'returnLogin',
-            'keydown': 'switch'
+            'keydown': 'switch',
+            'input .form-control' : 'focus'
         },
 
         initialize: function () {
             this.model = this.model || new This.Account();
             this.collection = collections.accountsCollection;
-            Backbone.Validation.bind(this);
+            Backbone.Validation.bind(this,  {invalid: this.validate});
             this.prevLogin = '';
             
             $('body').on('keypress', this.updateOnEnter.bind(this));
@@ -116,7 +117,7 @@
                 closeView = this.cancel.bind(this),
                 attributes = this.getAttributes();
 
-            if (!this.preValidate(attributes)) {
+            //if (!this.preValidate(attributes)) {
                 this.model.save(attributes, {
                     success: function(model, response) {
                         if (response) {
@@ -131,9 +132,9 @@
                         wait: true
                 });
 				$('body').css('overflow-y', 'auto');
-           }
+           //}
         },
-  
+
         cancel: function () {
             this.undoChanges();
             this.changeClassAndCancel('CreateAccountViewClosed');

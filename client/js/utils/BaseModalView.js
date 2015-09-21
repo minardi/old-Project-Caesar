@@ -31,6 +31,18 @@ App.BaseModalView = Backbone.View.extend({
         }
         return validationResult;
     },
+
+    focus: function () {
+        this.$('input .form-control').focus();
+    },
+
+    validate: function (view, attr, error, selector) {
+        var $el = view.$('[name=' + attr + ']'),
+            $group = $el.closest('.form-group'),
+            hintView = new App.Messenger.HintView();
+        hintView.set(error, $el);
+        $group.find('.help-block').html(hintView.render().el).removeClass('hidden');
+    },
     
     changeClassAndCancel: function (mediatorEvent) {
         this.$('.myAnimateClass').removeClass('slideInDown').addClass('fadeOutUp');

@@ -102,16 +102,6 @@ function DataBase () {
 		});
 	};
 
-	this.IsUniqueLogin = function (login, cb) {
-		MongoClient.connect(url, function(err, db) {
-		 	var collection = db.collection('accounts');
-		 	collection.findOne({login: login }, function (err, result) {
-		 		cb(err, result);
-		 		db.close();
-		 	});
-		});
-	}; 
-
 	this.reset = function (defaults, cb) {
 		MongoClient.connect(url, function(err, db) {
 		 	var resetsCount = 0,

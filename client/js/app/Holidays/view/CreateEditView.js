@@ -8,12 +8,13 @@
             'click .cancel': 'cancel',
             'keypress': 'updateOnEnter',
 			'keydown': 'closeOnEscape',
-            'keydown': 'switch'
+            'keydown': 'switch',
+            'input .form-control' : 'focus'
         },
 
         initialize: function () {
             this.model = this.model || new This.HolidaysModel();
-			Backbone.Validation.bind(this);
+			Backbone.Validation.bind(this, {invalid: this.validate});
 
             $('body').on('keypress', this.updateOnEnter.bind(this));
 			$('body').on('keydown', this.closeOnEscape.bind(this));
@@ -56,8 +57,9 @@
 				date: this.$("#date").val()
 			};
 
-            if (!this.preValidate(attributes)) {
+            //if (!this.preValidate(attributes)) {
                 this.model.save(attributes);
+            if(this.model.isValid()) {    
                 collections.holidaysCollection.add(this.model);
                 cs.mediator.publish( //publish to Messenger's Controller
                     'Notice',
