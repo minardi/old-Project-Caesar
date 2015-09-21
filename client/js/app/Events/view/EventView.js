@@ -33,6 +33,8 @@
             cs.mediator.publish('EditEvent', this.model);
 			this.fullEveClose();
 			$('.toshowfirst').switchClass('col-md-8', 'col-md-12', 1000);
+			$('.hidden').switchClass('', 'hidden', 1000);
+
         },
 
         confirmDelete: function () {

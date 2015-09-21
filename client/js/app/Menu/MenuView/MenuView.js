@@ -39,6 +39,7 @@
 	            this.styleChange('Admin', 'none', 'block', '.menu-item', url);
                 this.$('.changeRole').addClass('active');
 			}
+			this.logoHome();
 
             return this;
         },
@@ -127,6 +128,28 @@
 			this.$(remCl).removeClass('active');
             this.$(adCl).addClass('active');			
 				
+		},
+		
+		logoHome: function () {
+			$('#logo').click(function () {	 
+				$('#logo').addClass('flip');
+				cs.mediator.publish('MenuClicked', '/Events'); //publish to global router
+				cs.mediator.publish('RenderHollidays'); //publish to holidaysCollection		
+				$('.menu-item').removeClass('active');
+				$('.events').addClass('active');
+				$('.forAdmin').css('display', 'block');
+				$('.onlyAdmin').css('display', 'none');
+				$('#role').text('Coordinator');
+				$('.countryFilter').removeClass('active');
+				$('.hollidayall').addClass('active');
+				User.set('coordinator');
+				localStorage.setItem("manRole", 'coordinator');
+				localStorage.setItem("countryFilter", 'all');
+				
+				setTimeout(function () {
+					$('#logo').removeClass('flip');
+				} ,1100)
+			});
 		}
     }); 
 })(App.Menu);
