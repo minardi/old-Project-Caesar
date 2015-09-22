@@ -71,6 +71,7 @@ App.BaseModalView = Backbone.View.extend({
     closeOnEscape: function (e) {
         if (e.keyCode === ESC) {
             this.cancel();
+			
         }
     }
 });

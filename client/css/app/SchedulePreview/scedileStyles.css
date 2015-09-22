@@ -8,7 +8,7 @@
 
 .modal-calendar table {
     margin: 0 auto;
-    width: 50%;
+    width: 80%;
     margin-bottom: 3%;
     border-collapse: collapse;
 }
@@ -113,4 +113,8 @@
 .pv-event-resource {
     background-color: cadetblue;
     color: white;
+}
+
+.modalwidth {
+    width: 80%;
 }

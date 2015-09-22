@@ -50,7 +50,7 @@
 		
 		updateOnEnter: function (e) {
             if (e.keyCode === ENTER) {
-                this.save();
+               this.save();
             }
         }
 	})

@@ -1,6 +1,6 @@
 templates.preViewScheduleTpl = _.template([
     '<div class="modal-backdrop fade in"></div>',
-	'<div class="modal-dialog animated slideInDown myAnimateClass">',
+	'<div class="modal-dialog animated slideInDown myAnimateClass modalwidth">',
 		'<div class="modal-content">',
 			'<div class="modal-header">',
 			    '<button type="button" class="close cancel"><span aria-hidden="true">&times;</span></button>',
