@@ -6,7 +6,7 @@
                 'name': '',
                 'locationCity': '',
 				'dateStart': '01/01/2015',
-				'dateFinish': '01/02/2015',
+				'dateFinish': '01/02/2095',
                 'useInSchedule': true
             }
         },
@@ -14,12 +14,6 @@
         urlRoot: '/resources',
 
         validation: {
-            type: [
-                {
-                    required: true,
-                    msg: 'Select type'
-                }
-            ],
             name: [
                 {
                     maxLength: 20,
@@ -38,18 +32,24 @@
                     msg: 'Latin alphabet only. Allowed symbols: .-/'
                 }
             ],
-			dateFinish: [
+            type: [
+                {
+                    required: true,
+                    msg: 'Select type'
+                }
+            ],
+			dateStart: [
                 {
                     required: true,
                     msg: 'Field cannot be empty'
                 }
             ],
-            dateStart: function (value) {
+            dateFinish: function (value) {
                 if (value !== '') { 
                     var msg = '',
-                        dateStart = toDateObj(value),
-                        dateFinish = toDateObj($('#dateFinish').val());            
-                    if (dateFinish <= dateStart) {
+                        dateFinish = toDateObj(value),
+                        dateStart = toDateObj($('#dateStart').val());            
+                    if (dateStart >= dateFinish) {
                         msg = '\'Start date\' should be earlier than \'End date\'';
                         return msg;
                     }

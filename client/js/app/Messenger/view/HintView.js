@@ -1,7 +1,7 @@
 'use strict';
 
 (function (This) {
-    var HINT_HEIGHT = 48;
+    var HINT_HEIGHT = 40;
 
     This.HintView = Backbone.View.extend({
         className: 'hint hidden',

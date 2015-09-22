@@ -4,31 +4,34 @@
         template: templates.editResourceTpl,
 
         events: {
-			'click .save': 'submit',
+			'click .save': 'save',
             'click .cancel': 'cancel',
 			'keydown': 'closeOnEscape',
             'keydown': 'switch',
             'keypress': 'updateOnEnter',
-			'click .chekType' : 'chekType'
+			'click .chekType' : 'checkType',
+            'blur input': 'showHints'
         },
 
         initialize: function () {
             this.model = this.model || new This.ResourcesModel();
             this.defaultModelJSON = this.model.toJSON();
-            Backbone.Validation.bind(this);
-			
-			$('body').on('keydown', this.closeOnEscape.bind(this));
+            Backbone.Validation.bind(this, {invalid: this.showHints});
+
             $('body').on('keypress', this.updateOnEnter.bind(this));
+            $('body').on('keydown', this.closeOnEscape.bind(this));
         },
 
         render: function () {
             var resourceTypes = collections.resourceTypes.toJSON(),
                 isNewModel = this.model.isNew(),
 			    type = this.model.get('type'),
+                groupId = collections.resourceTypes.getIdByName('group'),
                 startDate = this.model.get('dateStart'),
+                finishDate = this.model.get('dateFinish'),
 			    classForHide = 'hide';
 				
-				if(type === 0) {
+				if (type === groupId) {
 				    classForHide = "";
 			    }
 
@@ -37,23 +40,22 @@
                 typeId: type,
                 resourceTypes: resourceTypes,
 				dateStart: startDate,
-				dateFinish: this.model.get('dateFinish'),
+				dateFinish: finishDate,
 				classForHide: classForHide,
                 useInSchedule: this.model.get('useInSchedule')
             }));
-			
 
 			this.$("#datetimepickerStart").datetimepicker({
 				locale: 'en',
 				format: 'MM/DD/YYYY',
-                minDate: isNewModel? getToday() : startDate
+                minDate: isNewModel? new Date() : startDate
                 
 			});
 			
 			this.$("#datetimepickerFinish").datetimepicker({
 				locale: 'en',
 				format: 'MM/DD/YYYY',
-                minDate: isNewModel? getToday() : startDate
+                minDate: isNewModel? new Date() : finishDate
 			});
 			
 			this.$("[name='resourseCheckbox']").bootstrapSwitch();
@@ -64,36 +66,38 @@
             return this;
         },
 
-        submit: function () { 
+        save: function () { 
             var isNewModel = this.model.isNew();
             this.$nameValue = this.$('.name').val();
 
             if(!isNewModel && this.$nameValue === this.model.get('name')) {
-                this.save();
+                this.submit();
             } else {
                 this.checkResourceName(this.$nameValue);
             }
         },
 
+
         checkResourceName: function (value) {
             if (!isNameTaken(value, collections.resouresCollection.toJSON())) {
-                this.save();
+                this.submit();
             } else {
                 cs.mediator.publish('Hint','This name is already taken', this.$('.name'));
             }
         },
 
-        save: function () {
+        submit: function () {
             var $typeValue = this.$('.type').val()? Number(this.$('.type').val()): '',
                 $nameValue = this.$('.name').val().trim(),
 			    $dateStart = this.model.get('dateStart'),
 				$dateFinish = this.model.get('dateFinish'),
                 $isChecked = this.$('input[type=checkbox]').is(":checked"),
+                groupId = collections.resourceTypes.getIdByName('group'),
                 isNewModel = this.model.isNew(),
                 user = User.get(),
                 attributes;
 
-                if ($typeValue === 0) {
+                if ($typeValue === groupId) {
                     $dateStart = this.$('#dateStart').val();
                     $dateFinish = this.$('#dateFinish').val();
                 }				
@@ -107,15 +111,14 @@
                 useInSchedule: $isChecked
             };
 
-            if (!this.preValidate(attributes)) {
-                this.model.save(attributes);
+            this.model.save(attributes);
+            if (this.model.isValid()) {
                 collections.resouresCollection.add(this.model);
 				
                 cs.mediator.publish( //publish to Messenger's Controller
                     'Notice',
                     isNewModel? 'You succesfully added a new resource': 'Information succesfully changed'
                 );
-				
 				this.changeClassAndCancel('ResourcesViewClosed');
             }
         },
@@ -131,9 +134,10 @@
             this.model.set(this.defaultModelJSON);
         },
 		
-		chekType: function () {
-			var type = this.$('.type').val();
-			if(type === '0') {
+		checkType: function () {
+			var type = Number(this.$('.type').val()),
+                groupId = collections.resourceTypes.getIdByName('group');
+			if (type === groupId) {
 				$('.hideData').removeClass('hide');
 			} else {
 				$('.hideData').addClass('hide');

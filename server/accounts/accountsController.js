@@ -24,7 +24,7 @@ function AccountsController (req, res) {
 	function create () {
 		var account = new Account(req.body);
 
-		db.IsUniqueLogin( req.body.login , function (err, result) {
+		db.findUserByLogin( req.body.login , function (err, result) {
 			if (!result) {
 				db.create(dbName, account.toJSON(), responde);
 			} else {
