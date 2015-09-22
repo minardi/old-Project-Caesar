@@ -18,7 +18,7 @@
             this.$el.html(this.template({message: this.message}))
                 .removeClass('hidden')
                 .animate({
-                    top: '0px'
+                    bottom: '0px'
                 }, {
                     duration: 500
                 });
@@ -30,7 +30,7 @@
 
         hide: function () {
             this.$el.animate({
-                top: '-52px'
+                bottom: '-52px'
             }, {
                 duration: 500,
                 complete: function () {

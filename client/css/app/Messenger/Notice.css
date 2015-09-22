@@ -1,7 +1,7 @@
 .notice {
     position: fixed;
-    left: 0;
-    top: -52px;
+    right: 0;
+    bottom: -52px;
     z-index: 7000;
     opacity: 0.95;
 }
