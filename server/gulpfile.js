@@ -49,7 +49,7 @@ gulp.task('fonts', function () {
 
 gulp.task('img', function () {
     return gulp.src('../client/img/*')
-        .pipe(filter('*.{jpg,png,ico}'))
+        .pipe(filter('*.{jpg,png,ico,JPG}'))
         .pipe(flatten())
         .pipe(gulp.dest(path + '/img'));
 });
