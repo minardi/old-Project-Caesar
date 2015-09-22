@@ -18,10 +18,11 @@ var gulp = require('gulp'),
     qunit = require('gulp-qunit'),
     merge = require('merge-stream'),
     replace = require('gulp-replace'),
+    karma = require('gulp-karma'),
     path = './public';
 
 gulp.task('build', function () {
-    runSequence('clean', 'ConcatAndMinify', 'fonts', 'img', 'test', 'replace');
+    runSequence('clean',  'test', 'ConcatAndMinify', 'fonts', 'img', 'replace');
 });
 
 gulp.task('clean', function (cb) {
@@ -55,15 +56,18 @@ gulp.task('img', function () {
 });
 
 gulp.task('test', function() {
-    return gulp.src('./tests/index.html') //specify src path if changed
-        .pipe(qunit());
+    return gulp.src([])
+        .pipe(karma({
+          configFile: 'karma.conf.js',
+          action: 'run'
+        }))
+        .on('error', function(err) {
+          throw err;
+        });
 });
-
 
 gulp.task('replace', function(){    
     return gulp.src([path + '/styles.css'])
         .pipe(replace('../fonts', './fonts'))
         .pipe(gulp.dest(path));
 });
-
-
