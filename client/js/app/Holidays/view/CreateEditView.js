@@ -9,15 +9,15 @@
             'keypress': 'updateOnEnter',
 			'keydown': 'closeOnEscape',
             'keydown': 'switch',
-            'input .form-control' : 'focus'
+            'blur input': 'showHints'
         },
 
         initialize: function () {
             this.model = this.model || new This.HolidaysModel();
-			Backbone.Validation.bind(this, {invalid: this.validate});
+            Backbone.Validation.bind(this, {invalid: this.showHints });
 
             $('body').on('keypress', this.updateOnEnter.bind(this));
-			$('body').on('keydown', this.closeOnEscape.bind(this));
+            $('body').on('keydown', this.closeOnEscape.bind(this));
         },
 
         render: function () {
@@ -36,7 +36,7 @@
             this.$('#datetimepicker').datetimepicker({
                 locale: 'en',
                 format: 'MM/DD/YYYY',
-                minDate: isNewModel? getToday() : holidayDate
+                minDate: isNewModel? 1 : holidayDate
             });
 			
             $('body').css('overflow-y', 'hidden');
@@ -57,9 +57,8 @@
 				date: this.$("#date").val()
 			};
 
-            //if (!this.preValidate(attributes)) {
-                this.model.save(attributes);
-            if(this.model.isValid()) {    
+            this.model.save(attributes);
+            if (this.model.isValid()) {    
                 collections.holidaysCollection.add(this.model);
                 cs.mediator.publish( //publish to Messenger's Controller
                     'Notice',

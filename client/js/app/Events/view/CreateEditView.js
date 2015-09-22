@@ -13,7 +13,7 @@
             'keypress': 'updateOnEnter',
             'change .editName': 'setName',
             'click .returnName': 'returnName',
-            'input .form-control' : 'focus'
+            'blur input': 'showHints'
         },
 
         initialize: function () {
@@ -23,13 +23,12 @@
             this.resourcesCollectionView = new App.Events.ResourcesCollectionView({ model: this.model });
             this.nameGenerator = new App.EventNameGenerator(this);
 
-            Backbone.Validation.bind(this, {invalid: this.validate});
-
-            $('body').on('keypress', this.updateOnEnter.bind(this));
-			$('body').on('keydown', this.closeOnEscape.bind(this));
-
+            Backbone.Validation.bind(this, {invalid: this.showHints});
             cs.mediator.subscribe('resourceAddedToEvent', this.addResourceIdToEvent, null, this);
             cs.mediator.subscribe('resourceAddedToEvent', this.nameGenerator.generateEventName, null, this);
+
+            $('body').on('keypress', this.updateOnEnter.bind(this));
+            $('body').on('keydown', this.closeOnEscape.bind(this));
         },
 
         render: function () {
@@ -79,9 +78,8 @@
                     resources: getIdResourcesArray()
                 };
 
-            //if (!this.preValidate(attributes)) {
             this.model.save(attributes);
-            if(this.model.isValid()) {
+            if (this.model.isValid()) {
                 collections.eventsCollection.add(this.model);
 				
                 cs.mediator.publish( //publish to Messenger's Controller

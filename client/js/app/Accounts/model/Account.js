@@ -44,6 +44,14 @@
                 },{
                     pattern: 'fullNameRegEx',
                     msg: 'Latin letters, space and dash "-"'
+                }],  
+            login: [
+                {
+                    required: true,
+                    msg: 'Field cannot be empty'
+                }, {
+                    length: 6,
+                    msg: 'Length should be 6 symbols'
                 }],
             password: [
                 {
@@ -52,14 +60,6 @@
                 }, {
                     length: 8,
                     msg: 'Length should be 8 symbols'
-                }],
-            login: [
-                {
-                    required: true,
-                    msg: 'Field cannot be empty'
-                }, {
-                    length: 6,
-                    msg: 'Length should be 6 symbols'
                 }],
             locationCity: [
                 {

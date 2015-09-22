@@ -13,35 +13,43 @@ App.BaseModalView = Backbone.View.extend({
             }
         } 
     },
-    
-    preValidate: function (attributes) {
-        var attrName,
-            validationResult;
 
-        validationResult = this.model.preValidate(attributes);
+    showHints: function (e, attr, error, selector) {
+        var HINT_HEIGHT = 39,
+            $group, $hintEl, $el,
+            error, positionTop, attrName, value;
 
-        if (validationResult) {
-            for (attrName in validationResult) {
-                cs.mediator.publish(  
-                    'Hint',
-                    validationResult[attrName],
-                    this.$('[name=' + attrName + ']')
-                );
+        if (arguments.length < 2) {
+            if (!e.view) {
+                return;
             }
+            attrName = e.target.name,
+            value = e.currentTarget.value,
+            error = this.model.preValidate(attrName, value),
+            $el = e.view.$('[name=' + attrName + ']');
+        } else {
+            $el = e.$('[name=' + attr + ']'),
+            error = error;
         }
-        return validationResult;
-    },
 
-    focus: function () {
-        this.$('input .form-control').focus();
-    },
+        $group = $el.closest('.form-group'),
+        $hintEl = $group.find('.hint'),
+        positionTop = $el.position().top - HINT_HEIGHT;
 
-    validate: function (view, attr, error, selector) {
-        var $el = view.$('[name=' + attr + ']'),
-            $group = $el.closest('.form-group'),
-            hintView = new App.Messenger.HintView();
-        hintView.set(error, $el);
-        $group.find('.help-block').html(hintView.render().el).removeClass('hidden');
+        if (error) {
+            $hintEl.css({
+                top: positionTop + 'px',
+                right: '2px'
+            });
+            
+            $group.addClass('has-error');
+            $hintEl.html(error).removeClass('hidden');
+
+            $el.on('focus', function () {
+                $group.removeClass('has-error');
+                $hintEl.html('').addClass('hidden');
+            });
+        }
     },
     
     changeClassAndCancel: function (mediatorEvent) {
