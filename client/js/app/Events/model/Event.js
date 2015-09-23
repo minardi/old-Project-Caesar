@@ -29,7 +29,7 @@
                 },
                 {
                     pattern: 'eventNameRegEx',
-                    msg: 'Latin alphabet only. Allowed symbols: .-/+'
+                    msg: 'Latin alphabet only. Allowed symbols: ,.-/+'
                 }
             ],
             type: [
