@@ -24,7 +24,7 @@ templates.userSettingsTpl = _.template([
 							'</div>',
 							'<div class="form-group">',
 								'<label for="InputPassword">Enter Password</label>',
-								'<div class="input-group">',
+								'<div id="psswordWrong" class="input-group" data-toggle="tooltip" data-placement="top">',
 									'<input type="text" class="form-control password-input tabIndex" value="<%= password %>" name="password" id="InputPassword" placeholder="Genarate password">',
 									'<span class="input-group-btn">',
 										'<button class="btn btn-default generate-pass tabIndex" type="button">Generate</button>',

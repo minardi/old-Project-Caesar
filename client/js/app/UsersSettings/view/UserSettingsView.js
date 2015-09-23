@@ -38,16 +38,47 @@
         
         save: function () {
             var newModel = this.setAttributes();
-            this.model.save(newModel, {
-                success: function() {
-                    cs.mediator.publish( 'Notice', 'You succesfully change account');
-                },
-                wait: true
-            });
+			if(this.validation()) {
+				this.model.save(newModel, {
+					success: function() {
+						cs.mediator.publish( 'Notice', 'You succesfully change account');
+					},
+					wait: true
+				});
 
-			this.cancel();
-            User.update();
+				this.cancel();
+				User.update();
+			}
         },
+		
+		validation: function () {
+			var newModelPassword = this.setAttributes().password,
+			    regExp = /^(?=(.*[^A-Za-z0-9]){2,})(?=(.*[A-Z]){2,})(?=(.*\d){2,})(?=(.*[a-z]){2,}).+/,
+				found = newModelPassword.match(regExp);
+			    options = {},
+				valid = true;
+				
+				$('#psswordWrong').tooltip('destroy');
+				
+			if (newModelPassword.length === 0) {
+				options.title = 'Field cannot be empty';
+				tooltip();
+			} else if (newModelPassword.length > 8) {
+                options.title = 'Max length is 8 symbols';
+				tooltip();
+			} else if (found == undefined) {
+                options.title = 'Wrong password';
+				tooltip();
+			} 
+			
+			function tooltip () {
+				$('#psswordWrong').tooltip(options).tooltip('toggle');
+				valid = false;
+			}
+			
+			return valid;
+
+		},
         
         setAttributes: function () {
             var attributes = {},
