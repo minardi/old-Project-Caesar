@@ -25,3 +25,7 @@ div.img-preview{
 .row .load-photo {
     margin-left: 155px;
 }
+
+.returnLogin:hover {
+    cursor: pointer;
+}

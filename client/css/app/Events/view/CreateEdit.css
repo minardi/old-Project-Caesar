@@ -37,6 +37,10 @@
     padding: 6px 8px;
 }
 
+.returnName:hover {
+    cursor: pointer;
+}
+
 
 @media (min-width: 768px) {
     .myAnimateClass {

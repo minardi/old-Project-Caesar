@@ -39,7 +39,8 @@
 				$('body').css('overflow-y', 'auto');
 				_this.el.remove();
 		    	cs.mediator.publish('PreViewClose');
-			}, 400); 
+			}, 400);
+            $('body').off();
         },
 		
 		closeOnEscape: function (e) {
