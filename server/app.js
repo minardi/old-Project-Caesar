@@ -20,8 +20,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/build', express.static('./public'));
+
+// use for '/dev'
+app.use('/', express.static('./public'));
 app.use(express.static('../client'));
+
+
+// use for '/'
+app.use('/dev', express.static('../client'));
+app.use(express.static('./public'));
 
 app.use(router);
 

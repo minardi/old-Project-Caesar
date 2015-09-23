@@ -36,6 +36,10 @@
     "karma-chrome-launcher": "^0.2.0",
     "karma-jasmine": "^0.3.6",
     "merge-stream": "^0.1.8",
-    "run-sequence": "^1.1.2"
+    "run-sequence": "^1.1.2",
+	"karma": "latest",
+	"karma-qunit": "latest",
+	"qunitjs": "latest",
+	"gulp-karma": "latest"
   }
 }

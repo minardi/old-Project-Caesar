@@ -12,7 +12,6 @@ var express = require('express'),
     citiesRouter = require('./cities/citiesRouter');
     countriesRouter = require('./countries/countriesRouter');
 
-	
 globalMan = {};
 
 router.use(/^\/events\b/, eventsRouter);
@@ -59,7 +58,7 @@ router.get('/name', function(req, res, next) {
 
 
 router.post('/', function (req, res) {
-    var staticRoute = /^\/build/.test(req.url)? './public': '../client';
+    var staticRoute = /^\/dev/.test(req.url)? '../client': './public';
     var db = new database();
     db.findUser( req.body.login , req.body.password, function (err, account) {
         if (!account) {
@@ -78,8 +77,8 @@ router.post('/', function (req, res) {
 
 
 router.get('/', function (req, res) {
-    console.log('hello from get/'); 
-    var staticRoute = /^\/build/.test(req.url)? './public': '../client';
+    console.log('hello from get/');
+    var staticRoute = /^\/dev/.test(req.url)? '../client': './public';
 	
 	if(globalMan[req.cookies.clientId] === undefined) {
 		 res.clearCookie('clientId');
@@ -104,7 +103,8 @@ router.get('/logout', function (req, res) {
 
 
 router.get('*', function (req, res) {
-    var staticRoute = /^\/build/.test(req.url)? './public': '../client';
+    var staticRoute = /^\/dev/.test(req.url)? '../client': './public';
+    
 	if (globalMan[req.cookies.clientId] === undefined) {
 		res.clearCookie('clientId', { path: '/' });
 		res.redirect('/');
