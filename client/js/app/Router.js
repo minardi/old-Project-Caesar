@@ -11,6 +11,7 @@
             'Accounts*path': 'account',
             'Holidays*path': 'holidays',
             'UserSetting*path': 'userSetting',
+            'dev*path': 'devPage',
             '*path': 'errorPage'
         },
 
@@ -65,6 +66,22 @@
         
         navigateMenuItem: function (pathname) {
             this.navigate(pathname, {trigger: true});
+        },
+        
+        devPage: function () {
+            var $span = $('<span></span>'),
+                $a = $('<a class="mainNavigate">Go to main page</a>');
+            
+            $span.html('Hello now you are on the dev version. <br>Good luck =) <br>');
+            $span.append($a);
+            var that = this;
+            $('#main').append($span);
+            
+            $('.mainNavigate').on('click', function () {
+                $('#main').html('');
+                that.navigate('Events');
+                that.events();
+            });
         },
 
         errorPage: function () {

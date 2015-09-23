@@ -17,7 +17,7 @@ function ResetController (req, res) {
 	db.reset(defaultValues, responde);
 
 	function responde (err, result) {
-		res.send("DBs successfully reseted! <a href='/'> BACK</a>")
+		res.send("DBs successfully reseted! <a href='/'> BACK</a><br><a href='/dev'> Go to dev version</a><br>")
 		console.log("DBs successfully reseted!");
 	}
 
