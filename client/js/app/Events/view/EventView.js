@@ -4,10 +4,12 @@
         tagName: 'tr',
 		className: 'shortInfo',
         tpl: templates.eventTpl,
+		oneClick: undefined,
+		clicks: 0,
 		
 		events: {
             'click .edit': 'edit',
-            'dblclick': 'edit',
+            'dblclick': 'prevent',
             'click .dell': 'confirmDelete',
             'click .fullInfo': 'showFullInfo'
         },
@@ -57,22 +59,39 @@
 		},
 		
 		showFullInfo: function () {
-			var eventFullView = new App.Events.EventFullView({model: this.model});
-			
-			$('.fullInform').remove();
-			$('.fullEvent').append(eventFullView.render().el);
-			
-		    
-		    $('.shortInfo').removeClass('warning');
-		    this.$el.addClass('warning');
-			
-			if($('.toshowfirst').hasClass('col-md-12')){
-				$('.toshow').switchClass('hidden', '', 1000);
+			var that = this;
+			this.clicks++;  //count clicks
+
+			if(this.clicks === 1) {
+				this.oneClick = setTimeout(function() {
+					var eventFullView = new App.Events.EventFullView({model: that.model});
+				
+					$('.fullInform').remove();
+					$('.fullEvent').append(eventFullView.render().el);
+					
+					
+					$('.shortInfo').removeClass('warning');
+					that.$el.addClass('warning');
+					
+					if($('.toshowfirst').hasClass('col-md-12')){
+						$('.toshow').switchClass('hidden', '', 1000);
+					} else {
+						$('.toshow').removeClass('hidden');
+					}
+					
+					$('.toshowfirst').switchClass('col-md-12', 'col-md-8', 1000);
+					that.clicks = 0;
+				}, 200);
+				
 			} else {
-				$('.toshow').removeClass('hidden');
+				clearTimeout(this.oneClick);
+				this.edit();
+				this.clicks = 0;
 			}
-			
-            $('.toshowfirst').switchClass('col-md-12', 'col-md-8', 1000);
+		},
+		
+		prevent: function (e) {
+			 e.preventDefault();
 		}
     });
 })(App.Events);
