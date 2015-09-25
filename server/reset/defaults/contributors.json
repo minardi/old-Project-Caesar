@@ -5,6 +5,11 @@
         "itaName": "Dp-080.UI",             
         "courseDirection": "Web UI",
         "students": [
+		   {
+                "id": 0,
+                "firstName": "Дмитрий",
+                "lastName": "Петин"
+            },
         	{
                 "id": 1,
                 "firstName": "Карина",
@@ -66,7 +71,7 @@
         	{
                 "id": 11,
                 "firstName": "Сергей",
-                "lastName": "Тсова"
+                "lastName": "'ДРОБОВИК' Цьова"
             },
         	{
                 "id": 12,

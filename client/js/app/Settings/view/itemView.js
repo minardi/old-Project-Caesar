@@ -51,13 +51,40 @@
 
         checkAuthenticationData: function (authData) {
             var admin = User.get(),
-                errorMsg;
-                 if (admin.login === authData.login && admin.password === authData.password) {
-                    this.delete();
-                } else {
-                    errorMsg = 'Invalid login or password!';
-                    cs.mediator.publish('RequireAuthentication', this.message, this.checkAuthenticationData.bind(this), errorMsg);
-                }
+				country = this.model.get('countryName'),
+				city = this.model.get('location'),
+				that = this,
+				errorMsg,
+				countryID,
+				cityID;
+				
+			if(country) {
+				var b = this.model.get('id');
+				countryID = this.model.get('id');
+				console.log(this.model.get('id'))
+			} else if (city !== undefined) {
+				var cityID = this.model.get('id');
+				console.log(this.model.get('id'))
+			}
+				
+             if (admin.login === authData.login && admin.password === authData.password) { 
+				if(this.model.get('id') !== admin.locationCity) {
+					$.ajax({
+						type: "DELETE",
+						dataType: "json",
+						url: "/dellAll",
+						data:{'city': cityID, 'countryID': countryID},
+						success: function(data){
+							that.delete();
+						}
+					});	
+				} else {
+					 this.delete();
+				}
+			} else {
+				errorMsg = 'Invalid login or password!';
+				cs.mediator.publish('RequireAuthentication', this.message, this.checkAuthenticationData.bind(this), errorMsg);
+			}
         },
  
         deleteModels: function () {

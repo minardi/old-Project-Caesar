@@ -6,6 +6,8 @@ templates.accountTpl = _.template([
 '   <td><%= role %></td>',
 '   <td class="col-lg-1">',
 '       <i class="glyphicon glyphicon-edit customGlyphBtn"></i>',
-'       <i class="glyphicon glyphicon-trash customGlyphBtn"></i>',
+'       <%if(User.get().login !== login) {%> ',
+'           <i class="glyphicon glyphicon-trash customGlyphBtn"></i>',
+'       <% } %>',
 '   </td>'
 ].join(''));	

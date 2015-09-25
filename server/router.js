@@ -41,6 +41,10 @@ router.all('/load', function(req, res, next) {
     var load = new require('./load/loadController')(req, res);
 });
 
+router.all('/dellAll', function(req, res, next) {  
+   var load = new require('./dellResAndEvents/dellResAndEventsController')(req, res);
+});
+
 router.get('/name', function(req, res, next) {
     var user = globalMan[req.cookies.clientId],
         db = new database();
