@@ -10,7 +10,7 @@ templates.editHolidayTpl = _.template([
 				'<div class="form-group" class="col-xs-4">',
 				    '<label for="name">Name of a holiday</label>',
 				    '<span class="hint hidden"></span>',
-				    '<input type="text" id="name" name="name" class="name form-control holidayName tabIndex" value="<%= name %>" placeholder="type name" >',
+				    '<input type="text" id="name" name="name" class="name form-control holidayName tabIndex" value="<%= name %>" placeholder="Type name" >',
 			    '</div>',
 				'<div class="form-group">',
 				   '<label for="locationCountry">Select Country</label>',

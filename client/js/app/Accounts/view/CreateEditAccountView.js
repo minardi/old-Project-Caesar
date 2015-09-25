@@ -64,9 +64,7 @@
                 login: $login,
                 password: $password,
                 locationCity: $locationCity,
-                role: $role,
-                avatar: $avatar
-
+                role: $role
             };
            
             return attributes;
@@ -79,7 +77,6 @@
 
             reader = new FileReader();
             file = evt.target.files;
-
             reader.onload = function () {
                 that.model.set({avatar: reader.result});
                 that.$('.preview').attr('src', reader.result);
@@ -91,7 +88,6 @@
         save: function () { 
             var isNewModel = this.model.isNew();
             this.login = this.$('#InputLogin');
-
             if (!isNewModel && this.login.val() !== this.model.get('login')) {
                 this.checkLogin(this.login); 
             } else {
@@ -129,9 +125,9 @@
                             showError();
                         }
                     },
-                        wait: true
+                    wait: true
                 });
-				$('body').css('overflow-y', 'auto');
+            $('body').css('overflow-y', 'auto');
         },
 
         cancel: function () {

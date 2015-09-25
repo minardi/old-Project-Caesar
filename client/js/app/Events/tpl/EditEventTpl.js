@@ -10,7 +10,7 @@ templates.editEventTpl = _.template([
 				'<div class="form-group" class="col-xs-4">',
 					'<label for="name">Name</label>',
 					'<span class="hint hidden"></span>',
-					'<input type="text" name="name" class="name form-control editName tabIndex" value="<%= name %>" placeholder="type name">',
+					'<input type="text" name="name" class="name form-control editName tabIndex" value="<%= name %>" placeholder="Type name">',
                     '<a class="returnName tabIndex">Return my variant</a>',
 				'</div>',
 				'<div class="form-group"  data-name="type">',

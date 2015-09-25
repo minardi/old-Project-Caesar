@@ -7,6 +7,7 @@
 
         events: {
             'click .edit': 'edit',
+            'click .dell': 'delete',
             'dblclick': 'edit'
         },
 
@@ -23,6 +24,12 @@
 
         edit: function () {
             cs.mediator.publish('EditEventClicked', this.model); //publish to resource Controller
+        },
+
+        delete: function () {
+            this.model.destroy();
+            this.remove();
+            cs.mediator.publish('Notice', 'Event was succesfully deleted'); //publish to Messenger's Controller
         }
     });
 })(App.Resources);

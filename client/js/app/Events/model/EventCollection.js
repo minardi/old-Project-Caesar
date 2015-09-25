@@ -31,7 +31,9 @@
         getRelations: function (deletedModel) {
             var relations = this.where({'type': deletedModel.id});
             return relations;
-        }
+        },
+
+
     });
 
 })(App.Events);
