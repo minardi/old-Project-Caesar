@@ -10,7 +10,7 @@ templates.editResourceTpl = _.template([
 				'<div class="form-group" class="col-xs-4">',
 					'<label for="name">Type name</label>',
 					'<span class="hint hidden"></span>',
-					'<input type="text" name="name" class="name form-control tabIndex" placeholder="Type name of resource" value="<%= name %>">',
+					'<input type="text" name="name" class="name form-control tabIndex" placeholder="Type resource name" value="<%= name %>">',
 				'</div>',
 				'<div class="form-group">',
 					'<label for="select">Pick one of the resources types:</label>',
