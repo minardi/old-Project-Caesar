@@ -1,5 +1,8 @@
 templates.weekPreviewTpl = _.template([
 '        <tr>',
+'        <td><input type="button" class="back" value="Back"></td>',    
+'        </tr>',    
+'        <tr>',
 '        <td class="groups">',
 '            Groups',
 '        </td>',

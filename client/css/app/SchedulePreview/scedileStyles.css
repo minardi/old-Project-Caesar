@@ -8,17 +8,18 @@
 
 .modal-calendar table {
     margin: 0 auto;
-    width: 80%;
+    width: 60%;
     margin-bottom: 3%;
     border-collapse: collapse;
 }
 
 .modal-calendar table tr {
-    height: 2.3em;
+    height: 2.8em;
 }
 
 .modal-calendar table tr td {
     text-align: center;
+    font-weight: bold;
     border: 1px solid #49a1c6;
 }
 
@@ -38,6 +39,9 @@
 
 .daysHeader th {
     background-color: #c6e7f4;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid #49a1c6;
 }
 
 .days {

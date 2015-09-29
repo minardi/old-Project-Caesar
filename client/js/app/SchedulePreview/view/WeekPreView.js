@@ -5,7 +5,8 @@ var WeekPreView = Backbone.View.extend({
     template: templates.weekPreviewTpl,
     
     events: {
-        'click td.resource': 'renderWeek'    
+        'click td.resource': 'renderWeek',
+        'click .back': 'backToCalendar'
     },
     
     render: function (weekId) {
@@ -72,5 +73,9 @@ var WeekPreView = Backbone.View.extend({
         });
         
         return weekResources;
+    },
+    
+    backToCalendar: function () {
+        cs.mediator.publish('ShowCalendar');
     }
 });

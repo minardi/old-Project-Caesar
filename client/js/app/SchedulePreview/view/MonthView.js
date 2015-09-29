@@ -23,12 +23,15 @@
                 startDate = _startDate,
                 year = startDate.getFullYear(),
                 month = startDate.getMonth(),
-                date = new Date(year, month);
+                date = new Date(year, month),
+                mon = new Date();
+            
+            mon.setMonth(month);
             
             this.getFirsWeekStart();
-            this.$el.append(this.template({date: date, mon: month, monthNames: this.monthNames}));
-            this.$el.append(this.template({date: date, mon: month + 1, monthNames: this.monthNames}));
-            this.$el.append(this.template({date: date, mon: month + 2, monthNames: this.monthNames}));
+            this.$el.append(this.template({date: date, mon: mon.getMonth(), monthNames: this.monthNames}));
+            this.$el.append(this.template({date: date, mon: mon.getMonth() + 1, monthNames: this.monthNames}));
+            this.$el.append(this.template({date: date, mon: mon.getMonth() + 2, monthNames: this.monthNames}));
 
             return this;
         },
